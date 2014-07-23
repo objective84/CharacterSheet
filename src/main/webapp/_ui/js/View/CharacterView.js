@@ -29,22 +29,39 @@ define("CharacterView",
                 '@this.ui.wis': 'wis',
                 '@this.ui.cha': 'cha'
             },
+            events:{
+                'change .ability' : 'onAbilityUpdate'
+            },
 
             onRender: function(){
                 this.model = new CharacterModel({id: this.$('#characterId').val()});
                 this.autoFetch();
+                $('.ability').each(_.bind(function(key, value){
+                    this.setAbilityMod($(value).attr('id'), $(value).val());
+                },this));
             },
 
             autoFetch: function(){
                 var data = 'character='+this.model.get('id');
-                setInterval(function() {
+                setInterval(_.bind(function() {
                     this.model.fetch({
                         data: data,
                         success: function(data){
-                            console.log(data);
                         }
                     });
-                }, 10000);
+                },this), 10000);
+            },
+
+            onAbilityUpdate: function(event){
+                var id = $(event.target).attr('id');
+                this.setAbilityMod(id, val);
+            },
+
+            setAbilityMod: function(id, val){
+                var mod = (parseInt(val) === 0) ? 0: parseInt(Math.floor(( val - 10) / 2));
+                console.log(mod);
+                mod = (mod >= 0) ? (' + ' + mod) : (' - ' + Math.abs(mod));
+                $('#'+id + 'Mod').prop('textContent', mod);
             }
         });
     })

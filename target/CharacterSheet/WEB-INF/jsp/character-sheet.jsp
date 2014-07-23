@@ -10,6 +10,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
+<link href="_ui/css/global.css" rel="stylesheet">
 
 <html>
 <head>
@@ -38,39 +39,46 @@
                 <td><spring:message code="character.class"/></td>
                 <td><form:input id="class" path="classType" /></td>
             </tr>
+        </table>
+
+        <h3><spring:message code="character.ability" /></h3>
+        <table class="abilities">
             <tr>
-                <td><spring:message code="character.ability" /></td>
+                <td><spring:message code="ability.str"/></td>
+                <td class="ability-input"><form:input cssClass="ability" id="str" path="str" /><a id="strMod">    </a></td>
+                <td></td>
             </tr>
-                <tr>
-                    <td><spring:message code="ability.str"/></td>
-                    <td><form:input id="str" path="str" /></td>
-                </tr>
-                <tr>
-                    <td><spring:message code="ability.dex"/></td>
-                    <td><form:input id="dex" path="dex" /></td>
-                </tr>
-                <tr>
-                    <td><spring:message code="ability.con"/></td>
-                    <td><form:input id="con" path="con" /></td>
-                </tr>
-                <tr>
-                    <td><spring:message code="ability.int"/></td>
-                    <td><form:input id="int" path="intel" /></td>
-                </tr>
-                <tr>
-                    <td><spring:message code="ability.wis"/></td>
-                    <td><form:input id="wis" path="wis" /></td>
-                </tr>
-                <tr>
-                    <td><spring:message code="ability.cha"/></td>
-                    <td><form:input id="cha" path="cha" /></td>
-                </tr>
-            <tr colspan="3">
-                <td>
-                    <input type="submit" value="Save"/>
-                </td>
+            <tr>
+                <td><spring:message code="ability.dex"/></td>
+                <td class="ability-input"><form:input cssClass="ability" id="dex" path="dex" /><a id="dexMod"></a>    </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><spring:message code="ability.con"/></td>
+                <td class="ability-input"><form:input cssClass="ability" id="con" path="con" /><a id="conMod"></a>    </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><spring:message code="ability.int"/></td>
+                <td class="ability-input"><form:input cssClass="ability" id="int" path="intel" /><a id="intMod"></a>    </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><spring:message code="ability.wis"/></td>
+                <td class="ability-input"><form:input cssClass="ability" id="wis" path="wis" /><a id="wisMod">    </a>
+                <td></td>
+            </tr>
+            <tr>
+                <td><spring:message code="ability.cha"/></td>
+                <td class="ability-input"><form:input cssClass="ability" id="cha" path="cha" /><a id="chaMod">    </a></td></td>
+                <td></td>
             </tr>
         </table>
+        <tr colspan="3">
+            <td>
+                <input type="submit" value="Save"/>
+            </td>
+        </tr>
     </form:form>
 
 </body>
