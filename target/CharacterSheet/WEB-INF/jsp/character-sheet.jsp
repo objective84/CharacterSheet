@@ -9,6 +9,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 
 <html>
 <head>
@@ -17,7 +18,15 @@
 </head>
 <body>
     <form:form id="characterForm" commandName="character">
-        <input id="characterId" type="hidden" value="${character.id}"/>
+        <c:choose>
+            <c:when test="${character.id != undefined}">
+                <c:set var="charId" value="${character.id}"/>
+            </c:when>
+            <c:otherwise>
+                <c:set var="charId" value="0"/>
+            </c:otherwise>
+        </c:choose>
+        <input id="characterId" type="hidden" value="${charId}"/>
         <table>
             <tr>
                 <td><spring:message code="character.name"/></td>

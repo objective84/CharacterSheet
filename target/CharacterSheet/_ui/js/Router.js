@@ -11,7 +11,7 @@ define('Router',
     function ($, marionette, PageControllerMap, CharacterView) {
         return marionette.Controller.extend({
                 mappedPageControllers: [
-                    PageControllerMap.createMappedPageController('/character/*', CharacterView)
+                    PageControllerMap.createMappedPageController('character-sheet', CharacterView)
                 ],
 
                 initialize: function () {
@@ -37,7 +37,6 @@ define('Router',
 
                 getMappedPageControllerClass: function () {
                     var pathName = document.location.pathname;
-
                     for (var i = 0; i < this.mappedPageControllers.length; i++) {
                         var mappedPageController = this.mappedPageControllers[i];
                         if (mappedPageController.getRegExp().test(pathName))

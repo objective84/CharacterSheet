@@ -19,10 +19,10 @@ public class CharacterController {
     private static final String REDIRECT_PREFIX = "redirect:";
 
     private static final String CHARACTER_LIST = "characterlist";
-    private static final String CHARACTER = "character";
+    private static final String CHARACTER = "character-sheet";
 
     private static final String REDIRECT_CHARACTER_LIST = REDIRECT_PREFIX + CHARACTER_LIST;
-    private static final String REDIRECT_CHARACTER = REDIRECT_PREFIX + CHARACTER + "/";
+    private static final String REDIRECT_CHARACTER = REDIRECT_PREFIX + CHARACTER;
 
     @Resource(name="defaultCharacterService")
     private CharacterService characterService;
@@ -37,28 +37,37 @@ public class CharacterController {
 
     @RequestMapping(value="/characterlist", method= RequestMethod.POST)
     public ModelAndView getCharacterList(@ModelAttribute Character character, final Model model){
-        character = characterService.getCharacter(character.getId());
-        ModelAndView mav = new ModelAndView(CHARACTER, "character", characterService.getCharacter(character.getId()));
+        ModelAndView mav = new ModelAndView(REDIRECT_CHARACTER, "character", character);
         return mav;
     }
 
-    @RequestMapping(value="/character", method= RequestMethod.GET)
-    public String character(final Model model, @ModelAttribute Character character) {
-        model.addAttribute("character", new Character());
-
-        return CHARACTER;
+    @RequestMapping(value="/character-sheet", method= RequestMethod.GET)
+    public ModelAndView character(final Model model, @ModelAttribute Character character) {
+        if(null != character.getId()){
+            character = characterService.getCharacter(character.getId());
+        }else{
+            character = new Character();
+        }
+        ModelAndView mav = new ModelAndView(CHARACTER, "character", character);
+        return mav;
     }
 
-    @RequestMapping(value="/character", method= RequestMethod.POST)
+    @RequestMapping(value="/character-sheet", method= RequestMethod.POST)
     public ModelAndView saveCharacter(@ModelAttribute Character character, Model model){
         ModelAndView mav = new ModelAndView(REDIRECT_CHARACTER_LIST);
         characterService.save(character);
         return mav;
     }
 
-    @RequestMapping(value="/character/ajax/{id}", method= RequestMethod.GET)
     @ResponseBody
-    public Character character(final Model model, @PathVariable("id") Long id) {
-        return characterService.getCharacter(id);
+    @RequestMapping(value="/character-sheet/ajax/{id}", method= RequestMethod.GET, consumes = "application/json", produces = "application/json")
+    public Character character(@PathVariable Long id) {
+        Character character;
+        if(null != id){
+            character = characterService.getCharacter(id);
+        }else{
+            character = new Character();
+        }
+        return character;
     }
 }

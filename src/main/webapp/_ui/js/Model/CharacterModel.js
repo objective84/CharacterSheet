@@ -5,12 +5,12 @@ define("CharacterModel",
     ["jquery", "underscore", "backbone"],
     function($, _, backbone){
         return backbone.Model.extend({
-            idAttribute: '_id',
-            baseUrl: '/character/ajax/',
+            urlRoot: '/character-sheet/ajax/',
               default:{
+                  id: "",
                   name: "",
                   race: "",
-                  class: "",
+                  classType: "",
                   str: "8",
                   dex: "8",
                   con: "8",
