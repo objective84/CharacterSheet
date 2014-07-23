@@ -21,7 +21,7 @@ define("CharacterView",
             bindings:{
                 '@this.ui.name': 'name',
                 '@this.ui.race': 'race',
-                '@this.ui.class': 'class',
+                '@this.ui.class': 'classType',
                 '@this.ui.str': 'str',
                 '@this.ui.dex': 'dex',
                 '@this.ui.con': 'con',
@@ -31,7 +31,7 @@ define("CharacterView",
             },
 
             onRender: function(){
-                this.model = new CharacterModel({id: $this.$('#characterId')});
+                this.model = new CharacterModel({id: this.$('#characterId').val()});
                 this.model.fetch({
                     success: function(data){
                         console.log(data);

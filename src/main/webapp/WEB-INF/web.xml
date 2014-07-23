@@ -31,10 +31,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>characterSheetServlet</servlet-name>
-        <url-pattern>*.html*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>characterSheetServlet</servlet-name>
         <url-pattern>/pdf/**</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -51,11 +47,15 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>characterSheetServlet</servlet-name>
-        <url-pattern>/character/*</url-pattern>
+        <url-pattern>/character-sheet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>characterSheetServlet</servlet-name>
         <url-pattern>/resources/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>characterSheetServlet</servlet-name>
+        <url-pattern>/character-sheet/ajax/*</url-pattern>
     </servlet-mapping>
 
 
