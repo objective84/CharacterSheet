@@ -30,40 +30,40 @@
         <table>
             <tr>
                 <td><spring:message code="character.name"/></td>
-                <td><form:input id="name" path="name" value="${character.name}"/></td>
+                <td><form:input id="name" path="name" /></td>
 
                 <td><spring:message code="character.race"/></td>
-                <td><form:input id="race" path="race" value="${character.race}"/></td>
+                <td><form:input id="race" path="race" /></td>
 
                 <td><spring:message code="character.class"/></td>
-                <td><form:input id="class" path="classType" value="${character.classType}"/></td>
+                <td><form:input id="class" path="classType" /></td>
             </tr>
             <tr>
                 <td><spring:message code="character.ability" /></td>
             </tr>
                 <tr>
                     <td><spring:message code="ability.str"/></td>
-                    <td><form:input id="str" path="str" value="${character.str}"/></td>
+                    <td><form:input id="str" path="str" /></td>
                 </tr>
                 <tr>
                     <td><spring:message code="ability.dex"/></td>
-                    <td><form:input id="dex" path="dex" value="${character.dex}"/></td>
+                    <td><form:input id="dex" path="dex" /></td>
                 </tr>
                 <tr>
                     <td><spring:message code="ability.con"/></td>
-                    <td><form:input id="con" path="con" value="${character.con}"/></td>
+                    <td><form:input id="con" path="con" /></td>
                 </tr>
                 <tr>
                     <td><spring:message code="ability.int"/></td>
-                    <td><form:input id="int" path="intel" value="${character.intel}"/></td>
+                    <td><form:input id="int" path="intel" /></td>
                 </tr>
                 <tr>
                     <td><spring:message code="ability.wis"/></td>
-                    <td><form:input id="wis" path="wis" value="${character.wis}"/></td>
+                    <td><form:input id="wis" path="wis" /></td>
                 </tr>
                 <tr>
                     <td><spring:message code="ability.cha"/></td>
-                    <td><form:input id="cha" path="cha" value="${character.cha}"/></td>
+                    <td><form:input id="cha" path="cha" /></td>
                 </tr>
             <tr colspan="3">
                 <td>

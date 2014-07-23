@@ -5,7 +5,8 @@ define("CharacterModel",
     ["jquery", "underscore", "backbone"],
     function($, _, backbone){
         return backbone.Model.extend({
-            urlRoot: '/character-sheet/ajax/',
+            idAttribute: "_id",
+            urlRoot: 'character.json',
               default:{
                   id: "",
                   name: "",

@@ -32,11 +32,19 @@ define("CharacterView",
 
             onRender: function(){
                 this.model = new CharacterModel({id: this.$('#characterId').val()});
-                this.model.fetch({
-                    success: function(data){
-                        console.log(data);
-                    }
-                });
+                this.autoFetch();
+            },
+
+            autoFetch: function(){
+                var data = 'character='+this.model.get('id');
+                setInterval(function() {
+                    this.model.fetch({
+                        data: data,
+                        success: function(data){
+                            console.log(data);
+                        }
+                    });
+                }, 10000);
             }
         });
     })
