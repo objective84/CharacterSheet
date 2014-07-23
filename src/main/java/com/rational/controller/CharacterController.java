@@ -5,10 +5,7 @@ import com.rational.model.Character;
 import com.rational.service.CharacterService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -57,5 +54,11 @@ public class CharacterController {
         ModelAndView mav = new ModelAndView(REDIRECT_CHARACTER_LIST);
         characterService.save(character);
         return mav;
+    }
+
+    @RequestMapping(value="/character/ajax/{id}", method= RequestMethod.GET)
+    @ResponseBody
+    public Character character(final Model model, @PathVariable("id") Long id) {
+        return characterService.getCharacter(id);
     }
 }

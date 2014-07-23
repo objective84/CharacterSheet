@@ -23,22 +23,22 @@ public class Character {
     private String race;
 
     @Column(name="CHARACTER_STR")
-    private int str = 8;
+    private int str;
 
     @Column(name="CHARACTER_DEX")
-    private int dex = 8;
+    private int dex;
 
     @Column(name="CHARACTER_CON")
-    private int con = 8;
+    private int con;
 
     @Column(name="CHARACTER_INT")
-    private int intel = 8;
+    private int intel;
 
     @Column(name="CHARACTER_WIS")
-    private int wis = 8;
+    private int wis;
 
     @Column(name="CHARACTER_CHA")
-    private int cha = 8;
+    private int cha;
 
     public Character(){
 

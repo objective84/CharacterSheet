@@ -1,5 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: PVarnerHowland
@@ -7,17 +5,15 @@
   Time: 3:55 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
+
 <html>
 <head>
     <title>Characters</title>
-    <script type="text/javascript" src="jquery-1.8.3.js"></script>
-    <script>
-        function submit(id){
-            $('#id').val(id);
-            $('#characterForm').submit();
-        }
-    </script>
+    <template:javascript/>
 </head>
 <body>
     <form:form id="characterForm" commandname="character">
