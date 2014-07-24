@@ -22,7 +22,7 @@ public class CharacterController {
     private static final String REDIRECT_PREFIX = "redirect:";
 
     private static final String CHARACTER_LIST = "characterlist";
-    private static final String CHARACTER = "character";
+    private static final String CHARACTER = "playing";
 
     private static final String REDIRECT_CHARACTER_LIST = REDIRECT_PREFIX + CHARACTER_LIST;
     private static final String REDIRECT_CHARACTER = REDIRECT_PREFIX + CHARACTER + "/";
@@ -41,18 +41,18 @@ public class CharacterController {
     @RequestMapping(value="/characterlist", method= RequestMethod.POST)
     public ModelAndView getCharacterList(@ModelAttribute Character character, final Model model){
         character = characterService.getCharacter(character.getId());
-        ModelAndView mav = new ModelAndView(CHARACTER, "character", characterService.getCharacter(character.getId()));
+        ModelAndView mav = new ModelAndView(CHARACTER, "playing", characterService.getCharacter(character.getId()));
         return mav;
     }
 
-    @RequestMapping(value="/character", method= RequestMethod.GET)
+    @RequestMapping(value="/playing", method= RequestMethod.GET)
     public String character(final Model model, @ModelAttribute Character character) {
-        model.addAttribute("character", new Character());
+        model.addAttribute("playing", new Character());
 
         return CHARACTER;
     }
 
-    @RequestMapping(value="/character", method= RequestMethod.POST)
+    @RequestMapping(value="/playing", method= RequestMethod.POST)
     public ModelAndView saveCharacter(@ModelAttribute Character character, Model model){
         ModelAndView mav = new ModelAndView(REDIRECT_CHARACTER_LIST);
         characterService.save(character);
