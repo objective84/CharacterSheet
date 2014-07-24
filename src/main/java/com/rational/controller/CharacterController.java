@@ -1,6 +1,5 @@
 package com.rational.controller;
 
-import com.rational.model.*;
 import com.rational.model.Character;
 import com.rational.service.CharacterService;
 import org.springframework.stereotype.Controller;
@@ -9,9 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Controller
 public class CharacterController {
@@ -19,7 +15,7 @@ public class CharacterController {
     private static final String REDIRECT_PREFIX = "redirect:";
 
     private static final String CHARACTER_LIST = "characterlist";
-    private static final String CHARACTER = "character-sheet";
+    private static final String CHARACTER = "playing";
 
     private static final String REDIRECT_CHARACTER_LIST = REDIRECT_PREFIX + CHARACTER_LIST;
     private static final String REDIRECT_CHARACTER = REDIRECT_PREFIX + CHARACTER;
@@ -37,22 +33,19 @@ public class CharacterController {
 
     @RequestMapping(value="/characterlist", method= RequestMethod.POST)
     public ModelAndView getCharacterList(@ModelAttribute Character character, final Model model){
-        ModelAndView mav = new ModelAndView(REDIRECT_CHARACTER, "character", character);
+        character = characterService.getCharacter(character.getId());
+        ModelAndView mav = new ModelAndView(CHARACTER, "playing", characterService.getCharacter(character.getId()));
         return mav;
     }
 
-    @RequestMapping(value="/character-sheet", method= RequestMethod.GET)
-    public ModelAndView character(final Model model, @ModelAttribute Character character) {
-        if(null != character.getId()){
-            character = characterService.getCharacter(character.getId());
-        }else{
-            character = new Character();
-        }
-        ModelAndView mav = new ModelAndView(CHARACTER, "character", character);
-        return mav;
+    @RequestMapping(value="/playing", method= RequestMethod.GET)
+    public String character(final Model model, @ModelAttribute Character character) {
+        model.addAttribute("playing", new Character());
+
+        return CHARACTER;
     }
 
-    @RequestMapping(value="/character-sheet", method= RequestMethod.POST)
+    @RequestMapping(value="/playing", method= RequestMethod.POST)
     public ModelAndView saveCharacter(@ModelAttribute Character character, Model model){
         ModelAndView mav = new ModelAndView(REDIRECT_CHARACTER_LIST);
         characterService.save(character);
