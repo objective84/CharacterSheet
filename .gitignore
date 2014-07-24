@@ -17,3 +17,4 @@ rebel.xml
 hs_err_pid*
 .idea/**
 target/**
+workspace.xml
