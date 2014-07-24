@@ -1,8 +1,7 @@
-package com.rational.model;
+package com.rational.model.entities;
 
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name="characters")
@@ -25,6 +24,12 @@ public class Character {
     @Column(name="CHARACTER_RACE")
     private String race;
 
+    @Column(name="CHARACTER_MAX_HEALTH")
+    private int maxHealth;
+
+    @Column(name="CHARACTER_CURRENT_HEALTH")
+    private int currentHealth;
+
     @Column(name="CHARACTER_STR")
     private int str;
 
@@ -43,9 +48,7 @@ public class Character {
     @Column(name="CHARACTER_CHA")
     private int cha;
 
-    public Character(){
-
-    }
+    public Character(){}
 
     public Long getId() {
         return id;
@@ -133,5 +136,21 @@ public class Character {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
+    }
+
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
     }
 }

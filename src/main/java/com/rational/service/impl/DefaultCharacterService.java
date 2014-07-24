@@ -3,7 +3,7 @@ package com.rational.service.impl;
 import com.rational.repository.CharacterRepository;
 import com.rational.service.CharacterService;
 import org.springframework.stereotype.Service;
-import com.rational.model.Character;
+import com.rational.model.entities.Character;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;

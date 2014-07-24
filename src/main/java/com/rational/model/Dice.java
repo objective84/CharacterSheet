@@ -1,18 +1,20 @@
 package com.rational.model;
 
+import com.rational.model.enums.DieTypeEnum;
+
 /**
  * Created by Andy on 7/23/2014.
  */
 public class Dice {
-    private String name;
+    private DieTypeEnum name;
     private int maxValue;
     private int minValue;
 
-    public String getName() {
+    public DieTypeEnum getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(DieTypeEnum name) {
         this.name = name;
     }
 

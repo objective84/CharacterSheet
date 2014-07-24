@@ -1,5 +1,7 @@
 <html>
 <body>
-<h2>Hello World!</h2>
+    <a href="/characterlist.html">Character List</a>
+    <br/>
+    <a href="/admin.html">Admin</a>
 </body>
 </html>
