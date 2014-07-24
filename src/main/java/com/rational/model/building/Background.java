@@ -1,5 +1,6 @@
 package com.rational.model.building;
 
+import com.rational.model.Characteristic;
 import com.rational.model.Language;
 import com.rational.model.Proficiency;
 import com.rational.model.equipment.Equipment;
