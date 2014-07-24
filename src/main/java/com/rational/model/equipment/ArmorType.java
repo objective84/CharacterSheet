@@ -1,9 +1,9 @@
 package com.rational.model.equipment;
 
 /**
- * Created by Andy on 7/23/2014.
+ * Created by Andy on 7/24/2014.
  */
-public class WeaponType {
+public class ArmorType {
     private String name;
     private String description;
 

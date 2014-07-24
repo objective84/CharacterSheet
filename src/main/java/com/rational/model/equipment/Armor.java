@@ -5,17 +5,17 @@ package com.rational.model.equipment;
  */
 public class Armor extends Equipment{
 
-    private String armorType;
+    private ArmorType armorType;
     private int armorClass;
     private int maxDexModifier;
     private int strength;
     private boolean stealthDisadvantage;
 
-    public String getArmorType() {
+    public ArmorType getArmorType() {
         return armorType;
     }
 
-    public void setArmorType(String armorType) {
+    public void setArmorType(ArmorType armorType) {
         this.armorType = armorType;
     }
 
