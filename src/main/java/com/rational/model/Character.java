@@ -16,6 +16,9 @@ public class Character {
     @Column(name="CHARACTER_NAME")
     private String name;
 
+    @Column(name="CHARACTER_LEVEL")
+    private String level;
+
     @Column(name="CHARACTER_CLASS")
     private String classType;
 
@@ -122,5 +125,13 @@ public class Character {
 
     public void setCha(int cha) {
         this.cha = cha;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 }
