@@ -23,13 +23,25 @@ public class CharacterController {
     private static final String REDIRECT_CHARACTER_LIST = REDIRECT_PREFIX + CHARACTER_LIST + REDIRECT_SUFFIX;
     private static final String REDIRECT_CHARACTER = REDIRECT_PREFIX + CHARACTER + REDIRECT_SUFFIX;
 
+    private static final String ADMIN = "admin";
+
+
     @Resource(name="defaultCharacterService")
     private CharacterService characterService;
+
+
+
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public ModelAndView admin(final Model model){
+        ModelAndView mav = new ModelAndView(ADMIN);
+        mav.addObject("characters", characterService.getCharacterList());
+
+        return mav;
+    }
 
     @RequestMapping(value="/characterlist", method= RequestMethod.GET)
     public ModelAndView getCharacterList(final Model model){
         ModelAndView mav = new ModelAndView(CHARACTER_LIST);
-        mav.setViewName(CHARACTER_LIST);
         mav.addObject("characters", characterService.getCharacterList());
         return mav;
     }

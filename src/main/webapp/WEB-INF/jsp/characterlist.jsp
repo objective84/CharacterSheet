@@ -27,7 +27,7 @@
 
         <tr>
             <td>
-                <a href="#" onclick="submit()">Create new character</a>
+                <a href="#" onclick="submitCharacter()">Create new character</a>
             </td>
         </tr>
 

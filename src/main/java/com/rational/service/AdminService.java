@@ -25,4 +25,8 @@ public interface AdminService {
     List<Subrace> findAllSubraces();
 
     List<Trait> findAllTraits();
+
+    Language findLanguage(Long id);
+
+    Race findRace(Long id);
 }

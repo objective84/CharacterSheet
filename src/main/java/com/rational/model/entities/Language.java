@@ -5,6 +5,7 @@ package com.rational.model.entities;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,7 +14,7 @@ public class Language {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     @Column(name="LANGUAGE_NAME")
     private String name;
@@ -21,8 +22,8 @@ public class Language {
     @Column(name="LANGUAGE_DESCRIPTION")
     private String description;
 
-    @ManyToMany(mappedBy = "languages")
-    private List<Race> races;
+    @ManyToMany
+    private List<Race> races = new ArrayList<Race>();
 
     public String getName() {
         return name;
@@ -48,11 +49,11 @@ public class Language {
         this.races = races;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

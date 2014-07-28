@@ -10,6 +10,7 @@ import com.rational.repository.SubraceRepository;
 import com.rational.repository.TraitRepository;
 import com.rational.service.AdminService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class DefaultAdminService implements AdminService
     RaceRepository raceRepository;
 
     @Override
+    @Transactional
     public Language saveLanguage(Language language) {
         return languageRepository.save(language);
 
@@ -53,6 +55,7 @@ public class DefaultAdminService implements AdminService
     }
 
     @Override
+    @Transactional
     public Race saveRace(Race language) {
         return raceRepository.save(language);
 
@@ -102,4 +105,16 @@ public class DefaultAdminService implements AdminService
     public List<Trait> findAllTraits() {
         return traitRepository.findAll();
     }
+
+    @Override
+    public Language findLanguage(Long id) {
+        return languageRepository.findOne(id);
+    }
+
+    @Override
+    public Race findRace(Long id) {
+        return raceRepository.findOne(id);
+    }
+
+
 }

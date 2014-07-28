@@ -13,7 +13,7 @@ public class Race {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     @Column(name="RACE_NAME")
     private String raceName;
@@ -25,19 +25,18 @@ public class Race {
     private String size;
 
     @Column(name="RACE_SPEED")
-    private int speed;
+    private Integer speed;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "races")
     private List<Language> languages = new ArrayList<Language>();
 
-//    @ManyToMany
-//    private List<Trait> racialTraits;
+    public Long getId() {
+        return id;
+    }
 
-//    @OneToMany(mappedBy="parentRace", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<Subrace> availableSubraces;
-
-//    @Column(name="SUB_RACE")
-//    private Subrace subrace;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getRaceName() {
         return raceName;
@@ -95,13 +94,6 @@ public class Race {
 //        this.subrace = subrace;
 //    }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
 //    public List<Subrace> getAvailableSubraces() {
 //        return availableSubraces;

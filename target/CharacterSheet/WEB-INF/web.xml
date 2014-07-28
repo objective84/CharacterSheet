@@ -50,6 +50,13 @@
         <url-pattern>/resources/*</url-pattern>
     </servlet-mapping>
 
+    <jsp-config>
+        <taglib>
+            <taglib-uri>javascript</taglib-uri>
+            <taglib-location>WEB-INF/tags/template/javascript.tag</taglib-location>
+        </taglib>
+    </jsp-config>
+
 
     <display-name>Archetype Created Web Application</display-name>
 </web-app>

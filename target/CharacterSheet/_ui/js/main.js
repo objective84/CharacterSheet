@@ -23,10 +23,11 @@
             return this;
         };
         new Router();
+
     });
 
 
-function submit(id){
+function submitCharacter(id){
     $('#id').val(id);
     $('#characterForm').submit();
 }

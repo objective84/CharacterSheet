@@ -9,6 +9,8 @@ require.config({
         // Page Controllers
         Router: 'Router',
         CharacterView: 'View/CharacterView',
+        RaceView: 'View/RaceView',
+        CharacterListView: 'View/CharacterListView',
         // Behaviors
 
         // Other
