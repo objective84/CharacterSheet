@@ -1,27 +1,26 @@
 /**
  * Created by PVarnerHowland on 7/25/2014.
  */
-define("RaceView",
+define("LanguageView",
     ["jquery", "underscore", "marionette"],
     function($, _, marionette){
         return marionette.ItemView.extend({
-            el: "#raceEntry",
+            el: "#languageEntry",
 
             ui:{
                 submitBtn: '#formSubmit'
             },
 
             events:{
-                'click .raceEntry': 'onRaceEntryClick'
+                'click .languageEntry': 'onLanguageEntryClick'
             },
 
             onRender: function(){
             },
 
-            onRaceEntryClick: function(event){
-                console.log(1);
+            onLanguageEntryClick: function(event){
                 $('#id').val($(event.target).attr('id'));
-                $('#raceForm').submit();
+                $('#languageForm').submit();
             }
         });
     }

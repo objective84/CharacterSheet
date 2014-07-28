@@ -10,6 +10,7 @@ require.config({
         Router: 'Router',
         CharacterView: 'View/CharacterView',
         RaceView: 'View/RaceView',
+        LanguageView: 'View/LanguageView',
         CharacterListView: 'View/CharacterListView',
         // Behaviors
 

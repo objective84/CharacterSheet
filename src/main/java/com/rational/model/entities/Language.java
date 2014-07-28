@@ -22,7 +22,7 @@ public class Language {
     @Column(name="LANGUAGE_DESCRIPTION")
     private String description;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "languages")
     private List<Race> races = new ArrayList<Race>();
 
     public String getName() {

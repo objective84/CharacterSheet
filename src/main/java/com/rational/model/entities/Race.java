@@ -27,7 +27,7 @@ public class Race {
     @Column(name="RACE_SPEED")
     private Integer speed;
 
-    @ManyToMany(mappedBy = "races")
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Language> languages = new ArrayList<Language>();
 
     public Long getId() {

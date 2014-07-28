@@ -8,18 +8,19 @@ define('Router',
         'PageControllerMap',
         'CharacterView',
         'RaceView',
+        'LanguageView',
         'CharacterListView'
     ],
-    function ($, marionette, PageControllerMap, CharacterView, RaceView, CharacterListView) {
+    function ($, marionette, PageControllerMap, CharacterView, RaceView, LanguageView, CharacterListView) {
         return marionette.Controller.extend({
                 mappedPageControllers: [
                     PageControllerMap.createMappedPageController('character-sheet', CharacterView),
-                    PageControllerMap.createMappedPageController('races', RaceView)
+                    PageControllerMap.createMappedPageController('races', RaceView),
+                    PageControllerMap.createMappedPageController('languages', LanguageView)
                 ],
 
                 initialize: function () {
                     this.createMappedController();
-                    console.log(this.mappedPageControllers)
                 },
 
                 createMappedController: function () {

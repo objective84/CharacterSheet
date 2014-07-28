@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequestMapping(value="/admin")
 @Controller
@@ -29,12 +32,21 @@ public class AdminController {
     private static final String EQUIPMENT_ENTRY = "admin/db-entry/equipment";
     private static final String SPELLS_ENTRY = "admin/db-entry/spells";
 
-    private static final String REDIRECT_LANGUAGE_ENTRY = REDIRECT_PREFIX + "/languages" + REDIRECT_SUFFIX;
-    private static final String REDIRECT_RACE_ENTRY = REDIRECT_PREFIX + "/races" + REDIRECT_SUFFIX;;
+    private static final String REDIRECT_LANGUAGE_ENTRY = REDIRECT_PREFIX + "languages" + REDIRECT_SUFFIX;
+    private static final String REDIRECT_RACE_ENTRY = REDIRECT_PREFIX + "races" + REDIRECT_SUFFIX;
 
     @Resource
     private AdminService adminService;
 
+    @Resource
+    RaceConverter raceConverter;
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public ModelAndView admin(){
+        ModelAndView mav = new ModelAndView(ADMIN);
+
+        return mav;
+    }
 
     @RequestMapping(value = "/db-entry", method = RequestMethod.GET)
     public ModelAndView dbEntry(final Model model){
@@ -51,24 +63,48 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/db-entry/languages", method = RequestMethod.GET)
-    public ModelAndView languages(final Model model){
+    public ModelAndView languages(final Model model, HttpSession session){
         ModelAndView mav = new ModelAndView(LANGUAGE_ENTRY);
+        Language language = (Language)session.getAttribute("language");
+        if(null != language && null != language.getId()){
+            mav.addObject("language", language);
+            session.removeAttribute("language");
+        }else{
+            mav.addObject(new Language());
+        }
         mav.addObject("languages", adminService.findAllLanguages());
-        mav.addObject("language", new Language());
         return mav;
     }
 
-    @RequestMapping(value = "/db-entry/languages", method = RequestMethod.POST)
-    public ModelAndView languages(final Model model, @ModelAttribute Language language){
+    @RequestMapping(value = "/db-entry/languages", params="save", method = RequestMethod.POST)
+    public ModelAndView saveLanguage(final Model model, @ModelAttribute Language language){
         ModelAndView mav = new ModelAndView(REDIRECT_LANGUAGE_ENTRY);
         adminService.saveLanguage(language);
         return mav;
     }
 
+    @RequestMapping(value = "/db-entry/languages", method = RequestMethod.POST)
+    public ModelAndView findLanguage(final Model model, @ModelAttribute Language language, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_LANGUAGE_ENTRY);
+        session.setAttribute("language", adminService.findLanguage(language.getId()));
+        return mav;
+    }
+
     @RequestMapping(value = "/db-entry/races", method = RequestMethod.GET)
-    public ModelAndView races(final Model model){
+    public ModelAndView races(final Model model, HttpSession session){
+        RaceForm race = (RaceForm)session.getAttribute("race");
         ModelAndView mav = new ModelAndView(RACE_ENTRY);
-        mav.addObject("race", new RaceForm());
+        if(null != race && null != race.getId()){
+            mav.addObject("race", race);
+            session.removeAttribute("race");
+            Map<Long, Long> languagesMap = new HashMap();
+            for(Long language : race.getLanguages()){
+                languagesMap.put(language, language);
+            }
+            mav.addObject("languagesMap", languagesMap);
+        }else{
+            mav.addObject("race", new RaceForm());
+        }
         mav.addObject("races", adminService.findAllRaces());
         mav.addObject("languages", adminService.findAllLanguages());
         mav.addObject("racialTraits", adminService.findAllTraits());
@@ -77,14 +113,17 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/db-entry/races", method = RequestMethod.POST)
-    public ModelAndView races(final Model model, @ModelAttribute RaceForm race){
+    public ModelAndView findRace(final Model model, @ModelAttribute RaceForm race, HttpSession session){
         ModelAndView mav = new ModelAndView(REDIRECT_RACE_ENTRY);
-        RaceConverter raceConverter = new RaceConverter();
-        if(null != race && null != race.getId()) {
-            adminService.saveRace(raceConverter.convert(race));
-        }else{
-            mav.addObject(raceConverter.convert(adminService.findRace(race.getId())));
-        }
+        session.setAttribute("race", raceConverter.convert(adminService.findRace(race.getId())));
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/races", params = "save", method = RequestMethod.POST)
+    public ModelAndView saveRace(final Model model, @ModelAttribute RaceForm race, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_RACE_ENTRY);
+        adminService.saveRace(raceConverter.convert(race));
+
         return mav;
     }
 

@@ -1,5 +1,7 @@
 package com.rational.forms;
 
+import java.util.List;
+
 public class RaceForm {
 
     private long id;
@@ -7,9 +9,17 @@ public class RaceForm {
     private String description;
     private String size;
     private Integer speed;
-    private Long[] languages;
-    private Long[] traits;
-    private Long[] subraces;
+    private List<Long> languages;
+    private List<Long> traits;
+    private List<Long> subraces;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getRaceName() {
         return raceName;
@@ -35,43 +45,34 @@ public class RaceForm {
         this.size = size;
     }
 
-    public Integer getSpeed() {
-        return speed;
-    }
+    public Integer getSpeed() {return speed;}
 
     public void setSpeed(Integer speed) {
         this.speed = speed;
     }
 
-    public Long[] getLanguages() {
+
+    public List<Long> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(Long[] languages) {
+    public void setLanguages(List<Long> languages) {
         this.languages = languages;
     }
 
-    public Long[] getTraits() {
+    public List<Long> getTraits() {
         return traits;
     }
 
-    public void setTraits(Long[] traits) {
+    public void setTraits(List<Long> traits) {
         this.traits = traits;
     }
 
-    public Long[] getSubraces() {
+    public List<Long> getSubraces() {
         return subraces;
     }
 
-    public void setSubraces(Long[] subraces) {
+    public void setSubraces(List<Long> subraces) {
         this.subraces = subraces;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }
