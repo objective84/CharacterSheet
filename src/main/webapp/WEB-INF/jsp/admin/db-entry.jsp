@@ -22,6 +22,8 @@
     <br/>
     <a href="/admin/db-entry/races.html">Races</a>
     <br/>
+    <a href="/admin/db-entry/subraces.html">Subraces</a>
+    <br/>
     <a href="/admin/db-entry/languages.html">Language</a>
     <br/>
     <a href="/admin/db-entry/spells.html">Spells</a>

@@ -16,10 +16,10 @@ public class Language {
     @GeneratedValue
     private Long id;
 
-    @Column(name="LANGUAGE_NAME")
+    @Column(name="name")
     private String name;
 
-    @Column(name="LANGUAGE_DESCRIPTION")
+    @Column(name="description")
     private String description;
 
     @ManyToMany(mappedBy = "languages")

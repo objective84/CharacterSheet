@@ -19,7 +19,6 @@ define("RaceView",
             },
 
             onRaceEntryClick: function(event){
-                console.log(1);
                 $('#id').val($(event.target).attr('id'));
                 $('#raceForm').submit();
             }

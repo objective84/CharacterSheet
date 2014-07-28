@@ -2,8 +2,8 @@ package com.rational.service.impl;
 
 import com.rational.model.entities.Language;
 import com.rational.model.entities.Race;
+import com.rational.model.entities.RacialTrait;
 import com.rational.model.entities.Subrace;
-import com.rational.model.entities.Trait;
 import com.rational.repository.LanguageRepository;
 import com.rational.repository.RaceRepository;
 import com.rational.repository.SubraceRepository;
@@ -77,11 +77,11 @@ public class DefaultAdminService implements AdminService
     }
 
     @Override
-    public List<String> getTraitsAsStrings() {
-        List<Trait> traits = traitRepository.findAll();
+    public List<String> getRacialTraitsAsStrings() {
+        List<RacialTrait> racialTraits = traitRepository.findAll();
         List<String> traitStrings = new ArrayList<String>();
-        for(Trait trait : traits){
-            traitStrings.add(trait.getName());
+        for(RacialTrait racialTrait : racialTraits){
+            traitStrings.add(racialTrait.getName());
         }
         return traitStrings;
     }
@@ -102,7 +102,7 @@ public class DefaultAdminService implements AdminService
     }
 
     @Override
-    public List<Trait> findAllTraits() {
+    public List<RacialTrait> findAllRacialTraits() {
         return traitRepository.findAll();
     }
 
@@ -114,6 +114,16 @@ public class DefaultAdminService implements AdminService
     @Override
     public Race findRace(Long id) {
         return raceRepository.findOne(id);
+    }
+
+    @Override
+    public Subrace findSubrace(Long id) {
+        return subraceRepository.findOne(id);
+    }
+
+    @Override
+    public Subrace saveSubrace(Subrace subrace) {
+        return subraceRepository.save(subrace);
     }
 
 

@@ -9,43 +9,42 @@ public class Character {
 
     @Id
     @GeneratedValue
-    @Column(name="CHARACTER_ID")
     private Long id;
 
-    @Column(name="CHARACTER_NAME")
+    @Column(name="name")
     private String name;
 
-    @Column(name="CHARACTER_LEVEL")
+    @Column(name="level")
     private String level;
 
-    @Column(name="CHARACTER_CLASS")
+    @Column(name="classType")
     private String classType;
 
-    @Column(name="CHARACTER_RACE")
+    @Column(name="race")
     private String race;
 
-    @Column(name="CHARACTER_MAX_HEALTH")
+    @Column(name="maxHealth")
     private int maxHealth;
 
-    @Column(name="CHARACTER_CURRENT_HEALTH")
+    @Column(name="currentHealth")
     private int currentHealth;
 
-    @Column(name="CHARACTER_STR")
+    @Column(name="str")
     private int str;
 
-    @Column(name="CHARACTER_DEX")
+    @Column(name="dex")
     private int dex;
 
-    @Column(name="CHARACTER_CON")
+    @Column(name="con")
     private int con;
 
-    @Column(name="CHARACTER_INT")
+    @Column(name="intel")
     private int intel;
 
-    @Column(name="CHARACTER_WIS")
+    @Column(name="wis")
     private int wis;
 
-    @Column(name="CHARACTER_CHA")
+    @Column(name="cha")
     private int cha;
 
     public Character(){}

@@ -1,27 +1,13 @@
-package com.rational.model.entities;
+package com.rational.forms;
 
-import javax.persistence.*;
+import java.util.List;
 
-/**
- * Created by Andy on 7/23/2014.
- */
-@Entity
-@Table(name="subraces")
-public class Subrace{
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @Column(name="name")
+public class SubraceForm {
+    private long id;
     private String name;
-
-    @Column(name="description")
     private String description;
-
-    @ManyToOne
-    private Race parentRace;
-
+    private Long parentRace;
+    private List<Long> traits;
 
     public Long getId() {
         return id;
@@ -35,8 +21,8 @@ public class Subrace{
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String raceName) {
+        this.name = raceName;
     }
 
     public String getDescription() {
@@ -47,11 +33,20 @@ public class Subrace{
         this.description = description;
     }
 
-    public Race getParentRace() {
+    public Long getParentRace() {
         return parentRace;
     }
 
-    public void setParentRace(Race parentRace) {
+    public void setParentRace(Long parentRace) {
         this.parentRace = parentRace;
     }
+
+    public List<Long> getTraits() {
+        return traits;
+    }
+
+    public void setTraits(List<Long> traits) {
+        this.traits = traits;
+    }
+
 }

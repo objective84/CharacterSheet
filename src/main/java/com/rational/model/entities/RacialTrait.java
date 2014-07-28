@@ -6,15 +6,15 @@ import javax.persistence.*;
  * Created by Andy on 7/23/2014.
  */
 @Entity
-@Table(name="traits")
-public class Trait {
+@Table(name="racial_traits")
+public class RacialTrait {
 
 
     @Id
     @GeneratedValue
     private int id;
 
-    @Column(name="TRAIT_NAME")
+    @Column(name="name")
     private String name;
 
 //    @ManyToMany(mappedBy = "racialTraits")

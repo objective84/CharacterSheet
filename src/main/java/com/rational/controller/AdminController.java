@@ -2,6 +2,7 @@ package com.rational.controller;
 
 import com.rational.converters.RaceConverter;
 import com.rational.forms.RaceForm;
+import com.rational.forms.SubraceForm;
 import com.rational.model.entities.Language;
 import com.rational.service.AdminService;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,7 @@ public class AdminController {
 
     private static final String REDIRECT_LANGUAGE_ENTRY = REDIRECT_PREFIX + "languages" + REDIRECT_SUFFIX;
     private static final String REDIRECT_RACE_ENTRY = REDIRECT_PREFIX + "races" + REDIRECT_SUFFIX;
+    private static final String REDIRECT_SUBRACE_ENTRY = REDIRECT_PREFIX + "subraces" + REDIRECT_SUFFIX;
 
     @Resource
     private AdminService adminService;
@@ -107,7 +109,7 @@ public class AdminController {
         }
         mav.addObject("races", adminService.findAllRaces());
         mav.addObject("languages", adminService.findAllLanguages());
-        mav.addObject("racialTraits", adminService.findAllTraits());
+        mav.addObject("racialTraits", adminService.findAllRacialTraits());
         mav.addObject("subraces", adminService.findAllSubraces());
         return mav;
     }
@@ -128,11 +130,37 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/db-entry/subraces", method = RequestMethod.GET)
-    public ModelAndView subraces(final Model model){
+    public ModelAndView subraces(final Model model, HttpSession session){
         ModelAndView mav = new ModelAndView(SUBRACE_ENTRY);
+        SubraceForm subrace = (SubraceForm)session.getAttribute("subrace");
+        if(null != subrace && null != subrace.getId()){
+            mav.addObject("subrace", subrace);
+            session.removeAttribute("subrace");
+        }else {
+            mav.addObject("subrace", new SubraceForm());
+        }
+        mav.addObject("races", raceConverter.convert(adminService.findAllRaces()));
+        mav.addObject("subraces", adminService.findAllSubraces());
 
         return mav;
     }
+
+    @RequestMapping(value = "/db-entry/subraces", method = RequestMethod.POST)
+    public ModelAndView findSubrace(final Model model, @ModelAttribute SubraceForm subrace, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_SUBRACE_ENTRY);
+        session.setAttribute("subrace", raceConverter.convert(adminService.findSubrace(subrace.getId())));
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/subraces", params = "save", method = RequestMethod.POST)
+    public ModelAndView saveSubrace(final Model model, @ModelAttribute SubraceForm subrace, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_SUBRACE_ENTRY);
+        adminService.saveSubrace(raceConverter.convert(subrace));
+
+        return mav;
+    }
+
+
 
     @RequestMapping(value = "/db-entry/equipment", method = RequestMethod.GET)
     public ModelAndView equipment(final Model model){
