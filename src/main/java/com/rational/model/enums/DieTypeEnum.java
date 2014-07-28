@@ -14,8 +14,12 @@ public enum DieTypeEnum {
         this.type = type;
     }
 
-    public static String[] getAllClasses(){
+    public static String[] getAllHitDieTypes(){
         return new String[]{D4.type, D6.type, D8.type, D10.type,
-                D12.type, D20.type, D100.type};
+                D12.type};
+    }
+
+    public static String value(DieTypeEnum dieEnum){
+        return dieEnum.type;
     }
 }

@@ -7,15 +7,15 @@ define('Router',
         'marionette',
         'PageControllerMap',
         'CharacterView',
-        'RaceView',
+        'DefaultDBEntryView',
         'LanguageView',
         'CharacterListView'
     ],
-    function ($, marionette, PageControllerMap, CharacterView, RaceView, LanguageView, CharacterListView) {
+    function ($, marionette, PageControllerMap, CharacterView, DefaultDBEntryView, LanguageView, CharacterListView) {
         return marionette.Controller.extend({
                 mappedPageControllers: [
                     PageControllerMap.createMappedPageController('character-sheet', CharacterView),
-                    PageControllerMap.createMappedPageController('races|subraces', RaceView),
+                    PageControllerMap.createMappedPageController('races|subraces|proficiencies', DefaultDBEntryView),
                     PageControllerMap.createMappedPageController('languages', LanguageView)
                 ],
 

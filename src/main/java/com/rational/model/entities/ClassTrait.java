@@ -15,7 +15,7 @@ public class ClassTrait {
     @Column(name="name")
     private String name;
 
-    @ManyToMany(mappedBy = "classTraits")
+    @ManyToMany
     private List<Clazz> classes= new ArrayList<Clazz>();
 
     public int getId() {

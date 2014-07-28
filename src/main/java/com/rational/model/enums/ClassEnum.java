@@ -21,8 +21,4 @@ public enum ClassEnum {
         this.type = type;
     }
 
-    public static String[] getAllClasses(){
-        return new String[]{BARBARIAN.type, BARD.type, CLERIC.type, DRUID.type,
-                FIGHTER.type, MONK.type, PALADIN.type, RANGER.type, ROGUE.type, WIZARD.type};
-    }
 };

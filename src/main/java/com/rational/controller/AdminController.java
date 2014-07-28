@@ -1,9 +1,14 @@
 package com.rational.controller;
 
+import com.rational.converters.ClassConverter;
 import com.rational.converters.RaceConverter;
+import com.rational.forms.ClassForm;
 import com.rational.forms.RaceForm;
 import com.rational.forms.SubraceForm;
+import com.rational.model.Proficiency;
 import com.rational.model.entities.Language;
+import com.rational.model.enums.DieTypeEnum;
+import com.rational.model.enums.ProficiencyTypeEnum;
 import com.rational.service.AdminService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,16 +37,23 @@ public class AdminController {
     private static final String SUBRACE_ENTRY = "admin/db-entry/subraces";
     private static final String EQUIPMENT_ENTRY = "admin/db-entry/equipment";
     private static final String SPELLS_ENTRY = "admin/db-entry/spells";
+    private static final String PROFICIENCY_ENTRY = "admin/db-entry/proficiencies";
+
 
     private static final String REDIRECT_LANGUAGE_ENTRY = REDIRECT_PREFIX + "languages" + REDIRECT_SUFFIX;
     private static final String REDIRECT_RACE_ENTRY = REDIRECT_PREFIX + "races" + REDIRECT_SUFFIX;
     private static final String REDIRECT_SUBRACE_ENTRY = REDIRECT_PREFIX + "subraces" + REDIRECT_SUFFIX;
+    private static final String REDIRECT_PROFICIENCY_ENTRY = REDIRECT_PREFIX + "proficiencies" + REDIRECT_SUFFIX;
+    private static final String REDIRECT_CLASS_ENTRY = REDIRECT_PREFIX + "classes" + REDIRECT_SUFFIX;
 
     @Resource
     private AdminService adminService;
 
     @Resource
     RaceConverter raceConverter;
+
+    @Resource
+    ClassConverter classConverter;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView admin(){
@@ -53,13 +65,6 @@ public class AdminController {
     @RequestMapping(value = "/db-entry", method = RequestMethod.GET)
     public ModelAndView dbEntry(final Model model){
         ModelAndView mav = new ModelAndView(DB_ENTRY);
-
-        return mav;
-    }
-
-    @RequestMapping(value = "/db-entry/classes", method = RequestMethod.GET)
-    public ModelAndView classes(final Model model){
-        ModelAndView mav = new ModelAndView(CLASS_ENTRY);
 
         return mav;
     }
@@ -172,6 +177,76 @@ public class AdminController {
     @RequestMapping(value = "/db-entry/spells", method = RequestMethod.GET)
     public ModelAndView spells(final Model model){
         ModelAndView mav = new ModelAndView(SPELLS_ENTRY);
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/proficiencies", method = RequestMethod.GET)
+    public ModelAndView proficiencies(final Model model, HttpSession session){
+        ModelAndView mav = new ModelAndView(PROFICIENCY_ENTRY);
+        Proficiency proficiency = (Proficiency)session.getAttribute("proficiency");
+        if(null != proficiency && null != proficiency.getId()){
+            mav.addObject("proficiency", proficiency);
+            session.removeAttribute("proficiency");
+        }else {
+            mav.addObject("proficiency", new Proficiency());
+        }
+        mav.addObject("proficiencyTypes", ProficiencyTypeEnum.values());
+        mav.addObject("proficiencies", adminService.findAllProficiencies());
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/proficiencies", method = RequestMethod.POST)
+    public ModelAndView findProficiencies(@ModelAttribute Proficiency proficiency, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_PROFICIENCY_ENTRY);
+        session.setAttribute("proficiency", adminService.findProficiency(proficiency.getId()));
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/proficiencies", params = "save", method = RequestMethod.POST)
+    public ModelAndView saveSubrace(final Model model, @ModelAttribute Proficiency proficiency, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_PROFICIENCY_ENTRY);
+        adminService.saveProficiency(proficiency);
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/classes", method = RequestMethod.GET)
+    public ModelAndView classes(final Model model, HttpSession session){
+        ModelAndView mav = new ModelAndView(CLASS_ENTRY);
+        ClassForm classForm = (ClassForm)session.getAttribute("classForm");
+        if(null != classForm && null != classForm.getId()){
+            mav.addObject("classForm", classForm);
+            session.removeAttribute("classForm");
+            Map<Long, Long> proficiencyMap = new HashMap<Long, Long>();
+            for(Long proficiency : classForm.getProficiencies()){
+                proficiencyMap.put(proficiency, proficiency);
+            }
+            mav.addObject("proficiencyMap", proficiencyMap);
+        }else {
+            mav.addObject("classForm", new ClassForm());
+        }
+        mav.addObject("classes", adminService.findAllClasses());
+        mav.addObject("subClasses", adminService.findAllSubClasses());
+        mav.addObject("hitDieTypes", DieTypeEnum.getAllHitDieTypes());
+        mav.addObject("proficiencies", adminService.findAllProficiencies());
+
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/classes", method = RequestMethod.POST)
+    public ModelAndView findClass(@ModelAttribute ClassForm classForm, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_CLASS_ENTRY);
+        session.setAttribute("classForm", classConverter.convertToForm(adminService.findClass(classForm.getId())));
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/classes", params = "save", method = RequestMethod.POST)
+    public ModelAndView saveClass(final Model model, @ModelAttribute ClassForm classForm, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_CLASS_ENTRY);
+        adminService.saveClass(classConverter.convertToEntity(classForm));
 
         return mav;
     }

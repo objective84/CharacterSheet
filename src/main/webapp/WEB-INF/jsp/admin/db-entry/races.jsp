@@ -26,8 +26,8 @@
     </style>
 </head>
 <body>
-    <div id="raceEntry">
-        <form:form id="raceForm" commandName="race">
+    <div id="entry">
+        <form:form id="form" commandName="race">
             <input type="hidden" name="id" id="id" value="${race.id}">
             <div id="table_container">
                 <table>
@@ -91,7 +91,7 @@
                     <tr><td>Races:</td></tr>
                     <c:forEach items="${races}" var="race">
                         <tr>
-                            <td><a class="raceEntry" href="#" id="${race.id}">${race.raceName}</a></td>
+                            <td><a class="entry-link" href="#" id="${race.id}">${race.raceName}</a></td>
                         </tr>
                     </c:forEach>
                 </table>

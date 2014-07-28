@@ -53,7 +53,7 @@ public class CharacterController {
             mav.addObject("create", true);
         }
         mav.addObject("character", character);
-        mav.addObject("classes", ClassEnum.getAllClasses());
+        mav.addObject("classes", ClassEnum.values());
         return mav;
     }
 

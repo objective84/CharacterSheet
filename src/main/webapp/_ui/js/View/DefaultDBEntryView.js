@@ -1,26 +1,26 @@
 /**
  * Created by PVarnerHowland on 7/25/2014.
  */
-define("RaceView",
+define("DefaultDBEntryView",
     ["jquery", "underscore", "marionette"],
     function($, _, marionette){
         return marionette.ItemView.extend({
-            el: "#raceEntry",
+            el: "#entry",
 
             ui:{
                 submitBtn: '#formSubmit'
             },
 
             events:{
-                'click .raceEntry': 'onRaceEntryClick'
+                'click .entry-link': 'onEntryClick'
             },
 
             onRender: function(){
             },
 
-            onRaceEntryClick: function(event){
+            onEntryClick: function(event){
                 $('#id').val($(event.target).attr('id'));
-                $('#raceForm').submit();
+                $('#form').submit();
             }
         });
     }

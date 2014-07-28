@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "subclass")
-public class SubClazz {
+public class SubClass {
 
     @Id
     @GeneratedValue

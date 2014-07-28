@@ -1,6 +1,7 @@
 package com.rational.model;
 
 import com.rational.model.entities.Clazz;
+import com.rational.model.enums.ProficiencyTypeEnum;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,11 +24,21 @@ public class Proficiency {
     @Column(name="description")
     private String description;
 
-    @Column(name="type")
-    private String type;
+    private ProficiencyTypeEnum type;
+
+    @Column(name="typeString")
+    private String typeString;
 
     @ManyToMany(mappedBy = "proficiencies")
     private List<Clazz> classes = new ArrayList<Clazz>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -45,12 +56,16 @@ public class Proficiency {
         this.description = description;
     }
 
-    public String getType() {
-        return type;
+    public ProficiencyTypeEnum getType() {
+        return ProficiencyTypeEnum.valueOf(typeString);
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public String getTypeString() {
+        return typeString;
+    }
+
+    public void setTypeString(String typeString) {
+        this.typeString = typeString;
     }
 
     public List<Clazz> getClasses() {
@@ -60,4 +75,5 @@ public class Proficiency {
     public void setClasses(List<Clazz> classes) {
         this.classes = classes;
     }
+
 }

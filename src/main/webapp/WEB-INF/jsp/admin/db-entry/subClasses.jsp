@@ -27,8 +27,8 @@
 </head>
 <body>
     <div id="entry">
-        <form:form id="form" commandName="subrace">
-            <input type="hidden" name="id" id="id" value="${subrace.id}">
+        <form:form id="form" commandName="subClass">
+            <input type="hidden" name="id" id="id" value="${subClass.id}">
             <div id="table_container">
                 <table>
                     <tr>
@@ -42,9 +42,9 @@
                     <tr>
                         <th>Parent Race</th>
                         <td><form:select path="parentRace" >
-                            <form:option value="0" label="Select a race" />
-                            <c:forEach items="${races}" var="race">
-                                <form:option value="${race.id}" label="${race.raceName}"/>
+                            <form:option value="0" label="Select a class" />
+                            <c:forEach items="${classs}" var="class">
+                                <form:option value="${class.id}" label="${class.className}"/>
                             </c:forEach>
                         </form:select> </td>
                     </tr>
@@ -63,10 +63,10 @@
                     </tr>
                 </table>
                 <table>
-                    <tr><td>Subraces:</td></tr>
-                    <c:forEach items="${subraces}" var="subrace">
+                    <tr><td>Subclass:</td></tr>
+                    <c:forEach items="${subClass}" var="subClass">
                         <tr>
-                            <td><a class="entry-link" href="#" id="${subrace.id}">${subrace.name}</a></td>
+                            <td><a class="entry-link" href="#" id="${subClass.id}">${subClass.name}</a></td>
                         </tr>
                     </c:forEach>
                 </table>

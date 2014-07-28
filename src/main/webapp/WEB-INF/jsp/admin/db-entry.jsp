@@ -17,7 +17,6 @@
     <title></title>
 </head>
 <body>
-
     <a href="/admin/db-entry/classes.html">Classes</a>
     <br/>
     <a href="/admin/db-entry/races.html">Races</a>
@@ -29,6 +28,8 @@
     <a href="/admin/db-entry/spells.html">Spells</a>
     <br/>
     <a href="/admin/db-entry/equipment.html">Equipment</a>
+    <br/>
+    <a href="/admin/db-entry/proficiencies.html">Proficiencies</a>
 
 </body>
 </html>

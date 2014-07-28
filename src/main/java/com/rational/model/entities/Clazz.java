@@ -1,6 +1,7 @@
 package com.rational.model.entities;
 
 import com.rational.model.Proficiency;
+import com.rational.model.enums.DieTypeEnum;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,16 +22,16 @@ public class Clazz {
     private String name;
 
     @Column(name="hit_die")
-    private String hitDie;
+    private DieTypeEnum hitDie;
 
     @ManyToMany
     private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
-    @ManyToMany
+    @ManyToMany(mappedBy="classes")
     private List<ClassTrait> classTraits = new ArrayList<ClassTrait>();
 
     @OneToMany(mappedBy = "clazz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<SubClazz> subClasses = new ArrayList<SubClazz>();
+    private List<SubClass> subClasses = new ArrayList<SubClass>();
 
     public Long getId() {
         return id;
@@ -48,11 +49,11 @@ public class Clazz {
         this.name = name;
     }
 
-    public String getHitDie() {
+    public DieTypeEnum getHitDie() {
         return hitDie;
     }
 
-    public void setHitDie(String hitDie) {
+    public void setHitDie(DieTypeEnum hitDie) {
         this.hitDie = hitDie;
     }
 
@@ -72,11 +73,11 @@ public class Clazz {
         this.classTraits = classTraits;
     }
 
-    public List<SubClazz> getSubClasses() {
+    public List<SubClass> getSubClasses() {
         return subClasses;
     }
 
-    public void setSubClasses(List<SubClazz> subClasses) {
+    public void setSubClasses(List<SubClass> subClasses) {
         this.subClasses = subClasses;
     }
 }

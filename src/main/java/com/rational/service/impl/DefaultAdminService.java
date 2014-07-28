@@ -1,24 +1,17 @@
 package com.rational.service.impl;
 
-import com.rational.model.entities.Language;
-import com.rational.model.entities.Race;
-import com.rational.model.entities.RacialTrait;
-import com.rational.model.entities.Subrace;
-import com.rational.repository.LanguageRepository;
-import com.rational.repository.RaceRepository;
-import com.rational.repository.SubraceRepository;
-import com.rational.repository.TraitRepository;
+import com.rational.model.Proficiency;
+import com.rational.model.entities.*;
+import com.rational.repository.*;
 import com.rational.service.AdminService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service("defaultAdminService")
-public class DefaultAdminService implements AdminService
-{
+public class DefaultAdminService implements AdminService {
 
     @Resource
     LanguageRepository languageRepository;
@@ -32,6 +25,15 @@ public class DefaultAdminService implements AdminService
     @Resource
     RaceRepository raceRepository;
 
+    @Resource
+    ProficiencyRepository proficiencyRepository;
+
+    @Resource
+    ClassRepository classRepository;
+
+    @Resource
+    SubClassRepository subClassRepository;
+
     @Override
     @Transactional
     public Language saveLanguage(Language language) {
@@ -42,16 +44,6 @@ public class DefaultAdminService implements AdminService
     @Override
     public List<Language> findAllLanguages() {
         return languageRepository.findAll();
-    }
-
-    @Override
-    public List<String> getLanguagesAsStrings() {
-        List<Language> languages = languageRepository.findAll();
-        List<String> languageStrings = new ArrayList<String>();
-        for(Language language : languages){
-            languageStrings.add(language.getName());
-        }
-        return languageStrings;
     }
 
     @Override
@@ -67,38 +59,65 @@ public class DefaultAdminService implements AdminService
     }
 
     @Override
-    public List<String> getRacesAsStrings() {
-        List<Race> races = raceRepository.findAll();
-        List<String> raceStrings = new ArrayList<String>();
-        for(Race race : races){
-            raceStrings.add(race.getRaceName());
-        }
-        return raceStrings;
+    public RacialTrait saveRacialTrait(RacialTrait racialTrait) {
+        //TODO
+        return null;
     }
 
     @Override
-    public List<String> getRacialTraitsAsStrings() {
-        List<RacialTrait> racialTraits = traitRepository.findAll();
-        List<String> traitStrings = new ArrayList<String>();
-        for(RacialTrait racialTrait : racialTraits){
-            traitStrings.add(racialTrait.getName());
-        }
-        return traitStrings;
-    }
-
-    @Override
-    public List<String> subRacesAsStrings() {
-        List<Subrace> subraces = subraceRepository.findAll();
-        List<String> subraceStrings = new ArrayList<String>();
-        for(Subrace subrace : subraces){
-            subraceStrings.add(subrace.getName());
-        }
-        return subraceStrings;
+    public RacialTrait findRacialTrait(Long id) {
+        //TODO
+        return null;
     }
 
     @Override
     public List<Subrace> findAllSubraces() {
         return subraceRepository.findAll();
+    }
+
+    @Override
+    public Proficiency saveProficiency(Proficiency proficiency) {
+        return proficiencyRepository.save(proficiency);
+    }
+
+    @Override
+    public Proficiency findProficiency(Long id) {
+        return proficiencyRepository.findOne(id);
+    }
+
+    @Override
+    public List<Proficiency> findAllProficiencies() {
+        return proficiencyRepository.findAll();
+    }
+
+    @Override
+    public Clazz saveClass(Clazz clazz) {
+        return classRepository.save(clazz);
+    }
+
+    @Override
+    public Clazz findClass(Long id) {
+        return classRepository.findOne(id);
+    }
+
+    @Override
+    public List<Clazz> findAllClasses() {
+        return classRepository.findAll();
+    }
+
+    @Override
+    public SubClass saveSubClass(SubClass subClass) {
+        return subClassRepository.save(subClass);
+    }
+
+    @Override
+    public SubClass findSubClass(Long id) {
+        return subClassRepository.findOne(id);
+    }
+
+    @Override
+    public List<SubClass> findAllSubClasses() {
+        return subClassRepository.findAll();
     }
 
     @Override

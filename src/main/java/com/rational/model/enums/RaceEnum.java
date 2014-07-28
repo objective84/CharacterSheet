@@ -18,10 +18,4 @@ public enum RaceEnum {
     private RaceEnum(String type){
         this.type = type;
     }
-
-    public static String[] getAllClasses(){
-        return new String[]{DWARF.type, ELF.type, DRAGONBORN.type, DROW.type,
-                HALFLING.type, HUMAN.type, GNOME.type, HALF_ELF.type, HALF_ORC.type,
-                KENDER.type, TIEFLING.type, WARFORGED.type};
-    }
 }
