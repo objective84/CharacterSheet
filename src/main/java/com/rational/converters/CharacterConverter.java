@@ -1,10 +1,12 @@
 package com.rational.converters;
 
+import com.rational.facade.AdminFacade;
 import com.rational.forms.Character;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.enums.AbilityTypeEnum;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,9 @@ import java.util.Map;
 
 @Component
 public class CharacterConverter {
+
+    @Resource
+    AdminFacade adminFacade;
 
     public Character convert(CharacterModel characterModel) {
         Character character = new Character();

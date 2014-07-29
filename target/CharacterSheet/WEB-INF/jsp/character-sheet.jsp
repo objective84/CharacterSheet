@@ -44,14 +44,13 @@
                         </form:select></td>
                     </c:when>
                     <c:otherwise>
-                        <td>${character.race}</td>
+                        <td>${raceMap[character.race].raceName}</td>
                     </c:otherwise>
                 </c:choose>
-
                 <td><spring:message code="character.class"/></td>
                 <c:choose>
                     <c:when test="${create}">
-                        <td><form:select id="class" path="classType">
+                        <td><form:select id="class-select" path="classType">
                             <form:option value="0" label="Select a class"/>
                             <c:forEach items="${classes}" var="clazz">
                                 <form:option value="${clazz.id}" label="${clazz.name}"/>
@@ -59,7 +58,7 @@
                         </form:select></td>
                     </c:when>
                     <c:otherwise>
-                        <td>${character.classType}</td>
+                        <td>${classMap[character.classType].name}</td>
                     </c:otherwise>
                 </c:choose>
             </tr>
@@ -70,8 +69,8 @@
             </tr>
             <tr >
                 <td colspan="1"><spring:message code="character.maxHeath"/></td>
-                <td>${character.maxHealth}</td>
-                <td colspan="1"><spring:message code="character.currentHealth"/></td>
+                <td><a id="maxHealth" name="maxHealth" value="${character.maxHealth}"/>${character.maxHealth}</td>
+                <td colspan="2"><spring:message code="character.currentHealth"/></td>
                 <td><form:input cssClass="input-box-small" id="currentHealth" path="currentHealth" /></td>
                 <td></td>
             </tr>

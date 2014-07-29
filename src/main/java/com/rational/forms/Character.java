@@ -10,8 +10,8 @@ public class Character {
     private Long id;
     private String name;
     private Integer level;
-    private String classType;
-    private String race;
+    private Long classType;
+    private Long race;
     private int maxHealth;
     private int currentHealth;
     Map<AbilityTypeEnum, Integer> abilityScores;
@@ -37,19 +37,19 @@ public class Character {
         this.id = id;
     }
 
-    public String getRace() {
+    public Long getRace() {
         return race;
     }
 
-    public void setRace(String race) {
+    public void setRace(Long race) {
         this.race = race;
     }
 
-    public String getClassType() {
+    public Long getClassType() {
         return classType;
     }
 
-    public void setClassType(String classType) {
+    public void setClassType(Long classType) {
         this.classType = classType;
     }
 

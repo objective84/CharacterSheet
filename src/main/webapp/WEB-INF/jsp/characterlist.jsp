@@ -22,7 +22,10 @@
             <table>
                 <c:forEach items="${characters}" var="character">
                     <tr>
-                        <td><a href="#no" class='characterLink' id="${character.id}" />${character.name} - ${character.race} ${character.classType}</td>
+                        ${character.race}
+                        <td><a href="#no" class='characterLink' id="${character.id}" />
+                            ${character.name} - ${raceMap[character.race].raceName} ${classMap[character.classType].name}
+                        </td>
                     </tr>
                 </c:forEach>
 

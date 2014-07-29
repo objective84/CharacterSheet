@@ -11,4 +11,6 @@ public interface CharacterFacade {
     List<Character> findAllCharacters();
 
     Character findCharacter(Long id);
+
+    com.rational.model.Dice getStartingHealthForClass(Long classId);
 }

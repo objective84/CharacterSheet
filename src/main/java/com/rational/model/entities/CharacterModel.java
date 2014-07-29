@@ -18,10 +18,10 @@ public class CharacterModel {
     private Integer level;
 
     @Column(name="classType")
-    private String classType;
+    private Long classType;
 
     @Column(name="race")
-    private String race;
+    private Long race;
 
     @Column(name="maxHealth")
     private int maxHealth;
@@ -57,19 +57,19 @@ public class CharacterModel {
         this.id = id;
     }
 
-    public String getRace() {
+    public Long getRace() {
         return race;
     }
 
-    public void setRace(String race) {
+    public void setRace(Long race) {
         this.race = race;
     }
 
-    public String getClassType() {
+    public Long getClassType() {
         return classType;
     }
 
-    public void setClassType(String classType) {
+    public void setClassType(Long classType) {
         this.classType = classType;
     }
 

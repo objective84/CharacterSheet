@@ -8,6 +8,7 @@ import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AdminFacade {
 
@@ -25,6 +26,8 @@ public interface AdminFacade {
 
     List<Race> findAllRaces();
 
+
+    Map<Long, Race> getRaceMap();
 
     void saveTrait(TraitModel trait);
 
@@ -58,6 +61,8 @@ public interface AdminFacade {
     void saveClass(Clazz clazz);
 
     Clazz findClass(Long id);
+
+    Map<Long, Clazz> getClassMap();
 
     List<Clazz> findAllClasses();
 

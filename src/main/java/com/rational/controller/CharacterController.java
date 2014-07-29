@@ -1,14 +1,16 @@
 package com.rational.controller;
 
+import com.rational.facade.AdminFacade;
 import com.rational.facade.CharacterFacade;
 import com.rational.forms.Character;
+import com.rational.model.Dice;
 import com.rational.model.enums.AbilityTypeEnum;
-import com.rational.service.AdminService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -32,12 +34,14 @@ public class CharacterController {
     private CharacterFacade characterFacade;
 
     @Resource
-    private AdminService adminService;
+    private AdminFacade adminFacade;
 
     @RequestMapping(value="/characterlist", method= RequestMethod.GET)
     public ModelAndView getCharacterList(final Model model){
         ModelAndView mav = new ModelAndView(CHARACTER_LIST);
         mav.addObject("characters", characterFacade.findAllCharacters());
+        mav.addObject("classMap", adminFacade.getClassMap());
+        mav.addObject("raceMap", adminFacade.getRaceMap());
         return mav;
     }
 
@@ -59,10 +63,12 @@ public class CharacterController {
         Character character = (Character)session.getAttribute("character");
         if(null == character.getId()){
             mav.addObject("create", true);
+            mav.addObject("classes", adminFacade.findAllClasses());
         }
         mav.addObject("character", character);
-        mav.addObject("classes", adminService.findAllClasses());
-        mav.addObject("races", adminService.findAllRaces());
+        mav.addObject("classMap", adminFacade.getClassMap());
+        mav.addObject("raceMap", adminFacade.getRaceMap());
+        mav.addObject("races", adminFacade.findAllRaces());
         mav.addObject("abilityTypes", AbilityTypeEnum.values());
         return mav;
     }
@@ -72,6 +78,11 @@ public class CharacterController {
         ModelAndView mav = new ModelAndView(REDIRECT_CHARACTER_LIST);
         characterFacade.save(character);
         return mav;
+    }
+
+    @RequestMapping(value = "/hitDice", method = RequestMethod.GET, produces = "application/json")
+    public Dice getStartingHealthForClass(@RequestParam(value = "classId") String classId){
+        return characterFacade.getStartingHealthForClass(Long.valueOf(classId));
     }
 
 //    @ResponseBody

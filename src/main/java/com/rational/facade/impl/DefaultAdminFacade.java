@@ -16,7 +16,9 @@ import com.rational.service.AdminService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component(value = "defaultAdminFacade")
 public class DefaultAdminFacade implements AdminFacade {
@@ -61,6 +63,17 @@ public class DefaultAdminFacade implements AdminFacade {
 
     @Override
     public List<Race> findAllRaces() {return raceConverter.convertToForms(adminService.findAllRaces());}
+
+    @Override
+    public Map<Long, Race> getRaceMap(){
+        Map<Long, Race> raceMap = new HashMap<Long, Race>();
+        List<Race> raceList = findAllRaces();
+        for(Race race : raceList){
+            raceMap.put(race.getId(), race);
+        }
+
+        return raceMap;
+    }
 
     @Override
     public void saveTrait(TraitModel trait) {
@@ -137,7 +150,20 @@ public class DefaultAdminFacade implements AdminFacade {
     public Clazz findClass(Long id) {return classConverter.convert(adminService.findClass(id));}
 
     @Override
-    public List<Clazz> findAllClasses() {return classConverter.convertToForms(adminService.findAllClasses());}
+    public Map<Long, Clazz> getClassMap() {
+        Map<Long, Clazz> classMap = new HashMap<Long, Clazz>();
+        List<Clazz> classList = findAllClasses();
+        for(Clazz clazz : classList){
+            classMap.put(clazz.getId(), clazz);
+        }
+
+        return classMap;
+    }
+
+    @Override
+    public List<Clazz> findAllClasses(){
+        return classConverter.convertToForms(adminService.findAllClasses());
+    }
 
     @Override
     public void saveSubClass(SubClass subClass) {
