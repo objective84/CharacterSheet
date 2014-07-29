@@ -15,6 +15,7 @@ define('Router',
         return marionette.Controller.extend({
                 mappedPageControllers: [
                     PageControllerMap.createMappedPageController('character-sheet', CharacterView),
+                    PageControllerMap.createMappedPageController('characterlist', CharacterListView),
                     PageControllerMap.createMappedPageController('races|subraces|proficiencies|classes', DefaultDBEntryView),
                     PageControllerMap.createMappedPageController('languages', LanguageView)
                 ],

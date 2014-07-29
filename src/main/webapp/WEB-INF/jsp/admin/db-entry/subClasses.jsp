@@ -27,7 +27,7 @@
 </head>
 <body>
     <div id="entry">
-        <form:form id="form" commandName="subClass">
+        <form:form id="form" commandName="subclass">
             <input type="hidden" name="id" id="id" value="${subClass.id}">
             <div id="table_container">
                 <table>
@@ -43,8 +43,8 @@
                         <th>Base Class</th>
                         <td><form:select path="baseClass" >
                             <form:option value="0" label="Select a base class" />
-                            <c:forEach items="${classes}" var="class">
-                                <form:option value="${class.id}" label="${class.name}"/>
+                            <c:forEach items="${allClasses}" var="clazz">
+                                <form:option value="${clazz.id}" label="${clazz.name}"/>
                             </c:forEach>
                         </form:select></td>
                     </tr>
@@ -64,7 +64,7 @@
                 </table>
                 <table>
                     <tr><td>Subclass:</td></tr>
-                    <c:forEach items="${subClass}" var="subClass">
+                    <c:forEach items="${allSubClasses}" var="subClass">
                         <tr>
                             <td><a class="entry-link" href="#" id="${subClass.id}">${subClass.name}</a></td>
                         </tr>

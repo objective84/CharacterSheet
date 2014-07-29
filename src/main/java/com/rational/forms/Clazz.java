@@ -3,7 +3,7 @@ package com.rational.forms;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassForm {
+public class Clazz {
 
     private Long id;
     private String name;

@@ -10,6 +10,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <mvc:resources mapping="/resources/**" location="_ui/" />
     <mvc:annotation-driven/>
     <context:component-scan base-package="com.rational.controller"/>
+    <context:component-scan base-package="com.rational.facade"/>
     <context:component-scan base-package="com.rational.service"/>
     <context:component-scan base-package="com.rational.converters"/>
     <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">

@@ -1,9 +1,7 @@
 package com.rational.converters;
 
-import com.rational.forms.RaceForm;
-import com.rational.forms.SubraceForm;
-import com.rational.model.entities.Race;
-import com.rational.model.entities.Subrace;
+import com.rational.forms.Race;
+import com.rational.model.entities.RaceModel;
 import com.rational.service.AdminService;
 import org.springframework.stereotype.Component;
 
@@ -20,63 +18,39 @@ public class RaceConverter {
     @Resource
     AdminService adminService;
 
-    public Race convert(RaceForm raceForm){
-        Race race = new Race();
+    public RaceModel convert(Race race){
+        RaceModel raceModel = new RaceModel();
 
-        race.setId(raceForm.getId());
-        race.setRaceName(raceForm.getRaceName());
-        race.setDescription(raceForm.getDescription());
-        race.setSize(raceForm.getSize());
-        race.setSpeed(raceForm.getSpeed());
-        race.setLanguages(languageConverter.convertToEntity(raceForm.getLanguages()));
-//        race.setTraits(raceForm.getTraits());
-//        race.setSubraces(raceForm.getSubraces());
+        raceModel.setId(race.getId());
+        raceModel.setRaceName(race.getRaceName());
+        raceModel.setDescription(race.getDescription());
+        raceModel.setSize(race.getSize());
+        raceModel.setSpeed(race.getSpeed());
+        raceModel.setLanguages(languageConverter.convertToModels(race.getLanguages()));
+//        raceModel.setTraits(race.getTraits());
+//        raceModel.setSubraces(race.getSubraces());
+        return raceModel;
+    }
+
+    public Race convert(RaceModel raceModel){
+        Race race = new Race();
+        race.setId(raceModel.getId());
+        race.setRaceName(raceModel.getRaceName());
+        race.setDescription(raceModel.getDescription());
+        race.setSize(raceModel.getSize());
+        race.setSpeed(raceModel.getSpeed());
+        race.setLanguages(languageConverter.convertToForms(raceModel.getLanguages()));
+//        race.setTraits(raceModel.getTraits());
+//        race.setSubraces(raceModel.getSubraces());
         return race;
     }
 
-    public RaceForm convert(Race race){
-        RaceForm raceForm = new RaceForm();
-        raceForm.setId(race.getId());
-        raceForm.setRaceName(race.getRaceName());
-        raceForm.setDescription(race.getDescription());
-        raceForm.setSize(race.getSize());
-        raceForm.setSpeed(race.getSpeed());
-        raceForm.setLanguages(languageConverter.convertToForm(race.getLanguages()));
-//        raceForm.setTraits(race.getTraits());
-//        raceForm.setSubraces(race.getSubraces());
-        return raceForm;
-    }
-
-    public List<RaceForm> convert(List<Race> races){
-        List<RaceForm> raceForms = new ArrayList<RaceForm>();
-        for(Race race : races){
-            raceForms.add(convert(race));
+    public List<Race> convertToForms(List<RaceModel> raceModels){
+        List<Race> races = new ArrayList<Race>();
+        for(RaceModel raceModel : raceModels){
+            races.add(convert(raceModel));
         }
-        return raceForms;
+        return races;
     }
-    public Subrace convert(SubraceForm subraceForm){
-        Subrace subrace = new Subrace();
-
-        subrace.setId(subraceForm.getId());
-        subrace.setName(subraceForm.getName());
-        subrace.setDescription(subraceForm.getDescription());
-        subrace.setParentRace(adminService.findRace(subraceForm.getParentRace()));
-//        race.setTraits(raceForm.getTraits());
-//        race.setSubraces(raceForm.getSubraces());
-        return subrace;
-    }
-
-    public SubraceForm convert(Subrace subrace){
-        SubraceForm subraceForm = new SubraceForm();
-        subraceForm.setId(subrace.getId());
-        subraceForm.setName(subrace.getName());
-        subraceForm.setDescription(subrace.getDescription());
-        subraceForm.setParentRace(subrace.getParentRace().getId());
-//        raceForm.setTraits(race.getTraits());
-//        raceForm.setSubraces(race.getSubraces());
-        return subraceForm;
-    }
-
-
 
 }

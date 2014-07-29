@@ -5,11 +5,29 @@ define("CharacterListView",
     ["jquery", "underscore", "marionette"],
     function($, _, marionette) {
         return marionette.ItemView.extend({
-            el: "",
+            el: "#character-list",
+
+            ui:{
+                newCharacterLink: "#new-character"
+            },
+
+            events:{
+                'click .characterLink': 'submitCharacter',
+                'click @ui.newCharacterLink': 'newCharacter'
+            },
 
             onRender: function(){
-                console.log(1);
+            },
+
+            submitCharacter: function(event){
+                $('#id').val($(event.target).attr('id'));
+                $('#characterForm').submit();
+            },
+
+            newCharacter: function(){
+                $('#characterForm').submit();
             }
         });
+
     }
 )

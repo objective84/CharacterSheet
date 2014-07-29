@@ -43,36 +43,50 @@
 
         <h3><spring:message code="character.ability" /></h3>
         <table class="abilities">
-            <tr>
-                <td><spring:message code="ability.str"/></td>
-                <td class="ability-input"><form:input cssClass="input-box-small" id="str" path="str" /><a id="strMod">    </a></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><spring:message code="ability.dex"/></td>
-                <td class="ability-input"><form:input cssClass="input-box-small" id="dex" path="dex" /><a id="dexMod"></a>    </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><spring:message code="ability.con"/></td>
-                <td class="ability-input"><form:input cssClass="input-box-small" id="con" path="con" /><a id="conMod"></a>    </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><spring:message code="ability.int"/></td>
-                <td class="ability-input"><form:input cssClass="input-box-small" id="int" path="intel" /><a id="intMod"></a>    </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><spring:message code="ability.wis"/></td>
-                <td class="ability-input"><form:input cssClass="input-box-small" id="wis" path="wis" /><a id="wisMod">    </a>
-                <td></td>
-            </tr>
-            <tr>
-                <td><spring:message code="ability.cha"/></td>
-                <td class="ability-input"><form:input cssClass="input-box-small" id="cha" path="cha" /><a id="chaMod">    </a></td></td>
-                <td></td>
-            </tr>
+            <c:forEach items="${abilityTypes}" var="ability">
+                <tr>
+                    <td>${ability}</td>
+                    <td class="ability-input">
+                        <form:input cssClass="input-box-small ability"
+                                    id="${ability}"
+                                    path="abilityScores['${ability}']"
+                                    value="${character.abilityScores.value}"/>
+                        <a class="modLabel" id="${ability}Mod"></a>
+                    </td>
+
+                </tr>
+            </c:forEach>
+
+            <%--<tr>--%>
+                <%--<td><spring:message code="ability.str"/></td>--%>
+                <%--<td class="ability-input"><form:input cssClass="input-box-small" id="str" path="str" /><a id="strMod">    </a></td>--%>
+                <%--<td></td>--%>
+            <%--</tr>--%>
+            <%--<tr>--%>
+                <%--<td><spring:message code="ability.dex"/></td>--%>
+                <%--<td class="ability-input"><form:input cssClass="input-box-small" id="dex" path="dex" /><a id="dexMod"></a>    </td>--%>
+                <%--<td></td>--%>
+            <%--</tr>--%>
+            <%--<tr>--%>
+                <%--<td><spring:message code="ability.con"/></td>--%>
+                <%--<td class="ability-input"><form:input cssClass="input-box-small" id="con" path="con" /><a id="conMod"></a>    </td>--%>
+                <%--<td></td>--%>
+            <%--</tr>--%>
+            <%--<tr>--%>
+                <%--<td><spring:message code="ability.int"/></td>--%>
+                <%--<td class="ability-input"><form:input cssClass="input-box-small" id="int" path="intel" /><a id="intMod"></a>    </td>--%>
+                <%--<td></td>--%>
+            <%--</tr>--%>
+            <%--<tr>--%>
+                <%--<td><spring:message code="ability.wis"/></td>--%>
+                <%--<td class="ability-input"><form:input cssClass="input-box-small" id="wis" path="wis" /><a id="wisMod">    </a>--%>
+                <%--<td></td>--%>
+            <%--</tr>--%>
+            <%--<tr>--%>
+                <%--<td><spring:message code="ability.cha"/></td>--%>
+                <%--<td class="ability-input"><form:input cssClass="input-box-small" id="cha" path="cha" /><a id="chaMod">    </a></td></td>--%>
+                <%--<td></td>--%>
+            <%--</tr>--%>
         </table>
         <tr colspan="3">
             <td>

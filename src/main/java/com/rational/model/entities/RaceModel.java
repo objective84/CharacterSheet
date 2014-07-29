@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name="races")
-public class Race {
+public class RaceModel {
 
     @Id
     @GeneratedValue
@@ -28,13 +28,13 @@ public class Race {
     private Integer speed;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private List<Language> languages = new ArrayList<Language>();
+    private List<LanguageModel> languages = new ArrayList<LanguageModel>();
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private List<Trait> racialTraits = new ArrayList<Trait>();
+    private List<TraitModel> racialTraits = new ArrayList<TraitModel>();
 
     @OneToMany(mappedBy = "parentRace", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Subrace> availableSubraces = new ArrayList<Subrace>();
+    private List<SubRaceModel> availableSubraces = new ArrayList<SubRaceModel>();
 
     public Long getId() {
         return id;
@@ -76,44 +76,44 @@ public class Race {
         this.speed = speed;
     }
 
-    public List<Language> getLanguages() {
+    public List<LanguageModel> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<Language> languages) {
+    public void setLanguages(List<LanguageModel> languages) {
         this.languages = languages;
     }
 
-//    public List<Trait> getRacialTraits() {
+//    public List<TraitModel> getRacialTraits() {
 //        return racialTraits;
 //    }
 //
-//    public void setRacialTraits(List<Trait> racialTraits) {
+//    public void setRacialTraits(List<TraitModel> racialTraits) {
 //        this.racialTraits = racialTraits;
 //    }
 
-//    public Subrace getSubrace() {
-//        return subrace;
+//    public SubRaceModel getSubrace() {
+//        return subRace;
 //    }
 //
-//    public void setSubrace(Subrace subrace) {
-//        this.subrace = subrace;
+//    public void setSubrace(SubRaceModel subRace) {
+//        this.subRace = subRace;
 //    }
 
 
-    public List<Subrace> getAvailableSubraces() {
+    public List<SubRaceModel> getAvailableSubraces() {
         return availableSubraces;
     }
 
-    public void setAvailableSubraces(List<Subrace> availableSubraces) {
+    public void setAvailableSubraces(List<SubRaceModel> availableSubraces) {
         this.availableSubraces = availableSubraces;
     }
 
-    public List<Trait> getRacialTraits() {
+    public List<TraitModel> getRacialTraits() {
         return racialTraits;
     }
 
-    public void setRacialTraits(List<Trait> racialTraits) {
+    public void setRacialTraits(List<TraitModel> racialTraits) {
         this.racialTraits = racialTraits;
     }
 }

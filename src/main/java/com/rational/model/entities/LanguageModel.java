@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name="languages")
-public class Language {
+public class LanguageModel {
 
     @Id
     @GeneratedValue
@@ -23,7 +23,7 @@ public class Language {
     private String description;
 
     @ManyToMany(mappedBy = "languages")
-    private List<Race> races = new ArrayList<Race>();
+    private List<RaceModel> races = new ArrayList<RaceModel>();
 
     public String getName() {
         return name;
@@ -41,11 +41,11 @@ public class Language {
         this.description = description;
     }
 
-    public List<Race> getRaces() {
+    public List<RaceModel> getRaces() {
         return races;
     }
 
-    public void setRaces(List<Race> races) {
+    public void setRaces(List<RaceModel> races) {
         this.races = races;
     }
 

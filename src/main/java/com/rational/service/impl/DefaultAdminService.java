@@ -17,7 +17,7 @@ public class DefaultAdminService implements AdminService {
     LanguageRepository languageRepository;
 
     @Resource
-    SubraceRepository subraceRepository;
+    SubraceRepository subRaceRepository;
 
     @Resource
     TraitRepository traitRepository;
@@ -59,17 +59,17 @@ public class DefaultAdminService implements AdminService {
 
     @Override
     @Transactional
-    public Clazz saveClass(Clazz clazz) {
+    public ClassModel saveClass(ClassModel clazz) {
         return classRepository.save(clazz);
     }
 
     @Override
-    public Clazz findClass(Long id) {
+    public ClassModel findClass(Long id) {
         return classRepository.findOne(id);
     }
 
     @Override
-    public List<Clazz> findAllClasses() {
+    public List<ClassModel> findAllClasses() {
         return classRepository.findAll();
     }
 
@@ -78,17 +78,17 @@ public class DefaultAdminService implements AdminService {
 
     @Override
     @Transactional
-    public SubClass saveSubClass(SubClass subClass) {
+    public SubClassModel saveSubClass(SubClassModel subClass) {
         return subClassRepository.save(subClass);
     }
 
     @Override
-    public SubClass findSubClass(Long id) {
+    public SubClassModel findSubClass(Long id) {
         return subClassRepository.findOne(id);
     }
 
     @Override
-    public List<SubClass> findAllSubClasses() {
+    public List<SubClassModel> findAllSubClasses() {
         return subClassRepository.findAll();
     }
 
@@ -98,29 +98,29 @@ public class DefaultAdminService implements AdminService {
     @Override
     @Transactional
     //TODO
-    public Trait saveTrait(Trait trait) {return null;}
+    public TraitModel saveTrait(TraitModel trait) {return null;}
 
     @Override
     //TODO
-    public Trait findTrait(Long id) {return null;}
+    public TraitModel findTrait(Long id) {return null;}
 
     @Override
-    public List<Trait> findAllTraits() {return traitRepository.findAll();}
+    public List<TraitModel> findAllTraits() {return traitRepository.findAll();}
 
 
     /* Languages */
 
     @Override
     @Transactional
-    public Language saveLanguage(Language language) {return languageRepository.save(language);}
+    public LanguageModel saveLanguage(LanguageModel language) {return languageRepository.save(language);}
 
     @Override
-    public Language findLanguage(Long id) {
+    public LanguageModel findLanguage(Long id) {
         return languageRepository.findOne(id);
     }
 
     @Override
-    public List<Language> findAllLanguages() {
+    public List<LanguageModel> findAllLanguages() {
         return languageRepository.findAll();
     }
 
@@ -129,33 +129,33 @@ public class DefaultAdminService implements AdminService {
 
     @Override
     @Transactional
-    public Race saveRace(Race language) {return raceRepository.save(language);}
+    public RaceModel saveRace(RaceModel language) {return raceRepository.save(language);}
 
     @Override
-    public Race findRace(Long id) {
+    public RaceModel findRace(Long id) {
         return raceRepository.findOne(id);
     }
 
     @Override
-    public List<Race> findAllRaces() {return raceRepository.findAll();}
+    public List<RaceModel> findAllRaces() {return raceRepository.findAll();}
 
 
     /* Sub-Races */
 
     @Override
     @Transactional
-    public Subrace saveSubrace(Subrace subrace) {
-        return subraceRepository.save(subrace);
+    public SubRaceModel saveSubrace(SubRaceModel subRace) {
+        return subRaceRepository.save(subRace);
     }
 
     @Override
-    public Subrace findSubrace(Long id) {
-        return subraceRepository.findOne(id);
+    public SubRaceModel findSubrace(Long id) {
+        return subRaceRepository.findOne(id);
     }
 
     @Override
-    public List<Subrace> findAllSubraces() {
-        return subraceRepository.findAll();
+    public List<SubRaceModel> findAllSubraces() {
+        return subRaceRepository.findAll();
     }
 
 }

@@ -1,9 +1,7 @@
 package com.rational.converters;
 
-import com.rational.forms.ClassForm;
-import com.rational.forms.SubClassForm;
-import com.rational.model.entities.Clazz;
-import com.rational.model.entities.SubClass;
+import com.rational.forms.Clazz;
+import com.rational.model.entities.ClassModel;
 import com.rational.model.enums.DieTypeEnum;
 import com.rational.service.AdminService;
 import org.springframework.stereotype.Component;
@@ -24,82 +22,42 @@ public class ClassConverter {
     @Resource
     private ProficiencyConverter proficiencyConverter;
 
-    public Clazz convertToEntity(ClassForm classForm){
+    @Resource
+    private SubClassConverter subClassConverter;
+
+    public ClassModel convert(Clazz clazz){
+        ClassModel classModel = new ClassModel();
+
+        classModel.setId(clazz.getId());
+        classModel.setName(clazz.getName());
+        classModel.setHitDie(DieTypeEnum.valueOf(clazz.getHitDie()));
+        classModel.setClassTraits(traitConverter.convertToModels(clazz.getClassTraits()));
+        classModel.setProficiencies(proficiencyConverter.convertToModels(clazz.getProficiencies()));
+        classModel.setSubClasses(subClassConverter.convertToModels(clazz.getSubClasses()));
+
+        return classModel;
+    }
+
+    public Clazz convert(ClassModel classModel){
         Clazz clazz = new Clazz();
 
-        clazz.setId(classForm.getId());
-        clazz.setName(classForm.getName());
-        clazz.setHitDie(DieTypeEnum.valueOf(classForm.getHitDie()));
-        clazz.setClassTraits(traitConverter.convertToEntities(classForm.getClassTraits()));
-        clazz.setProficiencies(proficiencyConverter.convertToEntities(classForm.getProficiencies()));
-        clazz.setSubClasses(convertToEntities(classForm.getSubClasses()));
+        clazz.setId(classModel.getId());
+        clazz.setName(classModel.getName());
+        clazz.setHitDie(DieTypeEnum.value(classModel.getHitDie()));
+        clazz.setClassTraits(traitConverter.convertToIds(classModel.getClassTraits()));
+        clazz.setProficiencies(proficiencyConverter.convertToIds(classModel.getProficiencies()));
+        clazz.setSubClasses(subClassConverter.convertToIds(classModel.getSubClasses()));
 
         return clazz;
     }
 
-    public ClassForm convertToForm(Clazz clazz){
-        ClassForm classForm = new ClassForm();
+    public List<Clazz> convertToForms(List<ClassModel> classes){
+        List<Clazz> classList = new ArrayList<Clazz>();
 
-        classForm.setId(clazz.getId());
-        classForm.setName(clazz.getName());
-        classForm.setHitDie(DieTypeEnum.value(clazz.getHitDie()));
-        classForm.setClassTraits(traitConverter.convertToIds(clazz.getClassTraits()));
-        classForm.setProficiencies(proficiencyConverter.convertToIds(clazz.getProficiencies()));
-        classForm.setSubClasses(convertToIds(clazz.getSubClasses()));
-
-        return classForm;
-    }
-
-    public List<ClassForm> convertToForms(List<Clazz> classes){
-        List<ClassForm> classList = new ArrayList<ClassForm>();
-
-        for(Clazz clazz : classes){
-            classList.add(convertToForm(clazz));
+        for(ClassModel classModel : classes){
+            classList.add(convert(classModel));
         }
 
         return classList;
-    }
-
-    /* Sub-Class*/
-
-    public SubClass convertToEntity(SubClassForm subClassForm){
-        SubClass subClass = new SubClass();
-
-        subClass.setId(subClassForm.getId());
-        subClass.setName(subClassForm.getName());
-//        subClass.setBaseClass(adminService.findClass(subClassForm.getBaseClass()));
-
-        return subClass;
-    }
-
-    public SubClassForm convertToForm(SubClass subClass){
-        SubClassForm subClassForm = new SubClassForm();
-
-        subClassForm.setId(subClass.getId());
-        subClassForm.setName(subClass.getName());
-//        subClassForm.setBaseClass(subClass.getBaseClass().getId());
-
-        return subClassForm;
-    }
-
-
-    public List<SubClass> convertToEntities(List<Long> subclasses){
-        List<SubClass> subclassList = new ArrayList<SubClass>();
-
-        for(Long subclass : subclasses){
-            subclassList.add(adminService.findSubClass(subclass));
-        }
-
-        return subclassList;
-    }
-
-    public List<Long> convertToIds(List<SubClass> subclasses){
-        List<Long> subclassList = new ArrayList<Long>();
-
-        for(SubClass subclass : subclasses){
-            subclassList.add(subclass.getId());
-        }
-
-        return subclassList;
     }
 }

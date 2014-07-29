@@ -1,6 +1,6 @@
 package com.rational.converters;
 
-import com.rational.model.entities.Language;
+import com.rational.model.entities.LanguageModel;
 import com.rational.service.AdminService;
 import org.springframework.stereotype.Component;
 
@@ -14,19 +14,19 @@ public class LanguageConverter {
     @Resource
     AdminService adminService;
 
-    public List<Language> convertToEntity(List<Long> langs) {
-        if(null == langs)return new ArrayList<Language>();
-        List<Language> languages = new ArrayList<Language>();
+    public List<LanguageModel> convertToModels(List<Long> langs) {
+        if(null == langs)return new ArrayList<LanguageModel>();
+        List<LanguageModel> languageModels = new ArrayList<LanguageModel>();
         for(Long id : langs){
-            languages.add(adminService.findLanguage(id));
+            languageModels.add(adminService.findLanguage(id));
         }
-        return languages;
+        return languageModels;
     }
 
-    public List<Long> convertToForm(List<Language> langs) {
+    public List<Long> convertToForms(List<LanguageModel> langs) {
         List<Long> languages = new ArrayList<Long>();
-        for(Language language : langs){
-            languages.add(language.getId());
+        for(LanguageModel languageModel : langs){
+            languages.add(languageModel.getId());
         }
 
         return languages;

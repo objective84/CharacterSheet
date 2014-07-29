@@ -27,8 +27,8 @@
 </head>
 <body>
     <div id="entry">
-        <form:form id="form" commandName="classForm">
-            <input type="hidden" name="id" id="id" value="${classForm.id}">
+        <form:form id="form" commandName="clazz">
+            <input type="hidden" name="id" id="id" value="${clazz.id}">
             <div id="table_container">
                 <table>
                     <tr>

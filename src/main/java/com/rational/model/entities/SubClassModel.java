@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "subclass")
-public class SubClass {
+public class SubClassModel {
 
     @Id
     @GeneratedValue
@@ -15,11 +15,14 @@ public class SubClass {
     @Column(name="name")
     private String name;
 
+    @Column(name="description")
+    private String description;
+
     @ManyToMany(mappedBy="subClasses")
-    private List<Trait> subClassTraits = new ArrayList<Trait>();
+    private List<TraitModel> subClassTraits = new ArrayList<TraitModel>();
 
     @ManyToOne
-    private Clazz baseClass;
+    private ClassModel baseClass;
 
     public Long getId() {
         return id;
@@ -37,19 +40,27 @@ public class SubClass {
         this.name = name;
     }
 
-    public Clazz getBaseClass() {
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public ClassModel getBaseClass() {
         return baseClass;
     }
 
-    public void setBaseClass(Clazz clazz) {
+    public void setBaseClass(ClassModel clazz) {
         this.baseClass = clazz;
     }
 
-    public List<Trait> getSubClassTraits() {
+    public List<TraitModel> getSubClassTraits() {
         return subClassTraits;
     }
 
-    public void setSubClassTraits(List<Trait> subClassTraits) {
+    public void setSubClassTraits(List<TraitModel> subClassTraits) {
         this.subClassTraits = subClassTraits;
     }
 }

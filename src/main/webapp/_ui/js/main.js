@@ -27,8 +27,3 @@
     });
 
 
-function submitCharacter(id){
-    $('#id').val(id);
-    $('#characterForm').submit();
-}
-

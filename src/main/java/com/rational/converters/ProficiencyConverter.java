@@ -14,7 +14,7 @@ public class ProficiencyConverter {
     @Resource
     AdminService adminService;
 
-    public List<Proficiency> convertToEntities(List<Long> proficiencies) {
+    public List<Proficiency> convertToModels(List<Long> proficiencies) {
         List<Proficiency> proficiencies1 = new ArrayList<Proficiency>();
 
         for(Long prof : proficiencies){

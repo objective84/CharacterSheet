@@ -76,8 +76,8 @@
                         <%--</tr>--%>
                         <%--<tr>--%>
                         <%--<th>Subraces</th>--%>
-                        <%--<c:forEach items="${subraces}" var="subrace">--%>
-                        <%--<td><form:checkbox path="availableSubraces" value="${subrace}"/></td>--%>
+                        <%--<c:forEach items="${subRaces}" var="subRace">--%>
+                        <%--<td><form:checkbox path="availableSubraces" value="${subRace}"/></td>--%>
                         <%--</c:forEach>--%>
                         <%--</tr>--%>
                     <tr>

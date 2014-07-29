@@ -9,7 +9,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="subraces")
-public class Subrace{
+public class SubRaceModel {
 
     @Id
     @GeneratedValue
@@ -22,10 +22,10 @@ public class Subrace{
     private String description;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private List<Trait> subRacialTraits = new ArrayList<Trait>();
+    private List<TraitModel> subRacialTraits = new ArrayList<TraitModel>();
 
     @ManyToOne
-    private Race parentRace;
+    private RaceModel parentRace;
 
 
     public Long getId() {
@@ -52,19 +52,19 @@ public class Subrace{
         this.description = description;
     }
 
-    public Race getParentRace() {
+    public RaceModel getParentRace() {
         return parentRace;
     }
 
-    public void setParentRace(Race parentRace) {
+    public void setParentRace(RaceModel parentRace) {
         this.parentRace = parentRace;
     }
 
-    public List<Trait> getSubRacialTraits() {
+    public List<TraitModel> getSubRacialTraits() {
         return subRacialTraits;
     }
 
-    public void setSubRacialTraits(List<Trait> subRacialTraits) {
+    public void setSubRacialTraits(List<TraitModel> subRacialTraits) {
         this.subRacialTraits = subRacialTraits;
     }
 }

@@ -1,13 +1,12 @@
 package com.rational.controller;
 
-import com.rational.converters.ClassConverter;
-import com.rational.converters.RaceConverter;
-import com.rational.facades.AdminFacade;
-import com.rational.forms.ClassForm;
-import com.rational.forms.RaceForm;
-import com.rational.forms.SubraceForm;
+import com.rational.facade.AdminFacade;
+import com.rational.forms.Clazz;
+import com.rational.forms.Race;
+import com.rational.forms.SubClass;
+import com.rational.forms.SubRace;
 import com.rational.model.Proficiency;
-import com.rational.model.entities.Language;
+import com.rational.model.entities.LanguageModel;
 import com.rational.model.enums.DieTypeEnum;
 import com.rational.model.enums.ProficiencyTypeEnum;
 import org.springframework.stereotype.Controller;
@@ -32,6 +31,7 @@ public class AdminController {
     private static final String ADMIN = "admin/admin";
     private static final String DB_ENTRY = "admin/db-entry";
     private static final String CLASS_ENTRY = "admin/db-entry/classes";
+    private static final String SUB_CLASS_ENTRY = "admin/db-entry/subclasses";
     private static final String LANGUAGE_ENTRY = "admin/db-entry/languages";
     private static final String RACE_ENTRY = "admin/db-entry/races";
     private static final String SUBRACE_ENTRY = "admin/db-entry/subraces";
@@ -45,8 +45,9 @@ public class AdminController {
     private static final String REDIRECT_SUBRACE_ENTRY = REDIRECT_PREFIX + "subraces" + REDIRECT_SUFFIX;
     private static final String REDIRECT_PROFICIENCY_ENTRY = REDIRECT_PREFIX + "proficiencies" + REDIRECT_SUFFIX;
     private static final String REDIRECT_CLASS_ENTRY = REDIRECT_PREFIX + "classes" + REDIRECT_SUFFIX;
+    private static final String REDIRECT_SUB_CLASS_ENTRY = REDIRECT_PREFIX + "subclasses" + REDIRECT_SUFFIX;
 
-    @Resource
+    @Resource(name = "defaultAdminFacade")
     private AdminFacade adminFacade;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -66,27 +67,27 @@ public class AdminController {
     @RequestMapping(value = "/db-entry/languages", method = RequestMethod.GET)
     public ModelAndView languages(final Model model, HttpSession session){
         ModelAndView mav = new ModelAndView(LANGUAGE_ENTRY);
-        Language language = (Language)session.getAttribute("language");
+        LanguageModel language = (LanguageModel)session.getAttribute("language");
 
         if(null != language && null != language.getId()){
             mav.addObject("language", language);
             session.removeAttribute("language");
         }else{
-            mav.addObject(new Language());
+            mav.addObject("language", new LanguageModel());
         }
         mav.addObject("languages", adminFacade.findAllLanguages());
         return mav;
     }
 
     @RequestMapping(value = "/db-entry/languages", params="save", method = RequestMethod.POST)
-    public ModelAndView saveLanguage(final Model model, @ModelAttribute Language language){
+    public ModelAndView saveLanguage(final Model model, @ModelAttribute LanguageModel language){
         ModelAndView mav = new ModelAndView(REDIRECT_LANGUAGE_ENTRY);
         adminFacade.saveLanguage(language);
         return mav;
     }
 
     @RequestMapping(value = "/db-entry/languages", method = RequestMethod.POST)
-    public ModelAndView findLanguage(final Model model, @ModelAttribute Language language, HttpSession session){
+    public ModelAndView findLanguage(final Model model, @ModelAttribute LanguageModel language, HttpSession session){
         ModelAndView mav = new ModelAndView(REDIRECT_LANGUAGE_ENTRY);
         session.setAttribute("language", adminFacade.findLanguage(language.getId()));
         return mav;
@@ -94,7 +95,7 @@ public class AdminController {
 
     @RequestMapping(value = "/db-entry/races", method = RequestMethod.GET)
     public ModelAndView races(final Model model, HttpSession session){
-        RaceForm race = (RaceForm)session.getAttribute("race");
+        Race race = (Race)session.getAttribute("race");
         ModelAndView mav = new ModelAndView(RACE_ENTRY);
 
         if(null != race && null != race.getId()){
@@ -106,7 +107,7 @@ public class AdminController {
             }
             mav.addObject("languagesMap", languagesMap);
         }else{
-            mav.addObject("race", new RaceForm());
+            mav.addObject("race", new Race());
         }
 
         mav.addObject("races", adminFacade.findAllRaces());
@@ -117,47 +118,47 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/db-entry/races", method = RequestMethod.POST)
-    public ModelAndView findRace(final Model model, @ModelAttribute RaceForm race, HttpSession session){
+    public ModelAndView findRace(final Model model, @ModelAttribute Race race, HttpSession session){
         ModelAndView mav = new ModelAndView(REDIRECT_RACE_ENTRY);
         session.setAttribute("race", adminFacade.findRace(race.getId()));
         return mav;
     }
 
     @RequestMapping(value = "/db-entry/races", params = "save", method = RequestMethod.POST)
-    public ModelAndView saveRace(final Model model, @ModelAttribute RaceForm race, HttpSession session){
+    public ModelAndView saveRace(final Model model, @ModelAttribute Race race, HttpSession session){
         ModelAndView mav = new ModelAndView(REDIRECT_RACE_ENTRY);
-        adminFacade.saveRace(raceConverter.convert(race));
+        adminFacade.saveRace(race);
 
         return mav;
     }
 
     @RequestMapping(value = "/db-entry/subraces", method = RequestMethod.GET)
-    public ModelAndView subraces(final Model model, HttpSession session){
+    public ModelAndView subRaces(final Model model, HttpSession session){
         ModelAndView mav = new ModelAndView(SUBRACE_ENTRY);
-        SubraceForm subrace = (SubraceForm)session.getAttribute("subrace");
-        if(null != subrace && null != subrace.getId()){
-            mav.addObject("subrace", subrace);
+        SubRace subRace = (SubRace)session.getAttribute("subrace");
+        if(null != subRace && null != subRace.getId()){
+            mav.addObject("subrace", subRace);
             session.removeAttribute("subrace");
         }else {
-            mav.addObject("subrace", new SubraceForm());
+            mav.addObject("subrace", new SubRace());
         }
-        mav.addObject("races", raceConverter.convert(adminFacade.findAllRaces()));
+        mav.addObject("races", adminFacade.findAllRaces());
         mav.addObject("subraces", adminFacade.findAllSubraces());
 
         return mav;
     }
 
     @RequestMapping(value = "/db-entry/subraces", method = RequestMethod.POST)
-    public ModelAndView findSubrace(final Model model, @ModelAttribute SubraceForm subrace, HttpSession session){
+    public ModelAndView findSubrace(final Model model, @ModelAttribute SubRace subRace, HttpSession session){
         ModelAndView mav = new ModelAndView(REDIRECT_SUBRACE_ENTRY);
-        session.setAttribute("subrace", raceConverter.convert(adminFacade.findSubrace(subrace.getId())));
+        session.setAttribute("subrace", adminFacade.findSubrace(subRace.getId()));
         return mav;
     }
 
     @RequestMapping(value = "/db-entry/subraces", params = "save", method = RequestMethod.POST)
-    public ModelAndView saveSubrace(final Model model, @ModelAttribute SubraceForm subrace, HttpSession session){
+    public ModelAndView saveSubrace(final Model model, @ModelAttribute SubRace subRace, HttpSession session){
         ModelAndView mav = new ModelAndView(REDIRECT_SUBRACE_ENTRY);
-        adminFacade.saveSubrace(raceConverter.convert(subrace));
+        adminFacade.saveSubrace(subRace);
 
         return mav;
     }
@@ -212,19 +213,19 @@ public class AdminController {
     @RequestMapping(value = "/db-entry/classes", method = RequestMethod.GET)
     public ModelAndView classes(final Model model, HttpSession session){
         ModelAndView mav = new ModelAndView(CLASS_ENTRY);
-        ClassForm classForm = (ClassForm)session.getAttribute("classForm");
-        if(null != classForm && null != classForm.getId()){
-            mav.addObject("classForm", classForm);
-            session.removeAttribute("classForm");
+        Clazz clazz = (Clazz)session.getAttribute("clazz");
+        if(null != clazz && null != clazz.getId()){
+            mav.addObject("clazz", clazz);
+            session.removeAttribute("clazz");
             Map<Long, Long> proficiencyMap = new HashMap<Long, Long>();
-            for(Long proficiency : classForm.getProficiencies()){
+            for(Long proficiency : clazz.getProficiencies()){
                 proficiencyMap.put(proficiency, proficiency);
             }
             mav.addObject("proficiencyMap", proficiencyMap);
         }else {
-            mav.addObject("classForm", new ClassForm());
+            mav.addObject("clazz", new Clazz());
         }
-        mav.addObject("allClasses", classConverter.convertToForms(adminFacade.findAllClasses()));
+        mav.addObject("allClasses", adminFacade.findAllClasses());
         mav.addObject("hitDieTypes", DieTypeEnum.getAllHitDieTypes());
         mav.addObject("proficiencies", adminFacade.findAllProficiencies());
 
@@ -233,53 +234,49 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/db-entry/classes", method = RequestMethod.POST)
-    public ModelAndView findClass(@ModelAttribute ClassForm classForm, HttpSession session){
+    public ModelAndView findClass(@ModelAttribute Clazz clazz, HttpSession session){
         ModelAndView mav = new ModelAndView(REDIRECT_CLASS_ENTRY);
-        session.setAttribute("classForm", classConverter.convertToForm(adminFacade.findClass(classForm.getId())));
+        session.setAttribute("clazz", adminFacade.findClass(clazz.getId()));
         return mav;
     }
 
     @RequestMapping(value = "/db-entry/classes", params = "save", method = RequestMethod.POST)
-    public ModelAndView saveClass(final Model model, @ModelAttribute ClassForm classForm, HttpSession session){
+    public ModelAndView saveClass(final Model model, @ModelAttribute Clazz clazz, HttpSession session){
         ModelAndView mav = new ModelAndView(REDIRECT_CLASS_ENTRY);
-        adminFacade.saveClass(classConverter.convertToEntity(classForm));
+        adminFacade.saveClass(clazz);
 
         return mav;
     }
 
     @RequestMapping(value = "/db-entry/subclasses", method = RequestMethod.GET)
     public ModelAndView subClasses(final Model model, HttpSession session){
-        ModelAndView mav = new ModelAndView(CLASS_ENTRY);
-        ClassForm classForm = (ClassForm)session.getAttribute("classForm");
-        if(null != classForm && null != classForm.getId()){
-            mav.addObject("classForm", classForm);
-            session.removeAttribute("classForm");
-            Map<Long, Long> proficiencyMap = new HashMap<Long, Long>();
-            for(Long proficiency : classForm.getProficiencies()){
-                proficiencyMap.put(proficiency, proficiency);
-            }
-            mav.addObject("proficiencyMap", proficiencyMap);
+        ModelAndView mav = new ModelAndView(SUB_CLASS_ENTRY);
+        SubClass subClass = (SubClass)session.getAttribute("subclass");
+        if(null != subClass && null != subClass.getId()){
+            mav.addObject("subclass", subClass);
+            session.removeAttribute("subclass");
         }else {
-            mav.addObject("classForm", new ClassForm());
+            mav.addObject("subclass", new SubClass());
         }
-        mav.addObject("allClasses", classConverter.convertToForms(adminFacade.findAllClasses()));
+        mav.addObject("allClasses", adminFacade.findAllClasses());
         mav.addObject("proficiencies", adminFacade.findAllProficiencies());
+        mav.addObject("allSubClasses", adminFacade.findAllSubClasses());
 
 
         return mav;
     }
 
     @RequestMapping(value = "/db-entry/subclasses", method = RequestMethod.POST)
-    public ModelAndView findSubClass(@ModelAttribute ClassForm classForm, HttpSession session){
-        ModelAndView mav = new ModelAndView(REDIRECT_CLASS_ENTRY);
-        session.setAttribute("classForm", classConverter.convertToForm(adminFacade.findClass(classForm.getId())));
+    public ModelAndView findSubClass(@ModelAttribute SubClass subClass, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_SUB_CLASS_ENTRY);
+        session.setAttribute("subclass", adminFacade.findSubClass(subClass.getId()));
         return mav;
     }
 
     @RequestMapping(value = "/db-entry/subclasses", params = "save", method = RequestMethod.POST)
-    public ModelAndView saveSubClass(final Model model, @ModelAttribute ClassForm classForm, HttpSession session){
-        ModelAndView mav = new ModelAndView(REDIRECT_CLASS_ENTRY);
-        adminFacade.saveClass(classConverter.convertToEntity(classForm));
+    public ModelAndView saveSubClass(final Model model, @ModelAttribute SubClass subClass, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_SUB_CLASS_ENTRY);
+        adminFacade.saveSubClass(subClass);
 
         return mav;
     }

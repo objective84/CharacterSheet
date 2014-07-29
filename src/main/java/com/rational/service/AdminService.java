@@ -7,32 +7,32 @@ import java.util.List;
 
 public interface AdminService {
 
-    Language saveLanguage(Language language);
+    LanguageModel saveLanguage(LanguageModel language);
 
-    Language findLanguage(Long id);
+    LanguageModel findLanguage(Long id);
 
-    List<Language> findAllLanguages();
-
-
-    Race saveRace(Race language);
-
-    Race findRace(Long id);
-
-    List<Race> findAllRaces();
+    List<LanguageModel> findAllLanguages();
 
 
-    Trait saveTrait(Trait trait);
+    RaceModel saveRace(RaceModel language);
 
-    Trait findTrait(Long id);
+    RaceModel findRace(Long id);
 
-    List<Trait> findAllTraits();
+    List<RaceModel> findAllRaces();
 
 
-    Subrace saveSubrace(Subrace subrace);
+    TraitModel saveTrait(TraitModel trait);
 
-    Subrace findSubrace(Long id);
+    TraitModel findTrait(Long id);
 
-    List<Subrace> findAllSubraces();
+    List<TraitModel> findAllTraits();
+
+
+    SubRaceModel saveSubrace(SubRaceModel subRace);
+
+    SubRaceModel findSubrace(Long id);
+
+    List<SubRaceModel> findAllSubraces();
 
 
     Proficiency saveProficiency(Proficiency proficiency);
@@ -42,18 +42,18 @@ public interface AdminService {
     List<Proficiency> findAllProficiencies();
 
 
-    Clazz saveClass(Clazz clazz);
+    ClassModel saveClass(ClassModel clazz);
 
-    Clazz findClass(Long id);
+    ClassModel findClass(Long id);
 
-    List<Clazz> findAllClasses();
+    List<ClassModel> findAllClasses();
 
 
-    SubClass saveSubClass(SubClass clazz);
+    SubClassModel saveSubClass(SubClassModel clazz);
 
-    SubClass findSubClass(Long id);
+    SubClassModel findSubClass(Long id);
 
-    List<SubClass> findAllSubClasses();
+    List<SubClassModel> findAllSubClasses();
 
 
 }

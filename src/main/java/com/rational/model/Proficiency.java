@@ -1,6 +1,6 @@
 package com.rational.model;
 
-import com.rational.model.entities.Clazz;
+import com.rational.model.entities.ClassModel;
 import com.rational.model.enums.ProficiencyTypeEnum;
 
 import javax.persistence.*;
@@ -30,7 +30,7 @@ public class Proficiency {
     private String typeString;
 
     @ManyToMany(mappedBy = "proficiencies")
-    private List<Clazz> classes = new ArrayList<Clazz>();
+    private List<ClassModel> classes = new ArrayList<ClassModel>();
 
     public Long getId() {
         return id;
@@ -68,11 +68,11 @@ public class Proficiency {
         this.typeString = typeString;
     }
 
-    public List<Clazz> getClasses() {
+    public List<ClassModel> getClasses() {
         return classes;
     }
 
-    public void setClasses(List<Clazz> classes) {
+    public void setClasses(List<ClassModel> classes) {
         this.classes = classes;
     }
 

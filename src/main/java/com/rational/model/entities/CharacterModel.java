@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="characters")
-public class Character {
+public class CharacterModel {
 
     @Id
     @GeneratedValue
@@ -47,7 +47,7 @@ public class Character {
     @Column(name="cha")
     private int cha;
 
-    public Character(){}
+    public CharacterModel(){}
 
     public Long getId() {
         return id;

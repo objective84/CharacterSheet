@@ -1,7 +1,7 @@
 package com.rational.model.playing;
 
 import com.rational.model.Characteristic;
-import com.rational.model.entities.Language;
+import com.rational.model.entities.LanguageModel;
 import com.rational.model.Proficiency;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class Background {
     private String name;
     private String description;
     private List<Proficiency> proficiencies;
-    private List<Language> languages;
+    private List<LanguageModel> languages;
     private String feature;
     private List<Characteristic> characteristics;
 
@@ -41,11 +41,11 @@ public class Background {
         this.proficiencies = proficiencies;
     }
 
-    public List<Language> getLanguages() {
+    public List<LanguageModel> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<Language> languages) {
+    public void setLanguages(List<LanguageModel> languages) {
         this.languages = languages;
     }
 

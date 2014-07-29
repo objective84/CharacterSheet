@@ -2,7 +2,7 @@ package com.rational.forms;
 
 import java.util.List;
 
-public class SubraceForm {
+public class SubRace {
     private long id;
     private String name;
     private String description;

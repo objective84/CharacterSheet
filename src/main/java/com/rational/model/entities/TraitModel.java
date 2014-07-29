@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name="traits")
-public class Trait {
+public class TraitModel {
 
     @Id
     @GeneratedValue
@@ -18,22 +18,22 @@ public class Trait {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="class_trait", joinColumns = @JoinColumn(name="class_id"),
             inverseJoinColumns = @JoinColumn(name="trait_id"))
-    private List<Clazz> classes= new ArrayList<Clazz>();
+    private List<ClassModel> classes= new ArrayList<ClassModel>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="subclass_trait", joinColumns = @JoinColumn(name="subclass_id"),
             inverseJoinColumns = @JoinColumn(name="trait_id"))
-    private List<SubClass> subClasses= new ArrayList<SubClass>();
+    private List<SubClassModel> subClasses= new ArrayList<SubClassModel>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="race_trait", joinColumns = @JoinColumn(name="race_id"),
             inverseJoinColumns = @JoinColumn(name="trait_id"))
-    private List<Race> races= new ArrayList<Race>();
+    private List<RaceModel> races= new ArrayList<RaceModel>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="subrace_trait", joinColumns = @JoinColumn(name="subrace_id"),
             inverseJoinColumns = @JoinColumn(name="trait_id"))
-    private List<Subrace> subRaces= new ArrayList<Subrace>();
+    private List<SubRaceModel> subRaces= new ArrayList<SubRaceModel>();
     public int getId() {
         return id;
     }
@@ -51,35 +51,35 @@ public class Trait {
         this.name = name;
     }
 
-    public List<Clazz> getClasses() {
+    public List<ClassModel> getClasses() {
         return classes;
     }
 
-    public void setClasses(List<Clazz> classes) {
+    public void setClasses(List<ClassModel> classes) {
         this.classes = classes;
     }
 
-    public List<SubClass> getSubClasses() {
+    public List<SubClassModel> getSubClasses() {
         return subClasses;
     }
 
-    public void setSubClasses(List<SubClass> subClasses) {
+    public void setSubClasses(List<SubClassModel> subClasses) {
         this.subClasses = subClasses;
     }
 
-    public List<Race> getRaces() {
+    public List<RaceModel> getRaces() {
         return races;
     }
 
-    public void setRaces(List<Race> races) {
+    public void setRaces(List<RaceModel> races) {
         this.races = races;
     }
 
-    public List<Subrace> getSubRaces() {
+    public List<SubRaceModel> getSubRaces() {
         return subRaces;
     }
 
-    public void setSubRaces(List<Subrace> subRaces) {
+    public void setSubRaces(List<SubRaceModel> subRaces) {
         this.subRaces = subRaces;
     }
 }

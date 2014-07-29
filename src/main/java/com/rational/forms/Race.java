@@ -2,7 +2,7 @@ package com.rational.forms;
 
 import java.util.List;
 
-public class RaceForm {
+public class Race {
 
     private long id;
     private String raceName;
@@ -11,7 +11,7 @@ public class RaceForm {
     private Integer speed;
     private List<Long> languages;
     private List<Long> traits;
-    private List<Long> subraces;
+    private List<Long> subRaces;
 
     public Long getId() {
         return id;
@@ -69,10 +69,10 @@ public class RaceForm {
     }
 
     public List<Long> getSubraces() {
-        return subraces;
+        return subRaces;
     }
 
-    public void setSubraces(List<Long> subraces) {
-        this.subraces = subraces;
+    public void setSubraces(List<Long> subRaces) {
+        this.subRaces = subRaces;
     }
 }

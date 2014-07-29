@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="classes")
-public class Clazz {
+public class ClassModel {
 
     @Id
     @GeneratedValue
@@ -28,10 +28,10 @@ public class Clazz {
     private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
     @ManyToMany(mappedBy="classes")
-    private List<Trait> classTraits = new ArrayList<Trait>();
+    private List<TraitModel> classTraits = new ArrayList<TraitModel>();
 
     @OneToMany(mappedBy = "baseClass", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<SubClass> subClasses = new ArrayList<SubClass>();
+    private List<SubClassModel> subClasses = new ArrayList<SubClassModel>();
 
     public Long getId() {
         return id;
@@ -65,19 +65,19 @@ public class Clazz {
         this.proficiencies = proficiencies;
     }
 
-    public List<Trait> getClassTraits() {
+    public List<TraitModel> getClassTraits() {
         return classTraits;
     }
 
-    public void setClassTraits(List<Trait> classTraits) {
+    public void setClassTraits(List<TraitModel> classTraits) {
         this.classTraits = classTraits;
     }
 
-    public List<SubClass> getSubClasses() {
+    public List<SubClassModel> getSubClasses() {
         return subClasses;
     }
 
-    public void setSubClasses(List<SubClass> subClasses) {
+    public void setSubClasses(List<SubClassModel> subClasses) {
         this.subClasses = subClasses;
     }
 
