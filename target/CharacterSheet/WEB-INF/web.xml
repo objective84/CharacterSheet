@@ -26,13 +26,9 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/config/servlet-config.xml</param-value>
+            <param-value>/WEB-INF/config/characterSheetServlet-servlet.xml</param-value>
         </init-param>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>characterSheetServlet</servlet-name>
-        <url-pattern>*.html*</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>characterSheetServlet</servlet-name>
         <url-pattern>/pdf/**</url-pattern>
@@ -51,7 +47,17 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>characterSheetServlet</servlet-name>
-        <url-pattern>/character/*</url-pattern>
+        <url-pattern>/character-sheet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>characterSheetServlet</servlet-name>
+        <url-pattern>/resources/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>characterSheetServlet</servlet-name>
+        <url-pattern>/character-sheet/ajax</url-pattern>
+    </servlet-mapping>
+
+
     <display-name>Archetype Created Web Application</display-name>
 </web-app>
