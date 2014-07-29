@@ -9,6 +9,9 @@ require.config({
         // Page Controllers
         Router: 'Router',
         CharacterView: 'View/CharacterView',
+        DefaultDBEntryView: 'View/DefaultDBEntryView',
+        LanguageView: 'View/LanguageView',
+        CharacterListView: 'View/CharacterListView',
         // Behaviors
 
         // Other

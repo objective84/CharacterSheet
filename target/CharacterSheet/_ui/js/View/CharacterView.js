@@ -37,7 +37,6 @@ define("CharacterView",
                 this.model = new CharacterModel({id: this.$('#characterId').val()});
                 this.autoFetch();
                 $('.ability').each(_.bind(function(key, value){
-                    console.log($(value).attr('id'))
                     this.setAbilityMod($(value).attr('id'), $(value).val());
                 },this));
             },
@@ -59,15 +58,10 @@ define("CharacterView",
             },
 
             setAbilityMod: function(id, val){
-                var mod;
-                if(val === 0){
-                    mod = 0;
-                }else {
-                    mod = Math.floor(( val - 10) / 2);
-                    console.log(mod);
-                    mod = mod > 0 ? ' + ' + mod : ' - ' + Math.abs(mod)
-                }
-                $('#'+id + 'Mod').prop('textContent', + mod);
+                var mod = (parseInt(val) === 0) ? 0: parseInt(Math.floor(( val - 10) / 2));
+                console.log(mod);
+                mod = (mod >= 0) ? (' + ' + mod) : (' - ' + Math.abs(mod));
+                $('#'+id + 'Mod').prop('textContent', mod);
             }
         });
     })

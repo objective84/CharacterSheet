@@ -1,6 +1,6 @@
 package com.rational.service;
 
-import com.rational.model.Character;
+import com.rational.model.entities.Character;
 
 import java.util.List;
 

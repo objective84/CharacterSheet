@@ -1,9 +1,8 @@
 package com.rational.model.playing;
 
 import com.rational.model.Characteristic;
-import com.rational.model.Language;
+import com.rational.model.entities.Language;
 import com.rational.model.Proficiency;
-import com.rational.model.equipment.Equipment;
 
 import java.util.List;
 

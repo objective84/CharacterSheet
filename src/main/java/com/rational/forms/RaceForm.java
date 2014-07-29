@@ -1,19 +1,25 @@
-package com.rational.model;
+package com.rational.forms;
 
 import java.util.List;
 
-/**
- * Created by awest on 7/23/14.
- */
-public class Race {
+public class RaceForm {
 
+    private long id;
     private String raceName;
     private String description;
     private String size;
-    private int speed;
-    private List<Language> languages;
-    private List<Trait> traits;
-    private Subrace subrace;
+    private Integer speed;
+    private List<Long> languages;
+    private List<Long> traits;
+    private List<Long> subraces;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getRaceName() {
         return raceName;
@@ -39,35 +45,34 @@ public class Race {
         this.size = size;
     }
 
-    public int getSpeed() {
-        return speed;
-    }
+    public Integer getSpeed() {return speed;}
 
-    public void setSpeed(int speed) {
+    public void setSpeed(Integer speed) {
         this.speed = speed;
     }
 
-    public List<Language> getLanguages() {
+
+    public List<Long> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<Language> languages) {
+    public void setLanguages(List<Long> languages) {
         this.languages = languages;
     }
 
-    public List<Trait> getTraits() {
+    public List<Long> getTraits() {
         return traits;
     }
 
-    public void setTraits(List<Trait> traits) {
+    public void setTraits(List<Long> traits) {
         this.traits = traits;
     }
 
-    public Subrace getSubrace() {
-        return subrace;
+    public List<Long> getSubraces() {
+        return subraces;
     }
 
-    public void setSubrace(Subrace subrace) {
-        this.subrace = subrace;
+    public void setSubraces(List<Long> subraces) {
+        this.subraces = subraces;
     }
 }

@@ -7,9 +7,11 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-    <mvc:resources mapping="/resources/**" location="/_ui/" />
+    <mvc:resources mapping="/resources/**" location="_ui/" />
     <mvc:annotation-driven/>
     <context:component-scan base-package="com.rational.controller"/>
+    <context:component-scan base-package="com.rational.service"/>
+    <context:component-scan base-package="com.rational.converters"/>
     <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="order" value="1"/>
         <property name="contentNegotiationManager">
@@ -40,7 +42,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
         </property>
     </bean>
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="messages"/>
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" p:order="2"/>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" p:order="1"/>
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>
 
 

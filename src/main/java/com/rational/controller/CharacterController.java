@@ -1,6 +1,7 @@
 package com.rational.controller;
 
-import com.rational.model.Character;
+import com.rational.model.entities.Character;
+import com.rational.model.enums.ClassEnum;
 import com.rational.service.CharacterService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +15,15 @@ import javax.servlet.http.HttpSession;
 public class CharacterController {
 
     private static final String REDIRECT_PREFIX = "redirect:";
+    private static final String REDIRECT_SUFFIX = ".html";
 
     private static final String CHARACTER_LIST = "characterlist";
     private static final String CHARACTER = "character-sheet";
 
-    private static final String REDIRECT_CHARACTER_LIST = REDIRECT_PREFIX + CHARACTER_LIST;
-    private static final String REDIRECT_CHARACTER = REDIRECT_PREFIX + CHARACTER;
+    private static final String REDIRECT_CHARACTER_LIST = REDIRECT_PREFIX + CHARACTER_LIST + REDIRECT_SUFFIX;
+    private static final String REDIRECT_CHARACTER = REDIRECT_PREFIX + CHARACTER + REDIRECT_SUFFIX;
+
+
 
     @Resource(name="defaultCharacterService")
     private CharacterService characterService;
@@ -27,7 +31,6 @@ public class CharacterController {
     @RequestMapping(value="/characterlist", method= RequestMethod.GET)
     public ModelAndView getCharacterList(final Model model){
         ModelAndView mav = new ModelAndView(CHARACTER_LIST);
-        mav.setViewName(CHARACTER_LIST);
         mav.addObject("characters", characterService.getCharacterList());
         return mav;
     }
@@ -41,13 +44,16 @@ public class CharacterController {
 
     @RequestMapping(value="/character-sheet", method= RequestMethod.GET)
     public ModelAndView character(final Model model, HttpSession session) {
+        ModelAndView mav = new ModelAndView(CHARACTER);
         Character character = (Character)session.getAttribute("character");
         if(null != character && null != character.getId()){
             character = characterService.getCharacter(character.getId());
         }else{
             character = new Character();
+            mav.addObject("create", true);
         }
-        ModelAndView mav = new ModelAndView(CHARACTER, "character", character);
+        mav.addObject("character", character);
+        mav.addObject("classes", ClassEnum.values());
         return mav;
     }
 
