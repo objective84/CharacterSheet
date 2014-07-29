@@ -28,9 +28,9 @@ public class Clazz {
     private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
     @ManyToMany(mappedBy="classes")
-    private List<ClassTrait> classTraits = new ArrayList<ClassTrait>();
+    private List<Trait> classTraits = new ArrayList<Trait>();
 
-    @OneToMany(mappedBy = "clazz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "baseClass", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SubClass> subClasses = new ArrayList<SubClass>();
 
     public Long getId() {
@@ -65,11 +65,11 @@ public class Clazz {
         this.proficiencies = proficiencies;
     }
 
-    public List<ClassTrait> getClassTraits() {
+    public List<Trait> getClassTraits() {
         return classTraits;
     }
 
-    public void setClassTraits(List<ClassTrait> classTraits) {
+    public void setClassTraits(List<Trait> classTraits) {
         this.classTraits = classTraits;
     }
 
@@ -80,4 +80,5 @@ public class Clazz {
     public void setSubClasses(List<SubClass> subClasses) {
         this.subClasses = subClasses;
     }
+
 }

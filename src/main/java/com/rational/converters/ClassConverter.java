@@ -1,6 +1,7 @@
 package com.rational.converters;
 
 import com.rational.forms.ClassForm;
+import com.rational.forms.SubClassForm;
 import com.rational.model.entities.Clazz;
 import com.rational.model.entities.SubClass;
 import com.rational.model.enums.DieTypeEnum;
@@ -48,6 +49,39 @@ public class ClassConverter {
 
         return classForm;
     }
+
+    public List<ClassForm> convertToForms(List<Clazz> classes){
+        List<ClassForm> classList = new ArrayList<ClassForm>();
+
+        for(Clazz clazz : classes){
+            classList.add(convertToForm(clazz));
+        }
+
+        return classList;
+    }
+
+    /* Sub-Class*/
+
+    public SubClass convertToEntity(SubClassForm subClassForm){
+        SubClass subClass = new SubClass();
+
+        subClass.setId(subClassForm.getId());
+        subClass.setName(subClassForm.getName());
+//        subClass.setBaseClass(adminService.findClass(subClassForm.getBaseClass()));
+
+        return subClass;
+    }
+
+    public SubClassForm convertToForm(SubClass subClass){
+        SubClassForm subClassForm = new SubClassForm();
+
+        subClassForm.setId(subClass.getId());
+        subClassForm.setName(subClass.getName());
+//        subClassForm.setBaseClass(subClass.getBaseClass().getId());
+
+        return subClassForm;
+    }
+
 
     public List<SubClass> convertToEntities(List<Long> subclasses){
         List<SubClass> subclassList = new ArrayList<SubClass>();

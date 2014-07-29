@@ -1,6 +1,8 @@
 package com.rational.model.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "subclass")
@@ -13,8 +15,11 @@ public class SubClass {
     @Column(name="name")
     private String name;
 
+    @ManyToMany(mappedBy="subClasses")
+    private List<Trait> subClassTraits = new ArrayList<Trait>();
+
     @ManyToOne
-    private Clazz clazz;
+    private Clazz baseClass;
 
     public Long getId() {
         return id;
@@ -32,11 +37,19 @@ public class SubClass {
         this.name = name;
     }
 
-    public Clazz getClazz() {
-        return clazz;
+    public Clazz getBaseClass() {
+        return baseClass;
     }
 
-    public void setClazz(Clazz clazz) {
-        this.clazz = clazz;
+    public void setBaseClass(Clazz clazz) {
+        this.baseClass = clazz;
+    }
+
+    public List<Trait> getSubClassTraits() {
+        return subClassTraits;
+    }
+
+    public void setSubClassTraits(List<Trait> subClassTraits) {
+        this.subClassTraits = subClassTraits;
     }
 }

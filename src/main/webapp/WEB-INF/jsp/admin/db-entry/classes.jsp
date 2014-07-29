@@ -75,9 +75,9 @@
                 </table>
                 <table>
                     <tr><td>Classes:</td></tr>
-                    <c:forEach items="${classs}" var="class">
+                    <c:forEach items="${allClasses}" var="clazz">
                         <tr>
-                            <td><a class="entry-link" href="#" id="${class.id}">${class.name}</a></td>
+                            <td><a class="entry-link" href="#" id="${clazz.id}">${clazz.name}</a></td>
                         </tr>
                     </c:forEach>
                 </table>

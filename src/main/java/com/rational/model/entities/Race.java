@@ -30,6 +30,9 @@ public class Race {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Language> languages = new ArrayList<Language>();
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Trait> racialTraits = new ArrayList<Trait>();
+
     @OneToMany(mappedBy = "parentRace", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Subrace> availableSubraces = new ArrayList<Subrace>();
 
@@ -104,5 +107,13 @@ public class Race {
 
     public void setAvailableSubraces(List<Subrace> availableSubraces) {
         this.availableSubraces = availableSubraces;
+    }
+
+    public List<Trait> getRacialTraits() {
+        return racialTraits;
+    }
+
+    public void setRacialTraits(List<Trait> racialTraits) {
+        this.racialTraits = racialTraits;
     }
 }

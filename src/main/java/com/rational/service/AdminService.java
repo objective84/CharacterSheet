@@ -21,11 +21,11 @@ public interface AdminService {
     List<Race> findAllRaces();
 
 
-    RacialTrait saveRacialTrait(RacialTrait racialTrait);
+    Trait saveTrait(Trait trait);
 
-    RacialTrait findRacialTrait(Long id);
+    Trait findTrait(Long id);
 
-    List<RacialTrait> findAllRacialTraits();
+    List<Trait> findAllTraits();
 
 
     Subrace saveSubrace(Subrace subrace);

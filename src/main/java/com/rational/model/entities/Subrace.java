@@ -1,6 +1,8 @@
 package com.rational.model.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Andy on 7/23/2014.
@@ -18,6 +20,9 @@ public class Subrace{
 
     @Column(name="description")
     private String description;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Trait> subRacialTraits = new ArrayList<Trait>();
 
     @ManyToOne
     private Race parentRace;
@@ -53,5 +58,13 @@ public class Subrace{
 
     public void setParentRace(Race parentRace) {
         this.parentRace = parentRace;
+    }
+
+    public List<Trait> getSubRacialTraits() {
+        return subRacialTraits;
+    }
+
+    public void setSubRacialTraits(List<Trait> subRacialTraits) {
+        this.subRacialTraits = subRacialTraits;
     }
 }

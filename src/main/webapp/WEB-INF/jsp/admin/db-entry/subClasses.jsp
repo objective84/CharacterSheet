@@ -40,13 +40,13 @@
                         <td><form:input path="description"></form:input></td>
                     </tr>
                     <tr>
-                        <th>Parent Race</th>
-                        <td><form:select path="parentRace" >
-                            <form:option value="0" label="Select a class" />
-                            <c:forEach items="${classs}" var="class">
-                                <form:option value="${class.id}" label="${class.className}"/>
+                        <th>Base Class</th>
+                        <td><form:select path="baseClass" >
+                            <form:option value="0" label="Select a base class" />
+                            <c:forEach items="${classes}" var="class">
+                                <form:option value="${class.id}" label="${class.name}"/>
                             </c:forEach>
-                        </form:select> </td>
+                        </form:select></td>
                     </tr>
                         <%--<tr>--%>
                         <%--<th>Traits</th>--%>

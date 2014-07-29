@@ -19,9 +19,11 @@
 <body>
     <a href="/admin/db-entry/classes.html">Classes</a>
     <br/>
+    <a href="/admin/db-entry/subclasses.html">Sub-Classes</a>
+    <br/>
     <a href="/admin/db-entry/races.html">Races</a>
     <br/>
-    <a href="/admin/db-entry/subraces.html">Subraces</a>
+    <a href="/admin/db-entry/subraces.html">Sub-Races</a>
     <br/>
     <a href="/admin/db-entry/languages.html">Language</a>
     <br/>
