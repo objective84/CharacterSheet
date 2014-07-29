@@ -19,16 +19,17 @@ define("CharacterView",
             },
 
             bindings:{
-                '@this.ui.name': 'name',
-                '@this.ui.race': 'race',
-                '@this.ui.class': 'classType',
-                '@this.ui.str': 'str',
-                '@this.ui.dex': 'dex',
-                '@this.ui.con': 'con',
-                '@this.ui.int': 'intel',
-                '@this.ui.wis': 'wis',
-                '@this.ui.cha': 'cha'
+//                '@this.ui.name': 'name',
+//                '@this.ui.race': 'race',
+//                '@this.ui.class': 'classType',
+//                '@this.ui.str': 'str',
+//                '@this.ui.dex': 'dex',
+//                '@this.ui.con': 'con',
+//                '@this.ui.int': 'intel',
+//                '@this.ui.wis': 'wis',
+//                '@this.ui.cha': 'cha'
             },
+
             events:{
                 'change .ability' : 'onAbilityUpdate'
             },

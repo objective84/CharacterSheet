@@ -3,10 +3,12 @@ package com.rational.controller;
 import com.rational.facade.CharacterFacade;
 import com.rational.forms.Character;
 import com.rational.model.enums.AbilityTypeEnum;
-import com.rational.model.enums.ClassEnum;
+import com.rational.service.AdminService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -28,6 +30,9 @@ public class CharacterController {
 
     @Resource(name="defaultCharacterFacade")
     private CharacterFacade characterFacade;
+
+    @Resource
+    private AdminService adminService;
 
     @RequestMapping(value="/characterlist", method= RequestMethod.GET)
     public ModelAndView getCharacterList(final Model model){
@@ -52,12 +57,12 @@ public class CharacterController {
     public ModelAndView character(final Model model, HttpSession session) {
         ModelAndView mav = new ModelAndView(CHARACTER);
         Character character = (Character)session.getAttribute("character");
-        if(null == character){
-            character = new Character();
+        if(null == character.getId()){
             mav.addObject("create", true);
         }
         mav.addObject("character", character);
-        mav.addObject("classes", ClassEnum.values());
+        mav.addObject("classes", adminService.findAllClasses());
+        mav.addObject("races", adminService.findAllRaces());
         mav.addObject("abilityTypes", AbilityTypeEnum.values());
         return mav;
     }

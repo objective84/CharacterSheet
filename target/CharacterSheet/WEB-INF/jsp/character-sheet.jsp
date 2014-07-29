@@ -27,17 +27,53 @@
                 <c:set var="charId" value="0"/>
             </c:otherwise>
         </c:choose>
-        <input id="characterId" type="hidden" value="${charId}"/>
+        <input id="characterId" name="id" type="hidden" value="${character.id}"/>
         <table>
             <tr>
                 <td><spring:message code="character.name"/></td>
                 <td><form:input id="name" path="name" /></td>
 
                 <td><spring:message code="character.race"/></td>
-                <td><form:input id="race" path="race" /></td>
+                <c:choose>
+                    <c:when test="${create}">
+                        <td><form:select id="race" path="race">
+                            <form:option value="0" label="Select a race"/>
+                            <c:forEach items="${races}" var="race">
+                                <form:option value="${race.id}" label="${race.raceName}"/>
+                            </c:forEach>
+                        </form:select></td>
+                    </c:when>
+                    <c:otherwise>
+                        <td>${character.race}</td>
+                    </c:otherwise>
+                </c:choose>
 
                 <td><spring:message code="character.class"/></td>
-                <td><form:input id="class" path="classType" /></td>
+                <c:choose>
+                    <c:when test="${create}">
+                        <td><form:select id="class" path="classType">
+                            <form:option value="0" label="Select a class"/>
+                            <c:forEach items="${classes}" var="clazz">
+                                <form:option value="${clazz.id}" label="${clazz.name}"/>
+                            </c:forEach>
+                        </form:select></td>
+                    </c:when>
+                    <c:otherwise>
+                        <td>${character.classType}</td>
+                    </c:otherwise>
+                </c:choose>
+            </tr>
+            <tr >
+                <td><spring:message code="character.level"/></td>
+                <td><form:input cssClass="input-box-small" id="level" path="level" readonly="true"/></td>
+
+            </tr>
+            <tr >
+                <td colspan="1"><spring:message code="character.maxHeath"/></td>
+                <td>${character.maxHealth}</td>
+                <td colspan="1"><spring:message code="character.currentHealth"/></td>
+                <td><form:input cssClass="input-box-small" id="currentHealth" path="currentHealth" /></td>
+                <td></td>
             </tr>
         </table>
 
@@ -50,7 +86,8 @@
                         <form:input cssClass="input-box-small ability"
                                     id="${ability}"
                                     path="abilityScores['${ability}']"
-                                    value="${character.abilityScores.value}"/>
+                                    value="${character.abilityScores.value}"
+                                    readonly="${!create}"/>
                         <a class="modLabel" id="${ability}Mod"></a>
                     </td>
 

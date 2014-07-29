@@ -9,7 +9,7 @@ public class Character {
 
     private Long id;
     private String name;
-    private String level;
+    private Integer level;
     private String classType;
     private String race;
     private int maxHealth;
@@ -24,6 +24,9 @@ public class Character {
         abilityScores.put(AbilityTypeEnum.Int, 8);
         abilityScores.put(AbilityTypeEnum.Wis, 8);
         abilityScores.put(AbilityTypeEnum.Cha, 8);
+        level=1;
+        maxHealth= 0;
+        currentHealth = 0;
     }
 
     public Long getId() {
@@ -58,11 +61,11 @@ public class Character {
         this.name = name;
     }
 
-    public String getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 

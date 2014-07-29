@@ -15,7 +15,7 @@ public class CharacterModel {
     private String name;
 
     @Column(name="level")
-    private String level;
+    private Integer level;
 
     @Column(name="classType")
     private String classType;
@@ -129,11 +129,11 @@ public class CharacterModel {
         this.cha = cha;
     }
 
-    public String getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
