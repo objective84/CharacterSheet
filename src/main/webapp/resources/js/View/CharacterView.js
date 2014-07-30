@@ -18,7 +18,13 @@ define("CharacterView",
                 con: '#Con',
                 int: '#Int',
                 wis: '#Wis',
-                cha: '#Cha'
+                cha: '#Cha',
+                skillProficiencies: '#skillProfs',
+                toolProficiencies: '#toolProfs',
+                weaponProficiencies: '#weaponProfs',
+                armorProficiencies: '#armorProfs',
+                saveProficiencies: '#saveProfs',
+                languages: '#languages'
             },
 
             bindings:{
@@ -26,7 +32,8 @@ define("CharacterView",
 
             events:{
                 'change .ability' : 'onAbilityUpdate',
-                'change @ui.clazz': 'onClassChange'
+                'change @ui.clazz': 'onClassChange',
+                'change @ui.race' : 'onRaceChange'
             },
 
             onRender: function(){
@@ -56,21 +63,56 @@ define("CharacterView",
 
             onClassChange: function(){
                 $.getJSON("class.json", 'classId='+this.ui.clazz.val(), _.bind(function(data){
-                    console.log(data);
                     this.setProficiencies(data.proficiencies);
                     this.setMaxHealth(data.hitDie);
                 }, this));
             },
 
+            onRaceChange: function(){
+                $.getJSON("race.json", 'raceId='+this.ui.race.val(), _.bind(function(data){
+                    this.setLanguages(data.languages);
+                }, this));
+            },
+
             setProficiencies: function(proficiencies){
+                console.log(proficiencies)
+                $(proficiencies).each(_.bind(function(key, value){
+                    var $element;
+                    switch(value.type){
+                        case 'SKILL':
+                            $element = this.ui.skillProficiencies;
+                            break;
+                        case 'TOOL':
+                            $element = this.ui.toolProficiencies;
+                            break;
+                        case 'WEAPON':
+                            $element = this.ui.weaponProficiencies;
+                            break;
+                        case 'ARMOR':
+                            $element = this.ui.armorProficiencies;
+                            break;
+                        case 'SAVING_THROW':
+                            $element = this.ui.saveProficiencies;
+                            break;
+                    }
+                    if(value.type === 'SKILL'){
+                        $element.append('<tr><td><input name="proficiencies" type="radio" value="' + value.id + '">' + value.name + '</input></td>')
+                    }else {
+                        $element.append('<tr><td><input name="proficiencies" type="hidden" value="' + value.id + '">' + value.name + '</input></td>')
+                    }
+                },this))
+            },
 
-
-
+            setLanguages: function(languages){
+                $(languages).each(_.bind(function(key, value){
+                    this.ui.languages.append('<tr><td><input name="languages" type="hidden" value="' + value.id + '">' + value.name + '</input></td>')
+                }, this));
             },
 
             setMaxHealth: function(hitDie){
                 $.getJSON("dice.json", 'dieType='+hitDie, _.bind(function(data){
-                    this.ui.maxHealth.val(data['dice'].maxHealth + this.getAbilityMod(this.ui.con.val()));
+                    console.log(data)
+                    this.ui.maxHealth.val(data.maxValue + this.getAbilityMod(this.ui.con.val()));
                     this.ui.currentHealth.val(this.ui.maxHealth.val());
                 }, this));
             }

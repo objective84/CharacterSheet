@@ -3,6 +3,8 @@
  */
 package com.rational.model.entities;
 
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +32,15 @@ public class RaceModel {
     @Column(name="speed")
     private Integer speed;
 
+    @JsonManagedReference
     @ManyToMany(cascade = CascadeType.ALL)
     private List<LanguageModel> languages = new ArrayList<LanguageModel>();
 
+    @JsonManagedReference
     @ManyToMany(cascade = CascadeType.ALL)
     private List<TraitModel> racialTraits = new ArrayList<TraitModel>();
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "parentRace", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SubRaceModel> availableSubraces = new ArrayList<SubRaceModel>();
 

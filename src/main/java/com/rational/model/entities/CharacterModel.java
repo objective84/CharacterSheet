@@ -1,7 +1,13 @@
 package com.rational.model.entities;
 
 
+import com.rational.model.Proficiency;
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="characters")
@@ -17,11 +23,25 @@ public class CharacterModel {
     @Column(name="level")
     private Integer level;
 
+    @JsonBackReference
     @ManyToOne
     private ClassModel clazz;
 
+    @JsonBackReference
     @ManyToOne
     private RaceModel race;
+
+    @JsonManagedReference
+    @ManyToMany
+    @JoinTable(name="character_language",
+            joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="language_id"))
+    private List<LanguageModel> languages = new ArrayList<LanguageModel>();
+
+    @JsonManagedReference
+    @ManyToMany
+    @JoinTable(name="character_proficiency",
+            joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="proficiency_id"))
+    private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
     @Column(name="maxHealth")
     private int maxHealth;
@@ -151,5 +171,21 @@ public class CharacterModel {
 
     public void setCurrentHealth(int currentHealth) {
         this.currentHealth = currentHealth;
+    }
+
+    public List<Proficiency> getProficiencies() {
+        return proficiencies;
+    }
+
+    public void setProficiencies(List<Proficiency> proficiencies) {
+        this.proficiencies = proficiencies;
+    }
+
+    public List<LanguageModel> getLanguageModels() {
+        return languages;
+    }
+
+    public void setLanguageModels(List<LanguageModel> languages) {
+        this.languages = languages;
     }
 }

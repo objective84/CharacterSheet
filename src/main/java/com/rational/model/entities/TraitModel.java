@@ -1,5 +1,7 @@
 package com.rational.model.entities;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,21 +17,25 @@ public abstract class TraitModel {
     @Column(name="name")
     private String name;
 
+    @JsonBackReference
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="race_trait", joinColumns = @JoinColumn(name="race_id"),
             inverseJoinColumns = @JoinColumn(name="trait_id"))
     private List<RaceModel> races= new ArrayList<RaceModel>();
 
+    @JsonBackReference
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="subrace_trait", joinColumns = @JoinColumn(name="subrace_id"),
             inverseJoinColumns = @JoinColumn(name="trait_id"))
     private List<SubRaceModel> subRaces= new ArrayList<SubRaceModel>();
 
+    @JsonBackReference
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="class_trait", joinColumns = @JoinColumn(name="class_id"),
             inverseJoinColumns = @JoinColumn(name="trait_id"))
     private List<ClassModel> classes= new ArrayList<ClassModel>();
 
+    @JsonBackReference
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="subclass_trait", joinColumns = @JoinColumn(name="subclass_id"),
             inverseJoinColumns = @JoinColumn(name="trait_id"))

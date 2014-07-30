@@ -3,6 +3,7 @@ package com.rational.forms;
 import com.rational.model.enums.AbilityTypeEnum;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Character {
@@ -14,7 +15,9 @@ public class Character {
     private Long race;
     private int maxHealth;
     private int currentHealth;
-    Map<AbilityTypeEnum, Integer> abilityScores;
+    private Map<AbilityTypeEnum, Integer> abilityScores;
+    private List<Long> languages;
+    private List<Long> proficiencies;
 
     public Character(){
         abilityScores = new HashMap<AbilityTypeEnum, Integer>();
@@ -91,5 +94,21 @@ public class Character {
 
     public void setAbilityScores(Map<AbilityTypeEnum, Integer> abilityScores) {
         this.abilityScores = abilityScores;
+    }
+
+    public List<Long> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List<Long> languages) {
+        this.languages = languages;
+    }
+
+    public List<Long> getProficiencies() {
+        return proficiencies;
+    }
+
+    public void setProficiencies(List<Long> proficiencies) {
+        this.proficiencies = proficiencies;
     }
 }

@@ -1,7 +1,9 @@
 package com.rational.model;
 
+import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.ClassModel;
 import com.rational.model.enums.ProficiencyTypeEnum;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -29,8 +31,13 @@ public class Proficiency {
     @Column(name="typeString")
     private String typeString;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "proficiencies")
     private List<ClassModel> classes = new ArrayList<ClassModel>();
+
+    @JsonBackReference
+    @ManyToMany(mappedBy = "proficiencies")
+    private List<CharacterModel> characters = new ArrayList<CharacterModel>();
 
     public Long getId() {
         return id;
@@ -76,4 +83,11 @@ public class Proficiency {
         this.classes = classes;
     }
 
+    public List<CharacterModel> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<CharacterModel> characters) {
+        this.characters = characters;
+    }
 }
