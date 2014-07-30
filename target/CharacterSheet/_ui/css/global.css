@@ -1,3 +1,7 @@
+.clear{
+    clear: both;
+}
+
 h3 {
     margin-bottom: 5px;
 }
@@ -19,6 +23,23 @@ table th {
     width: 25px;
     text-align: center;
     margin-right: 5px;
+}
+
+#table_container{
+    border: 1px solid black;
+    float: left;
+    width: 5000px;
+    margin: 0 auto;
+}
+
+table.proficiencies{
+    margin-right: 15px;
+    float: left;
+    width: auto;
+}
+
+table.proficiencies th{
+    text-align: left;
 }
 
 

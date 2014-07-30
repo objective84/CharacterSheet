@@ -39,7 +39,7 @@
                         <th>Hit Die</th>
                         <td>
                             <form:select path="hitDie">
-                                <form:option value="0" label="Select a Hit Die"/>
+                                <form:option value="" label="Select a Hit Die"/>
                                 <c:forEach items="${hitDieTypes}" var="type">
                                     <form:option value="${type}"/>
                                 </c:forEach>

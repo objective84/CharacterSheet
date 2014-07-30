@@ -4,6 +4,7 @@ import com.rational.facade.AdminFacade;
 import com.rational.forms.Character;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.enums.AbilityTypeEnum;
+import com.rational.service.AdminService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -16,15 +17,24 @@ import java.util.Map;
 public class CharacterConverter {
 
     @Resource
+    AdminService adminService;
+
+    @Resource
     AdminFacade adminFacade;
+
+    @Resource
+    RaceConverter raceConverter;
+
+    @Resource
+    ClassConverter classConverter;
 
     public Character convert(CharacterModel characterModel) {
         Character character = new Character();
 
         character.setId(characterModel.getId());
         character.setName(characterModel.getName());
-        character.setRace(characterModel.getRace());
-        character.setClassType(characterModel.getClassType());
+        character.setRace(characterModel.getRace().getId());
+        character.setClazz(characterModel.getClazz().getId());
         character.setLevel(characterModel.getLevel());
         character.setMaxHealth(characterModel.getMaxHealth());
         character.setCurrentHealth(characterModel.getCurrentHealth());
@@ -45,8 +55,8 @@ public class CharacterConverter {
 
         characterModel.setId(character.getId());
         characterModel.setName(character.getName());
-        characterModel.setRace(character.getRace());
-        characterModel.setClassType(character.getClassType());
+        characterModel.setRace(adminService.findRace(character.getRace()));
+        characterModel.setClazz(adminService.findClass(character.getClazz()));
         characterModel.setLevel(character.getLevel());
         characterModel.setMaxHealth(character.getMaxHealth());
         characterModel.setCurrentHealth(character.getCurrentHealth());

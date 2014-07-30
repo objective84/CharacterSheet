@@ -32,7 +32,6 @@ define("CharacterView",
             onRender: function(){
                 var id;
                 $('.ability').each(_.bind(function(key, value){
-                    console.log($(value).attr('id') + ", " + $(value).val());
                     this.setAbilityMod($(value).attr('id'), $(value).val());
                 },this));
             },
@@ -40,20 +39,29 @@ define("CharacterView",
             onAbilityUpdate: function(event){
                 var id = $(event.target).attr('id');
                 this.setAbilityMod(id, $(event.target).val());
+                if($(event.target).prop('id') == this.ui.con.prop('id')){
+                    this.setMaxHealth();
+                }
             },
 
             setAbilityMod: function(id, val){
-                var mod = (parseInt(val) === 0) ? 0: parseInt(Math.floor(( val - 10) / 2));
+                var mod = this.getAbilityMod(val)
                 mod = (mod >= 0) ? (' + ' + mod) : (' - ' + Math.abs(mod));
                 $('#'+id + "Mod").prop('textContent', mod);
             },
 
+            getAbilityMod: function(score){
+                return (parseInt(score) === 0) ? 0: parseInt(Math.floor(( score - 10) / 2));
+            },
+
             onClassChange: function(){
-                console.log(this.ui.clazz.val())
+                this.setMaxHealth();
+            },
+
+            setMaxHealth: function(){
                 $.getJSON("hitDice.json", 'classId='+this.ui.clazz.val(), _.bind(function(data){
-                        console.log(data['dice'].maxValue);
-                        this.ui.maxHealth.prop('textContent', (data['dice'].maxValue));
-                        this.ui.currentHealth.val(data['dice'].maxValue);
+                        this.ui.maxHealth.val((data['dice'].maxValue) + this.getAbilityMod(this.ui.con.val()));
+                        this.ui.currentHealth.val(this.ui.maxHealth.val());
                     }, this)
                 );
             }

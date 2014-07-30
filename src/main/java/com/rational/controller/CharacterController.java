@@ -4,6 +4,8 @@ import com.rational.facade.AdminFacade;
 import com.rational.facade.CharacterFacade;
 import com.rational.forms.Character;
 import com.rational.model.Dice;
+import com.rational.model.Proficiency;
+import com.rational.model.entities.CharacterModel;
 import com.rational.model.enums.AbilityTypeEnum;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class CharacterController {
@@ -48,6 +52,7 @@ public class CharacterController {
     @RequestMapping(value="/characterlist", method= RequestMethod.POST)
     public ModelAndView getCharacterList(@ModelAttribute Character character, final Model model, HttpSession session){
         if(0 == character.getId()){
+            session.removeAttribute("character");
             character = new Character();
         }else{
             character = characterFacade.findCharacter(character.getId());
@@ -60,15 +65,19 @@ public class CharacterController {
     @RequestMapping(value="/character-sheet", method= RequestMethod.GET)
     public ModelAndView character(final Model model, HttpSession session) {
         ModelAndView mav = new ModelAndView(CHARACTER);
-        Character character = (Character)session.getAttribute("character");
+        Character character= (Character)session.getAttribute("character");
         if(null == character.getId()){
             mav.addObject("create", true);
             mav.addObject("classes", adminFacade.findAllClasses());
+            mav.addObject("classMap", adminFacade.getClassMap());
+            mav.addObject("raceMap", adminFacade.getRaceMap());
+            mav.addObject("races", adminFacade.findAllRaces());
+        }else{
+            CharacterModel characterModel = characterFacade.getCharacterModel(character.getId());
+            mav.addObject("characterModel", characterModel);
+            addProficienciesToModel(mav, characterModel.getClazz().getProficiencies());
         }
         mav.addObject("character", character);
-        mav.addObject("classMap", adminFacade.getClassMap());
-        mav.addObject("raceMap", adminFacade.getRaceMap());
-        mav.addObject("races", adminFacade.findAllRaces());
         mav.addObject("abilityTypes", AbilityTypeEnum.values());
         return mav;
     }
@@ -85,6 +94,11 @@ public class CharacterController {
         return characterFacade.getStartingHealthForClass(Long.valueOf(classId));
     }
 
+    @RequestMapping(value="/level-up", method = RequestMethod.GET)
+    public void levelUp(@ModelAttribute Character character){
+        characterFacade.levelUp(character);
+    }
+
 //    @ResponseBody
 //    @RequestMapping(value="/character", method= RequestMethod.GET, produces = "application/json")
 //    public Character character(@RequestParam(value = "character") String id) {
@@ -96,4 +110,38 @@ public class CharacterController {
 //        }
 //        return character;
 //    }
+
+    private void addProficienciesToModel(ModelAndView mav, List<Proficiency> proficiencies){
+        List<Proficiency> skills = new ArrayList<Proficiency>();
+        List<Proficiency> tools = new ArrayList<Proficiency>();
+        List<Proficiency> weapons = new ArrayList<Proficiency>();
+        List<Proficiency> armor = new ArrayList<Proficiency>();
+        List<Proficiency> saves = new ArrayList<Proficiency>();
+
+        for(Proficiency proficiency : proficiencies){
+            switch (proficiency.getType()){
+                case SKILL:
+                    skills.add(proficiency);
+                    break;
+                case TOOL:
+                    tools.add(proficiency);
+                    break;
+                case WEAPON:
+                    weapons.add(proficiency);
+                    break;
+                case ARMOR:
+                    armor.add(proficiency);
+                    break;
+                case SAVING_THROW:
+                    saves.add(proficiency);
+                    break;
+            }
+
+            mav.addObject("skillProficiencies", skills);
+            mav.addObject("toolProficiencies", tools);
+            mav.addObject("weaponProficiencies", weapons);
+            mav.addObject("armorProficiencies", armor);
+            mav.addObject("savingThrowProficiencies", saves);
+        }
+    }
 }

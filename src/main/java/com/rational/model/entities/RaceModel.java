@@ -18,6 +18,9 @@ public class RaceModel {
     @Column(name="name")
     private String raceName;
 
+    @OneToMany(mappedBy = "race")
+    private List<CharacterModel> characters;
+
     @Column(name="description")
     private String description;
 
@@ -115,5 +118,13 @@ public class RaceModel {
 
     public void setRacialTraits(List<TraitModel> racialTraits) {
         this.racialTraits = racialTraits;
+    }
+
+    public List<CharacterModel> getCharacter() {
+        return characters;
+    }
+
+    public void setCharacter(List<CharacterModel> characters) {
+        this.characters = characters;
     }
 }
