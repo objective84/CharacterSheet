@@ -10,7 +10,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
-<link href="_ui/css/global.css" rel="stylesheet">
+<link href="resources/css/global.css" rel="stylesheet">
 
 <html>
 <head>

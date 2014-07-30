@@ -2,9 +2,8 @@
  * Created by Peter's Desktop on 7/22/2014.
  */
 require.config({
-    baseUrl: '/_ui/js/',
+    baseUrl: '/resources/js/',
     waitSeconds: 200,
-    deps:['main'],
     paths: {
         // Page Controllers
         Router: 'Router',
@@ -25,5 +24,9 @@ require.config({
         underscore: 'lib/underscore',
         backbone: 'lib/backbone',
         marionette: 'lib/marionette'
+    },
+
+    getContextPath: function() {
+        return "<%=request.getContextPath()%>";
     }
 });

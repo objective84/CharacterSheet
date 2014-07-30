@@ -22,7 +22,7 @@
             <table>
                 <c:forEach items="${characters}" var="character">
                     <tr>
-                        <td><a href="#no" class='characterLink' id="${character.id}" />
+                        <td><a href="#no" onclick="submitCharacter(${character.id})" class='characterLink' id="${character.id}" />
                             ${character.name} - ${raceMap[character.race].raceName} ${classMap[character.clazz].name}
                         </td>
                     </tr>
@@ -30,7 +30,7 @@
 
                 <tr>
                     <td>
-                        <a href="#" id="new-character">Create new character</a>
+                        <a href="#" id="new-character" onclick="javascript:newCharacter()">Create new character</a>
                     </td>
                 </tr>
 
