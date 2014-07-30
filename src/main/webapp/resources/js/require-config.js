@@ -2,7 +2,6 @@
  * Created by Peter's Desktop on 7/22/2014.
  */
 require.config({
-    baseUrl: '/resources/js/',
     waitSeconds: 200,
     paths: {
         // Page Controllers
