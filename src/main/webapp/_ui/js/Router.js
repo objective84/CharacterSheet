@@ -6,12 +6,18 @@ define('Router',
         'jquery',
         'marionette',
         'PageControllerMap',
-        'CharacterView'
+        'CharacterView',
+        'DefaultDBEntryView',
+        'LanguageView',
+        'CharacterListView'
     ],
-    function ($, marionette, PageControllerMap, CharacterView) {
+    function ($, marionette, PageControllerMap, CharacterView, DefaultDBEntryView, LanguageView, CharacterListView) {
         return marionette.Controller.extend({
                 mappedPageControllers: [
-                    PageControllerMap.createMappedPageController('character-sheet', CharacterView)
+                    PageControllerMap.createMappedPageController('character-sheet', CharacterView),
+                    PageControllerMap.createMappedPageController('characterlist', CharacterListView),
+                    PageControllerMap.createMappedPageController('races|subraces|proficiencies|classes', DefaultDBEntryView),
+                    PageControllerMap.createMappedPageController('languages', LanguageView)
                 ],
 
                 initialize: function () {

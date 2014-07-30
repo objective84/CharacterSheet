@@ -1,51 +1,53 @@
-package com.rational.model;
+package com.rational.model.entities;
 
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name="characters")
-public class Character {
+public class CharacterModel {
 
     @Id
     @GeneratedValue
-    @Column(name="CHARACTER_ID")
     private Long id;
 
-    @Column(name="CHARACTER_NAME")
+    @Column(name="name")
     private String name;
 
-    @Column(name="CHARACTER_LEVEL")
-    private String level;
+    @Column(name="level")
+    private Integer level;
 
-    @Column(name="CHARACTER_CLASS")
-    private String classType;
+    @Column(name="classType")
+    private Long classType;
 
-    @Column(name="CHARACTER_RACE")
-    private String race;
+    @Column(name="race")
+    private Long race;
 
-    @Column(name="CHARACTER_STR")
+    @Column(name="maxHealth")
+    private int maxHealth;
+
+    @Column(name="currentHealth")
+    private int currentHealth;
+
+    @Column(name="str")
     private int str;
 
-    @Column(name="CHARACTER_DEX")
+    @Column(name="dex")
     private int dex;
 
-    @Column(name="CHARACTER_CON")
+    @Column(name="con")
     private int con;
 
-    @Column(name="CHARACTER_INT")
+    @Column(name="intel")
     private int intel;
 
-    @Column(name="CHARACTER_WIS")
+    @Column(name="wis")
     private int wis;
 
-    @Column(name="CHARACTER_CHA")
+    @Column(name="cha")
     private int cha;
 
-    public Character(){
-
-    }
+    public CharacterModel(){}
 
     public Long getId() {
         return id;
@@ -55,19 +57,19 @@ public class Character {
         this.id = id;
     }
 
-    public String getRace() {
+    public Long getRace() {
         return race;
     }
 
-    public void setRace(String race) {
+    public void setRace(Long race) {
         this.race = race;
     }
 
-    public String getClassType() {
+    public Long getClassType() {
         return classType;
     }
 
-    public void setClassType(String classType) {
+    public void setClassType(Long classType) {
         this.classType = classType;
     }
 
@@ -127,11 +129,27 @@ public class Character {
         this.cha = cha;
     }
 
-    public String getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
+    }
+
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
     }
 }

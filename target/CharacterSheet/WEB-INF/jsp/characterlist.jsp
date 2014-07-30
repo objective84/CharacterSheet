@@ -16,22 +16,27 @@
     <template:javascript/>
 </head>
 <body>
-    <form:form id="characterForm" commandname="character">
-        <input type="hidden" id="id" name="id" value=""/>
-    <table>
-        <c:forEach items="${characters}" var="character">
-            <tr>
-                <td><a href="#no" onclick="submit(${character.id})"/>${character.name} - ${character.race} ${character.classType}</td>
-            </tr>
-        </c:forEach>
+    <div id="character-list">
+        <form:form id="characterForm" commandname="character">
+            <input type="hidden" id="id" name="id" value="0"/>
+            <table>
+                <c:forEach items="${characters}" var="character">
+                    <tr>
+                        ${character.race}
+                        <td><a href="#no" class='characterLink' id="${character.id}" />
+                            ${character.name} - ${raceMap[character.race].raceName} ${classMap[character.classType].name}
+                        </td>
+                    </tr>
+                </c:forEach>
 
-        <tr>
-            <td>
-                <a href="#" onclick="submit()">Create new character</a>
-            </td>
-        </tr>
+                <tr>
+                    <td>
+                        <a href="#" id="new-character">Create new character</a>
+                    </td>
+                </tr>
 
-    </table>
-    </form:form>
+            </table>
+        </form:form>
+    </div>
 </body>
 </html>

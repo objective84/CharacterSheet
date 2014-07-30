@@ -23,11 +23,7 @@
             return this;
         };
         new Router();
+
     });
 
-
-function submit(id){
-    $('#id').val(id);
-    $('#characterForm').submit();
-}
 

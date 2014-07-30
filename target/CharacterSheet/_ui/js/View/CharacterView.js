@@ -9,65 +9,53 @@ define("CharacterView",
                 id: '#id',
                 name: '#name',
                 race: '#race',
-                class: '#class',
-                str: '#str',
-                dex: '#dex',
-                con: '#con',
-                int: '#int',
-                wis: '#wis',
-                cha: '#cha'
+                clazz: '#class-select',
+                level: '#level',
+                maxHealth: '#maxHealth',
+                currentHealth: '#currentHealth',
+                str: '#Str',
+                dex: '#Dex',
+                con: '#Con',
+                int: '#Int',
+                wis: '#Wis',
+                cha: '#Cha'
             },
 
             bindings:{
-                '@this.ui.name': 'name',
-                '@this.ui.race': 'race',
-                '@this.ui.class': 'classType',
-                '@this.ui.str': 'str',
-                '@this.ui.dex': 'dex',
-                '@this.ui.con': 'con',
-                '@this.ui.int': 'intel',
-                '@this.ui.wis': 'wis',
-                '@this.ui.cha': 'cha'
             },
+
             events:{
-                'change .ability' : 'onAbilityUpdate'
+                'change .ability' : 'onAbilityUpdate',
+                'change @ui.clazz': 'onClassChange'
             },
 
             onRender: function(){
-                this.model = new CharacterModel({id: this.$('#characterId').val()});
-                this.autoFetch();
+                var id;
                 $('.ability').each(_.bind(function(key, value){
-                    console.log($(value).attr('id'))
+                    console.log($(value).attr('id') + ", " + $(value).val());
                     this.setAbilityMod($(value).attr('id'), $(value).val());
                 },this));
             },
 
-            autoFetch: function(){
-                var data = 'character='+this.model.get('id');
-                setInterval(_.bind(function() {
-                    this.model.fetch({
-                        data: data,
-                        success: function(data){
-                        }
-                    });
-                },this), 10000);
-            },
-
             onAbilityUpdate: function(event){
                 var id = $(event.target).attr('id');
-                this.setAbilityMod(id, val);
+                this.setAbilityMod(id, $(event.target).val());
             },
 
             setAbilityMod: function(id, val){
-                var mod;
-                if(val === 0){
-                    mod = 0;
-                }else {
-                    mod = Math.floor(( val - 10) / 2);
-                    console.log(mod);
-                    mod = mod > 0 ? ' + ' + mod : ' - ' + Math.abs(mod)
-                }
-                $('#'+id + 'Mod').prop('textContent', + mod);
+                var mod = (parseInt(val) === 0) ? 0: parseInt(Math.floor(( val - 10) / 2));
+                mod = (mod >= 0) ? (' + ' + mod) : (' - ' + Math.abs(mod));
+                $('#'+id + "Mod").prop('textContent', mod);
+            },
+
+            onClassChange: function(){
+                console.log(this.ui.clazz.val())
+                $.getJSON("hitDice.json", 'classId='+this.ui.clazz.val(), _.bind(function(data){
+                        console.log(data['dice'].maxValue);
+                        this.ui.maxHealth.prop('textContent', (data['dice'].maxValue));
+                        this.ui.currentHealth.val(data['dice'].maxValue);
+                    }, this)
+                );
             }
         });
     })
