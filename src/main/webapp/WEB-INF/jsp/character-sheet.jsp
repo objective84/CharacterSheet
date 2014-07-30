@@ -95,31 +95,31 @@
         </table>
         <h3><spring:message code="character.proficiencies"/></h3>
         <div class="table_container">
-            <table class="proficiencies">
+            <table class="proficiencies" id="skillProfs">
                 <tr><th>Skills</th></tr>
                 <c:forEach items="${skillProficiencies}" var="skill">
                     <tr><td>${skill.name}</td></tr>
                 </c:forEach>
             </table>
-            <table class="proficiencies">
+            <table class="proficiencies" id="toolProfs">
                 <tr><th>Tools</th></tr>
                 <c:forEach items="${toolProficiencies}" var="tool">
                     <tr><td>${tool.name}</td></tr>
                 </c:forEach>
             </table>
-            <table class="proficiencies">
+            <table class="proficiencies" id="weaponProfs">
                 <tr><th>Weapons</th></tr>
                 <c:forEach items="${weaponProficiencies}" var="weapon">
                     <tr><td>${weapon.name}</td></tr>
                 </c:forEach>
             </table>
-            <table class="proficiencies">
+            <table class="proficiencies" id="armorProfs">
                 <tr><th>Armor</th></tr>
                 <c:forEach items="${armorProficiencies}" var="armor">
                     <tr><td>${armor.name}</td></tr>
                 </c:forEach>
             </table>
-            <table class="proficiencies">
+            <table class="proficiencies" id="saveProfs">
                 <tr><th>Saving Throws</th></tr>
                 <c:forEach items="${savingThrowProficiencies}" var="save">
                     <tr><td>${save.name}</td></tr>

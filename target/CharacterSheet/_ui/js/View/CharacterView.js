@@ -55,16 +55,27 @@ define("CharacterView",
             },
 
             onClassChange: function(){
-                this.setMaxHealth();
+                $.getJSON("class.json", 'classId='+this.ui.clazz.val(), _.bind(function(data){
+                    console.log(data);
+                    this.setProficiencies(data.proficiencies);
+                    this.setMaxHealth(data.hitDie);
+                }, this));
             },
 
-            setMaxHealth: function(){
-                $.getJSON("hitDice.json", 'classId='+this.ui.clazz.val(), _.bind(function(data){
-                        this.ui.maxHealth.val((data['dice'].maxValue) + this.getAbilityMod(this.ui.con.val()));
-                        this.ui.currentHealth.val(this.ui.maxHealth.val());
-                    }, this)
-                );
+            setProficiencies: function(proficiencies){
+
+
+
+            },
+
+            setMaxHealth: function(hitDie){
+                $.getJSON("dice.json", 'dieType='+hitDie, _.bind(function(data){
+                    this.ui.maxHealth.val(data['dice'].maxHealth + this.getAbilityMod(this.ui.con.val()));
+                    this.ui.currentHealth.val(this.ui.maxHealth.val());
+                }, this));
             }
+
+
         });
     })
 ;

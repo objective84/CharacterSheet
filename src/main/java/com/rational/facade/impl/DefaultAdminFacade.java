@@ -10,6 +10,7 @@ import com.rational.forms.Race;
 import com.rational.forms.SubClass;
 import com.rational.forms.SubRace;
 import com.rational.model.Proficiency;
+import com.rational.model.entities.ClassModel;
 import com.rational.model.entities.LanguageModel;
 import com.rational.model.entities.TraitModel;
 import com.rational.service.AdminService;
@@ -175,4 +176,20 @@ public class DefaultAdminFacade implements AdminFacade {
 
     @Override
     public List<SubClass> findAllSubClasses() {return subClassConverter.convertToForms(adminService.findAllSubClasses());}
+
+    @Override
+    public ClassModel getClassModel(Long id) {
+        return adminService.findClass(id);
+    }
+
+    @Override
+    public Map<Long, Proficiency> getProficienciesMap() {
+        Map<Long, Proficiency> proficiencyMap = new HashMap<Long, Proficiency>();
+        List<Proficiency> proficiencyList = adminService.findAllProficiencies();
+
+        for(Proficiency proficiency : proficiencyList){
+            proficiencyMap.put(proficiency.getId(), proficiency);
+        }
+        return proficiencyMap;
+    }
 }
