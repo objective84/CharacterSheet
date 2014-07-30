@@ -1,5 +1,8 @@
 package com.rational.model.entities;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +24,11 @@ public class SubRaceModel {
     @Column(name="description")
     private String description;
 
+    @JsonManagedReference
     @ManyToMany(cascade = CascadeType.ALL)
     private List<TraitModel> subRacialTraits = new ArrayList<TraitModel>();
 
+    @JsonBackReference
     @ManyToOne
     private RaceModel parentRace;
 

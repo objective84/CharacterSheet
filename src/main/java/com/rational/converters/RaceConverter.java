@@ -39,7 +39,7 @@ public class RaceConverter {
         race.setDescription(raceModel.getDescription());
         race.setSize(raceModel.getSize());
         race.setSpeed(raceModel.getSpeed());
-        race.setLanguages(languageConverter.convertToForms(raceModel.getLanguages()));
+        race.setLanguages(languageConverter.convertToIds(raceModel.getLanguages()));
 //        race.setTraits(raceModel.getTraits());
 //        race.setSubraces(raceModel.getSubraces());
         return race;

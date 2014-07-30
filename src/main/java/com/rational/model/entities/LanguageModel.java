@@ -4,6 +4,8 @@
 package com.rational.model.entities;
 
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +24,13 @@ public class LanguageModel {
     @Column(name="description")
     private String description;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "languages")
     private List<RaceModel> races = new ArrayList<RaceModel>();
+
+    @JsonBackReference
+    @ManyToMany(mappedBy = "languages")
+    private List<CharacterModel> characters = new ArrayList<CharacterModel>();
 
     public String getName() {
         return name;
@@ -55,5 +62,13 @@ public class LanguageModel {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<CharacterModel> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<CharacterModel> characters) {
+        this.characters = characters;
     }
 }

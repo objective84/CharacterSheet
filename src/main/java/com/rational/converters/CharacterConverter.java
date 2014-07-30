@@ -28,6 +28,12 @@ public class CharacterConverter {
     @Resource
     ClassConverter classConverter;
 
+    @Resource
+    LanguageConverter languageConverter;
+
+    @Resource
+    ProficiencyConverter proficiencyConverter;
+
     public Character convert(CharacterModel characterModel) {
         Character character = new Character();
 
@@ -46,6 +52,9 @@ public class CharacterConverter {
         abilityScores.put(AbilityTypeEnum.Wis, characterModel.getWis());
         abilityScores.put(AbilityTypeEnum.Cha, characterModel.getCha());
         character.setAbilityScores(abilityScores);
+
+        character.setLanguages(languageConverter.convertToIds(characterModel.getLanguageModels()));
+        character.setProficiencies(proficiencyConverter.convertToIds(characterModel.getProficiencies()));
 
         return character;
     }
@@ -66,6 +75,9 @@ public class CharacterConverter {
         characterModel.setIntel(character.getAbilityScores().get(AbilityTypeEnum.Int));
         characterModel.setWis(character.getAbilityScores().get(AbilityTypeEnum.Wis));
         characterModel.setCha(character.getAbilityScores().get(AbilityTypeEnum.Cha));
+
+        characterModel.setProficiencies(proficiencyConverter.convertToModels(character.getProficiencies()));
+        characterModel.setLanguageModels(languageConverter.convertToModels(character.getLanguages()));
 
         return characterModel;
     }

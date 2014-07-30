@@ -23,7 +23,7 @@ public class LanguageConverter {
         return languageModels;
     }
 
-    public List<Long> convertToForms(List<LanguageModel> langs) {
+    public List<Long> convertToIds(List<LanguageModel> langs) {
         List<Long> languages = new ArrayList<Long>();
         for(LanguageModel languageModel : langs){
             languages.add(languageModel.getId());

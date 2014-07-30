@@ -3,11 +3,12 @@ package com.rational.controller;
 import com.rational.facade.AdminFacade;
 import com.rational.facade.CharacterFacade;
 import com.rational.forms.Character;
-import com.rational.forms.Clazz;
 import com.rational.forms.ProficienciesForm;
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.CharacterModel;
+import com.rational.model.entities.ClassModel;
+import com.rational.model.entities.RaceModel;
 import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.enums.DieTypeEnum;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class CharacterController {
@@ -69,8 +69,6 @@ public class CharacterController {
         Character character= (Character)session.getAttribute("character");
         if(null == character.getId()){
             mav.addObject("create", true);
-            Map<Long, Proficiency> profs = adminFacade.getProficienciesMap();
-            mav.addObject("proficiencies", String.format("{profs:%s}", profs));
             mav.addObject("classes", adminFacade.findAllClasses());
             mav.addObject("classMap", adminFacade.getClassMap());
             mav.addObject("raceMap", adminFacade.getRaceMap());
@@ -78,7 +76,7 @@ public class CharacterController {
         }else{
             CharacterModel characterModel = characterFacade.getCharacterModel(character.getId());
             mav.addObject("characterModel", characterModel);
-            addProficienciesToModel(mav, characterModel.getClazz().getProficiencies());
+            addProficienciesToModel(mav, characterModel.getProficiencies());
         }
         mav.addObject("character", character);
         mav.addObject("abilityTypes", AbilityTypeEnum.values());
@@ -100,9 +98,9 @@ public class CharacterController {
 
     @ResponseBody
     @RequestMapping(value = "/class", method = RequestMethod.GET, produces = "application/json")
-    public Clazz getClass(@RequestParam(value = "classId") String classId){
-        Clazz clazz = adminFacade.findClass(Long.valueOf(classId));
-        return clazz;
+    public ClassModel getClass(@RequestParam(value = "classId") String classId){
+        ClassModel classModel = adminFacade.getClassModel(Long.valueOf(classId));
+        return classModel;
     }
 
     @ResponseBody
@@ -111,6 +109,15 @@ public class CharacterController {
         ProficienciesForm proficiencies = new ProficienciesForm(adminFacade.getClassModel(Long.valueOf(classId)).getProficiencies());
         return proficiencies;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/race", method = RequestMethod.GET, produces = "application/json")
+    public RaceModel  getRace(@RequestParam(value = "raceId") String raceId){
+        RaceModel race = adminFacade.getRaceModel(Long.valueOf(raceId));
+        return race;
+    }
+
+
 
     @RequestMapping(value="/level-up", method = RequestMethod.GET)
     public void levelUp(@ModelAttribute Character character){

@@ -129,13 +129,10 @@
         <div class="clear">
         <br/>
         <h3><spring:message code="character.languages"/></h3>
-        <table>
+        <table id="languages">
             <c:forEach items="${characterModel.race.languages}" var="language">
                 <tr><td>${language.name}</td></tr>
             </c:forEach>
-            <tr>
-
-            </tr>
         </table>
         <tr colspan="3">
             <td>

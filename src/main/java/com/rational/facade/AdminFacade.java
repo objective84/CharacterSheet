@@ -74,8 +74,11 @@ public interface AdminFacade {
     List<SubClass> findAllSubClasses();
 
 
-    ClassModel getClassModel(Long aLong);
+    ClassModel getClassModel(Long id);
 
 
     Map<Long, Proficiency> getProficienciesMap();
+
+    RaceModel getRaceModel(Long id);
+
 }

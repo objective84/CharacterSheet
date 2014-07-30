@@ -2,6 +2,7 @@ package com.rational.model.entities;
 
 import com.rational.model.Proficiency;
 import com.rational.model.enums.DieTypeEnum;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,15 +26,19 @@ public class ClassModel {
     private DieTypeEnum hitDie;
 
     @OneToMany(mappedBy = "clazz")
+    @JsonManagedReference
     private List<CharacterModel> characters = new ArrayList<CharacterModel>();
 
     @ManyToMany
+    @JsonManagedReference
     private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
     @ManyToMany(mappedBy="classes")
+    @JsonManagedReference
     private List<TraitModel> classTraits = new ArrayList<TraitModel>();
 
     @OneToMany(mappedBy = "baseClass", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<SubClassModel> subClasses = new ArrayList<SubClassModel>();
 
     public Long getId() {

@@ -12,6 +12,7 @@ import com.rational.forms.SubRace;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.ClassModel;
 import com.rational.model.entities.LanguageModel;
+import com.rational.model.entities.RaceModel;
 import com.rational.model.entities.TraitModel;
 import com.rational.service.AdminService;
 import org.springframework.stereotype.Component;
@@ -191,5 +192,10 @@ public class DefaultAdminFacade implements AdminFacade {
             proficiencyMap.put(proficiency.getId(), proficiency);
         }
         return proficiencyMap;
+    }
+
+    @Override
+    public RaceModel getRaceModel(Long id) {
+        return adminService.findRace(id);
     }
 }
