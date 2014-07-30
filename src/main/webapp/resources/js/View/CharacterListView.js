@@ -25,6 +25,7 @@ define("CharacterListView",
             },
 
             newCharacter: function(){
+                $('#id').val(null);
                 $('#characterForm').submit();
             }
         });

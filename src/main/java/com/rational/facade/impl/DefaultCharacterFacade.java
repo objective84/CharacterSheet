@@ -5,6 +5,7 @@ import com.rational.facade.AdminFacade;
 import com.rational.facade.CharacterFacade;
 import com.rational.forms.Character;
 import com.rational.model.Dice;
+import com.rational.model.entities.CharacterModel;
 import com.rational.service.CharacterService;
 import org.springframework.stereotype.Component;
 
@@ -41,5 +42,20 @@ public class DefaultCharacterFacade implements CharacterFacade {
     @Override
     public Dice getStartingHealthForClass(Long classId) {
         return new Dice(adminFacade.findClass(classId).getHitDie());
+    }
+
+    @Override
+    public Character levelUp(Character character)
+    {
+        //TODO: increase health
+        //TODO: add class traits
+        //TODO: add spells
+
+        return character;
+    }
+
+    @Override
+    public CharacterModel getCharacterModel(Long id) {
+        return characterService.findCharacter(id);
     }
 }

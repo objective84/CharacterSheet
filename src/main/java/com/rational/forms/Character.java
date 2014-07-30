@@ -10,7 +10,7 @@ public class Character {
     private Long id;
     private String name;
     private Integer level;
-    private Long classType;
+    private Long clazz;
     private Long race;
     private int maxHealth;
     private int currentHealth;
@@ -45,12 +45,12 @@ public class Character {
         this.race = race;
     }
 
-    public Long getClassType() {
-        return classType;
+    public Long getClazz() {
+        return clazz;
     }
 
-    public void setClassType(Long classType) {
-        this.classType = classType;
+    public void setClazz(Long classType) {
+        this.clazz = classType;
     }
 
     public String getName() {

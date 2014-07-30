@@ -24,6 +24,9 @@ public class ClassModel {
     @Column(name="hit_die")
     private DieTypeEnum hitDie;
 
+    @OneToMany(mappedBy = "clazz")
+    private List<CharacterModel> characters = new ArrayList<CharacterModel>();
+
     @ManyToMany
     private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
@@ -81,4 +84,11 @@ public class ClassModel {
         this.subClasses = subClasses;
     }
 
+    public List<CharacterModel> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<CharacterModel> characters) {
+        this.characters = characters;
+    }
 }

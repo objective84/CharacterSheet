@@ -17,11 +17,11 @@ public class CharacterModel {
     @Column(name="level")
     private Integer level;
 
-    @Column(name="classType")
-    private Long classType;
+    @ManyToOne
+    private ClassModel clazz;
 
-    @Column(name="race")
-    private Long race;
+    @ManyToOne
+    private RaceModel race;
 
     @Column(name="maxHealth")
     private int maxHealth;
@@ -57,20 +57,20 @@ public class CharacterModel {
         this.id = id;
     }
 
-    public Long getRace() {
+    public RaceModel getRace() {
         return race;
     }
 
-    public void setRace(Long race) {
+    public void setRace(RaceModel race) {
         this.race = race;
     }
 
-    public Long getClassType() {
-        return classType;
+    public ClassModel getClazz() {
+        return clazz;
     }
 
-    public void setClassType(Long classType) {
-        this.classType = classType;
+    public void setClazz(ClassModel clazz) {
+        this.clazz = clazz;
     }
 
     public String getName() {

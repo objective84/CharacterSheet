@@ -44,13 +44,13 @@
                         </form:select></td>
                     </c:when>
                     <c:otherwise>
-                        <td>${raceMap[character.race].raceName}</td>
+                        <td>${characterModel.race.raceName}</td>
                     </c:otherwise>
                 </c:choose>
                 <td><spring:message code="character.class"/></td>
                 <c:choose>
                     <c:when test="${create}">
-                        <td><form:select id="class-select" path="classType">
+                        <td><form:select id="class-select" path="clazz">
                             <form:option value="0" label="Select a class"/>
                             <c:forEach items="${classes}" var="clazz">
                                 <form:option value="${clazz.id}" label="${clazz.name}"/>
@@ -58,7 +58,7 @@
                         </form:select></td>
                     </c:when>
                     <c:otherwise>
-                        <td>${classMap[character.classType].name}</td>
+                        <td>${characterModel.clazz.name}</td>
                     </c:otherwise>
                 </c:choose>
             </tr>
@@ -69,7 +69,7 @@
             </tr>
             <tr >
                 <td colspan="1"><spring:message code="character.maxHeath"/></td>
-                <td><a id="maxHealth" name="maxHealth" value="${character.maxHealth}"/>${character.maxHealth}</td>
+                <td><form:input cssClass="input-box-small" id="maxHealth" path="maxHealth" value="${character.maxHealth}" readonly="true"/></td>
                 <td colspan="2"><spring:message code="character.currentHealth"/></td>
                 <td><form:input cssClass="input-box-small" id="currentHealth" path="currentHealth" /></td>
                 <td></td>
@@ -87,42 +87,55 @@
                                     path="abilityScores['${ability}']"
                                     value="${character.abilityScores.value}"
                                     readonly="${!create}"/>
-                        <a class="modLabel" id="${ability}Mod"></a>
+                        <a class="modLabel" id="${ability}Mod" value=""></a>
                     </td>
 
                 </tr>
             </c:forEach>
+        </table>
+        <h3><spring:message code="character.proficiencies"/></h3>
+        <div class="table_container">
+            <table class="proficiencies" id="skillProfs">
+                <tr><th>Skills</th></tr>
+                <c:forEach items="${skillProficiencies}" var="skill">
+                    <tr><td>${skill.name}</td></tr>
+                </c:forEach>
+            </table>
+            <table class="proficiencies" id="toolProfs">
+                <tr><th>Tools</th></tr>
+                <c:forEach items="${toolProficiencies}" var="tool">
+                    <tr><td>${tool.name}</td></tr>
+                </c:forEach>
+            </table>
+            <table class="proficiencies" id="weaponProfs">
+                <tr><th>Weapons</th></tr>
+                <c:forEach items="${weaponProficiencies}" var="weapon">
+                    <tr><td>${weapon.name}</td></tr>
+                </c:forEach>
+            </table>
+            <table class="proficiencies" id="armorProfs">
+                <tr><th>Armor</th></tr>
+                <c:forEach items="${armorProficiencies}" var="armor">
+                    <tr><td>${armor.name}</td></tr>
+                </c:forEach>
+            </table>
+            <table class="proficiencies" id="saveProfs">
+                <tr><th>Saving Throws</th></tr>
+                <c:forEach items="${savingThrowProficiencies}" var="save">
+                    <tr><td>${save.name}</td></tr>
+                </c:forEach>
+            </table>
+        </div>
+        <div class="clear">
+        <br/>
+        <h3><spring:message code="character.languages"/></h3>
+        <table>
+            <c:forEach items="${characterModel.race.languages}" var="language">
+                <tr><td>${language.name}</td></tr>
+            </c:forEach>
+            <tr>
 
-            <%--<tr>--%>
-                <%--<td><spring:message code="ability.str"/></td>--%>
-                <%--<td class="ability-input"><form:input cssClass="input-box-small" id="str" path="str" /><a id="strMod">    </a></td>--%>
-                <%--<td></td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-                <%--<td><spring:message code="ability.dex"/></td>--%>
-                <%--<td class="ability-input"><form:input cssClass="input-box-small" id="dex" path="dex" /><a id="dexMod"></a>    </td>--%>
-                <%--<td></td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-                <%--<td><spring:message code="ability.con"/></td>--%>
-                <%--<td class="ability-input"><form:input cssClass="input-box-small" id="con" path="con" /><a id="conMod"></a>    </td>--%>
-                <%--<td></td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-                <%--<td><spring:message code="ability.int"/></td>--%>
-                <%--<td class="ability-input"><form:input cssClass="input-box-small" id="int" path="intel" /><a id="intMod"></a>    </td>--%>
-                <%--<td></td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-                <%--<td><spring:message code="ability.wis"/></td>--%>
-                <%--<td class="ability-input"><form:input cssClass="input-box-small" id="wis" path="wis" /><a id="wisMod">    </a>--%>
-                <%--<td></td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-                <%--<td><spring:message code="ability.cha"/></td>--%>
-                <%--<td class="ability-input"><form:input cssClass="input-box-small" id="cha" path="cha" /><a id="chaMod">    </a></td></td>--%>
-                <%--<td></td>--%>
-            <%--</tr>--%>
+            </tr>
         </table>
         <tr colspan="3">
             <td>

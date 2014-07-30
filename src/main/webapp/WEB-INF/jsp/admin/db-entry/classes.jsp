@@ -4,9 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 <%@ taglib prefix="js" tagdir="/WEB-INF/tags/template"%>
-<%--<link href="/webapp/_ui/css/global.css" rel="stylesheet">--%>
-<script src="<c:url value="/_ui/js/lib/require.js"/>"></script>
-<script src="<c:url value="/_ui/js/require-config.js"/>"></script>
+<%--<link href="/webapp/resources/css/global.css" rel="stylesheet">--%>
+<script src="<c:url value="/resources/js/lib/require.js"/>"></script>
+<script src="<c:url value="/resources/js/require-config.js"/>"></script>
 
 <%--
   Created by IntelliJ IDEA.
@@ -39,7 +39,7 @@
                         <th>Hit Die</th>
                         <td>
                             <form:select path="hitDie">
-                                <form:option value="0" label="Select a Hit Die"/>
+                                <form:option value="" label="Select a Hit Die"/>
                                 <c:forEach items="${hitDieTypes}" var="type">
                                     <form:option value="${type}"/>
                                 </c:forEach>
