@@ -42,6 +42,18 @@ table.proficiencies th{
     text-align: left;
 }
 
+.modal{
+    display: none;
+}
 
+.minus-sign{
+    width: auto;
+    height: auto;
+}
+
+.remove-link{
+    margin-left: 5px;
+    font-size: 12;
+}
 /*Admin pages*/
 

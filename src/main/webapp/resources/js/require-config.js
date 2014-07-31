@@ -19,7 +19,8 @@ require.config({
         //Models
         CharacterModel: 'Model/CharacterModel',
         //Libs
-        jquery: 'lib/jquery-1.8.3',
+        jquery: 'lib/jquery',
+        jqueryUi: 'lib/jquery-ui',
         underscore: 'lib/underscore',
         backbone: 'lib/backbone',
         marionette: 'lib/marionette'
