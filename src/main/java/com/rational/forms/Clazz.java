@@ -10,6 +10,7 @@ public class Clazz {
     private Long id;
     private String name;
     private DieTypeEnum hitDie;
+    private Integer skillsAtCreation;
     private List<Long> proficiencies = new ArrayList<Long>();
     private List<Long> classTraits = new ArrayList<Long>();
     private List<Long> subClasses = new ArrayList<Long>();
@@ -60,5 +61,13 @@ public class Clazz {
 
     public void setSubClasses(List<Long> subClasses) {
         this.subClasses = subClasses;
+    }
+
+    public Integer getSkillsAtCreation() {
+        return skillsAtCreation;
+    }
+
+    public void setSkillsAtCreation(Integer skillsAtCreation) {
+        this.skillsAtCreation = skillsAtCreation;
     }
 }

@@ -73,6 +73,7 @@ public class CharacterController {
             mav.addObject("classMap", adminFacade.getClassMap());
             mav.addObject("raceMap", adminFacade.getRaceMap());
             mav.addObject("races", adminFacade.findAllRaces());
+            mav.addObject("languages", adminFacade.findAllLanguages());
         }else{
             CharacterModel characterModel = characterFacade.getCharacterModel(character.getId());
             mav.addObject("characterModel", characterModel);

@@ -41,6 +41,9 @@ public class ClassModel {
     @JsonManagedReference
     private List<SubClassModel> subClasses = new ArrayList<SubClassModel>();
 
+    @Column(name="skills_at_creation")
+    private Integer skillsAtCreation;
+
     public Long getId() {
         return id;
     }
@@ -95,5 +98,13 @@ public class ClassModel {
 
     public void setCharacters(List<CharacterModel> characters) {
         this.characters = characters;
+    }
+
+    public Integer getSkillsAtCreation() {
+        return skillsAtCreation;
+    }
+
+    public void setSkillsAtCreation(Integer skillsAtCreation) {
+        this.skillsAtCreation = skillsAtCreation;
     }
 }

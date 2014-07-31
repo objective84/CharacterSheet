@@ -34,7 +34,7 @@ public class ClassConverter {
         classModel.setClassTraits(traitConverter.convertToModels(clazz.getClassTraits()));
         classModel.setProficiencies(proficiencyConverter.convertToModels(clazz.getProficiencies()));
         classModel.setSubClasses(subClassConverter.convertToModels(clazz.getSubClasses()));
-
+        classModel.setSkillsAtCreation(clazz.getSkillsAtCreation());
         return classModel;
     }
 
@@ -47,7 +47,7 @@ public class ClassConverter {
         clazz.setClassTraits(traitConverter.convertToIds(classModel.getClassTraits()));
         clazz.setProficiencies(proficiencyConverter.convertToIds(classModel.getProficiencies()));
         clazz.setSubClasses(subClassConverter.convertToIds(classModel.getSubClasses()));
-
+        clazz.setSkillsAtCreation(classModel.getSkillsAtCreation());
         return clazz;
     }
 

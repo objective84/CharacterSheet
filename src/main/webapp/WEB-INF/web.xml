@@ -39,7 +39,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>characterSheetServlet</servlet-name>
-        <url-pattern>/images/**</url-pattern>
+        <url-pattern>/resources/images/**</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>characterSheetServlet</servlet-name>

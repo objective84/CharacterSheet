@@ -10,6 +10,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
+<%@ taglib prefix="modals" tagdir="/WEB-INF/tags/modals" %>
 <link href="resources/css/global.css" rel="stylesheet">
 
 <html>
@@ -18,14 +19,15 @@
     <template:javascript/>
 </head>
 <body>
-    <form:form id="characterForm" commandName="character">
+    <div id="character-sheet">
+        <form:form id="characterForm" commandName="character">
         <c:choose>
-            <c:when test="${character.id != undefined}">
-                <c:set var="charId" value="${character.id}"/>
-            </c:when>
-            <c:otherwise>
-                <c:set var="charId" value="0"/>
-            </c:otherwise>
+        <c:when test="${character.id != undefined}">
+            <c:set var="charId" value="${character.id}"/>
+        </c:when>
+        <c:otherwise>
+            <c:set var="charId" value="0"/>
+        </c:otherwise>
         </c:choose>
         <input id="characterId" name="id" type="hidden" value="${character.id}"/>
         <table>
@@ -94,6 +96,7 @@
             </c:forEach>
         </table>
         <h3><spring:message code="character.proficiencies"/></h3>
+        <span class="skill-select-label" id="skill-select-label"></span>
         <div class="table_container">
             <table class="proficiencies" id="skillProfs">
                 <tr><th>Skills</th></tr>
@@ -127,19 +130,21 @@
             </table>
         </div>
         <div class="clear">
-        <br/>
-        <h3><spring:message code="character.languages"/></h3>
-        <table id="languages">
-            <c:forEach items="${characterModel.race.languages}" var="language">
-                <tr><td>${language.name}</td></tr>
-            </c:forEach>
-        </table>
-        <tr colspan="3">
-            <td>
-                <input type="submit" value="Save"/>
-            </td>
-        </tr>
-    </form:form>
+            <br/>
+            <h3><spring:message code="character.languages"/></h3>
+            <table id="languages">
+                <c:forEach items="${characterModel.race.languages}" var="language">
+                    <tr><td>${language.name}</td></tr>
+                </c:forEach>
+            </table>
+            <tr colspan="3">
+                <td>
+                    <input type="submit" value="Save"/>
+                </td>
+            </tr>
+            </form:form>
 
+            <modals:language-modal></modals:language-modal>
+        </div>
 </body>
 </html>

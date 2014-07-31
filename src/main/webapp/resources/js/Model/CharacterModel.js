@@ -17,7 +17,7 @@ define("CharacterModel",
                   con: "8",
                   intel: "8",
                   wis: "8",
-                  cha: "8"
+                  cha: "8",
               }
         });
     }
