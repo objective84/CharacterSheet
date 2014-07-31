@@ -10,7 +10,6 @@
 
     <context:annotation-config />
     <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
-    <context:component-scan base-package="com.rational"/>
 
     <jpa:repositories base-package="com.rational.repository" />
 
@@ -25,7 +24,7 @@
         <property name="jpaPropertyMap">
             <map>
                 <entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
-                <entry key="hibernate.hbm2ddl.auto" value="create" />
+                <entry key="hibernate.hbm2ddl.auto" value="none" />
                 <entry key="hibernate.format_sql" value="true" />
             </map>
         </property>

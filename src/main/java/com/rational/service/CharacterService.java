@@ -1,14 +1,14 @@
 package com.rational.service;
 
-import com.rational.model.Character;
+import com.rational.model.entities.CharacterModel;
 
 import java.util.List;
 
 public interface CharacterService {
 
-    Character save(Character character);
+    CharacterModel save(CharacterModel character);
 
-    List<Character> getCharacterList();
+    List<CharacterModel> findAllCharacters();
 
-    Character getCharacter(Long id);
+    CharacterModel findCharacter(Long id);
 }

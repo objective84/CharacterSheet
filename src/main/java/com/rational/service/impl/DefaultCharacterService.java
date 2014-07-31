@@ -3,7 +3,7 @@ package com.rational.service.impl;
 import com.rational.repository.CharacterRepository;
 import com.rational.service.CharacterService;
 import org.springframework.stereotype.Service;
-import com.rational.model.Character;
+import com.rational.model.entities.CharacterModel;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -17,17 +17,17 @@ public class DefaultCharacterService implements CharacterService{
 
     @Override
     @Transactional
-    public Character save(Character character) {
+    public CharacterModel save(CharacterModel character) {
         return characterRepository.save(character);
     }
 
     @Override
-    public List<Character> getCharacterList() {
+    public List<CharacterModel> findAllCharacters() {
         return characterRepository.findAll();
     }
 
     @Override
-    public Character getCharacter(Long id) {
+    public CharacterModel findCharacter(Long id) {
         return characterRepository.findOne(id);
     }
 }
