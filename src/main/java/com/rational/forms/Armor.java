@@ -1,29 +1,18 @@
-package com.rational.model.equipment;
+package com.rational.forms;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+public class Armor extends Equipment {
 
-/**
- * Created by awest on 7/23/14.
- */
-
-@Entity
-@DiscriminatorValue("A")
-public class ArmorModel extends EquipmentModel{
-
-    private ArmorGroup armorGroup;
+    private Long armorGroup;
     private Integer armorClass;
     private Integer maxDexModifier;
     private Integer strength;
     private boolean stealthDisadvantage;
 
-    @ManyToOne
-    public ArmorGroup getArmorGroup() {
+    public Long getArmorGroup() {
         return armorGroup;
     }
 
-    public void setArmorGroup(ArmorGroup armorGroup) {
+    public void setArmorGroup(Long armorGroup) {
         this.armorGroup = armorGroup;
     }
 

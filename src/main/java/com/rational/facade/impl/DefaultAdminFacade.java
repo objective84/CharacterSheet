@@ -1,22 +1,14 @@
 package com.rational.facade.impl;
 
-import com.rational.converters.ClassConverter;
-import com.rational.converters.RaceConverter;
-import com.rational.converters.SubClassConverter;
-import com.rational.converters.SubRaceConverter;
+import com.rational.converters.*;
 import com.rational.facade.AdminFacade;
-import com.rational.forms.Clazz;
-import com.rational.forms.Race;
-import com.rational.forms.SubClass;
-import com.rational.forms.SubRace;
+import com.rational.forms.*;
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
-import com.rational.model.entities.ClassModel;
-import com.rational.model.entities.LanguageModel;
-import com.rational.model.entities.RaceModel;
-import com.rational.model.entities.TraitModel;
+import com.rational.model.entities.*;
+import com.rational.model.equipment.ArmorGroup;
 import com.rational.model.equipment.ArmorModel;
-import com.rational.model.equipment.WeaponModel;
+import com.rational.model.equipment.WeaponGroup;
 import com.rational.service.AdminService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +35,12 @@ public class DefaultAdminFacade implements AdminFacade {
 
     @Resource
     SubClassConverter subClassConverter;
+
+    @Resource
+    ArmorConverter armorConverter;
+
+    @Resource
+    WeaponConverter weaponConverter;
 
     @Override
     public void saveLanguage(LanguageModel language) {
@@ -224,18 +222,18 @@ public class DefaultAdminFacade implements AdminFacade {
 
     @Override
     @Transactional
-    public WeaponModel saveWeapon(WeaponModel weapon) {
-        return adminService.saveWeapon(weapon);
+    public void saveWeapon(Weapon weapon) {
+        adminService.saveWeapon(weaponConverter.convert(weapon));
     }
 
     @Override
-    public WeaponModel findWeapon(Long id) {
-        return adminService.findWeapon(id);
+    public Weapon findWeapon(Long id) {
+        return weaponConverter.convert(adminService.findWeapon(id));
     }
 
     @Override
-    public List<WeaponModel> findAllWeapons() {
-        return adminService.findAllWeapons();
+    public List<Weapon> findAllWeapons() {
+        return weaponConverter.convertWeaponToForms(adminService.findAllWeapons());
     }
 
 
@@ -243,17 +241,55 @@ public class DefaultAdminFacade implements AdminFacade {
 
     @Override
     @Transactional
-    public ArmorModel saveArmor(ArmorModel armor) {
-        return adminService.saveArmor(armor);
+    public void saveArmor(Armor armor) {
+        adminService.saveArmor(armorConverter.convert(armor));
     }
 
     @Override
-    public ArmorModel findArmor(Long id) {
+    public Armor findArmor(Long id) {
+        return armorConverter.convert(adminService.findArmor(id));
+    }
+
+    @Override
+    public List<Armor> findAllArmor() {
+        return armorConverter.convertArmorToForms(adminService.findAllArmor());
+    }
+
+    @Override
+    public ArmorModel getArmorModel(Long id){
         return adminService.findArmor(id);
     }
 
+
+
     @Override
-    public List<ArmorModel> findAllArmor() {
-        return adminService.findAllArmor();
+    public ArmorGroup getArmorGroup(Long id) {
+        return adminService.findArmorGroup(id);
     }
+
+    @Override
+    public List<ArmorGroup> getArmorGroups() {
+        return adminService.findAllArmorGroups();
+    }
+
+    @Override
+    public WeaponGroup getWeaponGroup(Long id) {
+        return adminService.findWeaponGroup(id);
+    }
+
+    @Override
+    public List<WeaponGroup> getWeaponGroups() {
+        return adminService.findAllWeaponGroups();
+    }
+
+    @Override
+    public CoinModel findAllArmor(Long id) {
+        return adminService.findCoin(id);
+    }
+
+    @Override
+    public List<CoinModel> findAllCoins() {
+        return adminService.findAllCoins();
+    }
+
 }

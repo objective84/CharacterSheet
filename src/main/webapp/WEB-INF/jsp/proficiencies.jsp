@@ -24,11 +24,12 @@
         table {margin-right: 25px; float:left;width:200px;}
         #table_container{float:left;width:1000px;margin:0 auto;}
     </style>
+    <template:javascript/>
 </head>
 <body>
     <div id="entry">
-        <form:form id="form" commandName="subrace">
-            <input type="hidden" name="id" id="id" value="${subrace.id}">
+        <form:form id="form" commandName="proficiency">
+            <input type="hidden" name="id" id="id" value="${proficiency.id}">
             <div id="table_container">
                 <table>
                     <tr>
@@ -40,33 +41,29 @@
                         <td><form:input path="description"></form:input></td>
                     </tr>
                     <tr>
-                        <th>Parent Race</th>
-                        <td><form:select path="parentRace" >
-                            <form:option value="0" label="Select a race" />
-                            <c:forEach items="${races}" var="race">
-                                <form:option value="${race.id}" label="${race.raceName}"/>
-                            </c:forEach>
-                        </form:select> </td>
+                        <th>Type</th>
+                        <td>
+                            <form:select path="proficiencyTypeString">
+                                <form:option value="0" label="Select a proficiency type"/>
+                                <c:forEach items="${proficiencyTypes}" var="proficiency">
+                                    <form:option value="${proficiency}"/>
+                                </c:forEach>
+                            </form:select>
+                        </td>
                     </tr>
-                        <%--<tr>--%>
-                        <%--<th>Traits</th>--%>
-                        <%--<c:forEach items="${taits}" var="trait">--%>
-                        <%--<td><form:checkbox path="racialTraits" value="${trait}"/></td>--%>
-                        <%--</c:forEach>--%>
-                        <%--</tr>--%>
-                        <%--<tr>--%>
                     <tr>
                         <td colspan="3">
                             <input type="submit" name='save' value="Save"/>
-                            <a href="/CharacterSheet/admin/db-entry.html" style="margin:10px; font-size: 12px;">Cancel</a>
+                            <a href="/CharacterSheet/admin/db-entry/proficiencies.html" style="margin:10px; font-size: 12px;">Clear</a>
+                            <a href="/CharacterSheet/admin/db-entry.html" style="margin:10px; font-size: 12px;">Back</a>
                         </td>
                     </tr>
                 </table>
                 <table>
-                    <tr><td>Subraces:</td></tr>
-                    <c:forEach items="${subraces}" var="subrace">
+                    <tr><td>Proficiencies:</td></tr>
+                    <c:forEach items="${proficiencies}" var="proficiency">
                         <tr>
-                            <td><a class="entry-link" href="#" id="${subrace.id}">${subrace.name}</a></td>
+                            <td><a class="entry-link" href="#" id="${proficiency.id}">${proficiency.name}</a></td>
                         </tr>
                     </c:forEach>
                 </table>
