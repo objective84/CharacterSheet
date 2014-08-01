@@ -1,6 +1,6 @@
 package com.rational.forms;
 
-import com.rational.model.enums.DieTypeEnum;
+import com.rational.model.Dice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ public class Clazz {
 
     private Long id;
     private String name;
-    private DieTypeEnum hitDie;
+    private Dice hitDie;
     private Integer skillsAtCreation;
     private List<Long> proficiencies = new ArrayList<Long>();
     private List<Long> classTraits = new ArrayList<Long>();
@@ -31,11 +31,11 @@ public class Clazz {
         this.name = name;
     }
 
-    public DieTypeEnum getHitDie() {
+    public Dice getHitDie() {
         return hitDie;
     }
 
-    public void setHitDie(DieTypeEnum hitDie) {
+    public void setHitDie(Dice hitDie) {
         this.hitDie = hitDie;
     }
 

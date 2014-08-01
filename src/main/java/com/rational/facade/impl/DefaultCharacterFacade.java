@@ -40,11 +40,6 @@ public class DefaultCharacterFacade implements CharacterFacade {
     }
 
     @Override
-    public Dice getStartingHealthForClass(Long classId) {
-        return new Dice(adminFacade.findClass(classId).getHitDie());
-    }
-
-    @Override
     public Character levelUp(Character character)
     {
         //TODO: increase health

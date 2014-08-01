@@ -4,8 +4,14 @@ import com.rational.forms.Clazz;
 import com.rational.forms.Race;
 import com.rational.forms.SubClass;
 import com.rational.forms.SubRace;
+import com.rational.model.Dice;
 import com.rational.model.Proficiency;
-import com.rational.model.entities.*;
+import com.rational.model.entities.ClassModel;
+import com.rational.model.entities.LanguageModel;
+import com.rational.model.entities.RaceModel;
+import com.rational.model.entities.TraitModel;
+import com.rational.model.equipment.ArmorModel;
+import com.rational.model.equipment.WeaponModel;
 
 import java.util.List;
 import java.util.Map;
@@ -81,4 +87,21 @@ public interface AdminFacade {
 
     RaceModel getRaceModel(Long id);
 
+    Dice saveDice(Dice dice);
+
+    Dice findDice(Long id);
+
+    List<Dice> findAllDice();
+
+    WeaponModel saveWeapon(WeaponModel weapon);
+
+    WeaponModel findWeapon(Long id);
+
+    List<WeaponModel> findAllWeapons();
+
+    ArmorModel saveArmor(ArmorModel armor);
+
+    ArmorModel findArmor(Long id);
+
+    List<ArmorModel> findAllArmor();
 }

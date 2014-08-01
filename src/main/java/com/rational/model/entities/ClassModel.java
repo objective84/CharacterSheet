@@ -1,7 +1,7 @@
 package com.rational.model.entities;
 
+import com.rational.model.Dice;
 import com.rational.model.Proficiency;
-import com.rational.model.enums.DieTypeEnum;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -19,11 +19,10 @@ public class ClassModel {
     @GeneratedValue
     private Long id;
 
-    @Column(name="name")
     private String name;
 
-    @Column(name="hit_die")
-    private DieTypeEnum hitDie;
+    @ManyToOne
+    private Dice hitDie;
 
     @OneToMany(mappedBy = "clazz")
     @JsonManagedReference
@@ -60,11 +59,11 @@ public class ClassModel {
         this.name = name;
     }
 
-    public DieTypeEnum getHitDie() {
+    public Dice getHitDie() {
         return hitDie;
     }
 
-    public void setHitDie(DieTypeEnum hitDie) {
+    public void setHitDie(Dice hitDie) {
         this.hitDie = hitDie;
     }
 

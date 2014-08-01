@@ -30,7 +30,7 @@ public class ClassConverter {
 
         classModel.setId(clazz.getId());
         classModel.setName(clazz.getName());
-        classModel.setHitDie(DieTypeEnum.valueOf(clazz.getHitDie().toString()));
+        classModel.setHitDie(clazz.getHitDie());
         classModel.setClassTraits(traitConverter.convertToModels(clazz.getClassTraits()));
         classModel.setProficiencies(proficiencyConverter.convertToModels(clazz.getProficiencies()));
         classModel.setSubClasses(subClassConverter.convertToModels(clazz.getSubClasses()));

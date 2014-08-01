@@ -58,7 +58,7 @@
                     <tr>
                         <td colspan="3">
                             <input type="submit" name='save' value="Save"/>
-                            <a href="/admin/db-entry.html" style="margin:10px; font-size: 12px;">Cancel</a>
+                            <a href="/CharacterSheet/admin/db-entry.html" style="margin:10px; font-size: 12px;">Cancel</a>
                         </td>
                     </tr>
                 </table>

@@ -42,7 +42,7 @@
                     <tr>
                         <th>Type</th>
                         <td>
-                            <form:select path="typeString">
+                            <form:select path="proficiencyTypeString">
                                 <form:option value="0" label="Select a proficiency type"/>
                                 <c:forEach items="${proficiencyTypes}" var="proficiency">
                                     <form:option value="${proficiency}"/>
@@ -53,7 +53,7 @@
                     <tr>
                         <td colspan="3">
                             <input type="submit" name='save' value="Save"/>
-                            <a href="/admin/db-entry.html" style="margin:10px; font-size: 12px;">Cancel</a>
+                            <a href="/CharacterSheet/admin/db-entry.html" style="margin:10px; font-size: 12px;">Cancel</a>
                         </td>
                     </tr>
                 </table>

@@ -19,7 +19,7 @@
 </head>
 <body>
 
-    <a href="/admin/db-entry.html">Manual Database entry</a>
+    <a href="/CharacterSheet/admin/db-entry.html">Manual Database entry</a>
 
 </body>
 </html>

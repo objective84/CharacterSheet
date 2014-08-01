@@ -9,13 +9,17 @@ import com.rational.forms.Clazz;
 import com.rational.forms.Race;
 import com.rational.forms.SubClass;
 import com.rational.forms.SubRace;
+import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.ClassModel;
 import com.rational.model.entities.LanguageModel;
 import com.rational.model.entities.RaceModel;
 import com.rational.model.entities.TraitModel;
+import com.rational.model.equipment.ArmorModel;
+import com.rational.model.equipment.WeaponModel;
 import com.rational.service.AdminService;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -197,5 +201,59 @@ public class DefaultAdminFacade implements AdminFacade {
     @Override
     public RaceModel getRaceModel(Long id) {
         return adminService.findRace(id);
+    }
+
+    @Override
+    @Transactional
+    public Dice saveDice(Dice dice) {
+        return adminService.saveDice(dice);
+    }
+
+    @Override
+    public Dice findDice(Long id) {
+        return adminService.findDice(id);
+    }
+
+    @Override
+    public List<Dice> findAllDice() {
+        return adminService.findAllDice();
+    }
+
+
+    /* Weapons */
+
+    @Override
+    @Transactional
+    public WeaponModel saveWeapon(WeaponModel weapon) {
+        return adminService.saveWeapon(weapon);
+    }
+
+    @Override
+    public WeaponModel findWeapon(Long id) {
+        return adminService.findWeapon(id);
+    }
+
+    @Override
+    public List<WeaponModel> findAllWeapons() {
+        return adminService.findAllWeapons();
+    }
+
+
+    /* Armor */
+
+    @Override
+    @Transactional
+    public ArmorModel saveArmor(ArmorModel armor) {
+        return adminService.saveArmor(armor);
+    }
+
+    @Override
+    public ArmorModel findArmor(Long id) {
+        return adminService.findArmor(id);
+    }
+
+    @Override
+    public List<ArmorModel> findAllArmor() {
+        return adminService.findAllArmor();
     }
 }

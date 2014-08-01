@@ -4,13 +4,11 @@ import com.rational.facade.AdminFacade;
 import com.rational.facade.CharacterFacade;
 import com.rational.forms.Character;
 import com.rational.forms.ProficienciesForm;
-import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.ClassModel;
 import com.rational.model.entities.RaceModel;
 import com.rational.model.enums.AbilityTypeEnum;
-import com.rational.model.enums.DieTypeEnum;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -92,12 +90,6 @@ public class CharacterController {
     }
 
     @ResponseBody
-    @RequestMapping(value="/dice", method = RequestMethod.GET, produces = "application/json")
-    public Dice getDice(@RequestParam(value="dieType") String dieType){
-        return new Dice(DieTypeEnum.valueOf(dieType));
-    }
-
-    @ResponseBody
     @RequestMapping(value = "/class", method = RequestMethod.GET, produces = "application/json")
     public ClassModel getClass(@RequestParam(value = "classId") String classId){
         ClassModel classModel = adminFacade.getClassModel(Long.valueOf(classId));
@@ -133,7 +125,7 @@ public class CharacterController {
         List<Proficiency> saves = new ArrayList<Proficiency>();
 
         for(Proficiency proficiency : proficiencies){
-            switch (proficiency.getType()){
+            switch (proficiency.getProficiencyType()){
                 case SKILL:
                     skills.add(proficiency);
                     break;

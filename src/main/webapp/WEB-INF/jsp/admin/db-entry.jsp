@@ -17,21 +17,23 @@
     <title></title>
 </head>
 <body>
-    <a href="/admin/db-entry/classes.html">Classes</a>
+    <a href="/CharacterSheet/admin/db-entry/classes.html">Classes</a>
     <br/>
-    <a href="/admin/db-entry/subclasses.html">Sub-Classes</a>
+    <a href="/CharacterSheet/admin/db-entry/subclasses.html">Sub-Classes</a>
     <br/>
-    <a href="/admin/db-entry/races.html">Races</a>
+    <a href="/CharacterSheet/admin/db-entry/races.html">Races</a>
     <br/>
-    <a href="/admin/db-entry/subraces.html">Sub-Races</a>
+    <a href="/CharacterSheet/admin/db-entry/subraces.html">Sub-Races</a>
     <br/>
-    <a href="/admin/db-entry/languages.html">Language</a>
+    <a href="/CharacterSheet/admin/db-entry/languages.html">Language</a>
     <br/>
-    <a href="/admin/db-entry/spells.html">Spells</a>
+    <a href="/CharacterSheet/admin/db-entry/spells.html">Spells</a>
     <br/>
-    <a href="/admin/db-entry/equipment.html">Equipment</a>
+    <a href="/CharacterSheet/admin/db-entry/equipment.html">Equipment</a>
     <br/>
-    <a href="/admin/db-entry/proficiencies.html">Proficiencies</a>
+    <a href="/CharacterSheet/admin/db-entry/proficiencies.html">Proficiencies</a>
+    <br/>
+    <a href="/CharacterSheet/admin/db-entry/dice.html">Dice</a>
 
 </body>
 </html>

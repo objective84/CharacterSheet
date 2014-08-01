@@ -26,10 +26,10 @@ public class Proficiency {
     @Column(name="description")
     private String description;
 
-    private ProficiencyTypeEnum type;
+    private ProficiencyTypeEnum proficiencyType;
 
-    @Column(name="typeString")
-    private String typeString;
+    @Column(name="proficiencyTypeString")
+    private String proficiencyTypeString;
 
     @JsonBackReference
     @ManyToMany(mappedBy = "proficiencies")
@@ -63,16 +63,16 @@ public class Proficiency {
         this.description = description;
     }
 
-    public ProficiencyTypeEnum getType() {
-        return ProficiencyTypeEnum.valueOf(typeString);
+    public ProficiencyTypeEnum getProficiencyType() {
+        return ProficiencyTypeEnum.valueOf(proficiencyTypeString);
     }
 
-    public String getTypeString() {
-        return typeString;
+    public String getProficiencyTypeString() {
+        return proficiencyTypeString;
     }
 
-    public void setTypeString(String typeString) {
-        this.typeString = typeString;
+    public void setProficiencyTypeString(String proficiencyTypeString) {
+        this.proficiencyTypeString = proficiencyTypeString;
     }
 
     public List<ClassModel> getClasses() {

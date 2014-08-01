@@ -13,8 +13,6 @@ public interface CharacterFacade {
 
     Character findCharacter(Long id);
 
-    com.rational.model.Dice getStartingHealthForClass(Long classId);
-
     Character levelUp(Character character);
 
     CharacterModel getCharacterModel(Long id);

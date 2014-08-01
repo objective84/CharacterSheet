@@ -1,7 +1,10 @@
 package com.rational.service.impl;
 
+import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
+import com.rational.model.equipment.ArmorModel;
+import com.rational.model.equipment.WeaponModel;
 import com.rational.repository.*;
 import com.rational.service.AdminService;
 import org.springframework.stereotype.Service;
@@ -33,6 +36,15 @@ public class DefaultAdminService implements AdminService {
 
     @Resource
     SubClassRepository subClassRepository;
+
+    @Resource
+    WeaponRepository weaponRepository;
+
+    @Resource
+    ArmorRepository armorRepository;
+
+    @Resource
+    DiceRepository diceRepository;
 
 
 
@@ -156,6 +168,62 @@ public class DefaultAdminService implements AdminService {
     @Override
     public List<SubRaceModel> findAllSubraces() {
         return subRaceRepository.findAll();
+    }
+
+    /* Dice */
+
+    @Override
+    @Transactional
+    public Dice saveDice(Dice dice) {
+        return diceRepository.save(dice);
+    }
+
+    @Override
+    public Dice findDice(Long id) {
+        return diceRepository.findOne(id);
+    }
+
+    @Override
+    public List<Dice> findAllDice() {
+        return diceRepository.findAll();
+    }
+
+
+    /* Weapons */
+
+    @Override
+    @Transactional
+    public WeaponModel saveWeapon(WeaponModel weapon) {
+        return weaponRepository.save(weapon);
+    }
+
+    @Override
+    public WeaponModel findWeapon(Long id) {
+        return weaponRepository.findOne(id);
+    }
+
+    @Override
+    public List<WeaponModel> findAllWeapons() {
+        return weaponRepository.findAll();
+    }
+
+
+    /* Armor */
+
+    @Override
+    @Transactional
+    public ArmorModel saveArmor(ArmorModel armor) {
+        return armorRepository.save(armor);
+    }
+
+    @Override
+    public ArmorModel findArmor(Long id) {
+        return armorRepository.findOne(id);
+    }
+
+    @Override
+    public List<ArmorModel> findAllArmor() {
+        return armorRepository.findAll();
     }
 
 }

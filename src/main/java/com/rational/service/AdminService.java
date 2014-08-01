@@ -1,7 +1,11 @@
 package com.rational.service;
 
+import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
+import com.rational.model.equipment.ArmorModel;
+import com.rational.model.equipment.WeaponModel;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +31,20 @@ public interface AdminService {
 
     List<TraitModel> findAllTraits();
 
+
+    @Transactional
+    Dice saveDice(Dice dice);
+
+    Dice findDice(Long id);
+
+    List<Dice> findAllDice();
+
+    @Transactional
+    WeaponModel saveWeapon(WeaponModel weapon);
+
+    WeaponModel findWeapon(Long id);
+
+    List<WeaponModel> findAllWeapons();
 
     SubRaceModel saveSubrace(SubRaceModel subRace);
 
@@ -56,4 +74,10 @@ public interface AdminService {
     List<SubClassModel> findAllSubClasses();
 
 
+    @Transactional
+    ArmorModel saveArmor(ArmorModel armor);
+
+    ArmorModel findArmor(Long id);
+
+    List<ArmorModel> findAllArmor();
 }

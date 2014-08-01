@@ -5,6 +5,7 @@ import com.rational.forms.Clazz;
 import com.rational.forms.Race;
 import com.rational.forms.SubClass;
 import com.rational.forms.SubRace;
+import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.LanguageModel;
 import com.rational.model.enums.DieTypeEnum;
@@ -38,6 +39,7 @@ public class AdminController {
     private static final String EQUIPMENT_ENTRY = "admin/db-entry/equipment";
     private static final String SPELLS_ENTRY = "admin/db-entry/spells";
     private static final String PROFICIENCY_ENTRY = "admin/db-entry/proficiencies";
+    private static final String DICE_ENTRY = "admin/db-entry/dice";
 
 
     private static final String REDIRECT_LANGUAGE_ENTRY = REDIRECT_PREFIX + "languages" + REDIRECT_SUFFIX;
@@ -46,6 +48,7 @@ public class AdminController {
     private static final String REDIRECT_PROFICIENCY_ENTRY = REDIRECT_PREFIX + "proficiencies" + REDIRECT_SUFFIX;
     private static final String REDIRECT_CLASS_ENTRY = REDIRECT_PREFIX + "classes" + REDIRECT_SUFFIX;
     private static final String REDIRECT_SUB_CLASS_ENTRY = REDIRECT_PREFIX + "subclasses" + REDIRECT_SUFFIX;
+    private static final String REDIRECT_DICE_ENTRY = REDIRECT_PREFIX + "dice" + REDIRECT_SUFFIX;
 
     @Resource(name = "defaultAdminFacade")
     private AdminFacade adminFacade;
@@ -277,6 +280,35 @@ public class AdminController {
     public ModelAndView saveSubClass(final Model model, @ModelAttribute SubClass subClass, HttpSession session){
         ModelAndView mav = new ModelAndView(REDIRECT_SUB_CLASS_ENTRY);
         adminFacade.saveSubClass(subClass);
+
+        return mav;
+    }
+
+
+    @RequestMapping(value = "/db-entry/dice", method = RequestMethod.GET)
+    public ModelAndView dice(final Model model, HttpSession session){
+        ModelAndView mav = new ModelAndView(DICE_ENTRY);
+        Dice dice = (Dice)session.getAttribute("dice");
+        if(null != dice) {
+        }else{
+            dice = new Dice();
+        }
+        mav.addObject("dice", dice);
+        mav.addObject("allDice", adminFacade.findAllDice());
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/dice", method = RequestMethod.POST)
+    public ModelAndView findDice(@ModelAttribute Dice dice, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_DICE_ENTRY);
+        session.setAttribute("dice", adminFacade.findDice(dice.getId()));
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/dice", params = "save", method = RequestMethod.POST)
+    public ModelAndView saveDice(final Model model, @ModelAttribute Dice dice, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_DICE_ENTRY);
+        adminFacade.saveDice(dice);
 
         return mav;
     }
