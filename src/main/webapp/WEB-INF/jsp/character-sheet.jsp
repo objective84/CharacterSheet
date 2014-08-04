@@ -77,9 +77,13 @@
                 <td></td>
             </tr>
         </table>
-
-        <h3><spring:message code="character.ability" /></h3>
-        <table class="abilities">
+            <c:if test="${create}">
+                <c:set var="placeholderShow" value='show'/>
+                <c:set var="minusHide" value="style='display: none;'"/>
+            </c:if>
+            <h3><spring:message code="character.ability" /><a href="#" id="ability-score-reset" class="link-small">Reset</a></h3>
+            <span id="ability-point-label"></span>
+            <table class="abilities">
             <c:forEach items="${abilityTypes}" var="ability">
                 <tr>
                     <td>${ability}</td>
@@ -88,8 +92,11 @@
                                     id="${ability}"
                                     path="abilityScores['${ability}']"
                                     value="${character.abilityScores.value}"
-                                    readonly="${!create}"/>
+                                    readonly="true"/>
                         <a class="modLabel" id="${ability}Mod" value=""></a>
+                        <input type="button" id="${ability}-minus" class="ability-change" value="-" ${minusHide}>
+                        <div class="placeholder ${placeholderShow}" id="${ability}-placeholder"></div>
+                        <input type="button" id="${ability}-plus" class="ability-change" value="+">
                     </td>
 
                 </tr>

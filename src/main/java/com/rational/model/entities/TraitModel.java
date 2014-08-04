@@ -41,6 +41,8 @@ public abstract class TraitModel {
             inverseJoinColumns = @JoinColumn(name="trait_id"))
     private List<SubClassModel> subClasses= new ArrayList<SubClassModel>();
 
+
+
     public int getId() {
         return id;
     }

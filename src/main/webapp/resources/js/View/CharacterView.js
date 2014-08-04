@@ -8,6 +8,11 @@ define("CharacterView",
             languagesAllowed: 0,
             characterRace: null,
             characterClass: null,
+            maxAbilityPoints: 27,
+            maxAbilityScore: 16,
+            minAbilityScore: 8,
+            abilityPoints: 27,
+            abilityScoreText: ' ability points remaining',
 
             ui:{
                 id: '#id',
@@ -33,7 +38,9 @@ define("CharacterView",
                 languages: '#languages',
                 skillSelectLabel: '#skill-select-label',
                 languageModal: '#language-modal',
-                languageSubmit: '#language-submit'
+                languageSubmit: '#language-submit',
+                abilityPointLabel: '#ability-point-label',
+                abilityScoreReset: '#ability-score-reset'
             },
 
             bindings:{
@@ -44,15 +51,22 @@ define("CharacterView",
                 'change .ability' : 'onAbilityUpdate',
                 'change @ui.clazz': 'onClassChange',
                 'change @ui.race' : 'onRaceChange',
-                'click @ui.languageSubmit' : 'onLanguageSubmitClick'
+                'click @ui.languageSubmit' : 'onLanguageSubmitClick',
+                'click .ability-change': 'onAbilityChangeButtonClick',
+                'click @ui.abilityScoreReset': 'onAbilityScoreResetClick'
             },
 
             onRender: function(){
                 var id;
+                this.ui.languageSubmit.on('click', _.bind(this.onLanguageSubmitClick, this));
+                this.ui.abilityPointLabel.text(this.abilityPoints + this.abilityScoreText);
+                this.setAbilityMods();
+            },
+
+            setAbilityMods: function(){
                 $('.ability').each(_.bind(function(key, value){
                     this.setAbilityMod($(value).attr('id'), $(value).val());
                 },this));
-                this.ui.languageSubmit.on('click', _.bind(this.onLanguageSubmitClick, this));
             },
 
             onAbilityUpdate: function(event){
@@ -223,7 +237,7 @@ define("CharacterView",
                 this.modalClose('language-modal');
                 $('#languages').append(
                         '<tr id="language-row-' + language + '" class="language-row"><td><input name="languages"  type="hidden" value="' + language.id + '">' + language + '</input>' +
-                            '<a class="minus-sign remove-link" id="' + language + '" href="#">Remove</a></td></tr>');
+                        '<a class="minus-sign link-small" id="' + language + '" href="#">Remove</a></td></tr>');
                 this.setLanguageSelect();
                 $('#' + language).on('click', _.bind(this.removeLanguage, this));
             },
@@ -232,6 +246,92 @@ define("CharacterView",
                 $('#language-row-' + $(event.target).prop('id')).remove();
                 this.setLanguagesAllowed();
                 this.setLanguageSelect();
+            },
+
+            onAbilityChangeButtonClick: function(event){
+                var ability = $(event.target).prop('id').substr(0,3);
+                var $element = $('#' + ability);
+                var score = parseInt($element.val());
+                if($(event.target).prop('id').indexOf('minus') === -1){
+                    var newScore = score + 1;
+                    var newPointsVal = this.abilityPoints - this.getAbilityPointCost(newScore);
+                    if(newPointsVal < 0 ) return;
+                    $element.val(newScore);
+                }else{
+                    var newScore = score - 1;
+                    var newPointsVal = this.abilityPoints + this.getAbilityPointCost(newScore, true);
+                    $element.val(newScore);
+                }
+                this.abilityPoints = newPointsVal;
+                if(this.abilityPoints === 0){
+                    this.ui.abilityPointLabel.text('');
+                }else {
+                    this.ui.abilityPointLabel.text(this.abilityPoints + this.abilityScoreText);
+                }
+                this.showHideAbilityChangeButtons();
+                this.setAbilityMod(ability, newScore);
+            },
+
+            getAbilityPointCost: function(val, neg){
+                if(val === 13 && neg){
+                    return 2;
+                }
+                if(val < 14){
+                    return 1;
+                }
+                if(val <= 16){
+                    return 2;
+                }
+
+            },
+
+            canChangeAbility: function(ability, increase){
+                var score = increase ? parseInt(ability.val()) + 1 : parseInt(ability.val()) - 1;
+                var cost = this.getAbilityPointCost(score, false);
+                if(increase){
+                    return cost <= this.abilityPoints && score <= this.maxAbilityScore;
+                }else{
+                    return cost + this.abilityPoints <= this.maxAbilityPoints && score >= this.minAbilityScore;
+                }
+            },
+
+            showHideAbilityChangeButtons: function(neg){
+                $('.ability').each(_.bind(function(key, value){
+                    var ability = $(value).prop('id');
+                    var placeholder = $('#' + ability + '-placeholder');
+                    var plus = $('#' + ability + '-plus');
+                    var minus = $('#' + ability + '-minus');
+                    var points = $(value).val();
+
+                    if(this.canChangeAbility($(value), true)){
+                        plus.show();
+                    }else{
+                        plus.hide();
+                    }
+
+                    if(this.canChangeAbility($(value), false)){
+                        minus.show();
+                    }else{
+                        minus.hide();
+                    }
+                    if(plus.css('display') === 'none' || minus.css('display') === 'none'){
+                        placeholder.addClass('show');
+                    }else{
+                        placeholder.removeClass('show');
+                    }
+                }, this))
+            },
+
+            onAbilityScoreResetClick: function(){
+                this.ui.str.val(this.minAbilityScore);
+                this.ui.dex.val(this.minAbilityScore);
+                this.ui.con.val(this.minAbilityScore);
+                this.ui.int.val(this.minAbilityScore);
+                this.ui.wis.val(this.minAbilityScore);
+                this.ui.cha.val(this.minAbilityScore);
+                this.setAbilityMods();
+                this.showHideAbilityChangeButtons();
+                this.ui.abilityPointLabel.text(this.maxAbilityPoints + this.abilityScoreText);
             },
 
             modalOpen: function(type, key) {
