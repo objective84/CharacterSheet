@@ -4,9 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 <%@ taglib prefix="js" tagdir="/WEB-INF/tags/template"%>
-<%--<link href="/webapp/resources/css/global.css" rel="stylesheet">--%>
 <script src="<c:url value="/resources/js/lib/require.js"/>"></script>
 <script src="<c:url value="/resources/js/require-config.js"/>"></script>
+<script src="<%=request.getContextPath()%>/resources/js/main.js"></script>
 
 <%--
   Created by IntelliJ IDEA.
@@ -24,6 +24,7 @@
         table {margin-right: 25px; float:left;width:200px;}
         #table_container{float:left;width:1000px;margin:0 auto;}
     </style>
+    <template:javascript/>
 </head>
 <body>
     <div id="entry">
@@ -68,22 +69,11 @@
                             </table>
                         </td>
                     </tr>
-                        <%--<tr>--%>
-                        <%--<th>Traits</th>--%>
-                        <%--<c:forEach items="${taits}" var="trait">--%>
-                        <%--<td><form:checkbox path="racialTraits" value="${trait}"/></td>--%>
-                        <%--</c:forEach>--%>
-                        <%--</tr>--%>
-                        <%--<tr>--%>
-                        <%--<th>Subraces</th>--%>
-                        <%--<c:forEach items="${subRaces}" var="subRace">--%>
-                        <%--<td><form:checkbox path="availableSubraces" value="${subRace}"/></td>--%>
-                        <%--</c:forEach>--%>
-                        <%--</tr>--%>
                     <tr>
                         <td colspan="3">
                             <input type="submit" name='save' value="Save"/>
-                            <a href="/CharacterSheet/admin/db-entry.html" style="margin:10px; font-size: 12px;">Cancel</a>
+                            <a href="/CharacterSheet/admin/db-entry/races.html" style="margin:10px; font-size: 12px;">Clear</a>
+                            <a href="/CharacterSheet/admin/db-entry.html" style="margin:10px; font-size: 12px;">Back</a>
                         </td>
                     </tr>
                 </table>

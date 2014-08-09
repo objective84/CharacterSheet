@@ -15,8 +15,14 @@
 <html>
 <head>
     <title></title>
+    <template:javascript/>
 </head>
 <body>
+
+    <a href="/CharacterSheet/admin/db-entry/weapons.html">Weapons</a>
+    <br/>
+    <a href="/CharacterSheet/admin/db-entry/armor.html">Armor</a>
+    <br/>
 
 </body>
 </html>

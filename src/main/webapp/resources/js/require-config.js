@@ -10,6 +10,7 @@ require.config({
         DefaultDBEntryView: 'View/DefaultDBEntryView',
         LanguageView: 'View/LanguageView',
         CharacterListView: 'View/CharacterListView',
+        WeaponEntryView: 'View/WeaponEntryView',
         // Behaviors
 
         // Other
@@ -24,9 +25,5 @@ require.config({
         underscore: 'lib/underscore',
         backbone: 'lib/backbone',
         marionette: 'lib/marionette'
-    },
-
-    getContextPath: function() {
-        return "<%=request.getContextPath()%>";
     }
 });

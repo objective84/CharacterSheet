@@ -1,23 +1,11 @@
-package com.rational.model.equipment;
+package com.rational.forms;
 
-import com.rational.model.Dice;
+public class Weapon extends Equipment{
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-
-/**
- * Created by awest on 7/23/14.
- */
-@Entity
-@DiscriminatorValue("W")
-public class WeaponModel extends EquipmentModel{
-
-    private WeaponGroup weaponGroup;
+    private Long weaponGroup;
     private Integer weaponRange;
     private Integer maxWeaponRange;
-    private Dice damageDice;
-
+    private Long damageDice;
     private Integer numberOfDice;
 
     public Integer getWeaponRange() {
@@ -28,17 +16,13 @@ public class WeaponModel extends EquipmentModel{
         this.weaponRange = weaponRange;
     }
 
-
-
-    @ManyToOne
-    public WeaponGroup getWeaponGroup() {
+    public Long getWeaponGroup() {
         return weaponGroup;
     }
 
-    public void setWeaponGroup(WeaponGroup weaponGroup) {
+    public void setWeaponGroup(Long weaponGroup) {
         this.weaponGroup = weaponGroup;
     }
-//
     public Integer getNumberOfDice() {
         return numberOfDice;
     }
@@ -47,12 +31,11 @@ public class WeaponModel extends EquipmentModel{
         this.numberOfDice = numberOfDice;
     }
 
-    @ManyToOne
-    public Dice getDamageDice() {
+    public Long getDamageDice() {
         return damageDice;
     }
 
-    public void setDamageDice(Dice damageDice) {
+    public void setDamageDice(Long damageDice) {
         this.damageDice = damageDice;
     }
 

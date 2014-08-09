@@ -3,10 +3,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
-<%@ taglib prefix="js" tagdir="/WEB-INF/tags/template"%>
-<%--<link href="/webapp/resources/css/global.css" rel="stylesheet">--%>
-<script src="<c:url value="/resources/js/lib/require.js"/>"></script>
-<script src="<c:url value="/resources/js/require-config.js"/>"></script>
 
 <%--
   Created by IntelliJ IDEA.
@@ -24,6 +20,7 @@
         table {margin-right: 25px; float:left;width:200px;}
         #table_container{float:left;width:1000px;margin:0 auto;}
     </style>
+    <template:javascript/>
 </head>
 <body>
     <div id="entry">
@@ -32,16 +29,16 @@
             <div id="table_container">
                 <table>
                     <tr>
-                        <th>Name</th>
+                        <th>Name:</th>
                         <td><form:input path="name"></form:input></td>
                     </tr>
                     <tr>
-                        <th>Hit Die</th>
+                        <th>Hit Die:</th>
                         <td>
                             <form:select path="hitDie">
                                 <form:option value="" label="Select a Hit Die"/>
-                                <c:forEach items="${hitDieTypes}" var="type">
-                                    <form:option value="${type}"/>
+                                <c:forEach items="${hitDice}" var="type">
+                                    <form:option name="hitDie" value="${type.id}" label="${type.name}"/>
                                 </c:forEach>
                             </form:select>
                         </td>
@@ -69,7 +66,8 @@
                     <tr>
                         <td colspan="3">
                             <input type="submit" name='save' value="Save"/>
-                            <a href="/CharacterSheet/admin/db-entry.html" style="margin:10px; font-size: 12px;">Cancel</a>
+                            <a href="/CharacterSheet/admin/db-entry/classes.html" style="margin:10px; font-size: 12px;">Clear</a>
+                            <a href="/CharacterSheet/admin/db-entry.html" style="margin:10px; font-size: 12px;">Back</a>
                         </td>
                     </tr>
                 </table>

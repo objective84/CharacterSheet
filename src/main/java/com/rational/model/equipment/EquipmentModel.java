@@ -1,5 +1,7 @@
 package com.rational.model.equipment;
 
+import com.rational.model.entities.CoinModel;
+
 import javax.persistence.*;
 
 /**
@@ -17,12 +19,17 @@ public abstract class EquipmentModel {
     protected String description;
     protected int price;
 
-    public int getPrice() {
-        return price;
+    protected CoinModel priceDenomination;
+
+
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -49,13 +56,20 @@ public abstract class EquipmentModel {
         this.description = description;
     }
 
-    @Id
-    @GeneratedValue
-    public Long getId() {
-        return id;
+    public int getPrice() {
+        return price;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    @ManyToOne
+    public CoinModel getPriceDenomination() {
+        return priceDenomination;
+    }
+
+    public void setPriceDenomination(CoinModel priceDenomination) {
+        this.priceDenomination = priceDenomination;
     }
 }

@@ -1,7 +1,5 @@
 package com.rational.forms;
 
-import com.rational.model.Dice;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +7,7 @@ public class Clazz {
 
     private Long id;
     private String name;
-    private Dice hitDie;
+    private Long hitDie;
     private Integer skillsAtCreation;
     private List<Long> proficiencies = new ArrayList<Long>();
     private List<Long> classTraits = new ArrayList<Long>();
@@ -31,11 +29,11 @@ public class Clazz {
         this.name = name;
     }
 
-    public Dice getHitDie() {
+    public Long getHitDie() {
         return hitDie;
     }
 
-    public void setHitDie(Dice hitDie) {
+    public void setHitDie(Long hitDie) {
         this.hitDie = hitDie;
     }
 

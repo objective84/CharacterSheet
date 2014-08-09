@@ -24,11 +24,12 @@
         table {margin-right: 25px; float:left;width:200px;}
         #table_container{float:left;width:1000px;margin:0 auto;}
     </style>
+    <template:javascript/>
 </head>
 <body>
     <div id="entry">
-        <form:form id="form" commandName="proficiency">
-            <input type="hidden" name="id" id="id" value="${proficiency.id}">
+        <form:form id="form" commandName="subclass">
+            <input type="hidden" name="id" id="id" value="${subClass.id}">
             <div id="table_container">
                 <table>
                     <tr>
@@ -40,28 +41,34 @@
                         <td><form:input path="description"></form:input></td>
                     </tr>
                     <tr>
-                        <th>Type</th>
-                        <td>
-                            <form:select path="proficiencyTypeString">
-                                <form:option value="0" label="Select a proficiency type"/>
-                                <c:forEach items="${proficiencyTypes}" var="proficiency">
-                                    <form:option value="${proficiency}"/>
-                                </c:forEach>
-                            </form:select>
-                        </td>
+                        <th>Base Class</th>
+                        <td><form:select path="baseClass" >
+                            <form:option value="0" label="Select a base class" />
+                            <c:forEach items="${allClasses}" var="clazz">
+                                <form:option value="${clazz.id}" label="${clazz.name}"/>
+                            </c:forEach>
+                        </form:select></td>
                     </tr>
+                        <%--<tr>--%>
+                        <%--<th>Traits</th>--%>
+                        <%--<c:forEach items="${taits}" var="trait">--%>
+                        <%--<td><form:checkbox path="racialTraits" value="${trait}"/></td>--%>
+                        <%--</c:forEach>--%>
+                        <%--</tr>--%>
+                        <%--<tr>--%>
                     <tr>
                         <td colspan="3">
                             <input type="submit" name='save' value="Save"/>
-                            <a href="/CharacterSheet/admin/db-entry.html" style="margin:10px; font-size: 12px;">Cancel</a>
+                            <a href="/CharacterSheet/admin/db-entry/subclasses.html" style="margin:10px; font-size: 12px;">Clear</a>
+                            <a href="/CharacterSheet/admin/db-entry.html" style="margin:10px; font-size: 12px;">Back</a>
                         </td>
                     </tr>
                 </table>
                 <table>
-                    <tr><td>Proficiencies:</td></tr>
-                    <c:forEach items="${proficiencies}" var="proficiency">
+                    <tr><td>Subclass:</td></tr>
+                    <c:forEach items="${allSubClasses}" var="subClass">
                         <tr>
-                            <td><a class="entry-link" href="#" id="${proficiency.id}">${proficiency.name}</a></td>
+                            <td><a class="entry-link" href="#" id="${subClass.id}">${subClass.name}</a></td>
                         </tr>
                     </c:forEach>
                 </table>

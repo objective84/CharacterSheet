@@ -2,8 +2,11 @@ package com.rational.service;
 
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
+import com.rational.model.entities.SubRaceModel;
 import com.rational.model.entities.*;
+import com.rational.model.equipment.ArmorGroup;
 import com.rational.model.equipment.ArmorModel;
+import com.rational.model.equipment.WeaponGroup;
 import com.rational.model.equipment.WeaponModel;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,4 +83,16 @@ public interface AdminService {
     ArmorModel findArmor(Long id);
 
     List<ArmorModel> findAllArmor();
+
+    ArmorGroup findArmorGroup(Long id);
+
+    List<ArmorGroup> findAllArmorGroups();
+
+    WeaponGroup findWeaponGroup(Long id);
+
+    List<WeaponGroup> findAllWeaponGroups();
+
+    CoinModel findCoin(Long id);
+
+    List<CoinModel> findAllCoins();
 }

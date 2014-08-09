@@ -20,7 +20,7 @@ table th {
 }
 
 .input-box-small {
-    width: 25px;
+    width: 30px;
     text-align: center;
     margin-right: 5px;
 }
@@ -28,8 +28,13 @@ table th {
 #table_container{
     border: 1px solid black;
     float: left;
-    width: 5000px;
+    width: auto;
+    height: auto;
     margin: 0 auto;
+}
+
+table {
+    margin: 0;
 }
 
 table.proficiencies{
@@ -55,5 +60,10 @@ table.proficiencies th{
     margin-left: 5px;
     font-size: 12;
 }
+
+
 /*Admin pages*/
 
+.weapon-range{
+    display: none;
+}

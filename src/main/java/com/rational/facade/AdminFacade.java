@@ -1,17 +1,14 @@
 package com.rational.facade;
 
-import com.rational.forms.Clazz;
-import com.rational.forms.Race;
-import com.rational.forms.SubClass;
-import com.rational.forms.SubRace;
+import com.rational.forms.*;
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
-import com.rational.model.entities.ClassModel;
-import com.rational.model.entities.LanguageModel;
-import com.rational.model.entities.RaceModel;
-import com.rational.model.entities.TraitModel;
+import com.rational.model.entities.*;
+import com.rational.model.equipment.ArmorGroup;
 import com.rational.model.equipment.ArmorModel;
+import com.rational.model.equipment.WeaponGroup;
 import com.rational.model.equipment.WeaponModel;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -93,15 +90,32 @@ public interface AdminFacade {
 
     List<Dice> findAllDice();
 
-    WeaponModel saveWeapon(WeaponModel weapon);
+    @Transactional
+    void saveWeapon(Weapon weapon);
 
-    WeaponModel findWeapon(Long id);
+    Weapon findWeapon(Long id);
 
-    List<WeaponModel> findAllWeapons();
+    List<Weapon> findAllWeapons();
 
-    ArmorModel saveArmor(ArmorModel armor);
+    @Transactional
+    void saveArmor(Armor armor);
 
-    ArmorModel findArmor(Long id);
+    Armor findArmor(Long id);
 
-    List<ArmorModel> findAllArmor();
+    List<Armor> findAllArmor();
+
+    ArmorModel getArmorModel(Long id);
+
+
+    ArmorGroup getArmorGroup(Long id);
+
+    List<ArmorGroup> getArmorGroups();
+
+    WeaponGroup getWeaponGroup(Long id);
+
+    List<WeaponGroup> getWeaponGroups();
+
+    CoinModel findAllArmor(Long id);
+
+    List<CoinModel> findAllCoins();
 }

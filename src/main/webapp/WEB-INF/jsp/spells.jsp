@@ -15,6 +15,7 @@
 <html>
 <head>
     <title></title>
+    <template:javascript/>
 </head>
 <body>
 

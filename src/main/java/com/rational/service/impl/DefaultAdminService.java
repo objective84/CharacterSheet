@@ -3,7 +3,9 @@ package com.rational.service.impl;
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
+import com.rational.model.equipment.ArmorGroup;
 import com.rational.model.equipment.ArmorModel;
+import com.rational.model.equipment.WeaponGroup;
 import com.rational.model.equipment.WeaponModel;
 import com.rational.repository.*;
 import com.rational.service.AdminService;
@@ -38,6 +40,12 @@ public class DefaultAdminService implements AdminService {
     SubClassRepository subClassRepository;
 
     @Resource
+    WeaponGroupRepository weaponGroupRepository;
+
+    @Resource
+    ArmorGroupRepository armorGroupRepository;
+
+    @Resource
     WeaponRepository weaponRepository;
 
     @Resource
@@ -45,6 +53,11 @@ public class DefaultAdminService implements AdminService {
 
     @Resource
     DiceRepository diceRepository;
+
+    @Resource
+    CoinRepository coinRepository;
+
+
 
 
 
@@ -225,5 +238,37 @@ public class DefaultAdminService implements AdminService {
     public List<ArmorModel> findAllArmor() {
         return armorRepository.findAll();
     }
+
+    @Override
+    public ArmorGroup findArmorGroup(Long id) {
+        return armorGroupRepository.findOne(id);
+    }
+
+    @Override
+    public List<ArmorGroup> findAllArmorGroups() {
+        return armorGroupRepository.findAll();
+    }
+
+
+    @Override
+    public WeaponGroup findWeaponGroup(Long id) {
+        return weaponGroupRepository.findOne(id);
+    }
+
+    @Override
+    public List<WeaponGroup> findAllWeaponGroups() {
+        return weaponGroupRepository.findAll();
+    }
+
+    @Override
+    public CoinModel findCoin(Long id) {
+        return coinRepository.findOne(id);
+    }
+
+    @Override
+    public List<CoinModel> findAllCoins() {
+        return coinRepository.findAll();
+    }
+
 
 }

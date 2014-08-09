@@ -23,7 +23,7 @@ public class Dice {
     private int maxRoll;
 
     @Column(name="minRoll")
-    private int minRoll;
+    private int minRoll = 1;
 
     private List<ClassModel> classes = new ArrayList<ClassModel>();
     private List<WeaponModel> weapons = new ArrayList<WeaponModel>();
