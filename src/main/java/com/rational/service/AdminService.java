@@ -4,10 +4,8 @@ import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.SubRaceModel;
 import com.rational.model.entities.*;
-import com.rational.model.equipment.ArmorGroup;
-import com.rational.model.equipment.ArmorModel;
-import com.rational.model.equipment.WeaponGroup;
-import com.rational.model.equipment.WeaponModel;
+import com.rational.model.enums.CoinTypeEnum;
+import com.rational.model.equipment.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -92,7 +90,17 @@ public interface AdminService {
 
     List<WeaponGroup> findAllWeaponGroups();
 
-    CoinModel findCoin(Long id);
+    Coin findCoin(Long id);
 
-    List<CoinModel> findAllCoins();
+    Coin findCoinByType(CoinTypeEnum type);
+
+    List<Coin> findAllCoins();
+
+    Coin findCoinByName(String name);
+
+    List<EquipmentModel> findEquipment(List<Long> ids);
+
+    EquipmentModel findEquipment(Long id);
+
+    CoinPurse saveCoinPurse(CoinPurse purse);
 }

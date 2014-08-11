@@ -1,13 +1,11 @@
 package com.rational.facade;
 
 import com.rational.forms.*;
+import com.rational.forms.Character;
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
-import com.rational.model.equipment.ArmorGroup;
-import com.rational.model.equipment.ArmorModel;
-import com.rational.model.equipment.WeaponGroup;
-import com.rational.model.equipment.WeaponModel;
+import com.rational.model.equipment.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -97,6 +95,8 @@ public interface AdminFacade {
 
     List<Weapon> findAllWeapons();
 
+    List<WeaponModel> findAllWeaponModels();
+
     @Transactional
     void saveArmor(Armor armor);
 
@@ -107,6 +107,8 @@ public interface AdminFacade {
     ArmorModel getArmorModel(Long id);
 
 
+    List<ArmorModel> findAllArmorModels();
+
     ArmorGroup getArmorGroup(Long id);
 
     List<ArmorGroup> getArmorGroups();
@@ -115,7 +117,22 @@ public interface AdminFacade {
 
     List<WeaponGroup> getWeaponGroups();
 
-    CoinModel findAllArmor(Long id);
+    Coin findAllArmor(Long id);
 
-    List<CoinModel> findAllCoins();
+    List<Coin> findAllCoins();
+
+    Coin findCoinByName(String name);
+
+    List<EquipmentModel> getOffHandFromInventory(CharacterModel character);
+
+    List<WeaponModel> getWeaponsFromInventory(CharacterModel character);
+
+    List<ArmorModel> getArmorFromInventory(CharacterModel character);
+
+    List<EquipmentModel> findEquipment(List<Long> equipmentIds);
+
+    WeaponModel findWeaponModel(Long id);
+
+    EquipmentModel findEquipment(Long id);
+
 }

@@ -25,7 +25,7 @@ public class SubRaceModel {
     private String description;
 
     @JsonManagedReference
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     private List<TraitModel> subRacialTraits = new ArrayList<TraitModel>();
 
     @JsonBackReference

@@ -18,6 +18,8 @@
 <body>
 
     <a href="/CharacterSheet/admin/db-entry.html">Manual Database entry</a>
+<br/>
+    <a href="/CharacterSheet" style="margin:10px; font-size: 12px;">Back</a>
 
 </body>
 </html>

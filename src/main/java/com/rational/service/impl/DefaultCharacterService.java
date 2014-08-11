@@ -18,7 +18,7 @@ public class DefaultCharacterService implements CharacterService{
     @Override
     @Transactional
     public CharacterModel save(CharacterModel character) {
-        return characterRepository.save(character);
+        return characterRepository.saveAndFlush(character);
     }
 
     @Override
@@ -29,5 +29,10 @@ public class DefaultCharacterService implements CharacterService{
     @Override
     public CharacterModel findCharacter(Long id) {
         return characterRepository.findOne(id);
+    }
+
+    @Override
+    public void deleteCharacter(Long id) {
+        characterRepository.delete(id);
     }
 }

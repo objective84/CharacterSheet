@@ -2,7 +2,9 @@ package com.rational.model.entities;
 
 
 import com.rational.model.Proficiency;
-import org.codehaus.jackson.annotate.JsonBackReference;
+import com.rational.model.equipment.ArmorModel;
+import com.rational.model.equipment.EquipmentModel;
+import com.rational.model.equipment.WeaponModel;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -17,17 +19,15 @@ public class CharacterModel {
     @GeneratedValue
     private Long id;
 
-    @Column(name="name")
     private String name;
 
-    @Column(name="level")
     private Integer level;
 
-    @JsonBackReference
+    @JsonManagedReference
     @ManyToOne
     private ClassModel clazz;
 
-    @JsonBackReference
+    @JsonManagedReference
     @ManyToOne
     private RaceModel race;
 
@@ -43,29 +43,41 @@ public class CharacterModel {
             joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="proficiency_id"))
     private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
-    @Column(name="maxHealth")
+    @JsonManagedReference
+    @ManyToMany
+    @JoinTable(name="character_traits",
+            joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="trait_id"))
+    private List<TraitModel> traits = new ArrayList<TraitModel>();
+
     private int maxHealth;
-
-    @Column(name="currentHealth")
     private int currentHealth;
-
-    @Column(name="str")
     private int str;
-
-    @Column(name="dex")
     private int dex;
-
-    @Column(name="con")
     private int con;
-
-    @Column(name="intel")
     private int intel;
-
-    @Column(name="wis")
     private int wis;
-
-    @Column(name="cha")
     private int cha;
+
+    @JsonManagedReference
+    @ManyToMany
+    @JoinTable(name="character_equipment", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="equipment_id"))
+    private List<EquipmentModel> inventory = new ArrayList<EquipmentModel>();
+
+    @JsonManagedReference
+    @ManyToOne
+    private ArmorModel equippedArmor;
+
+    @JsonManagedReference
+    @ManyToOne
+    private WeaponModel equippedMainHand;
+
+    @JsonManagedReference
+    @ManyToOne
+    private EquipmentModel equippedOffHand;
+
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL)
+    private CoinPurse coinPurse;
 
     public CharacterModel(){}
 
@@ -187,5 +199,53 @@ public class CharacterModel {
 
     public void setLanguageModels(List<LanguageModel> languages) {
         this.languages = languages;
+    }
+
+    public List<TraitModel> getTraits() {
+        return traits;
+    }
+
+    public void setTraits(List<TraitModel> traits) {
+        this.traits = traits;
+    }
+
+    public List<EquipmentModel> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(List<EquipmentModel> inventory) {
+        this.inventory = inventory;
+    }
+
+    public ArmorModel getEquippedArmor() {
+        return equippedArmor;
+    }
+
+    public void setEquippedArmor(ArmorModel equippedArmor) {
+        this.equippedArmor = equippedArmor;
+    }
+
+    public WeaponModel getEquippedMainHand() {
+        return equippedMainHand;
+    }
+
+    public void setEquippedMainHand(WeaponModel equippedMainHand) {
+        this.equippedMainHand = equippedMainHand;
+    }
+
+    public EquipmentModel getEquippedOffHand() {
+        return equippedOffHand;
+    }
+
+    public void setEquippedOffHand(EquipmentModel equippedOffHand) {
+        this.equippedOffHand = equippedOffHand;
+    }
+
+    public CoinPurse getCoinPurse() {
+        return coinPurse;
+    }
+
+    public void setCoinPurse(CoinPurse coinPurse) {
+        this.coinPurse = coinPurse;
     }
 }

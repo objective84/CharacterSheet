@@ -1,12 +1,11 @@
 package com.rational.service.impl;
 
+import com.google.common.collect.Lists;
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
-import com.rational.model.equipment.ArmorGroup;
-import com.rational.model.equipment.ArmorModel;
-import com.rational.model.equipment.WeaponGroup;
-import com.rational.model.equipment.WeaponModel;
+import com.rational.model.enums.CoinTypeEnum;
+import com.rational.model.equipment.*;
 import com.rational.repository.*;
 import com.rational.service.AdminService;
 import org.springframework.stereotype.Service;
@@ -19,45 +18,49 @@ import java.util.List;
 public class DefaultAdminService implements AdminService {
 
     @Resource
-    LanguageRepository languageRepository;
+    private LanguageRepository languageRepository;
 
     @Resource
-    SubraceRepository subRaceRepository;
+    private SubraceRepository subRaceRepository;
 
     @Resource
-    TraitRepository traitRepository;
+    private TraitRepository traitRepository;
 
     @Resource
-    RaceRepository raceRepository;
+    private RaceRepository raceRepository;
 
     @Resource
-    ProficiencyRepository proficiencyRepository;
+    private ProficiencyRepository proficiencyRepository;
 
     @Resource
-    ClassRepository classRepository;
+    private ClassRepository classRepository;
 
     @Resource
-    SubClassRepository subClassRepository;
+    private SubClassRepository subClassRepository;
 
     @Resource
-    WeaponGroupRepository weaponGroupRepository;
+    private WeaponGroupRepository weaponGroupRepository;
 
     @Resource
-    ArmorGroupRepository armorGroupRepository;
+    private ArmorGroupRepository armorGroupRepository;
 
     @Resource
-    WeaponRepository weaponRepository;
+    private WeaponRepository weaponRepository;
 
     @Resource
-    ArmorRepository armorRepository;
+    private ArmorRepository armorRepository;
 
     @Resource
-    DiceRepository diceRepository;
+    private DiceRepository diceRepository;
 
     @Resource
-    CoinRepository coinRepository;
+    private CoinRepository coinRepository;
 
+    @Resource
+    private EquipmentRepository equipmentRepository;
 
+    @Resource
+    private CoinPurseRepository coinPurseRepository;
 
 
 
@@ -261,14 +264,43 @@ public class DefaultAdminService implements AdminService {
     }
 
     @Override
-    public CoinModel findCoin(Long id) {
+    public Coin findCoin(Long id) {
         return coinRepository.findOne(id);
     }
 
     @Override
-    public List<CoinModel> findAllCoins() {
+    public Coin findCoinByType(CoinTypeEnum type){
+        List<Coin> allCoins = coinRepository.findAll();
+
+        for(Coin coin : allCoins){
+            if(coin.getDenomination() == type.getType()){
+                return coin;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Coin> findAllCoins() {
         return coinRepository.findAll();
     }
 
+    @Override
+    public Coin findCoinByName(String name){return coinRepository.findCoinByName(name);}
+
+    @Override
+    public List<EquipmentModel> findEquipment(List<Long> ids) {
+        return Lists.newArrayList(equipmentRepository.findAll(ids));
+    }
+
+    @Override
+    public EquipmentModel findEquipment(Long id) {
+        return equipmentRepository.findOne(id);
+    }
+
+    @Override
+    public CoinPurse saveCoinPurse(CoinPurse purse){
+        return coinPurseRepository.save(purse);
+    }
 
 }

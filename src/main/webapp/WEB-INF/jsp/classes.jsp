@@ -64,6 +64,13 @@
                         </td>
                     </tr>
                     <tr>
+                        <th>Starting Wealth</th>
+                        <td>
+                            <form:input path="startingWealthDiceAmount" cssClass="input-box-small"/>
+                            <form:select path="startingWealthDie" items="${hitDice}" itemValue="id" itemLabel="name"/>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="3">
                             <input type="submit" name='save' value="Save"/>
                             <a href="/CharacterSheet/admin/db-entry/classes.html" style="margin:10px; font-size: 12px;">Clear</a>

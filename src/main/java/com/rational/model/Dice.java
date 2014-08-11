@@ -2,7 +2,7 @@ package com.rational.model;
 
 import com.rational.model.entities.ClassModel;
 import com.rational.model.equipment.WeaponModel;
-import org.hibernate.annotations.Where;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -27,6 +27,8 @@ public class Dice {
 
     private List<ClassModel> classes = new ArrayList<ClassModel>();
     private List<WeaponModel> weapons = new ArrayList<WeaponModel>();
+
+    private List<ClassModel> classWealthDie = new ArrayList<ClassModel>();
 
     public Dice(){}
 
@@ -65,6 +67,7 @@ public class Dice {
     }
 
     @OneToMany(mappedBy = "hitDie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
     public List<ClassModel> getClasses() {
         return classes;
     }
@@ -74,11 +77,21 @@ public class Dice {
     }
 
     @OneToMany(mappedBy = "damageDice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @Where(clause = "equipment_type=w")
+    @JsonBackReference
     public List<WeaponModel> getWeapons() {
         return weapons;
     }
     public void setWeapons(List<WeaponModel> weapons) {
         this.weapons = weapons;
+    }
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "startingWealthDie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public List<ClassModel> getClassWealthDie() {
+        return classWealthDie;
+    }
+
+    public void setClassWealthDie(List<ClassModel> classWealthDie) {
+        this.classWealthDie = classWealthDie;
     }
 }

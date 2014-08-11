@@ -4,9 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 <%@ taglib prefix="js" tagdir="/WEB-INF/tags/template"%>
-<%--<link href="/webapp/resources/css/global.css" rel="stylesheet">--%>
-<script src="<c:url value="/resources/js/lib/require.js"/>"></script>
-<script src="<c:url value="/resources/js/require-config.js"/>"></script>
 
 <%--
   Created by IntelliJ IDEA.

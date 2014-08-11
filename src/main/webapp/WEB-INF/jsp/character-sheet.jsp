@@ -66,70 +66,171 @@
             </tr>
             <tr >
                 <td><spring:message code="character.level"/></td>
-                <td><form:input cssClass="input-box-small" id="level" path="level" readonly="true"/></td>
+                <td colspan="2">
+                    <form:input cssClass="input-box-small" id="level" path="level" readonly="true"/>
+                    <spring:message code="character.ac"/>
+                <input class="input-box-small" id="armor-class" readonly="true"/>
+                </td>
 
             </tr>
-            <tr >
-                <td colspan="1"><spring:message code="character.maxHeath"/></td>
-                <td><form:input cssClass="input-box-small" id="maxHealth" path="maxHealth" value="${character.maxHealth}" readonly="true"/></td>
-                <td colspan="2"><spring:message code="character.currentHealth"/></td>
-                <td><form:input cssClass="input-box-small" id="currentHealth" path="currentHealth" /></td>
-                <td></td>
+        </table>
+        <table>
+            <tr>
+                <td>
+                    <spring:message code="character.maxHeath"/>
+                    <form:input cssClass="input-box-small" id="maxHealth" path="maxHealth" value="${character.maxHealth}" readonly="true"/>
+                    <spring:message code="character.currentHealth"/>
+                    <form:input cssClass="input-box-small" id="currentHealth" path="currentHealth" />
+                </td>
             </tr>
         </table>
-            <c:if test="${create}">
-                <c:set var="placeholderShow" value='show'/>
-                <c:set var="minusHide" value="style='display: none;'"/>
-            </c:if>
-            <h3><spring:message code="character.ability" /><a href="#" id="ability-score-reset" class="link-small">Reset</a></h3>
-            <span id="ability-point-label"></span>
-            <table class="abilities">
-            <c:forEach items="${abilityTypes}" var="ability">
+        <br/>
+        <c:if test="${create}">
+            <c:set var="placeholderShow" value='show'/>
+            <c:set var="minusHide" value="style='display: none;'"/>
+        </c:if>
+        <div class="table_container">
+            <table class="side-by-side header">
                 <tr>
-                    <td>${ability}</td>
-                    <td class="ability-input">
-                        <form:input cssClass="input-box-small ability"
-                                    id="${ability}"
-                                    path="abilityScores['${ability}']"
-                                    value="${character.abilityScores.value}"
-                                    readonly="true"/>
-                        <a class="modLabel" id="${ability}Mod" value=""></a>
-                        <input type="button" id="${ability}-minus" class="ability-change" value="-" ${minusHide}>
-                        <div class="placeholder ${placeholderShow}" id="${ability}-placeholder"></div>
-                        <input type="button" id="${ability}-plus" class="ability-change" value="+">
-                    </td>
-
+                    <td><h3><spring:message code="character.ability" /><a href="#" id="ability-score-reset" class="link-small">Reset</a></h3></td>
                 </tr>
-            </c:forEach>
-        </table>
+                <tr>
+                    <td><span id="ability-point-label"></span></td>
+                </tr>
+            </table>
+            <table class="side-by-side currencyheader">
+                <tr>
+                    <td><h3><spring:message code="character.currency" /></h3></td>
+                </tr>
+            </table>
+            <table class="side-by-side header">
+                <tr>
+                    <td><h3><spring:message code="character.equipped" /></h3></td>
+                </tr>
+            </table>
+        </div>
+        <div class="clear"/>
+        <div class="table_container">
+            <table class="side-by-side ability-row">
+                <c:forEach items="${abilityTypes}" var="ability">
+                    <tr>
+                        <td>${ability}</td>
+                        <td class="ability-input">
+                            <form:input cssClass="input-box-small ability"
+                                        id="${ability}"
+                                        path="abilityScores['${ability}']"
+                                        value="${character.abilityScores.value}"
+                                        readonly="true"/>
+                            <a class="modLabel" id="${ability}Mod" value=""></a>
+                            <c:if test="${create}">
+                                <input type="button" id="${ability}-minus" class="ability-change" value="-" ${minusHide}>
+                                <div class="placeholder ${placeholderShow}" id="${ability}-placeholder"></div>
+                                <input type="button" id="${ability}-plus" class="ability-change" value="+">
+                            </c:if>
+                        </td>
+
+                    </tr>
+                </c:forEach>
+            </table>
+            <table class="side-by-side ability-row">
+                <tr>
+                    <td>Copper:</td><td> <form:input path="coinPurse['copper']" cssClass="input-box-small" id="money-copper" /></td>
+                </tr>
+                <tr>
+                    <td>Silver:</td><td> <form:input path="coinPurse['silver']" cssClass="input-box-small" id="money-silver" /></td>
+                </tr>
+                <tr>
+                    <td>Electrum:</td><td> <form:input path="coinPurse['electrum']" cssClass="input-box-small" id="money-electrum" /></td>
+                </tr>
+                <tr>
+                    <td>Gold:</td><td> <form:input path="coinPurse['gold']" cssClass="input-box-small" id="money-gold" /></td>
+                </tr>
+                <tr>
+                    <td>Platinum:</td><td> <form:input path="coinPurse['platinum']" cssClass="input-box-small" id="money-platinum" /></td>
+                </tr>
+            </table>
+            <table class="side-by-side ability-row">
+                <tr>
+                    <td>Main Hand: </td>
+                    <td><form:select id="main-select" path="equippedMainHand">
+                        <form:option value="0" label="Select one"/>
+                        <c:forEach items="${inventoryWeapons}" var="weapon">
+                            <form:option class="main-hand-option" value="${weapon.id}" label="${weapon.name}"/>
+                        </c:forEach>
+                    </form:select></td>
+                </tr>
+                <tr>
+                    <td>Off Hand: </td>
+                    <td><form:select id="off-select" path="equippedOffHand">
+                        <form:option value="0" label="Select one"/>
+                        <c:forEach items="${inventoryOffHandItems}" var="item">
+                            <form:option class="off-hand-option" value="${item.id}" label="${item.name}"/>
+                        </c:forEach>
+                    </form:select></td>
+                </tr>
+                <tr>
+                    <td>Armor: </td>
+                    <td><form:select id="armor-select" path="equippedArmor">
+                        <form:option value="0" label="Select one"/>
+                        <c:forEach items="${inventoryArmor}" var="armor">
+                            <form:option class="armor-option" value="${armor.id}" label="${armor.name}"/>
+                        </c:forEach>
+                    </form:select></td>
+                </tr>
+            </table>
+        </div>
+        <div class="clear"/>
+        <h3><spring:message code="character.inventory"/></h3>
+        <div class="table_container">
+            <table class="side-by-side" id="weapon-inventory-table">
+                <tr><th>Weapons</th></tr>
+                <c:forEach items="${inventoryWeapons}" var="weapon">
+                    <tr class="inventory-item">
+                        <td><span id="weapon_${weapon.id}">${weapon.name}</span></td>
+                    </tr>
+                </c:forEach>
+            </table>
+            <table class="side-by-side" id="armor-inventory-table">
+                <tr><th>Armor</th></tr>
+                <c:forEach items="${inventoryArmor}" var="armor">
+                    <tr class="inventory-item" >
+                        <td><span id="armor_${armor.id}">${armor.name}</span></td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+        <div class="clear"/>
+        <br/>
+        <a href="#" id="store-link">Store</a> <a href="#" id="clear-inventory" class="link-small">Clear</a>
+        <br/>
         <h3><spring:message code="character.proficiencies"/></h3>
         <span class="skill-select-label" id="skill-select-label"></span>
         <div class="table_container">
-            <table class="proficiencies" id="skillProfs">
+            <table class="side-by-side proficiencies" id="skillProfs">
                 <tr><th>Skills</th></tr>
                 <c:forEach items="${skillProficiencies}" var="skill">
                     <tr><td>${skill.name}</td></tr>
                 </c:forEach>
             </table>
-            <table class="proficiencies" id="toolProfs">
+            <table class="side-by-side proficiencies" id="toolProfs">
                 <tr><th>Tools</th></tr>
                 <c:forEach items="${toolProficiencies}" var="tool">
                     <tr><td>${tool.name}</td></tr>
                 </c:forEach>
             </table>
-            <table class="proficiencies" id="weaponProfs">
+            <table class="side-by-side proficiencies" id="weaponProfs">
                 <tr><th>Weapons</th></tr>
                 <c:forEach items="${weaponProficiencies}" var="weapon">
                     <tr><td>${weapon.name}</td></tr>
                 </c:forEach>
             </table>
-            <table class="proficiencies" id="armorProfs">
+            <table class="side-by-side proficiencies" id="armorProfs">
                 <tr><th>Armor</th></tr>
                 <c:forEach items="${armorProficiencies}" var="armor">
                     <tr><td>${armor.name}</td></tr>
                 </c:forEach>
             </table>
-            <table class="proficiencies" id="saveProfs">
+            <table class="side-by-side proficiencies" id="saveProfs">
                 <tr><th>Saving Throws</th></tr>
                 <c:forEach items="${savingThrowProficiencies}" var="save">
                     <tr><td>${save.name}</td></tr>
@@ -152,6 +253,7 @@
             </form:form>
 
             <modals:language-modal></modals:language-modal>
+            <modals:store-modal></modals:store-modal>
         </div>
 </body>
 </html>

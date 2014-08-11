@@ -22,7 +22,7 @@ public class SubClassModel {
     private String description;
 
     @JsonManagedReference
-    @ManyToMany(mappedBy="subClasses")
+    @ManyToMany(mappedBy="subClasses", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TraitModel> subClassTraits = new ArrayList<TraitModel>();
 
     @ManyToOne

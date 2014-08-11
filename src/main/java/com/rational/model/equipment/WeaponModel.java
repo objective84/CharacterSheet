@@ -1,10 +1,13 @@
 package com.rational.model.equipment;
 
 import com.rational.model.Dice;
+import com.rational.model.entities.CharacterModel;
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by awest on 7/23/14.
@@ -19,6 +22,7 @@ public class WeaponModel extends EquipmentModel{
     private Dice damageDice;
 
     private Integer numberOfDice;
+    private boolean twoHanded;
 
     public Integer getWeaponRange() {
         return weaponRange;
@@ -28,9 +32,16 @@ public class WeaponModel extends EquipmentModel{
         this.weaponRange = weaponRange;
     }
 
+    @JsonBackReference
+    @OneToMany(mappedBy = "equippedMainHand", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CharacterModel> equippedMain = new ArrayList<CharacterModel>();
 
+    @JsonBackReference
+    @OneToMany(mappedBy = "equippedOffHand", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CharacterModel> equippedOff = new ArrayList<CharacterModel>();
 
     @ManyToOne
+    @JsonManagedReference
     public WeaponGroup getWeaponGroup() {
         return weaponGroup;
     }
@@ -48,6 +59,7 @@ public class WeaponModel extends EquipmentModel{
     }
 
     @ManyToOne
+    @JsonManagedReference
     public Dice getDamageDice() {
         return damageDice;
     }
@@ -62,5 +74,14 @@ public class WeaponModel extends EquipmentModel{
 
     public void setMaxWeaponRange(Integer maxWeaponRange) {
         this.maxWeaponRange = maxWeaponRange;
+    }
+
+    public boolean isTwoHanded() {
+
+        return twoHanded;
+    }
+
+    public void setTwoHanded(boolean twoHanded) {
+        this.twoHanded = twoHanded;
     }
 }
