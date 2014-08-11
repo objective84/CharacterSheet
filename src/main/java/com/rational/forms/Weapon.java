@@ -7,6 +7,7 @@ public class Weapon extends Equipment{
     private Integer maxWeaponRange;
     private Long damageDice;
     private Integer numberOfDice;
+    private boolean twoHanded;
 
     public Integer getWeaponRange() {
         return weaponRange;
@@ -45,5 +46,13 @@ public class Weapon extends Equipment{
 
     public void setMaxWeaponRange(Integer maxWeaponRange) {
         this.maxWeaponRange = maxWeaponRange;
+    }
+
+    public boolean isTwoHanded() {
+        return twoHanded;
+    }
+
+    public void setTwoHanded(boolean twoHanded) {
+        this.twoHanded = twoHanded;
     }
 }

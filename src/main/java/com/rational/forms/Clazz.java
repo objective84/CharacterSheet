@@ -12,6 +12,8 @@ public class Clazz {
     private List<Long> proficiencies = new ArrayList<Long>();
     private List<Long> classTraits = new ArrayList<Long>();
     private List<Long> subClasses = new ArrayList<Long>();
+    private Integer startingWealthDiceAmount;
+    private Long startingWealthDie;
 
     public Long getId() {
         return id;
@@ -67,5 +69,21 @@ public class Clazz {
 
     public void setSkillsAtCreation(Integer skillsAtCreation) {
         this.skillsAtCreation = skillsAtCreation;
+    }
+
+    public Integer getStartingWealthDiceAmount() {
+        return startingWealthDiceAmount;
+    }
+
+    public void setStartingWealthDiceAmount(Integer startingWealthDiceAmount) {
+        this.startingWealthDiceAmount = startingWealthDiceAmount;
+    }
+
+    public Long getStartingWealthDie() {
+        return startingWealthDie;
+    }
+
+    public void setStartingWealthDie(Long startingWealthDie) {
+        this.startingWealthDie = startingWealthDie;
     }
 }

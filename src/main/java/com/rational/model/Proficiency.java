@@ -32,11 +32,11 @@ public class Proficiency {
     private String proficiencyTypeString;
 
     @JsonBackReference
-    @ManyToMany(mappedBy = "proficiencies")
+    @ManyToMany(mappedBy = "proficiencies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ClassModel> classes = new ArrayList<ClassModel>();
 
     @JsonBackReference
-    @ManyToMany(mappedBy = "proficiencies")
+    @ManyToMany(mappedBy = "proficiencies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CharacterModel> characters = new ArrayList<CharacterModel>();
 
     public Long getId() {

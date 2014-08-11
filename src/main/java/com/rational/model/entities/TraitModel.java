@@ -18,28 +18,32 @@ public abstract class TraitModel {
     private String name;
 
     @JsonBackReference
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name="race_trait", joinColumns = @JoinColumn(name="race_id"),
             inverseJoinColumns = @JoinColumn(name="trait_id"))
     private List<RaceModel> races= new ArrayList<RaceModel>();
 
     @JsonBackReference
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name="subrace_trait", joinColumns = @JoinColumn(name="subrace_id"),
             inverseJoinColumns = @JoinColumn(name="trait_id"))
     private List<SubRaceModel> subRaces= new ArrayList<SubRaceModel>();
 
     @JsonBackReference
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name="class_trait", joinColumns = @JoinColumn(name="class_id"),
             inverseJoinColumns = @JoinColumn(name="trait_id"))
     private List<ClassModel> classes= new ArrayList<ClassModel>();
 
     @JsonBackReference
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name="subclass_trait", joinColumns = @JoinColumn(name="subclass_id"),
             inverseJoinColumns = @JoinColumn(name="trait_id"))
     private List<SubClassModel> subClasses= new ArrayList<SubClassModel>();
+
+    @JsonBackReference
+    @ManyToMany
+    private List<CharacterModel> characters = new ArrayList<CharacterModel>();
 
     public int getId() {
         return id;
@@ -87,5 +91,13 @@ public abstract class TraitModel {
 
     public void setSubClasses(List<SubClassModel> subClasses) {
         this.subClasses = subClasses;
+    }
+
+    public List<CharacterModel> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<CharacterModel> characters) {
+        this.characters = characters;
     }
 }

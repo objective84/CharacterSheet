@@ -6,14 +6,14 @@ import com.rational.forms.*;
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
-import com.rational.model.equipment.ArmorGroup;
-import com.rational.model.equipment.ArmorModel;
-import com.rational.model.equipment.WeaponGroup;
+import com.rational.model.equipment.*;
 import com.rational.service.AdminService;
+import com.rational.service.CharacterService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +23,9 @@ public class DefaultAdminFacade implements AdminFacade {
 
     @Resource
     private AdminService adminService;
+
+    @Resource
+    CharacterService characterService;
 
     @Resource
     RaceConverter raceConverter;
@@ -236,6 +239,11 @@ public class DefaultAdminFacade implements AdminFacade {
         return weaponConverter.convertWeaponToForms(adminService.findAllWeapons());
     }
 
+    @Override
+    public List<WeaponModel> findAllWeaponModels() {
+        return adminService.findAllWeapons();
+    }
+
 
     /* Armor */
 
@@ -258,6 +266,11 @@ public class DefaultAdminFacade implements AdminFacade {
     @Override
     public ArmorModel getArmorModel(Long id){
         return adminService.findArmor(id);
+    }
+
+    @Override
+    public List<ArmorModel> findAllArmorModels(){
+        return adminService.findAllArmor();
     }
 
 
@@ -283,13 +296,71 @@ public class DefaultAdminFacade implements AdminFacade {
     }
 
     @Override
-    public CoinModel findAllArmor(Long id) {
+    public Coin findAllArmor(Long id) {
         return adminService.findCoin(id);
     }
 
     @Override
-    public List<CoinModel> findAllCoins() {
+    public List<Coin> findAllCoins() {
         return adminService.findAllCoins();
     }
 
+    @Override
+    public Coin findCoinByName(String name){return adminService.findCoinByName(name);}
+
+    @Override
+    public List<EquipmentModel> getOffHandFromInventory(CharacterModel character) {
+        CharacterModel characterModel = characterService.findCharacter(character.getId());
+        List<EquipmentModel> offHandItems = new ArrayList<EquipmentModel>();
+        for(EquipmentModel equipmentModel: characterModel.getInventory()){
+            if(equipmentModel instanceof WeaponModel){
+                WeaponModel weapon = (WeaponModel)equipmentModel;
+                if(!weapon.isTwoHanded()){
+                    offHandItems.add(weapon);
+                }
+            }
+        }
+
+        return offHandItems;
+    }
+
+    @Override
+    public List<WeaponModel> getWeaponsFromInventory(CharacterModel character) {
+        CharacterModel characterModel = characterService.findCharacter(character.getId());
+        List<WeaponModel> weapons = new ArrayList<WeaponModel>();
+        for (EquipmentModel equipmentModel : characterModel.getInventory()) {
+            if (equipmentModel instanceof WeaponModel) {
+                weapons.add((WeaponModel) equipmentModel);
+            }
+        }
+        return weapons;
+    }
+
+
+    @Override
+    public List<ArmorModel> getArmorFromInventory(CharacterModel character) {
+        CharacterModel characterModel = characterService.findCharacter(character.getId());
+        List<ArmorModel> armor = new ArrayList<ArmorModel>();
+        for (EquipmentModel equipmentModel : characterModel.getInventory()) {
+            if (equipmentModel instanceof ArmorModel) {
+                armor.add((ArmorModel) equipmentModel);
+            }
+        }
+        return armor;
+    }
+
+    @Override
+    public List<EquipmentModel> findEquipment(List<Long> equipmentIds) {
+        return adminService.findEquipment(equipmentIds);
+    }
+
+    @Override
+    public WeaponModel findWeaponModel(Long id) {
+        return adminService.findWeapon(id);
+    }
+
+    @Override
+    public EquipmentModel findEquipment(Long id) {
+        return adminService.findEquipment(id);
+    }
 }

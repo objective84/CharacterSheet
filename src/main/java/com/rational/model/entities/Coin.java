@@ -1,14 +1,15 @@
 package com.rational.model.entities;
 
 
+import com.rational.model.enums.CoinTypeEnum;
 import com.rational.model.equipment.EquipmentModel;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "COINS")
-public class CoinModel {
+public class Coin {
 
     private Long id;
 
@@ -16,6 +17,7 @@ public class CoinModel {
 
     private String abbr;
 
+    @JsonBackReference
     private List<EquipmentModel> equipment;
 
     public String getDenomination() {
@@ -25,6 +27,16 @@ public class CoinModel {
     public void setDenomination(String denomination) {
         this.denomination = denomination;
     }
+
+    public Coin(){
+
+    }
+
+    public Coin(CoinTypeEnum type){
+        denomination = type.getType();
+        abbr = type.getAbbr();
+    }
+
 
     @Id
     @GeneratedValue
@@ -51,5 +63,10 @@ public class CoinModel {
 
     public void setEquipment(List<EquipmentModel> equipment) {
         this.equipment = equipment;
+    }
+
+    @Transient
+    public CoinTypeEnum getCoinType(){
+        return CoinTypeEnum.valueOf(denomination.toUpperCase());
     }
 }

@@ -2,6 +2,7 @@ package com.rational.model.entities;
 
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -22,17 +23,18 @@ public class ClassModel {
     private String name;
 
     @ManyToOne
+    @JsonManagedReference
     private Dice hitDie;
 
-    @OneToMany(mappedBy = "clazz")
-    @JsonManagedReference
+    @OneToMany(mappedBy = "clazz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<CharacterModel> characters = new ArrayList<CharacterModel>();
 
     @ManyToMany
     @JsonManagedReference
     private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
-    @ManyToMany(mappedBy="classes")
+    @ManyToMany(mappedBy="classes", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<TraitModel> classTraits = new ArrayList<TraitModel>();
 
@@ -42,6 +44,12 @@ public class ClassModel {
 
     @Column(name="skills_at_creation")
     private Integer skillsAtCreation;
+
+    private Integer startingWealthDieAmount;
+
+    @JsonManagedReference
+    @ManyToOne
+    private Dice startingWealthDie;
 
     public Long getId() {
         return id;
@@ -105,5 +113,21 @@ public class ClassModel {
 
     public void setSkillsAtCreation(Integer skillsAtCreation) {
         this.skillsAtCreation = skillsAtCreation;
+    }
+
+    public Integer getStartingWealthDieAmount() {
+        return startingWealthDieAmount;
+    }
+
+    public void setStartingWealthDieAmount(Integer startingWealthDieAmount) {
+        this.startingWealthDieAmount = startingWealthDieAmount;
+    }
+
+    public Dice getStartingWealthDie() {
+        return startingWealthDie;
+    }
+
+    public void setStartingWealthDie(Dice startingWealthDie) {
+        this.startingWealthDie = startingWealthDie;
     }
 }

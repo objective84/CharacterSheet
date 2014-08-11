@@ -3,6 +3,7 @@
  */
 package com.rational.model.entities;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -20,7 +21,8 @@ public class RaceModel {
     @Column(name="name")
     private String raceName;
 
-    @OneToMany(mappedBy = "race")
+    @JsonBackReference
+    @OneToMany(mappedBy = "race", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CharacterModel> characters;
 
     @Column(name="description")
@@ -33,11 +35,11 @@ public class RaceModel {
     private Integer speed;
 
     @JsonManagedReference
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     private List<LanguageModel> languages = new ArrayList<LanguageModel>();
 
     @JsonManagedReference
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     private List<TraitModel> racialTraits = new ArrayList<TraitModel>();
 
     @JsonManagedReference

@@ -25,11 +25,11 @@ public class LanguageModel {
     private String description;
 
     @JsonBackReference
-    @ManyToMany(mappedBy = "languages")
+    @ManyToMany(mappedBy = "languages", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RaceModel> races = new ArrayList<RaceModel>();
 
     @JsonBackReference
-    @ManyToMany(mappedBy = "languages")
+    @ManyToMany(mappedBy = "languages", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CharacterModel> characters = new ArrayList<CharacterModel>();
 
     public String getName() {

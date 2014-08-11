@@ -29,6 +29,7 @@ public class WeaponConverter {
         weapon.setDamageDice(weaponModel.getDamageDice().getId());
         weapon.setMaxWeaponRange(weaponModel.getMaxWeaponRange());
         weapon.setWeaponRange(weaponModel.getWeaponRange());
+        weapon.setTwoHanded(weaponModel.isTwoHanded());
 
         return weapon;
     }
@@ -48,7 +49,7 @@ public class WeaponConverter {
         weaponModel.setDamageDice(adminService.findDice(weapon.getDamageDice()));
         weaponModel.setMaxWeaponRange(weapon.getMaxWeaponRange());
         weaponModel.setWeaponRange(weapon.getWeaponRange());
-
+        weaponModel.setTwoHanded(weapon.isTwoHanded());
 
         return weaponModel;
     }

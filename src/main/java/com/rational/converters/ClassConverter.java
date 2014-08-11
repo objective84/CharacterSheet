@@ -34,6 +34,8 @@ public class ClassConverter {
         classModel.setProficiencies(proficiencyConverter.convertToModels(clazz.getProficiencies()));
         classModel.setSubClasses(subClassConverter.convertToModels(clazz.getSubClasses()));
         classModel.setSkillsAtCreation(clazz.getSkillsAtCreation());
+        classModel.setStartingWealthDie(adminService.findDice(clazz.getStartingWealthDie()));
+        classModel.setStartingWealthDieAmount(clazz.getStartingWealthDiceAmount());
         return classModel;
     }
 
@@ -47,6 +49,8 @@ public class ClassConverter {
         clazz.setProficiencies(proficiencyConverter.convertToIds(classModel.getProficiencies()));
         clazz.setSubClasses(subClassConverter.convertToIds(classModel.getSubClasses()));
         clazz.setSkillsAtCreation(classModel.getSkillsAtCreation());
+        clazz.setStartingWealthDiceAmount(classModel.getStartingWealthDieAmount());
+        clazz.setStartingWealthDie(classModel.getStartingWealthDie().getId());
         return clazz;
     }
 

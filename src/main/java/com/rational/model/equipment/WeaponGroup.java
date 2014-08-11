@@ -1,7 +1,7 @@
 package com.rational.model.equipment;
 
 
-import org.hibernate.annotations.Where;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -49,8 +49,8 @@ public class WeaponGroup {
         this.id = id;
     }
 
-    @OneToMany(mappedBy = "weaponGroup")
-    @Where(clause = "EQUIPMENT_TYPE = W")
+    @JsonBackReference
+    @OneToMany(mappedBy = "weaponGroup", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<WeaponModel> getWeapons() {
         return weapons;
     }
