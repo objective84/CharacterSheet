@@ -1,6 +1,7 @@
 package com.rational.model.equipment;
 
 import com.rational.model.entities.CharacterModel;
+import com.rational.model.entities.TraitModel;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
@@ -23,6 +24,7 @@ public class ArmorModel extends EquipmentModel{
     private boolean stealthDisadvantage;
 
     private List<CharacterModel> equippedBy = new ArrayList<CharacterModel>();
+
 
     @JsonManagedReference
     @ManyToOne

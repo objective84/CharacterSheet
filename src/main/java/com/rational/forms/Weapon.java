@@ -1,5 +1,8 @@
 package com.rational.forms;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Weapon extends Equipment{
 
     private Long weaponGroup;
@@ -55,4 +58,5 @@ public class Weapon extends Equipment{
     public void setTwoHanded(boolean twoHanded) {
         this.twoHanded = twoHanded;
     }
+
 }

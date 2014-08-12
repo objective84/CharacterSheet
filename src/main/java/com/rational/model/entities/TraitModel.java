@@ -1,6 +1,9 @@
 package com.rational.model.entities;
 
+import com.rational.model.enums.TraitModTypeEnum;
+import com.rational.model.equipment.EquipmentModel;
 import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,14 +11,18 @@ import java.util.List;
 
 @Entity
 @Table(name="traits")
-public abstract class TraitModel {
+public class TraitModel {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
-    @Column(name="name")
     private String name;
+    private String description;
+    private Integer traitModifier;
+    private TraitModTypeEnum modType;
+
+
 
     @JsonBackReference
     @ManyToMany
@@ -45,11 +52,15 @@ public abstract class TraitModel {
     @ManyToMany
     private List<CharacterModel> characters = new ArrayList<CharacterModel>();
 
-    public int getId() {
+    @JsonManagedReference
+    @ManyToMany(mappedBy = "traits", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<EquipmentModel> equipment = new ArrayList<EquipmentModel>();
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -99,5 +110,37 @@ public abstract class TraitModel {
 
     public void setCharacters(List<CharacterModel> characters) {
         this.characters = characters;
+    }
+
+    public TraitModTypeEnum getModType() {
+        return modType;
+    }
+
+    public void setModType(TraitModTypeEnum modType) {
+        this.modType = modType;
+    }
+
+    public Integer getTraitModifier() {
+        return traitModifier;
+    }
+
+    public void setTraitModifier(Integer traitModifier) {
+        this.traitModifier = traitModifier;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<EquipmentModel> getEquipmentModels() {
+        return equipment;
+    }
+
+    public void setEquipmentModels(List<EquipmentModel> equipment) {
+        this.equipment = equipment;
     }
 }

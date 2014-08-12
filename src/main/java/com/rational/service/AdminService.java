@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface AdminService {
 
+    List<TraitModel> findTraits(List<Long> traits);
+
     LanguageModel saveLanguage(LanguageModel language);
 
     LanguageModel findLanguage(Long id);

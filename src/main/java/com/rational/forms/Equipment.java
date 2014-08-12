@@ -1,6 +1,7 @@
 package com.rational.forms;
 
-import javax.persistence.ManyToOne;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Equipment {
 
@@ -11,6 +12,7 @@ public class Equipment {
     protected String description;
     protected Integer price;
     protected Long priceDenomination;
+    private List<Long> traits = new ArrayList<Long>();
 
     public Integer getPrice() {
         return price;
@@ -52,12 +54,20 @@ public class Equipment {
         this.id = id;
     }
 
-    @ManyToOne
     public Long getPriceDenomination() {
         return priceDenomination;
     }
 
     public void setPriceDenomination(Long priceDenomination) {
         this.priceDenomination = priceDenomination;
+    }
+
+
+    public List<Long> getTraits() {
+        return traits;
+    }
+
+    public void setTraits(List<Long> traits) {
+        this.traits = traits;
     }
 }

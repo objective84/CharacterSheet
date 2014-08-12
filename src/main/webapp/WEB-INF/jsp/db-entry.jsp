@@ -37,6 +37,8 @@
     <br/>
     <a href="/CharacterSheet/admin/db-entry/dice.html">Dice</a>
     <br/>
+    <a href="/CharacterSheet/admin/db-entry/traits.html">Traits</a>
+    <br/>
 
     <a href="/CharacterSheet/admin.html" style="margin:10px; font-size: 12px;">Back</a>
 

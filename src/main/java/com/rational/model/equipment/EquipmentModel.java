@@ -2,6 +2,7 @@ package com.rational.model.equipment;
 
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.Coin;
+import com.rational.model.entities.TraitModel;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * Created by awest on 7/23/14.
  */
 @Entity
+@Table(name="equipment")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name="EQUIPMENT_TYPE")
 public abstract class EquipmentModel {
@@ -28,6 +30,7 @@ public abstract class EquipmentModel {
     protected Coin priceDenomination;
 
     protected List<CharacterModel> characters = new ArrayList<CharacterModel>();
+    private List<TraitModel> traits = new ArrayList<TraitModel>();
 
     @Id
     @GeneratedValue
@@ -88,5 +91,16 @@ public abstract class EquipmentModel {
 
     public void setCharacters(List<CharacterModel> characters) {
         this.characters = characters;
+    }
+
+
+    @JsonManagedReference
+    @ManyToMany
+    public List<TraitModel> getTraits() {
+        return traits;
+    }
+
+    public void setTraits(List<TraitModel> traits) {
+        this.traits = traits;
     }
 }

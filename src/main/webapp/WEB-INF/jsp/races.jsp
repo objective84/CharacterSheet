@@ -67,6 +67,12 @@
                         </td>
                     </tr>
                     <tr>
+                        <th>Traits: </th>
+                        <td>
+                            <form:select path="traits" items="${allTraits}" itemValue="id" itemLabel="name"></form:select>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="3">
                             <input type="submit" name='save' value="Save"/>
                             <a href="/CharacterSheet/admin/db-entry/races.html" style="margin:10px; font-size: 12px;">Clear</a>

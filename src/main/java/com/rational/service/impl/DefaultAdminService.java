@@ -125,15 +125,18 @@ public class DefaultAdminService implements AdminService {
 
     @Override
     @Transactional
-    //TODO
-    public TraitModel saveTrait(TraitModel trait) {return null;}
+    public TraitModel saveTrait(TraitModel trait) {
+        return traitRepository.save(trait);
+    }
 
     @Override
-    //TODO
-    public TraitModel findTrait(Long id) {return null;}
+    public TraitModel findTrait(Long id) {return traitRepository.findOne(id);}
 
     @Override
     public List<TraitModel> findAllTraits() {return traitRepository.findAll();}
+
+    @Override
+    public List<TraitModel> findTraits(List<Long> traits){return Lists.newArrayList(traitRepository.findAll(traits));}
 
 
     /* Languages */

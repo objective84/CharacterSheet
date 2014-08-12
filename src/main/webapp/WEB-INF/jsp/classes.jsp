@@ -47,19 +47,7 @@
                         <th>Proficiencies</th>
                         <td>
                             <table>
-                                <c:forEach items="${proficiencies}" var="proficiency">
-                                    <c:choose>
-                                        <c:when test="${proficiency.id == proficiencyMap[proficiency.id]}">
-                                            <c:set var="checked" value="checked='true'"/>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <c:set var="checked" value=""/>
-                                        </c:otherwise>
-                                    </c:choose>
-                                    <tr>
-                                        <td><input type='checkbox' name="proficiencies" value="${proficiency.id}" ${checked}/>${proficiency.name}</td>
-                                    </tr>
-                                </c:forEach>
+                                <form:select path="proficiencies" items="${proficiencies}" itemValue="id" itemLabel="name"/>
                             </table>
                         </td>
                     </tr>

@@ -60,11 +60,17 @@
                             <form:select path="priceDenomination" items="${coins}" itemValue="id" itemLabel="abbr"></form:select>
                         </td>
                     </tr>
-                    <tr colspan="4">
+                    <tr>
                         <th>Damage Dice: </th>
                         <td>
                             <form:input path="numberOfDice" cssClass="input-box-small"></form:input>
                             <form:select path="damageDice" items="${damageDice}" itemValue="id" itemLabel="name"></form:select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Traits: </th>
+                        <td>
+                            <form:select path="traits" items="${allTraits}" itemValue="id" itemLabel="name"></form:select>
                         </td>
                     </tr>
                     <tr>
