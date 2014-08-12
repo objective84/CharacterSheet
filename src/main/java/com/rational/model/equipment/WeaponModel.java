@@ -2,6 +2,7 @@ package com.rational.model.equipment;
 
 import com.rational.model.Dice;
 import com.rational.model.entities.CharacterModel;
+import com.rational.model.entities.TraitModel;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
@@ -39,6 +40,7 @@ public class WeaponModel extends EquipmentModel{
     @JsonBackReference
     @OneToMany(mappedBy = "equippedOffHand", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CharacterModel> equippedOff = new ArrayList<CharacterModel>();
+
 
     @ManyToOne
     @JsonManagedReference
@@ -84,4 +86,5 @@ public class WeaponModel extends EquipmentModel{
     public void setTwoHanded(boolean twoHanded) {
         this.twoHanded = twoHanded;
     }
+
 }

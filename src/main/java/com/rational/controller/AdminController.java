@@ -5,8 +5,10 @@ import com.rational.forms.*;
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.LanguageModel;
+import com.rational.model.entities.TraitModel;
 import com.rational.model.enums.DieTypeEnum;
 import com.rational.model.enums.ProficiencyTypeEnum;
+import com.rational.model.enums.TraitModTypeEnum;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,6 +40,7 @@ public class AdminController {
     private static final String DICE_ENTRY = "dice";
     private static final String ARMOR_ENTRY = "armor";
     private static final String WEAPON_ENTRY = "weapons";
+    private static final String TRAIT_ENTRY= "traits";
 
 
     private static final String REDIRECT_LANGUAGE_ENTRY = REDIRECT_PREFIX + LANGUAGE_ENTRY + REDIRECT_SUFFIX;
@@ -49,6 +52,7 @@ public class AdminController {
     private static final String REDIRECT_DICE_ENTRY = REDIRECT_PREFIX + DICE_ENTRY + REDIRECT_SUFFIX;
     private static final String REDIRECT_ARMOR_ENTRY = REDIRECT_PREFIX + ARMOR_ENTRY + REDIRECT_SUFFIX;
     private static final String REDIRECT_WEAPON_ENTRY = REDIRECT_PREFIX + WEAPON_ENTRY + REDIRECT_SUFFIX;
+    private static final String REDIRECT_TRAIT_ENTRY = REDIRECT_PREFIX + TRAIT_ENTRY + REDIRECT_SUFFIX;
 
     @Resource(name = "defaultAdminFacade")
     private AdminFacade adminFacade;
@@ -117,6 +121,7 @@ public class AdminController {
         mav.addObject("languages", adminFacade.findAllLanguages());
         mav.addObject("racialTraits", adminFacade.findAllRacialTraits());
         mav.addObject("subraces", adminFacade.findAllSubraces());
+        mav.addObject("allTraits", adminFacade.findAllTraits());
         return mav;
     }
 
@@ -357,6 +362,7 @@ public class AdminController {
         mav.addObject("allWeapons", adminFacade.findAllWeapons());
         mav.addObject("damageDice", adminFacade.findAllDice());
         mav.addObject("weaponGroups", adminFacade.getWeaponGroups());
+        mav.addObject("allTraits", adminFacade.findAllTraits());
         return mav;
     }
 
@@ -384,5 +390,36 @@ public class AdminController {
             hitDice.add(die);
         }
         return hitDice;
+    }
+
+    @RequestMapping(value = "/db-entry/traits", method = RequestMethod.GET)
+    public ModelAndView traits(final Model model, HttpSession session){
+        ModelAndView mav = new ModelAndView(TRAIT_ENTRY);
+        TraitModel trait = (TraitModel)session.getAttribute("trait");
+        if(null != trait && 0 != trait.getId()){
+            mav.addObject("trait", trait);
+            session.removeAttribute("clazz");
+        }else {
+            mav.addObject("trait", new TraitModel());
+        }
+        mav.addObject("allTraits", adminFacade.findAllTraits());
+        mav.addObject("modTypes", TraitModTypeEnum.values());
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/traits", method = RequestMethod.POST)
+    public ModelAndView findTrait(@ModelAttribute TraitModel trait, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_TRAIT_ENTRY);
+        session.setAttribute("trait", adminFacade.findTrait(trait.getId()));
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/traits", params = "save", method = RequestMethod.POST)
+    public ModelAndView saveTrait(final Model model, @ModelAttribute TraitModel trait, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_TRAIT_ENTRY);
+        adminFacade.saveTrait(trait);
+
+        return mav;
     }
 }

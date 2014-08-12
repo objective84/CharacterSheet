@@ -17,7 +17,7 @@ define('Router',
                 mappedPageControllers: [
                     PageControllerMap.createMappedPageController('character-sheet', CharacterView),
                     PageControllerMap.createMappedPageController('characterlist', CharacterListView),
-                    PageControllerMap.createMappedPageController('races|subraces|proficiencies|classes|dice|armor', DefaultDBEntryView),
+                    PageControllerMap.createMappedPageController('races|subraces|proficiencies|classes|dice|armor|traits', DefaultDBEntryView),
                     PageControllerMap.createMappedPageController('languages', LanguageView),
                     PageControllerMap.createMappedPageController('weapons', WeaponEntryView)
                 ],

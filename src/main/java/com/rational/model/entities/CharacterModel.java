@@ -60,7 +60,8 @@ public class CharacterModel {
 
     @JsonManagedReference
     @ManyToMany
-    @JoinTable(name="character_equipment", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="equipment_id"))
+    @JoinTable(name="character_equipment", joinColumns = @JoinColumn(name="character_id"),
+            inverseJoinColumns = @JoinColumn(name="equipment_id"))
     private List<EquipmentModel> inventory = new ArrayList<EquipmentModel>();
 
     @JsonManagedReference

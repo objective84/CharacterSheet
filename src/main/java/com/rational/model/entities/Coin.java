@@ -5,6 +5,7 @@ import com.rational.model.enums.CoinTypeEnum;
 import com.rational.model.equipment.EquipmentModel;
 import org.codehaus.jackson.annotate.JsonBackReference;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,6 +17,9 @@ public class Coin {
     private String denomination;
 
     private String abbr;
+
+    @Nullable
+    private Long lowerCoin;
 
     @JsonBackReference
     private List<EquipmentModel> equipment;
@@ -68,5 +72,13 @@ public class Coin {
     @Transient
     public CoinTypeEnum getCoinType(){
         return CoinTypeEnum.valueOf(denomination.toUpperCase());
+    }
+
+    public Long getLowerCoin() {
+        return lowerCoin;
+    }
+
+    public void setLowerCoin(Long lowerCoin) {
+        this.lowerCoin = lowerCoin;
     }
 }
