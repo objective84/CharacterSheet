@@ -318,8 +318,9 @@ CREATE TABLE `coin` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `abbr` varchar(255) DEFAULT NULL,
   `denomination` varchar(255) DEFAULT NULL,
+  `lowerCoin` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `coin` WRITE;
