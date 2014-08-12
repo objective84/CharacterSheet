@@ -9,15 +9,17 @@ define('Router',
         'CharacterView',
         'DefaultDBEntryView',
         'LanguageView',
-        'CharacterListView'
+        'CharacterListView',
+        'WeaponEntryView'
     ],
-    function ($, marionette, PageControllerMap, CharacterView, DefaultDBEntryView, LanguageView, CharacterListView) {
+    function ($, marionette, PageControllerMap, CharacterView, DefaultDBEntryView, LanguageView, CharacterListView, WeaponEntryView) {
         return marionette.Controller.extend({
                 mappedPageControllers: [
                     PageControllerMap.createMappedPageController('character-sheet', CharacterView),
                     PageControllerMap.createMappedPageController('characterlist', CharacterListView),
-                    PageControllerMap.createMappedPageController('races|subraces|proficiencies|classes', DefaultDBEntryView),
-                    PageControllerMap.createMappedPageController('languages', LanguageView)
+                    PageControllerMap.createMappedPageController('races|subraces|proficiencies|classes|dice|armor|traits', DefaultDBEntryView),
+                    PageControllerMap.createMappedPageController('languages', LanguageView),
+                    PageControllerMap.createMappedPageController('weapons', WeaponEntryView)
                 ],
 
                 initialize: function () {

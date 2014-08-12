@@ -10,9 +10,10 @@ table th {
     margin-top: 10px;
 }
 
-.abilities {
+.side-by-side.ability-row{
     border: 1px solid black;
     margin-bottom: 10px;
+    margin-right: 50px;
 }
 
 .abilities a{
@@ -20,7 +21,7 @@ table th {
 }
 
 .input-box-small {
-    width: 25px;
+    width: 30px;
     text-align: center;
     margin-right: 5px;
 }
@@ -28,18 +29,30 @@ table th {
 #table_container{
     border: 1px solid black;
     float: left;
-    width: 5000px;
+    width: auto;
+    height: auto;
     margin: 0 auto;
 }
 
-table.proficiencies{
+.side-by-side.currencyheader{
+    margin-right: 68px !important;
+    margin-left: 22px;
+}
+
+table.side-by-side{
     margin-right: 15px;
     float: left;
     width: auto;
 }
 
-table.proficiencies th{
+table.side-by-side.proficiencies th{
     text-align: left;
+}
+
+table.side-by-side.currency{
+    margin-right: 50px !important;
+    float: left;
+    width: auto;
 }
 
 .modal{
@@ -51,9 +64,29 @@ table.proficiencies th{
     height: auto;
 }
 
-.remove-link{
+.link-small {
     margin-left: 5px;
     font-size: 12;
 }
+
+
 /*Admin pages*/
+
+.weapon-range{
+    display: none;
+}
+
+.ability-change{
+    width: 26px;
+}
+
+.placeholder{
+    display: none;
+}
+
+
+.placeholder.show{
+    display: inline-block;
+    width: 26px;
+}
 

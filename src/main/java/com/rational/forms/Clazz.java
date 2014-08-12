@@ -1,7 +1,5 @@
 package com.rational.forms;
 
-import com.rational.model.enums.DieTypeEnum;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +7,13 @@ public class Clazz {
 
     private Long id;
     private String name;
-    private DieTypeEnum hitDie;
+    private Long hitDie;
     private Integer skillsAtCreation;
     private List<Long> proficiencies = new ArrayList<Long>();
     private List<Long> classTraits = new ArrayList<Long>();
     private List<Long> subClasses = new ArrayList<Long>();
+    private Integer startingWealthDiceAmount;
+    private Long startingWealthDie;
 
     public Long getId() {
         return id;
@@ -31,11 +31,11 @@ public class Clazz {
         this.name = name;
     }
 
-    public DieTypeEnum getHitDie() {
+    public Long getHitDie() {
         return hitDie;
     }
 
-    public void setHitDie(DieTypeEnum hitDie) {
+    public void setHitDie(Long hitDie) {
         this.hitDie = hitDie;
     }
 
@@ -69,5 +69,21 @@ public class Clazz {
 
     public void setSkillsAtCreation(Integer skillsAtCreation) {
         this.skillsAtCreation = skillsAtCreation;
+    }
+
+    public Integer getStartingWealthDiceAmount() {
+        return startingWealthDiceAmount;
+    }
+
+    public void setStartingWealthDiceAmount(Integer startingWealthDiceAmount) {
+        this.startingWealthDiceAmount = startingWealthDiceAmount;
+    }
+
+    public Long getStartingWealthDie() {
+        return startingWealthDie;
+    }
+
+    public void setStartingWealthDie(Long startingWealthDie) {
+        this.startingWealthDie = startingWealthDie;
     }
 }

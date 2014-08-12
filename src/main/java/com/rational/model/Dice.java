@@ -1,70 +1,97 @@
 package com.rational.model;
 
-import com.rational.model.enums.DieTypeEnum;
+import com.rational.model.entities.ClassModel;
+import com.rational.model.equipment.WeaponModel;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
-import java.util.Random;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Andy on 7/23/2014.
  */
+@Entity
+@Table(name="dice")
 public class Dice {
-    private DieTypeEnum name;
-    private int maxValue;
-    private int minValue;
-    private Random rand = new Random();
 
-    public Dice(DieTypeEnum type){
-        minValue = 1;
-        switch(type){
-            case d4:
-                maxValue = 4;
-                break;
-            case d6:
-                maxValue = 6;
-                break;
-            case d8:
-                maxValue = 8;
-                break;
-            case d10:
-                maxValue = 10;
-                break;
-            case d12:
-                maxValue = 12;
-                break;
-            case d20:
-                maxValue = 20;
-                break;
-            case d100:
-                maxValue = 100;
-                break;
-        }
+    private Long id;
+    @Column(name="name")
+    private String name;
+
+    @Column(name="maxRoll")
+    private int maxRoll;
+
+    @Column(name="minRoll")
+    private int minRoll = 1;
+
+    private List<ClassModel> classes = new ArrayList<ClassModel>();
+    private List<WeaponModel> weapons = new ArrayList<WeaponModel>();
+
+    private List<ClassModel> classWealthDie = new ArrayList<ClassModel>();
+
+    public Dice(){}
+
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
     }
 
-    public DieTypeEnum getName() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
         return name;
     }
 
-    public void setName(DieTypeEnum name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public int getMaxValue() {
-        return maxValue;
+    public Integer getMaxRoll() {
+        return maxRoll;
     }
 
-    public void setMaxValue(int maxValue) {
-        this.maxValue = maxValue;
+    public void setMaxRoll(int minimumValue) {
+        this.maxRoll = minimumValue;
     }
 
-    public int getMinValue() {
-        return minValue;
+    public Integer getMinRoll() {
+        return minRoll;
     }
 
-    public void setMinValue(int minValue) {
-        this.minValue = minValue;
+    public void setMinRoll(Integer minRoll) {
+        this.minRoll = minRoll;
     }
 
-    public Integer roll(){
-        return rand.nextInt(maxValue) + minValue;
+    @OneToMany(mappedBy = "hitDie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    public List<ClassModel> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(List<ClassModel> classes) {
+        this.classes = classes;
+    }
+
+    @OneToMany(mappedBy = "damageDice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    public List<WeaponModel> getWeapons() {
+        return weapons;
+    }
+    public void setWeapons(List<WeaponModel> weapons) {
+        this.weapons = weapons;
+    }
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "startingWealthDie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public List<ClassModel> getClassWealthDie() {
+        return classWealthDie;
+    }
+
+    public void setClassWealthDie(List<ClassModel> classWealthDie) {
+        this.classWealthDie = classWealthDie;
     }
 }

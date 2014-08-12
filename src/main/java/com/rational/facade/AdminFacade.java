@@ -1,11 +1,12 @@
 package com.rational.facade;
 
-import com.rational.forms.Clazz;
-import com.rational.forms.Race;
-import com.rational.forms.SubClass;
-import com.rational.forms.SubRace;
+import com.rational.forms.*;
+import com.rational.forms.Character;
+import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
+import com.rational.model.equipment.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -80,5 +81,58 @@ public interface AdminFacade {
     Map<Long, Proficiency> getProficienciesMap();
 
     RaceModel getRaceModel(Long id);
+
+    Dice saveDice(Dice dice);
+
+    Dice findDice(Long id);
+
+    List<Dice> findAllDice();
+
+    @Transactional
+    void saveWeapon(Weapon weapon);
+
+    Weapon findWeapon(Long id);
+
+    List<Weapon> findAllWeapons();
+
+    List<WeaponModel> findAllWeaponModels();
+
+    @Transactional
+    void saveArmor(Armor armor);
+
+    Armor findArmor(Long id);
+
+    List<Armor> findAllArmor();
+
+    ArmorModel getArmorModel(Long id);
+
+
+    List<ArmorModel> findAllArmorModels();
+
+    ArmorGroup getArmorGroup(Long id);
+
+    List<ArmorGroup> getArmorGroups();
+
+    WeaponGroup getWeaponGroup(Long id);
+
+    List<WeaponGroup> getWeaponGroups();
+
+    Coin findAllArmor(Long id);
+
+    List<Coin> findAllCoins();
+
+    Coin findCoinByName(String name);
+
+    List<EquipmentModel> getOffHandFromInventory(CharacterModel character);
+
+    List<WeaponModel> getWeaponsFromInventory(CharacterModel character);
+
+    List<ArmorModel> getArmorFromInventory(CharacterModel character);
+
+    List<EquipmentModel> findEquipment(List<Long> equipmentIds);
+
+    WeaponModel findWeaponModel(Long id);
+
+    EquipmentModel findEquipment(Long id);
 
 }

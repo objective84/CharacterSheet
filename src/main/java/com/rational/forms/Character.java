@@ -2,6 +2,7 @@ package com.rational.forms;
 
 import com.rational.model.enums.AbilityTypeEnum;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,15 +10,20 @@ import java.util.Map;
 public class Character {
 
     private Long id;
-    private String name;
-    private Integer level;
-    private Long clazz;
-    private Long race;
-    private int maxHealth;
-    private int currentHealth;
-    private Map<AbilityTypeEnum, Integer> abilityScores;
-    private List<Long> languages;
-    private List<Long> proficiencies;
+    private String name = "";
+    private Integer level = 0;
+    private Long clazz = 0l;
+    private Long race = 0l;
+    private Integer maxHealth = 0;
+    private Integer currentHealth = 0;
+    private Map<AbilityTypeEnum, Integer> abilityScores = new HashMap<AbilityTypeEnum, Integer>();
+    private List<Long> languages = new ArrayList<Long>();
+    private List<Long> proficiencies = new ArrayList<Long>();
+    private Map<String, Integer> coinPurse = new HashMap<String, Integer>();
+    private List<Long> inventory = new ArrayList<Long>();
+    private Long equippedArmor = 0l;
+    private Long equippedMainHand = 0l;
+    private Long equippedOffHand = 0l;
 
     public Character(){
         abilityScores = new HashMap<AbilityTypeEnum, Integer>();
@@ -72,19 +78,19 @@ public class Character {
         this.level = level;
     }
 
-    public int getMaxHealth() {
+    public Integer getMaxHealth() {
         return maxHealth;
     }
 
-    public void setMaxHealth(int maxHealth) {
+    public void setMaxHealth(Integer maxHealth) {
         this.maxHealth = maxHealth;
     }
 
-    public int getCurrentHealth() {
+    public Integer getCurrentHealth() {
         return currentHealth;
     }
 
-    public void setCurrentHealth(int currentHealth) {
+    public void setCurrentHealth(Integer currentHealth) {
         this.currentHealth = currentHealth;
     }
 
@@ -110,5 +116,45 @@ public class Character {
 
     public void setProficiencies(List<Long> proficiencies) {
         this.proficiencies = proficiencies;
+    }
+
+    public Long getEquippedArmor() {
+        return equippedArmor;
+    }
+
+    public void setEquippedArmor(Long equippedArmor) {
+        this.equippedArmor = equippedArmor;
+    }
+
+    public Long getEquippedMainHand() {
+        return equippedMainHand;
+    }
+
+    public void setEquippedMainHand(Long equippedMainHand) {
+        this.equippedMainHand = equippedMainHand;
+    }
+
+    public Long getEquippedOffHand() {
+        return equippedOffHand;
+    }
+
+    public void setEquippedOffHand(Long equippedOffHand) {
+        this.equippedOffHand = equippedOffHand;
+    }
+
+    public List<Long> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(List<Long> inventory) {
+        this.inventory = inventory;
+    }
+
+    public Map<String, Integer> getCoinPurse() {
+        return coinPurse;
+    }
+
+    public void setCoinPurse(Map<String, Integer> coinPurse) {
+        this.coinPurse = coinPurse;
     }
 }

@@ -3,7 +3,7 @@ package com.rational.model.building;
 import com.rational.model.Characteristic;
 import com.rational.model.entities.LanguageModel;
 import com.rational.model.Proficiency;
-import com.rational.model.equipment.Equipment;
+import com.rational.model.equipment.EquipmentModel;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class Background {
     private String description;
     private List<Proficiency> proficiencies;
     private List<LanguageModel> languages;
-    private List<Equipment> equipments;
+    private List<EquipmentModel> equipments;
     private String feature;
     private List<Characteristic> characteristics;
 

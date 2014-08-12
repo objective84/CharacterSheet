@@ -1,14 +1,14 @@
 package com.rational.controller;
 
 import com.rational.facade.AdminFacade;
-import com.rational.forms.Clazz;
-import com.rational.forms.Race;
-import com.rational.forms.SubClass;
-import com.rational.forms.SubRace;
+import com.rational.forms.*;
+import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.LanguageModel;
+import com.rational.model.entities.TraitModel;
 import com.rational.model.enums.DieTypeEnum;
 import com.rational.model.enums.ProficiencyTypeEnum;
+import com.rational.model.enums.TraitModTypeEnum;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,8 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RequestMapping(value="/admin")
 @Controller
@@ -28,24 +27,32 @@ public class AdminController {
     private static final String REDIRECT_PREFIX = "redirect:";
     private static final String REDIRECT_SUFFIX = ".html";
 
-    private static final String ADMIN = "admin/admin";
-    private static final String DB_ENTRY = "admin/db-entry";
-    private static final String CLASS_ENTRY = "admin/db-entry/classes";
-    private static final String SUB_CLASS_ENTRY = "admin/db-entry/subclasses";
-    private static final String LANGUAGE_ENTRY = "admin/db-entry/languages";
-    private static final String RACE_ENTRY = "admin/db-entry/races";
-    private static final String SUBRACE_ENTRY = "admin/db-entry/subraces";
-    private static final String EQUIPMENT_ENTRY = "admin/db-entry/equipment";
-    private static final String SPELLS_ENTRY = "admin/db-entry/spells";
-    private static final String PROFICIENCY_ENTRY = "admin/db-entry/proficiencies";
+    private static final String ADMIN = "admin";
+    private static final String DB_ENTRY = "db-entry";
+    private static final String CLASS_ENTRY = "classes";
+    private static final String SUB_CLASS_ENTRY = "subclasses";
+    private static final String LANGUAGE_ENTRY = "languages";
+    private static final String RACE_ENTRY = "races";
+    private static final String SUBRACE_ENTRY = "subraces";
+    private static final String EQUIPMENT_ENTRY = "equipment";
+    private static final String SPELLS_ENTRY = "spells";
+    private static final String PROFICIENCY_ENTRY = "proficiencies";
+    private static final String DICE_ENTRY = "dice";
+    private static final String ARMOR_ENTRY = "armor";
+    private static final String WEAPON_ENTRY = "weapons";
+    private static final String TRAIT_ENTRY= "traits";
 
 
-    private static final String REDIRECT_LANGUAGE_ENTRY = REDIRECT_PREFIX + "languages" + REDIRECT_SUFFIX;
-    private static final String REDIRECT_RACE_ENTRY = REDIRECT_PREFIX + "races" + REDIRECT_SUFFIX;
-    private static final String REDIRECT_SUBRACE_ENTRY = REDIRECT_PREFIX + "subraces" + REDIRECT_SUFFIX;
-    private static final String REDIRECT_PROFICIENCY_ENTRY = REDIRECT_PREFIX + "proficiencies" + REDIRECT_SUFFIX;
-    private static final String REDIRECT_CLASS_ENTRY = REDIRECT_PREFIX + "classes" + REDIRECT_SUFFIX;
-    private static final String REDIRECT_SUB_CLASS_ENTRY = REDIRECT_PREFIX + "subclasses" + REDIRECT_SUFFIX;
+    private static final String REDIRECT_LANGUAGE_ENTRY = REDIRECT_PREFIX + LANGUAGE_ENTRY + REDIRECT_SUFFIX;
+    private static final String REDIRECT_RACE_ENTRY = REDIRECT_PREFIX + RACE_ENTRY + REDIRECT_SUFFIX;
+    private static final String REDIRECT_SUBRACE_ENTRY = REDIRECT_PREFIX + SUBRACE_ENTRY + REDIRECT_SUFFIX;
+    private static final String REDIRECT_PROFICIENCY_ENTRY = REDIRECT_PREFIX + PROFICIENCY_ENTRY + REDIRECT_SUFFIX;
+    private static final String REDIRECT_CLASS_ENTRY = REDIRECT_PREFIX + CLASS_ENTRY + REDIRECT_SUFFIX;
+    private static final String REDIRECT_SUB_CLASS_ENTRY = REDIRECT_PREFIX + SUB_CLASS_ENTRY + REDIRECT_SUFFIX;
+    private static final String REDIRECT_DICE_ENTRY = REDIRECT_PREFIX + DICE_ENTRY + REDIRECT_SUFFIX;
+    private static final String REDIRECT_ARMOR_ENTRY = REDIRECT_PREFIX + ARMOR_ENTRY + REDIRECT_SUFFIX;
+    private static final String REDIRECT_WEAPON_ENTRY = REDIRECT_PREFIX + WEAPON_ENTRY + REDIRECT_SUFFIX;
+    private static final String REDIRECT_TRAIT_ENTRY = REDIRECT_PREFIX + TRAIT_ENTRY + REDIRECT_SUFFIX;
 
     @Resource(name = "defaultAdminFacade")
     private AdminFacade adminFacade;
@@ -114,6 +121,7 @@ public class AdminController {
         mav.addObject("languages", adminFacade.findAllLanguages());
         mav.addObject("racialTraits", adminFacade.findAllRacialTraits());
         mav.addObject("subraces", adminFacade.findAllSubraces());
+        mav.addObject("allTraits", adminFacade.findAllTraits());
         return mav;
     }
 
@@ -226,7 +234,7 @@ public class AdminController {
             mav.addObject("clazz", new Clazz());
         }
         mav.addObject("allClasses", adminFacade.findAllClasses());
-        mav.addObject("hitDieTypes", DieTypeEnum.getAllHitDieTypes());
+        mav.addObject("hitDice", getHitDice());
         mav.addObject("proficiencies", adminFacade.findAllProficiencies());
 
 
@@ -281,4 +289,137 @@ public class AdminController {
         return mav;
     }
 
+    @RequestMapping(value = "/db-entry/dice", method = RequestMethod.GET)
+    public ModelAndView dice(final Model model, HttpSession session){
+        ModelAndView mav = new ModelAndView(DICE_ENTRY);
+        Dice dice = (Dice)session.getAttribute("dice");
+        if(null != dice) {
+            session.removeAttribute("dice");
+        }else{
+            dice = new Dice();
+        }
+        mav.addObject("dice", dice);
+        mav.addObject("allDice", adminFacade.findAllDice());
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/dice", method = RequestMethod.POST)
+    public ModelAndView findDice(@ModelAttribute Dice dice, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_DICE_ENTRY);
+        session.setAttribute("dice", adminFacade.findDice(dice.getId()));
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/dice", params = "save", method = RequestMethod.POST)
+    public ModelAndView saveDice(final Model model, @ModelAttribute Dice dice, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_DICE_ENTRY);
+        adminFacade.saveDice(dice);
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/armor", method = RequestMethod.GET)
+    public ModelAndView armor(final Model model, HttpSession session){
+        ModelAndView mav = new ModelAndView(ARMOR_ENTRY);
+        Armor armor = (Armor)session.getAttribute("armor");
+        if(null != armor) {
+            session.removeAttribute("armor");
+        }else{
+            armor = new Armor();
+        }
+        mav.addObject("coins", adminFacade.findAllCoins());
+        mav.addObject("armor", armor);
+        mav.addObject("armorGroups", adminFacade.getArmorGroups());
+        mav.addObject("allArmor", adminFacade.findAllArmor());
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/armor", method = RequestMethod.POST)
+    public ModelAndView findArmor(@ModelAttribute Armor armor, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_ARMOR_ENTRY);
+        session.setAttribute("armor", adminFacade.findArmor(armor.getId()));
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/armor", params = "save", method = RequestMethod.POST)
+    public ModelAndView saveArmor(final Model model, @ModelAttribute Armor armor, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_ARMOR_ENTRY);
+        adminFacade.saveArmor(armor);
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/weapons", method = RequestMethod.GET)
+    public ModelAndView weapon(final Model model, HttpSession session){
+        ModelAndView mav = new ModelAndView(WEAPON_ENTRY);
+        Weapon weapon = (Weapon)session.getAttribute("weapon");
+        if(null != weapon) {
+            session.removeAttribute("weapon");
+        }else{
+            weapon = new Weapon();
+        }
+        mav.addObject("weapon", weapon);
+        mav.addObject("coins", adminFacade.findAllCoins());
+        mav.addObject("allWeapons", adminFacade.findAllWeapons());
+        mav.addObject("damageDice", adminFacade.findAllDice());
+        mav.addObject("weaponGroups", adminFacade.getWeaponGroups());
+        mav.addObject("allTraits", adminFacade.findAllTraits());
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/weapons", method = RequestMethod.POST)
+    public ModelAndView findWeapon(@ModelAttribute Weapon weapon, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_WEAPON_ENTRY);
+        session.setAttribute("weapon", adminFacade.findWeapon(weapon.getId()));
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/weapons", params = "save", method = RequestMethod.POST)
+    public ModelAndView saveWeapon(final Model model, @ModelAttribute Weapon weapon, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_WEAPON_ENTRY);
+        adminFacade.saveWeapon(weapon);
+        return mav;
+    }
+
+    private List<Dice> getHitDice() {
+        List<Dice> allDice = adminFacade.findAllDice();
+        List<Dice> hitDice = new ArrayList<Dice>();
+        List<String> hitDieTypes = Arrays.asList(DieTypeEnum.getAllHitDieTypes());
+
+        for (Dice die : allDice) {
+            if (hitDieTypes.contains(die.getName())) ;
+            hitDice.add(die);
+        }
+        return hitDice;
+    }
+
+    @RequestMapping(value = "/db-entry/traits", method = RequestMethod.GET)
+    public ModelAndView traits(final Model model, HttpSession session){
+        ModelAndView mav = new ModelAndView(TRAIT_ENTRY);
+        TraitModel trait = (TraitModel)session.getAttribute("trait");
+        if(null != trait && 0 != trait.getId()){
+            mav.addObject("trait", trait);
+            session.removeAttribute("clazz");
+        }else {
+            mav.addObject("trait", new TraitModel());
+        }
+        mav.addObject("allTraits", adminFacade.findAllTraits());
+        mav.addObject("modTypes", TraitModTypeEnum.values());
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/traits", method = RequestMethod.POST)
+    public ModelAndView findTrait(@ModelAttribute TraitModel trait, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_TRAIT_ENTRY);
+        session.setAttribute("trait", adminFacade.findTrait(trait.getId()));
+        return mav;
+    }
+
+    @RequestMapping(value = "/db-entry/traits", params = "save", method = RequestMethod.POST)
+    public ModelAndView saveTrait(final Model model, @ModelAttribute TraitModel trait, HttpSession session){
+        ModelAndView mav = new ModelAndView(REDIRECT_TRAIT_ENTRY);
+        adminFacade.saveTrait(trait);
+
+        return mav;
+    }
 }

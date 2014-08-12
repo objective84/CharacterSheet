@@ -86,6 +86,21 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>12.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.noggit</groupId>
+            <artifactId>noggit</artifactId>
+            <version>0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20090211</version>
+        </dependency>
     </dependencies>
   <build>
     <finalName>CharacterSheet</finalName>
@@ -100,6 +115,16 @@
                 <path>/CharacterSheet</path>
                 <username>admin</username>
                 <password>admin</password>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-maven-plugin</artifactId>
+            <version>3.0</version>
+            <configuration>
+                <url>jdbc:mysql://localhost:3306/CharacterSheet?autoReconnect=true</url>
+                <user>root</user>
+                <password>root</password>
             </configuration>
         </plugin>
     </plugins>

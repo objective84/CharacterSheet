@@ -2,7 +2,6 @@ package com.rational.converters;
 
 import com.rational.forms.Clazz;
 import com.rational.model.entities.ClassModel;
-import com.rational.model.enums.DieTypeEnum;
 import com.rational.service.AdminService;
 import org.springframework.stereotype.Component;
 
@@ -30,11 +29,13 @@ public class ClassConverter {
 
         classModel.setId(clazz.getId());
         classModel.setName(clazz.getName());
-        classModel.setHitDie(DieTypeEnum.valueOf(clazz.getHitDie().toString()));
+        classModel.setHitDie(adminService.findDice(clazz.getHitDie()));
         classModel.setClassTraits(traitConverter.convertToModels(clazz.getClassTraits()));
         classModel.setProficiencies(proficiencyConverter.convertToModels(clazz.getProficiencies()));
         classModel.setSubClasses(subClassConverter.convertToModels(clazz.getSubClasses()));
         classModel.setSkillsAtCreation(clazz.getSkillsAtCreation());
+        classModel.setStartingWealthDie(adminService.findDice(clazz.getStartingWealthDie()));
+        classModel.setStartingWealthDieAmount(clazz.getStartingWealthDiceAmount());
         return classModel;
     }
 
@@ -43,11 +44,13 @@ public class ClassConverter {
 
         clazz.setId(classModel.getId());
         clazz.setName(classModel.getName());
-        clazz.setHitDie(classModel.getHitDie());
+        clazz.setHitDie(classModel.getHitDie().getId());
         clazz.setClassTraits(traitConverter.convertToIds(classModel.getClassTraits()));
         clazz.setProficiencies(proficiencyConverter.convertToIds(classModel.getProficiencies()));
         clazz.setSubClasses(subClassConverter.convertToIds(classModel.getSubClasses()));
         clazz.setSkillsAtCreation(classModel.getSkillsAtCreation());
+        clazz.setStartingWealthDiceAmount(classModel.getStartingWealthDieAmount());
+        clazz.setStartingWealthDie(classModel.getStartingWealthDie().getId());
         return clazz;
     }
 

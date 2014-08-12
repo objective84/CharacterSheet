@@ -1,11 +1,18 @@
 package com.rational.service;
 
+import com.rational.model.Dice;
 import com.rational.model.Proficiency;
+import com.rational.model.entities.SubRaceModel;
 import com.rational.model.entities.*;
+import com.rational.model.enums.CoinTypeEnum;
+import com.rational.model.equipment.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 public interface AdminService {
+
+    List<TraitModel> findTraits(List<Long> traits);
 
     LanguageModel saveLanguage(LanguageModel language);
 
@@ -27,6 +34,20 @@ public interface AdminService {
 
     List<TraitModel> findAllTraits();
 
+
+    @Transactional
+    Dice saveDice(Dice dice);
+
+    Dice findDice(Long id);
+
+    List<Dice> findAllDice();
+
+    @Transactional
+    WeaponModel saveWeapon(WeaponModel weapon);
+
+    WeaponModel findWeapon(Long id);
+
+    List<WeaponModel> findAllWeapons();
 
     SubRaceModel saveSubrace(SubRaceModel subRace);
 
@@ -56,4 +77,32 @@ public interface AdminService {
     List<SubClassModel> findAllSubClasses();
 
 
+    @Transactional
+    ArmorModel saveArmor(ArmorModel armor);
+
+    ArmorModel findArmor(Long id);
+
+    List<ArmorModel> findAllArmor();
+
+    ArmorGroup findArmorGroup(Long id);
+
+    List<ArmorGroup> findAllArmorGroups();
+
+    WeaponGroup findWeaponGroup(Long id);
+
+    List<WeaponGroup> findAllWeaponGroups();
+
+    Coin findCoin(Long id);
+
+    Coin findCoinByType(CoinTypeEnum type);
+
+    List<Coin> findAllCoins();
+
+    Coin findCoinByName(String name);
+
+    List<EquipmentModel> findEquipment(List<Long> ids);
+
+    EquipmentModel findEquipment(Long id);
+
+    CoinPurse saveCoinPurse(CoinPurse purse);
 }

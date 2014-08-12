@@ -2,6 +2,7 @@ package com.rational.converters;
 
 import com.rational.forms.Race;
 import com.rational.model.entities.RaceModel;
+import com.rational.model.entities.TraitModel;
 import com.rational.service.AdminService;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +28,7 @@ public class RaceConverter {
         raceModel.setSize(race.getSize());
         raceModel.setSpeed(race.getSpeed());
         raceModel.setLanguages(languageConverter.convertToModels(race.getLanguages()));
-//        raceModel.setTraits(race.getTraits());
+        raceModel.setRacialTraits(adminService.findTraits(race.getTraits()));
 //        raceModel.setSubraces(race.getSubraces());
         return raceModel;
     }
@@ -40,7 +41,11 @@ public class RaceConverter {
         race.setSize(raceModel.getSize());
         race.setSpeed(raceModel.getSpeed());
         race.setLanguages(languageConverter.convertToIds(raceModel.getLanguages()));
-//        race.setTraits(raceModel.getTraits());
+        List<Long> traitIds = new ArrayList<Long>();
+        for(TraitModel trait : raceModel.getRacialTraits()){
+            traitIds.add(trait.getId());
+        }
+        race.setTraits(traitIds);
 //        race.setSubraces(raceModel.getSubraces());
         return race;
     }

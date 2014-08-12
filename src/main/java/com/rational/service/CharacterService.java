@@ -11,4 +11,6 @@ public interface CharacterService {
     List<CharacterModel> findAllCharacters();
 
     CharacterModel findCharacter(Long id);
+
+    void deleteCharacter(Long id);
 }
