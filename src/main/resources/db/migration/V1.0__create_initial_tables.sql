@@ -466,11 +466,6 @@ CREATE TABLE `races` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-LOCK TABLES `races` WRITE;
-/*!40000 ALTER TABLE `races` DISABLE KEYS */;
-INSERT INTO `races` VALUES (1,'','Elf','Meduim',30);
-/*!40000 ALTER TABLE `races` ENABLE KEYS */;
-UNLOCK TABLES;
 DROP TABLE IF EXISTS `races_languages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
