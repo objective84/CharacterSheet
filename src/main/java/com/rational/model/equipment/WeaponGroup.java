@@ -12,7 +12,6 @@ import java.util.List;
  */
 
 @Entity
-@Table(name="WEAPON_GROUPS")
 public class WeaponGroup {
 
 

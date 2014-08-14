@@ -11,14 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="races")
 public class RaceModel {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @Column(name="name")
     private String raceName;
 
     @JsonBackReference
@@ -40,7 +38,7 @@ public class RaceModel {
 
     @JsonManagedReference
     @ManyToMany
-    private List<TraitModel> racialTraits = new ArrayList<TraitModel>();
+    private List<TraitModel> traits = new ArrayList<TraitModel>();
 
     @JsonManagedReference
     @OneToMany(mappedBy = "parentRace", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -94,12 +92,12 @@ public class RaceModel {
         this.languages = languages;
     }
 
-//    public List<TraitModel> getRacialTraits() {
-//        return racialTraits;
+//    public List<TraitModel> getTraits() {
+//        return traits;
 //    }
 //
-//    public void setRacialTraits(List<TraitModel> racialTraits) {
-//        this.racialTraits = racialTraits;
+//    public void setTraits(List<TraitModel> traits) {
+//        this.traits = traits;
 //    }
 
 //    public SubRaceModel getSubrace() {
@@ -119,12 +117,12 @@ public class RaceModel {
         this.availableSubraces = availableSubraces;
     }
 
-    public List<TraitModel> getRacialTraits() {
-        return racialTraits;
+    public List<TraitModel> getTraits() {
+        return traits;
     }
 
-    public void setRacialTraits(List<TraitModel> racialTraits) {
-        this.racialTraits = racialTraits;
+    public void setTraits(List<TraitModel> traits) {
+        this.traits = traits;
     }
 
     public List<CharacterModel> getCharacter() {

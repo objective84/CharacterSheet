@@ -49,7 +49,7 @@
                         <%--<tr>--%>
                         <%--<th>Traits</th>--%>
                         <%--<c:forEach items="${taits}" var="trait">--%>
-                        <%--<td><form:checkbox path="racialTraits" value="${trait}"/></td>--%>
+                        <%--<td><form:checkbox path="traits" value="${trait}"/></td>--%>
                         <%--</c:forEach>--%>
                         <%--</tr>--%>
                         <%--<tr>--%>

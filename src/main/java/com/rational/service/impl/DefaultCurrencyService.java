@@ -160,11 +160,11 @@ public class DefaultCurrencyService implements CurrencyService {
     public BigDecimal getTotalPurseValueInPlatinum(CoinPurse purse) {
         BigDecimal total = BigDecimal.ZERO;
 
-        total.add(BigDecimal.valueOf(purse.getPP()));
-        total.add(BigDecimal.valueOf(purse.getGP()).divide(ExchangeRateEnum.GOLD_TO_PLATINUM));
-        total.add(BigDecimal.valueOf(purse.getGP()).divide(ExchangeRateEnum.ELECTRUM_TO_PLATINUM));
-        total.add(BigDecimal.valueOf(purse.getGP()).divide(ExchangeRateEnum.SILVER_TO_PLATINUM));
-        total.add(BigDecimal.valueOf(purse.getGP()).divide(ExchangeRateEnum.COPPER_TO_PLATINUM));
+        total = total.add(BigDecimal.valueOf(purse.getPP()));
+        total = total.add(BigDecimal.valueOf(purse.getGP()).divide(ExchangeRateEnum.GOLD_TO_PLATINUM));
+        total = total.add(BigDecimal.valueOf(purse.getEP()).divide(ExchangeRateEnum.ELECTRUM_TO_PLATINUM));
+        total = total.add(BigDecimal.valueOf(purse.getSP()).divide(ExchangeRateEnum.SILVER_TO_PLATINUM));
+        total = total.add(BigDecimal.valueOf(purse.getCP()).divide(ExchangeRateEnum.COPPER_TO_PLATINUM));
 
         return total;
     }
@@ -172,7 +172,7 @@ public class DefaultCurrencyService implements CurrencyService {
     @Override
     public CoinPurse getStartingWealth(Dice die, Integer amt){
         CoinPurse purse = new CoinPurse();
-        purse.setGP(diceService.rollDice(die, amt) * STARTING_WEALTH_MULTIPLIER);
+        purse.setPP(diceService.rollDice(die, amt));
         return purse;
     }
 }

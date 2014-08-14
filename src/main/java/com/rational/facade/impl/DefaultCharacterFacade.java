@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Set;
 
@@ -101,10 +102,15 @@ public class DefaultCharacterFacade implements CharacterFacade {
         List<EquipmentModel> equipmentModels = equipmentConverter.convertToModels(equipmentIds);
 
         BigDecimal totalCost = BigDecimal.ZERO;
+        totalCost.setScale(2, RoundingMode.HALF_UP);
         for(EquipmentModel equipmentModel : equipmentModels){
-            BigDecimal exchange = ExchangeRateEnum.getExchangeRate(
-                    equipmentModel.getPriceDenomination().getCoinType(), CoinTypeEnum.PLATINUM);
-            totalCost.add(BigDecimal.valueOf(equipmentModel.getPrice()).divide(exchange));
+            if(!CoinTypeEnum.PLATINUM.equals(equipmentModel.getPriceDenomination().getCoinType())) {
+                BigDecimal exchange = ExchangeRateEnum.getExchangeRate(
+                        equipmentModel.getPriceDenomination().getCoinType(), CoinTypeEnum.PLATINUM);
+                totalCost = totalCost.add(BigDecimal.valueOf(equipmentModel.getPrice()).divide(exchange).setScale(2, RoundingMode.HALF_UP));
+            }else{
+                totalCost = totalCost.add(BigDecimal.valueOf(equipmentModel.getPrice()));
+            }
         }
 
         BigDecimal change = currencyService.getTotalPurseValueInPlatinum(characterModel.getCoinPurse()).subtract(totalCost);

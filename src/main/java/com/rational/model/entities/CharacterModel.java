@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="characters")
 public class CharacterModel {
 
     @Id

@@ -11,7 +11,6 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "ARMOR_GROUPS")
 public class ArmorGroup {
 
     private Long id;

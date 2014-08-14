@@ -90,3 +90,6 @@ table.side-by-side.currency{
     width: 26px;
 }
 
+#store-submit{
+    float: right;
+}

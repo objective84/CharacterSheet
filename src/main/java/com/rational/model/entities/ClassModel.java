@@ -13,7 +13,6 @@ import java.util.List;
  * Created by awest on 7/23/14.
  */
 @Entity
-@Table(name="classes")
 public class ClassModel {
 
     @Id

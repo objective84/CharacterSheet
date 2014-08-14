@@ -1,6 +1,5 @@
 package com.rational.model.entities;
 
-import com.rational.model.enums.TraitModTypeEnum;
 import com.rational.model.equipment.EquipmentModel;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="traits")
 public class TraitModel {
 
     @Id
@@ -20,7 +18,7 @@ public class TraitModel {
     private String name;
     private String description;
     private Integer traitModifier;
-    private TraitModTypeEnum modType;
+//    private TraitModTypeEnum modType;
 
 
 
@@ -112,13 +110,13 @@ public class TraitModel {
         this.characters = characters;
     }
 
-    public TraitModTypeEnum getModType() {
-        return modType;
-    }
-
-    public void setModType(TraitModTypeEnum modType) {
-        this.modType = modType;
-    }
+//    public TraitModTypeEnum getModType() {
+//        return modType;
+//    }
+//
+//    public void setModType(TraitModTypeEnum modType) {
+//        this.modType = modType;
+//    }
 
     public Integer getTraitModifier() {
         return traitModifier;

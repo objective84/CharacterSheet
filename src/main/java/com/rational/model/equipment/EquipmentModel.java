@@ -14,9 +14,7 @@ import java.util.List;
  * Created by awest on 7/23/14.
  */
 @Entity
-@Table(name="equipment")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name="EQUIPMENT_TYPE")
 public abstract class EquipmentModel {
 
     protected Long id;

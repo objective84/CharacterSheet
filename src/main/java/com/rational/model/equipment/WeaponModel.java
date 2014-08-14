@@ -2,7 +2,6 @@ package com.rational.model.equipment;
 
 import com.rational.model.Dice;
 import com.rational.model.entities.CharacterModel;
-import com.rational.model.entities.TraitModel;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
@@ -21,6 +20,7 @@ public class WeaponModel extends EquipmentModel{
     private Integer weaponRange;
     private Integer maxWeaponRange;
     private Dice damageDice;
+    private String damageType;
 
     private Integer numberOfDice;
     private boolean twoHanded;
@@ -87,4 +87,11 @@ public class WeaponModel extends EquipmentModel{
         this.twoHanded = twoHanded;
     }
 
+    public String getDamageType() {
+        return damageType;
+    }
+
+    public void setDamageType(String damageType) {
+        this.damageType = damageType;
+    }
 }

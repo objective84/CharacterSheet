@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "subclass")
 public class SubClassModel {
 
     @Id
@@ -22,7 +21,7 @@ public class SubClassModel {
     private String description;
 
     @JsonManagedReference
-    @ManyToMany(mappedBy="subClasses", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TraitModel> subClassTraits = new ArrayList<TraitModel>();
 
     @ManyToOne

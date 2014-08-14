@@ -406,7 +406,8 @@ define("CharacterView",
                     items.push(value.id + '');
                 });
                 $('.store-item').each(_.bind(function(key, value){
-                    if($(value).prop('checked')) {
+                    console.log($(value).prop('checked') )
+                    if($(value).prop('checked') === true) {
                         items.push($(value).val());
                     }
                 }, this));
@@ -418,6 +419,7 @@ define("CharacterView",
                     if(data.code === 1) {
                         this.character = data.data;
                         this.setInventory();
+                        this.setCoinPurse();
                         this.modalClose('store-modal');
                         alert(data.message);
                     }else if(data.code === 0){

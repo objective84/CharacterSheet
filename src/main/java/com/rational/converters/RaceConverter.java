@@ -28,7 +28,7 @@ public class RaceConverter {
         raceModel.setSize(race.getSize());
         raceModel.setSpeed(race.getSpeed());
         raceModel.setLanguages(languageConverter.convertToModels(race.getLanguages()));
-        raceModel.setRacialTraits(adminService.findTraits(race.getTraits()));
+        raceModel.setTraits(adminService.findTraits(race.getTraits()));
 //        raceModel.setSubraces(race.getSubraces());
         return raceModel;
     }
@@ -42,7 +42,7 @@ public class RaceConverter {
         race.setSpeed(raceModel.getSpeed());
         race.setLanguages(languageConverter.convertToIds(raceModel.getLanguages()));
         List<Long> traitIds = new ArrayList<Long>();
-        for(TraitModel trait : raceModel.getRacialTraits()){
+        for(TraitModel trait : raceModel.getTraits()){
             traitIds.add(trait.getId());
         }
         race.setTraits(traitIds);
