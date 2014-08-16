@@ -1,5 +1,6 @@
 package com.rational.model.equipment;
 
+import com.rational.model.Proficiency;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.Coin;
 import com.rational.model.entities.TraitModel;
@@ -30,6 +31,7 @@ public abstract class EquipmentModel {
     protected List<CharacterModel> characters = new ArrayList<CharacterModel>();
     private List<TraitModel> traits = new ArrayList<TraitModel>();
 
+    protected List<Proficiency> proficiencies = new ArrayList<Proficiency>();
     @Id
     @GeneratedValue
     public Long getId() {
@@ -100,5 +102,14 @@ public abstract class EquipmentModel {
 
     public void setTraits(List<TraitModel> traits) {
         this.traits = traits;
+    }
+
+    @ManyToMany
+    public List<Proficiency> getProficiencies() {
+        return proficiencies;
+    }
+
+    public void setProficiencies(List<Proficiency> proficiencies) {
+        this.proficiencies = proficiencies;
     }
 }

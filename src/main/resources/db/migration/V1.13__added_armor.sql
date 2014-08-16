@@ -1,5 +1,4 @@
 
-### Simple Weapons
 INSERT INTO `charactersheet`.`equipmentmodel`(`id`, `name`, `description`, `itemweight`, `price`, `priceDenomination_id`)
   VALUES ('37', 'Padded', '', '8', '5', (SELECT `id` from `charactersheet`.`coin` WHERE `abbr`='gp'));
 INSERT INTO `charactersheet`.`armormodel`(`id`, `armorClass`, `maxDexModifier`, `stealthDisadvantage`, `strength`, `armorGroup_id`)

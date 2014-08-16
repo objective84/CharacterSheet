@@ -166,11 +166,6 @@ VALUES ('32', 'Whip', '', '3', '2', (SELECT id from `charactersheet`.`coin` WHER
 INSERT INTO `charactersheet`.`weaponmodel`(`id`, `numberOfDice`, `weaponRange`, `maxWeaponRange`, `twoHanded`, `damageType`,`weaponGroup_id`, `damageDice_id`)
 VALUES ('32', '1', '10', '10', '0', 'slashing', (SELECT id from `charactersheet`.`weapongroup` WHERE `name`='Melee'), (SELECT id from `charactersheet`.`dice` WHERE `maxRoll`='4'));
 
-# INSERT INTO `charactersheet`.`equipmentmodel`(`id`, `name`, `description`, `itemweight`, `price`, `priceDenomination_id`)
-# VALUES ('26', 'Blowgun', '', '1', '10', (SELECT id from `charactersheet`.`coin` WHERE `abbr`='gp'));
-# INSERT INTO `charactersheet`.`weaponmodel`(`id`, `numberOfDice`, `weaponRange`, `maxWeaponRange`, `twoHanded`, `damageType`,`weaponGroup_id`, `damageDice_id`)
-# VALUES ('26', '1', '25', '100', '0', 'piercing', (SELECT id from `charactersheet`.`weapongroup` WHERE `name`='Melee'), (SELECT id from `charactersheet`.`dice` WHERE `maxRoll`='4'));
-
 INSERT INTO `charactersheet`.`equipmentmodel`(`id`, `name`, `description`, `itemweight`, `price`, `priceDenomination_id`)
 VALUES ('33', 'Hand Crossbow', '', '3', '75', (SELECT id from `charactersheet`.`coin` WHERE `abbr`='gp'));
 INSERT INTO `charactersheet`.`weaponmodel`(`id`, `numberOfDice`, `weaponRange`, `maxWeaponRange`, `twoHanded`, `damageType`,`weaponGroup_id`, `damageDice_id`)
@@ -186,8 +181,13 @@ VALUES ('35', 'Longbow', '', '2', '50', (SELECT id from `charactersheet`.`coin` 
 INSERT INTO `charactersheet`.`weaponmodel`(`id`, `numberOfDice`, `weaponRange`, `maxWeaponRange`, `twoHanded`, `damageType`,`weaponGroup_id`, `damageDice_id`)
 VALUES ('35', '1', '150', '600', '1', 'piercing', (SELECT id from `charactersheet`.`weapongroup` WHERE `name`='Range'), (SELECT id from `charactersheet`.`dice` WHERE `maxRoll`='8'));
 
+# INSERT INTO `charactersheet`.`equipmentmodel`(`id`, `name`, `description`, `itemweight`, `price`, `priceDenomination_id`)
+# VALUES ('36', 'Blowgun', '', '1', '10', (SELECT id from `charactersheet`.`coin` WHERE `abbr`='gp'));
+# INSERT INTO `charactersheet`.`weaponmodel`(`id`, `numberOfDice`, `weaponRange`, `maxWeaponRange`, `twoHanded`, `damageType`,`weaponGroup_id`, `damageDice_id`)
+# VALUES ('36', '1', '25', '100', '0', 'piercing', (SELECT id from `charactersheet`.`weapongroup` WHERE `name`='Melee'), (SELECT id from `charactersheet`.`dice` WHERE `maxRoll`='4'));
+
 
 # INSERT INTO `charactersheet`.`equipmentmodel`(`id`, `name`, `description`, `itemweight`, `price`, `priceDenomination_id`)
-# VALUES ('36', 'Net', '', '3', '1', (SELECT id from `charactersheet`.`coin` WHERE `abbr`='gp'));
+# VALUES ('37', 'Net', '', '3', '1', (SELECT id from `charactersheet`.`coin` WHERE `abbr`='gp'));
 # INSERT INTO `charactersheet`.`weaponmodel`(`id`, `numberOfDice`, `weaponRange`, `maxWeaponRange`, `twoHanded`, `damageType`,`weaponGroup_id`, `damageDice_id`)
-# VALUES ('36', '1', '5', '15', '0', '', (SELECT id from `charactersheet`.`weapongroup` WHERE `name`='Range'), '');
+# VALUES ('37', '1', '5', '15', '0', '', (SELECT id from `charactersheet`.`weapongroup` WHERE `name`='Range'), '');

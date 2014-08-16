@@ -226,8 +226,20 @@ CREATE TABLE `equipmentmodel` (
   `price` int(11) NOT NULL,
   `priceDenomination_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK41073A5BF1236E92` (`priceDenomination_id`),
-  CONSTRAINT `FK41073A5BF1236E92` FOREIGN KEY (`priceDenomination_id`) REFERENCES `coin` (`id`)
+  KEY `FK41073A5BF1236E92` (`priceDenomination_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `equipmentmodel_proficiency`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `equipmentmodel_proficiency` (
+  `equipment_id` bigint(20) NOT NULL,
+  `proficiencies_id` bigint(20) NOT NULL,
+  KEY `FKA0657071C82B3DE4` (`proficiencies_id`),
+  KEY `FKA0657071F8D2D49F` (`equipment_id`),
+  CONSTRAINT `FKA0657071F8D2D49F` FOREIGN KEY (`equipment_id`) REFERENCES `equipmentmodel` (`id`),
+  CONSTRAINT `FKA0657071C82B3DE4` FOREIGN KEY (`proficiencies_id`) REFERENCES `proficiency` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

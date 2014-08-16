@@ -3,6 +3,7 @@ package com.rational.model;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.ClassModel;
 import com.rational.model.enums.ProficiencyTypeEnum;
+import com.rational.model.equipment.EquipmentModel;
 import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.*;
@@ -38,6 +39,10 @@ public class Proficiency {
     @JsonBackReference
     @ManyToMany(mappedBy = "proficiencies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CharacterModel> characters = new ArrayList<CharacterModel>();
+
+    @JsonBackReference
+    @ManyToMany(mappedBy = "proficiencies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<EquipmentModel> equipment = new ArrayList<EquipmentModel>();
 
     public Long getId() {
         return id;
@@ -89,5 +94,13 @@ public class Proficiency {
 
     public void setCharacters(List<CharacterModel> characters) {
         this.characters = characters;
+    }
+
+    public List<EquipmentModel> getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(List<EquipmentModel> equipment) {
+        this.equipment = equipment;
     }
 }
