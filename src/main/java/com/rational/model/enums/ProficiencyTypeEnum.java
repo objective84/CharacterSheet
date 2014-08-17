@@ -7,7 +7,7 @@ public enum ProficiencyTypeEnum {
     WEAPON("Weapon"),
     ARMOR("Armor"),
     SHIELD("Shield"),
-    SAVING_THROW("Saving Throw");
+    SAVE("Saving Throw");
 
     private String type;
 

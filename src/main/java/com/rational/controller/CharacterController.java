@@ -275,7 +275,7 @@ public class CharacterController {
                 case ARMOR:
                     armor.add(proficiency);
                     break;
-                case SAVING_THROW:
+                case SAVE:
                     saves.add(proficiency);
                     break;
             }

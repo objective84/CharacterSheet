@@ -1,5 +1,6 @@
 package com.rational.model.entities;
 
+import com.rational.model.Proficiency;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
@@ -31,6 +32,9 @@ public class SubRaceModel {
     @JsonBackReference
     @ManyToOne
     private RaceModel parentRace;
+
+    @ManyToMany
+    private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
 
     public Long getId() {
@@ -71,5 +75,13 @@ public class SubRaceModel {
 
     public void setSubRacialTraits(List<TraitModel> subRacialTraits) {
         this.subRacialTraits = subRacialTraits;
+    }
+
+    public List<Proficiency> getProficiencies() {
+        return proficiencies;
+    }
+
+    public void setProficiencies(List<Proficiency> proficiencies) {
+        this.proficiencies = proficiencies;
     }
 }

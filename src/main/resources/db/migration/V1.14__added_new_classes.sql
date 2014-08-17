@@ -109,12 +109,12 @@ INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficienc
 INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('11', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Nature'));
 INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('11', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Religion'));
 
-INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('11', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Arcana'));
-INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('11', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Religion'));
-INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('11', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Insight'));
-INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('11', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Investigation'));
-INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('11', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Medicine'));
-INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('11', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Religion'));
+INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('12', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Arcana'));
+INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('12', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Religion'));
+INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('12', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Insight'));
+INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('12', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Investigation'));
+INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('12', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Medicine'));
+INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('12', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Religion'));
 
 
 

@@ -3,6 +3,7 @@
  */
 package com.rational.model.entities;
 
+import com.rational.model.Proficiency;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
@@ -43,6 +44,10 @@ public class RaceModel {
     @JsonManagedReference
     @OneToMany(mappedBy = "parentRace", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SubRaceModel> availableSubraces = new ArrayList<SubRaceModel>();
+
+    @JsonManagedReference
+    @ManyToMany
+    private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
     public Long getId() {
         return id;
@@ -131,5 +136,13 @@ public class RaceModel {
 
     public void setCharacter(List<CharacterModel> characters) {
         this.characters = characters;
+    }
+
+    public List<Proficiency> getProficiencies() {
+        return proficiencies;
+    }
+
+    public void setProficiencies(List<Proficiency> proficiencies) {
+        this.proficiencies = proficiencies;
     }
 }

@@ -319,6 +319,18 @@ CREATE TABLE `racemodel_languagemodel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+DROP TABLE IF EXISTS `racemodel_proficiency`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `racemodel_proficiency` (
+  `races_id` bigint(20) NOT NULL,
+  `proficiencies_id` bigint(20) NOT NULL,
+  KEY `FK4688D4EC82B3DE4` (`proficiencies_id`),
+  KEY `FK4688D4EBA5181FB` (`races_id`),
+  CONSTRAINT `FK4688D4EBA5181FB` FOREIGN KEY (`races_id`) REFERENCES `racemodel` (`id`),
+  CONSTRAINT `FK4688D4EC82B3DE4` FOREIGN KEY (`proficiencies_id`) REFERENCES `proficiency` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `racemodel_traitmodel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -331,6 +343,18 @@ CREATE TABLE `racemodel_traitmodel` (
   CONSTRAINT `FKA1B205C241213E25` FOREIGN KEY (`traits_id`) REFERENCES `traitmodel` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `subraces_proficiency`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `subraces_proficiency` (
+  `subRaces_id` bigint(20) NOT NULL,
+  `proficiencies_id` bigint(20) NOT NULL,
+  KEY `FKEB5CED18C82B3DE4` (`proficiencies_id`),
+  KEY `FKEB5CED1815C8A525` (`subRaces_id`),
+  CONSTRAINT `FKEB5CED1815C8A525` FOREIGN KEY (`subRaces_id`) REFERENCES `subraces` (`id`),
+  CONSTRAINT `FKEB5CED18C82B3DE4` FOREIGN KEY (`proficiencies_id`) REFERENCES `proficiency` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `subclass_trait`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

@@ -2,6 +2,8 @@ package com.rational.model;
 
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.ClassModel;
+import com.rational.model.entities.RaceModel;
+import com.rational.model.entities.SubRaceModel;
 import com.rational.model.enums.ProficiencyTypeEnum;
 import com.rational.model.equipment.EquipmentModel;
 import org.codehaus.jackson.annotate.JsonBackReference;
@@ -43,6 +45,14 @@ public class Proficiency {
     @JsonBackReference
     @ManyToMany(mappedBy = "proficiencies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<EquipmentModel> equipment = new ArrayList<EquipmentModel>();
+
+    @JsonBackReference
+    @ManyToMany(mappedBy = "proficiencies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RaceModel> races = new ArrayList<RaceModel>();
+
+    @JsonBackReference
+    @ManyToMany(mappedBy = "proficiencies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SubRaceModel> subRaces = new ArrayList<SubRaceModel>();
 
     public Long getId() {
         return id;
@@ -102,5 +112,21 @@ public class Proficiency {
 
     public void setEquipment(List<EquipmentModel> equipment) {
         this.equipment = equipment;
+    }
+
+    public List<RaceModel> getRaces() {
+        return races;
+    }
+
+    public void setRaces(List<RaceModel> races) {
+        this.races = races;
+    }
+
+    public List<SubRaceModel> getSubRaces() {
+        return subRaces;
+    }
+
+    public void setSubRaces(List<SubRaceModel> subRaces) {
+        this.subRaces = subRaces;
     }
 }

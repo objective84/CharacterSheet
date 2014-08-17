@@ -229,4 +229,11 @@ INSERT INTO `charactersheet`.`equipmentmodel_proficiency`(`proficiencies_id`, `e
 INSERT INTO `charactersheet`.`proficiency` (`id`, `description`, `name`, `proficiencyTypeString`) VALUES ('75', '', 'Shields', 'ARMOR');
 INSERT INTO `charactersheet`.`equipmentmodel_proficiency`(`proficiencies_id`, `equipment_id`) VALUES ('75', '49');
 
+INSERT INTO `charactersheet`.`proficiency` (`id`, `description`, `name`, `proficiencyTypeString`) VALUES ('76', '', 'Optional Skill', 'SKILL');
+INSERT INTO `charactersheet`.`proficiency` (`id`, `description`, `name`, `proficiencyTypeString`) VALUES ('77', '', 'Optional Weapon', 'WEAPON');
+INSERT INTO `charactersheet`.`proficiency` (`id`, `description`, `name`, `proficiencyTypeString`) VALUES ('78', '', 'Optional Armor', 'ARMOR');
+INSERT INTO `charactersheet`.`proficiency` (`id`, `description`, `name`, `proficiencyTypeString`) VALUES ('79', '', 'Optional Tool', 'TOOL');
+INSERT INTO `charactersheet`.`proficiency` (`id`, `description`, `name`, `proficiencyTypeString`) VALUES ('80', '', 'Optional Save', 'SAVE');
+
 ### End Individual Proficiencies
+

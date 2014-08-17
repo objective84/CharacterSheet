@@ -194,7 +194,7 @@ define("CharacterView",
                         case 'ARMOR':
                             $element = this.ui.armorProficiencies;
                             break;
-                        case 'SAVING_THROW':
+                        case 'SAVE':
                             $element = this.ui.saveProficiencies;
                             break;
                     }
