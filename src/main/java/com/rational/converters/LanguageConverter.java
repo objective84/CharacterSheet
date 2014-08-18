@@ -5,8 +5,8 @@ import com.rational.service.AdminService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class LanguageConverter {
@@ -14,17 +14,17 @@ public class LanguageConverter {
     @Resource
     AdminService adminService;
 
-    public List<LanguageModel> convertToModels(List<Long> langs) {
-        if(null == langs)return new ArrayList<LanguageModel>();
-        List<LanguageModel> languageModels = new ArrayList<LanguageModel>();
+    public Set<LanguageModel> convertToModels(Set<Long> langs) {
+        if(null == langs)return new HashSet<LanguageModel>();
+        Set<LanguageModel> languageModels = new HashSet<LanguageModel>();
         for(Long id : langs){
             languageModels.add(adminService.findLanguage(id));
         }
         return languageModels;
     }
 
-    public List<Long> convertToIds(List<LanguageModel> langs) {
-        List<Long> languages = new ArrayList<Long>();
+    public Set<Long> convertToIds(Set<LanguageModel> langs) {
+        Set<Long> languages = new HashSet<Long>();
         for(LanguageModel languageModel : langs){
             languages.add(languageModel.getId());
         }

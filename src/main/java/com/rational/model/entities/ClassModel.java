@@ -2,7 +2,6 @@ package com.rational.model.entities;
 
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
-import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -24,10 +23,6 @@ public class ClassModel {
     @ManyToOne
     @JsonManagedReference
     private Dice hitDie;
-
-    @OneToMany(mappedBy = "clazz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonBackReference
-    private List<CharacterModel> characters = new ArrayList<CharacterModel>();
 
     @ManyToMany
     @JsonManagedReference
@@ -96,14 +91,6 @@ public class ClassModel {
 
     public void setSubClasses(List<SubClassModel> subClasses) {
         this.subClasses = subClasses;
-    }
-
-    public List<CharacterModel> getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(List<CharacterModel> characters) {
-        this.characters = characters;
     }
 
     public Integer getSkillsAtCreation() {

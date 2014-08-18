@@ -46,10 +46,6 @@ public class TraitModel {
             inverseJoinColumns = @JoinColumn(name="trait_id"))
     private List<SubClassModel> subClasses= new ArrayList<SubClassModel>();
 
-    @JsonBackReference
-    @ManyToMany
-    private List<CharacterModel> characters = new ArrayList<CharacterModel>();
-
     @JsonManagedReference
     @ManyToMany(mappedBy = "traits", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<EquipmentModel> equipment = new ArrayList<EquipmentModel>();
@@ -100,14 +96,6 @@ public class TraitModel {
 
     public void setSubClasses(List<SubClassModel> subClasses) {
         this.subClasses = subClasses;
-    }
-
-    public List<CharacterModel> getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(List<CharacterModel> characters) {
-        this.characters = characters;
     }
 
 //    public TraitModTypeEnum getModType() {

@@ -2,7 +2,7 @@ INSERT INTO `charactersheet`.`classmodel` (`id`, `name`, `skills_at_creation`, `
 VALUES ('1', 'Barbarian', '2', '2', '5', '1');
 
 INSERT INTO `charactersheet`.`classmodel` (`id`, `name`, `skills_at_creation`, `startingWealthDieAmount`, `hitDie_id`, `startingWealthDie_id`)
-VALUES ('2', 'Bard', '3', '4', '5', '1');
+VALUES ('2', 'Bard', '3', '4', '2', '1');
 
 INSERT INTO `charactersheet`.`classmodel` (`id`, `name`, `skills_at_creation`, `startingWealthDieAmount`, `hitDie_id`, `startingWealthDie_id`)
 VALUES ('3', 'Cleric', '2', '5', '3', '1');

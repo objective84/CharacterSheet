@@ -1,7 +1,9 @@
 package com.rational.facade;
 
 import com.rational.forms.Character;
+import com.rational.model.Proficiency;
 import com.rational.model.entities.CharacterModel;
+import com.rational.model.enums.ProficiencyTypeEnum;
 import com.rational.model.exceptions.PurchaseException;
 
 import java.util.List;
@@ -26,4 +28,8 @@ public interface CharacterFacade {
     CharacterModel purchaseGear(Long charId, Set<Long> equipmentIds) throws PurchaseException;
 
     CharacterModel setCharacterClass(Long characterId, Long classId);
+
+    CharacterModel setCharacterRace(String characterId, String raceId);
+
+    Set<Proficiency> getProficienciesOfType(Set<Proficiency> proficiencies, ProficiencyTypeEnum type);
 }

@@ -59,8 +59,8 @@ public class CharacterConverter {
         abilityScores.put(AbilityTypeEnum.Cha, characterModel.getCha());
         character.setAbilityScores(abilityScores);
 
-        character.setLanguages(languageConverter.convertToIds(characterModel.getLanguageModels()));
-        character.setProficiencies(proficiencyConverter.convertToIds(characterModel.getProficiencies()));
+//        character.setLanguages(languageConverter.convertToIds(characterModel.getLanguages()));
+//        character.setProficiencies(proficiencyConverter.convertToIds(characterModel.getProficiencies()));
         if(null != characterModel.getCoinPurse()) {
             Map<String, Integer> coinPurse = new HashMap<String, Integer>();
             coinPurse.put("copper", characterModel.getCoinPurse().getCP());
@@ -104,9 +104,9 @@ public class CharacterConverter {
         characterModel.setIntel(character.getAbilityScores().get(AbilityTypeEnum.Int));
         characterModel.setWis(character.getAbilityScores().get(AbilityTypeEnum.Wis));
         characterModel.setCha(character.getAbilityScores().get(AbilityTypeEnum.Cha));
-
-        characterModel.setProficiencies(proficiencyConverter.convertToModels(character.getProficiencies()));
-        characterModel.setLanguageModels(languageConverter.convertToModels(character.getLanguages()));
+//
+//        characterModel.setProficiencies(proficiencyConverter.convertToModels(character.getProficiencies()));
+//        characterModel.setLanguages(languageConverter.convertToModels(character.getLanguages()));
 
         if(null != characterModel.getCoinPurse()) {
             CoinPurse purse = new CoinPurse();

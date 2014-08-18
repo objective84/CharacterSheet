@@ -1,8 +1,8 @@
 package com.rational.model.entities;
 
-import org.codehaus.jackson.annotate.JsonBackReference;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 public class CoinPurse {
@@ -15,10 +15,6 @@ public class CoinPurse {
     private Integer ep = 0;
     private Integer gp = 0;
     private Integer pp = 0;
-
-    @JsonBackReference
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private CharacterModel character;
 
     public Integer getPP() {
         return pp;
@@ -58,14 +54,6 @@ public class CoinPurse {
 
     public void setGP(Integer gp) {
         this.gp = gp;
-    }
-
-    public CharacterModel getCharacter() {
-        return character;
-    }
-
-    public void setCharacter(CharacterModel character) {
-        this.character = character;
     }
 
     public Long getId() {

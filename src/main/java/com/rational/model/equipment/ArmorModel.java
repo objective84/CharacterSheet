@@ -1,13 +1,10 @@
 package com.rational.model.equipment;
 
-import com.rational.model.entities.CharacterModel;
-import com.rational.model.entities.TraitModel;
-import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 /**
  * Created by awest on 7/23/14.
@@ -22,9 +19,6 @@ public class ArmorModel extends EquipmentModel{
     private Integer maxDexModifier;
     private Integer strength;
     private boolean stealthDisadvantage;
-
-    private List<CharacterModel> equippedBy = new ArrayList<CharacterModel>();
-
 
     @JsonManagedReference
     @ManyToOne
@@ -68,13 +62,4 @@ public class ArmorModel extends EquipmentModel{
         this.stealthDisadvantage = stealthDisadvantage;
     }
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "equippedArmor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    public List<CharacterModel> getEquippedBy() {
-        return equippedBy;
-    }
-
-    public void setEquippedBy(List<CharacterModel> equippedBy) {
-        this.equippedBy = equippedBy;
-    }
 }

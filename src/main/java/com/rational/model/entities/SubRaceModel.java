@@ -33,6 +33,7 @@ public class SubRaceModel {
     @ManyToOne
     private RaceModel parentRace;
 
+    @JsonBackReference
     @ManyToMany
     private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 

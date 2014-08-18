@@ -5,10 +5,11 @@ import com.rational.converters.EquipmentConverter;
 import com.rational.facade.AdminFacade;
 import com.rational.facade.CharacterFacade;
 import com.rational.forms.Character;
-import com.rational.model.entities.CharacterModel;
-import com.rational.model.entities.ClassModel;
+import com.rational.model.Proficiency;
+import com.rational.model.entities.*;
 import com.rational.model.enums.CoinTypeEnum;
 import com.rational.model.enums.ExchangeRateEnum;
+import com.rational.model.enums.ProficiencyTypeEnum;
 import com.rational.model.equipment.EquipmentModel;
 import com.rational.model.exceptions.PurchaseException;
 import com.rational.service.AdminService;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -102,7 +104,6 @@ public class DefaultCharacterFacade implements CharacterFacade {
         List<EquipmentModel> equipmentModels = equipmentConverter.convertToModels(equipmentIds);
 
         BigDecimal totalCost = BigDecimal.ZERO;
-        totalCost.setScale(2, RoundingMode.HALF_UP);
         for(EquipmentModel equipmentModel : equipmentModels){
             if(!CoinTypeEnum.PLATINUM.equals(equipmentModel.getPriceDenomination().getCoinType())) {
                 BigDecimal exchange = ExchangeRateEnum.getExchangeRate(
@@ -128,12 +129,71 @@ public class DefaultCharacterFacade implements CharacterFacade {
 
     @Override
     public CharacterModel setCharacterClass(Long characterId, Long classId) {
-        CharacterModel characterModel = characterService.findCharacter(characterId);
+        CharacterModel character = characterService.findCharacter(characterId);
         ClassModel classModel = adminService.findClass(classId);
-        characterModel.setClazz(classModel);
-        characterModel.setCoinPurse(currencyService.getStartingWealth(classModel.getStartingWealthDie(), classModel.getStartingWealthDieAmount()));
-        characterModel.setMaxHealth(classModel.getHitDie().getMaxRoll());
-        characterService.save(characterModel);
-        return characterModel;
+        character.setClazz(classModel);
+        character.setCoinPurse(currencyService.getStartingWealth(classModel.getStartingWealthDie(), classModel.getStartingWealthDieAmount()));
+        character.setMaxHealth(classModel.getHitDie().getMaxRoll());
+        setCharacterTraits(character);
+        setCharacterProficiencies(character);
+        characterService.save(character);
+
+        return character;
     }
+
+    @Override
+    public CharacterModel setCharacterRace(String characterId, String raceId) {
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        RaceModel race = adminService.findRace(Long.decode(raceId));
+        character.setRace(race);
+        setCharacterLanguages(character);
+        setCharacterTraits(character);
+        setCharacterProficiencies(character);
+        characterService.save(character);
+        return character;
+    }
+
+    @Override
+    public Set<Proficiency> getProficienciesOfType(Set<Proficiency> proficiencies, ProficiencyTypeEnum type){
+        Set<Proficiency> proficiencyList = new HashSet<Proficiency>();
+        for(Proficiency proficiency : proficiencies){
+            if(proficiency.getProficiencyType().equals(type)){
+                proficiencyList.add(proficiency);
+            }
+        }
+        return proficiencyList;
+    }
+
+    private void setCharacterLanguages(CharacterModel character){
+        Set<LanguageModel> languages =  new HashSet<LanguageModel>();
+        if(null != character.getRace()) {
+            languages.addAll(character.getRace().getLanguages());
+        }
+        character.setLanguages(languages);
+    }
+
+    private void setCharacterProficiencies(CharacterModel character){
+        Set<Proficiency> proficiencies =  new HashSet<Proficiency>();
+        if(null != character.getRace()) {
+            proficiencies.addAll(character.getRace().getProficiencies());
+        }
+        if(null != character.getClazz()) {
+            proficiencies.addAll(character.getClazz().getProficiencies());
+            proficiencies.removeAll(getProficienciesOfType(proficiencies, ProficiencyTypeEnum.SKILL));
+        }
+        character.setProficiencies(proficiencies);
+    }
+
+    private void setCharacterTraits(CharacterModel character){
+        Set<TraitModel> traitModels =  new HashSet<TraitModel>();
+        if(null != character.getRace()) {
+            traitModels.addAll(character.getRace().getTraits());
+        }
+        if(null != character.getClazz()) {
+            traitModels.addAll(character.getClazz().getClassTraits());
+        }
+        character.setTraits(traitModels);
+    }
+
+
 }

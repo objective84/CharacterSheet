@@ -1,6 +1,5 @@
 package com.rational.model;
 
-import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.ClassModel;
 import com.rational.model.entities.RaceModel;
 import com.rational.model.entities.SubRaceModel;
@@ -37,10 +36,6 @@ public class Proficiency {
     @JsonBackReference
     @ManyToMany(mappedBy = "proficiencies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ClassModel> classes = new ArrayList<ClassModel>();
-
-    @JsonBackReference
-    @ManyToMany(mappedBy = "proficiencies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CharacterModel> characters = new ArrayList<CharacterModel>();
 
     @JsonBackReference
     @ManyToMany(mappedBy = "proficiencies", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -96,14 +91,6 @@ public class Proficiency {
 
     public void setClasses(List<ClassModel> classes) {
         this.classes = classes;
-    }
-
-    public List<CharacterModel> getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(List<CharacterModel> characters) {
-        this.characters = characters;
     }
 
     public List<EquipmentModel> getEquipment() {

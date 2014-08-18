@@ -1,10 +1,8 @@
 package com.rational.model.equipment;
 
 import com.rational.model.Proficiency;
-import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.Coin;
 import com.rational.model.entities.TraitModel;
-import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -19,7 +17,6 @@ import java.util.List;
 public abstract class EquipmentModel {
 
     protected Long id;
-
     protected String name;
     protected int itemWeight;
     protected String description;
@@ -27,10 +24,7 @@ public abstract class EquipmentModel {
 
     @JsonManagedReference
     protected Coin priceDenomination;
-
-    protected List<CharacterModel> characters = new ArrayList<CharacterModel>();
     private List<TraitModel> traits = new ArrayList<TraitModel>();
-
     protected List<Proficiency> proficiencies = new ArrayList<Proficiency>();
     @Id
     @GeneratedValue
@@ -82,17 +76,6 @@ public abstract class EquipmentModel {
     public void setPriceDenomination(Coin priceDenomination) {
         this.priceDenomination = priceDenomination;
     }
-
-    @JsonBackReference
-    @ManyToMany(mappedBy = "inventory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    public List<CharacterModel> getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(List<CharacterModel> characters) {
-        this.characters = characters;
-    }
-
 
     @JsonManagedReference
     @ManyToMany

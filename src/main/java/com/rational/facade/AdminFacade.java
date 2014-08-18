@@ -1,7 +1,6 @@
 package com.rational.facade;
 
 import com.rational.forms.*;
-import com.rational.forms.Character;
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
@@ -134,5 +133,4 @@ public interface AdminFacade {
     WeaponModel findWeaponModel(Long id);
 
     EquipmentModel findEquipment(Long id);
-
 }

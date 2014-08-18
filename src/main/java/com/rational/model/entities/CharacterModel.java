@@ -9,7 +9,9 @@ import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class CharacterModel {
@@ -22,31 +24,26 @@ public class CharacterModel {
 
     private Integer level;
 
-    @JsonManagedReference
     @ManyToOne
     private ClassModel clazz;
 
-    @JsonManagedReference
     @ManyToOne
     private RaceModel race;
 
-    @JsonManagedReference
     @ManyToMany
     @JoinTable(name="character_language",
             joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="language_id"))
-    private List<LanguageModel> languages = new ArrayList<LanguageModel>();
+    private Set<LanguageModel> languages = new HashSet<LanguageModel>();
 
-    @JsonManagedReference
     @ManyToMany
     @JoinTable(name="character_proficiency",
             joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="proficiency_id"))
-    private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
+    private Set<Proficiency> proficiencies = new HashSet<Proficiency>();
 
-    @JsonManagedReference
     @ManyToMany
     @JoinTable(name="character_traits",
             joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="trait_id"))
-    private List<TraitModel> traits = new ArrayList<TraitModel>();
+    private Set<TraitModel> traits = new HashSet<TraitModel>();
 
     private int maxHealth;
     private int currentHealth;
@@ -185,27 +182,44 @@ public class CharacterModel {
         this.currentHealth = currentHealth;
     }
 
-    public List<Proficiency> getProficiencies() {
-        return proficiencies;
-    }
+    public Set<Proficiency> getProficiencies() { return this.proficiencies;}
 
-    public void setProficiencies(List<Proficiency> proficiencies) {
+//    public Set<Proficiency> getAllProficiencies() {
+//        Set<Proficiency> allProficiencies = new HashSet<Proficiency>();
+//        allProficiencies.addAll(this.proficiencies);
+//        allProficiencies.addAll(this.race.getProficiencies());
+//        allProficiencies.addAll(this.clazz.getProficiencies());
+//        return allProficiencies;
+//    }
+
+    public void setProficiencies(Set<Proficiency> proficiencies) {
         this.proficiencies = proficiencies;
     }
+    public Set<LanguageModel> getLanguages() {return this.languages;}
 
-    public List<LanguageModel> getLanguageModels() {
-        return languages;
-    }
+//    public Set<LanguageModel> getAllLanguageModels() {
+//        Set<LanguageModel> allLanguages = new HashSet<LanguageModel>();
+//        allLanguages.addAll(this.languages);
+//        allLanguages.addAll(this.race.getLanguages());
+//        return allLanguages;
+//    }
 
-    public void setLanguageModels(List<LanguageModel> languages) {
+    public void setLanguages(Set<LanguageModel> languages) {
         this.languages = languages;
     }
 
-    public List<TraitModel> getTraits() {
-        return traits;
-    }
+    public Set<TraitModel> getTraits() {return this.traits;}
 
-    public void setTraits(List<TraitModel> traits) {
+
+//    public Set<TraitModel> getAllTraits() {
+//        Set<TraitModel> allTraits = new HashSet<TraitModel>();
+//        allTraits.addAll(this.traits);
+//        allTraits.addAll(this.race.getTraits());
+//        allTraits.addAll(this.getClazz().getClassTraits());
+//        return allTraits;
+//    }
+
+    public void setTraits(Set<TraitModel> traits) {
         this.traits = traits;
     }
 

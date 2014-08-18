@@ -4,7 +4,6 @@
 package com.rational.model.entities;
 
 import com.rational.model.Proficiency;
-import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -19,10 +18,6 @@ public class RaceModel {
     private Long id;
 
     private String raceName;
-
-    @JsonBackReference
-    @OneToMany(mappedBy = "race", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CharacterModel> characters;
 
     @Column(name="description")
     private String description;
@@ -97,22 +92,6 @@ public class RaceModel {
         this.languages = languages;
     }
 
-//    public List<TraitModel> getTraits() {
-//        return traits;
-//    }
-//
-//    public void setTraits(List<TraitModel> traits) {
-//        this.traits = traits;
-//    }
-
-//    public SubRaceModel getSubrace() {
-//        return subRace;
-//    }
-//
-//    public void setSubrace(SubRaceModel subRace) {
-//        this.subRace = subRace;
-//    }
-
 
     public List<SubRaceModel> getAvailableSubraces() {
         return availableSubraces;
@@ -130,13 +109,13 @@ public class RaceModel {
         this.traits = traits;
     }
 
-    public List<CharacterModel> getCharacter() {
-        return characters;
-    }
-
-    public void setCharacter(List<CharacterModel> characters) {
-        this.characters = characters;
-    }
+//    public List<CharacterModel> getCharacter() {
+//        return characters;
+//    }
+//
+//    public void setCharacter(List<CharacterModel> characters) {
+//        this.characters = characters;
+//    }
 
     public List<Proficiency> getProficiencies() {
         return proficiencies;

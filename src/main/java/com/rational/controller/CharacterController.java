@@ -9,7 +9,6 @@ import com.rational.forms.ResponseData;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.CoinPurse;
-import com.rational.model.entities.RaceModel;
 import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.equipment.ArmorModel;
 import com.rational.model.equipment.EquipmentModel;
@@ -90,19 +89,19 @@ public class CharacterController {
         ModelAndView mav = new ModelAndView(CHARACTER);
         Character character= (Character)session.getAttribute("character");
         CharacterModel characterModel;
+        mav.addObject("create", true);
         if(null == character.getId()){
             characterModel = characterFacade.save(new Character());
             character.setId(characterModel.getId());
-            mav.addObject("create", true);
-            mav.addObject("classes", adminFacade.findAllClasses());
-            mav.addObject("classMap", adminFacade.getClassMap());
-            mav.addObject("raceMap", adminFacade.getRaceMap());
-            mav.addObject("races", adminFacade.findAllRaces());
-            mav.addObject("languages", adminFacade.findAllLanguages());
         }else{
             characterModel = characterFacade.getCharacterModel(character.getId());
             addProficienciesToModel(mav, characterModel.getProficiencies());
         }
+        mav.addObject("classes", adminFacade.findAllClasses());
+        mav.addObject("classMap", adminFacade.getClassMap());
+        mav.addObject("raceMap", adminFacade.getRaceMap());
+        mav.addObject("races", adminFacade.findAllRaces());
+        mav.addObject("languages", adminFacade.findAllLanguages());
         mav.addObject("characterModel", characterModel);
         addEquipmentToModel(mav, characterModel);
         mav.addObject("character", character);
@@ -114,8 +113,8 @@ public class CharacterController {
             mav.addObject("inventoryWeapons", adminFacade.getWeaponsFromInventory(character));
             mav.addObject("inventoryOffHandItems", adminFacade.getOffHandFromInventory(character));
             mav.addObject("inventoryArmor", adminFacade.getArmorFromInventory(character));
-        mav.addObject("allWeapons", (List<WeaponModel>)adminFacade.findAllWeaponModels());
-        mav.addObject("allArmor", (List<ArmorModel>)adminFacade.findAllArmorModels());
+        mav.addObject("allWeapons", adminFacade.findAllWeaponModels());
+        mav.addObject("allArmor", adminFacade.findAllArmorModels());
     }
 
     @RequestMapping(value="/character-sheet", method= RequestMethod.POST)
@@ -152,9 +151,11 @@ public class CharacterController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/race", method = RequestMethod.GET, produces = "application/json")
-    public RaceModel  getRace(@RequestParam(value = "raceId") String raceId){
-        return adminFacade.getRaceModel(Long.valueOf(raceId));
+    @RequestMapping(value="/race", method = RequestMethod.GET, produces = "application/json")
+    public CharacterModel setCharacterRace(@RequestParam(value = "characterId") String characterId,
+                                            @RequestParam(value = "raceId") String raceId){
+        CharacterModel characterModel = characterFacade.setCharacterRace(characterId, raceId);;
+        return characterModel;
     }
 
     @ResponseBody
@@ -254,7 +255,7 @@ public class CharacterController {
     }
 
 
-    private void addProficienciesToModel(ModelAndView mav, List<Proficiency> proficiencies){
+    private void addProficienciesToModel(ModelAndView mav, Set<Proficiency> proficiencies){
         List<Proficiency> skills = new ArrayList<Proficiency>();
         List<Proficiency> tools = new ArrayList<Proficiency>();
         List<Proficiency> weapons = new ArrayList<Proficiency>();
