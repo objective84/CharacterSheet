@@ -24,11 +24,16 @@ public class CharacterModel {
 
     private Integer level;
 
+    private boolean encumbered;
+
     @ManyToOne
     private ClassModel clazz;
 
     @ManyToOne
     private RaceModel race;
+
+    @ManyToOne
+    private SubRaceModel subrace;
 
     @ManyToMany
     @JoinTable(name="character_language",
@@ -75,6 +80,8 @@ public class CharacterModel {
     @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL)
     private CoinPurse coinPurse;
+
+    private Long inventoryWeight = 0L;
 
     public CharacterModel(){}
 
@@ -261,5 +268,29 @@ public class CharacterModel {
 
     public void setCoinPurse(CoinPurse coinPurse) {
         this.coinPurse = coinPurse;
+    }
+
+    public SubRaceModel getSubrace() {
+        return subrace;
+    }
+
+    public void setSubrace(SubRaceModel subrace) {
+        this.subrace = subrace;
+    }
+
+    public Long getInventoryWeight() {
+        return inventoryWeight;
+    }
+
+    public void setInventoryWeight(Long inventoryWeight) {
+        this.inventoryWeight = inventoryWeight;
+    }
+
+    public boolean isEncumbered() {
+        return encumbered;
+    }
+
+    public void setEncumbered(boolean encumbered) {
+        this.encumbered = encumbered;
     }
 }

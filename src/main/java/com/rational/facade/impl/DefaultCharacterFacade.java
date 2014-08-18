@@ -104,6 +104,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         List<EquipmentModel> equipmentModels = equipmentConverter.convertToModels(equipmentIds);
 
         BigDecimal totalCost = BigDecimal.ZERO;
+        Long weight = 0L;
         for(EquipmentModel equipmentModel : equipmentModels){
             if(!CoinTypeEnum.PLATINUM.equals(equipmentModel.getPriceDenomination().getCoinType())) {
                 BigDecimal exchange = ExchangeRateEnum.getExchangeRate(
@@ -112,6 +113,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
             }else{
                 totalCost = totalCost.add(BigDecimal.valueOf(equipmentModel.getPrice()));
             }
+            weight += Long.valueOf(equipmentModel.getItemWeight());
         }
 
         BigDecimal change = currencyService.getTotalPurseValueInPlatinum(characterModel.getCoinPurse()).subtract(totalCost);
@@ -122,8 +124,12 @@ public class DefaultCharacterFacade implements CharacterFacade {
 
         characterModel.setCoinPurse(currencyService.convertTotal(change));
         characterModel.setInventory(equipmentModels);
-        characterModel = characterService.save(characterModel);
 
+        characterModel.setInventoryWeight(characterModel.getInventoryWeight() + weight);
+        if(characterModel.getInventoryWeight() > characterModel.getStr() * 10){
+            characterModel.setEncumbered(true);
+        }
+        characterModel = characterService.save(characterModel);
         return characterModel;
     }
 
@@ -144,8 +150,13 @@ public class DefaultCharacterFacade implements CharacterFacade {
     @Override
     public CharacterModel setCharacterRace(String characterId, String raceId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
-        RaceModel race = adminService.findRace(Long.decode(raceId));
-        character.setRace(race);
+        character.setSubrace(null);
+        if(raceId == "0"){
+            character.setRace(null);
+        }else {
+            RaceModel race = adminService.findRace(Long.decode(raceId));
+            character.setRace(race);
+        }
         setCharacterLanguages(character);
         setCharacterTraits(character);
         setCharacterProficiencies(character);
@@ -164,6 +175,21 @@ public class DefaultCharacterFacade implements CharacterFacade {
         return proficiencyList;
     }
 
+    @Override
+    public CharacterModel setCharacterSubrace(String characterId, String subraceId) {
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        if(subraceId == "0"){
+            character.setSubrace(null);
+        }else {
+            SubRaceModel subrace = adminService.findSubrace(Long.decode(subraceId));
+            character.setSubrace(subrace);
+        }
+        setCharacterLanguages(character);
+        setCharacterTraits(character);
+        setCharacterProficiencies(character);
+        characterService.save(character);
+        return character;    }
+
     private void setCharacterLanguages(CharacterModel character){
         Set<LanguageModel> languages =  new HashSet<LanguageModel>();
         if(null != character.getRace()) {
@@ -176,6 +202,9 @@ public class DefaultCharacterFacade implements CharacterFacade {
         Set<Proficiency> proficiencies =  new HashSet<Proficiency>();
         if(null != character.getRace()) {
             proficiencies.addAll(character.getRace().getProficiencies());
+        }
+        if(null != character.getSubrace()){
+            proficiencies.addAll(character.getSubrace().getProficiencies());
         }
         if(null != character.getClazz()) {
             proficiencies.addAll(character.getClazz().getProficiencies());

@@ -32,4 +32,6 @@ public interface CharacterFacade {
     CharacterModel setCharacterRace(String characterId, String raceId);
 
     Set<Proficiency> getProficienciesOfType(Set<Proficiency> proficiencies, ProficiencyTypeEnum type);
+
+    CharacterModel setCharacterSubrace(String characterId, String subraceId);
 }

@@ -114,6 +114,9 @@ CREATE TABLE `charactermodel` (
   `equippedMainHand_id` bigint(20) DEFAULT NULL,
   `equippedOffHand_id` bigint(20) DEFAULT NULL,
   `race_id` bigint(20) DEFAULT NULL,
+  `subrace_id` bigint(20) DEFAULT NULL,
+  `inventoryWeight` bigint(20) Default 0,
+  `encumbered` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FKD88FADA091512DE8` (`clazz_id`),
   KEY `FKD88FADA0E2831F45` (`coinPurse_id`),
@@ -121,12 +124,14 @@ CREATE TABLE `charactermodel` (
   KEY `FKD88FADA01C005348` (`equippedMainHand_id`),
   KEY `FKD88FADA01A1779EE` (`equippedOffHand_id`),
   KEY `FKD88FADA0F7C9388C` (`race_id`),
-  CONSTRAINT `FKD88FADA0F7C9388C` FOREIGN KEY (`race_id`) REFERENCES `racemodel` (`id`),
+  KEY `FKD88FADA04D389736` (`subrace_id`),
+  CONSTRAINT `FKD88FADA04D389736` FOREIGN KEY (`subrace_id`) REFERENCES `subraces` (`id`),
   CONSTRAINT `FKD88FADA01A1779EE` FOREIGN KEY (`equippedOffHand_id`) REFERENCES `equipmentmodel` (`id`),
   CONSTRAINT `FKD88FADA01C005348` FOREIGN KEY (`equippedMainHand_id`) REFERENCES `weaponmodel` (`id`),
   CONSTRAINT `FKD88FADA091512DE8` FOREIGN KEY (`clazz_id`) REFERENCES `classmodel` (`id`),
   CONSTRAINT `FKD88FADA0D0CD221C` FOREIGN KEY (`equippedArmor_id`) REFERENCES `armormodel` (`id`),
-  CONSTRAINT `FKD88FADA0E2831F45` FOREIGN KEY (`coinPurse_id`) REFERENCES `coinpurse` (`id`)
+  CONSTRAINT `FKD88FADA0E2831F45` FOREIGN KEY (`coinPurse_id`) REFERENCES `coinpurse` (`id`),
+  CONSTRAINT `FKD88FADA0F7C9388C` FOREIGN KEY (`race_id`) REFERENCES `racemodel` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

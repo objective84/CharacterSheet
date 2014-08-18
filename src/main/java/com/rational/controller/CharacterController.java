@@ -159,6 +159,14 @@ public class CharacterController {
     }
 
     @ResponseBody
+    @RequestMapping(value="/subrace", method = RequestMethod.GET, produces = "application/json")
+    public CharacterModel setCharacterSubRace(@RequestParam(value = "characterId") String characterId,
+                                            @RequestParam(value = "subraceId") String subraceId){
+        CharacterModel characterModel = characterFacade.setCharacterSubrace(characterId, subraceId);;
+        return characterModel;
+    }
+
+    @ResponseBody
     @RequestMapping(value="/equipment", method = RequestMethod.GET, produces = "application/json")
     public ResponseData<CharacterModel> saveInventory(@RequestParam(value = "ids") String ids){
         ResponseData<CharacterModel> responseData = new ResponseData<CharacterModel>();

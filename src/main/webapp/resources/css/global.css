@@ -93,3 +93,8 @@ table.side-by-side.currency{
 #store-submit{
     float: right;
 }
+
+#encumbered-label{
+    color: #b81900;
+    display: none;
+}

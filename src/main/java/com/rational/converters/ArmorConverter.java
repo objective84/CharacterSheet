@@ -25,7 +25,7 @@ public class ArmorConverter {
         armor.setMaxDexModifier(armorModel.getMaxDexModifier());
         armor.setStealthDisadvantage(armorModel.isStealthDisadvantage());
         armor.setStrength(armorModel.getStrength());
-        armor.setItemWeight(armorModel.getItemWeight());
+//        armor.setItemWeight(armorModel.getItemWeight());
         armor.setPrice(armorModel.getPrice());
         armor.setPriceDenomination(armorModel.getPriceDenomination().getId());
 
@@ -42,7 +42,7 @@ public class ArmorConverter {
         armorModel.setMaxDexModifier(armor.getMaxDexModifier());
         armorModel.setStealthDisadvantage(armor.isStealthDisadvantage());
         armorModel.setStrength(armor.getStrength());
-        armorModel.setItemWeight(armor.getItemWeight());
+//        armorModel.setItemWeight(armor.getItemWeight());
         armorModel.setPrice(armor.getPrice());
         armorModel.setPriceDenomination(adminService.findCoin(armor.getPriceDenomination()));
 

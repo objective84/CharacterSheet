@@ -54,7 +54,9 @@ define("CharacterView",
                 equipOff: '#off-select',
                 equipArmor: '#armor-select',
                 weaponTable: '#weapon-inventory-table',
-                armorTable: '#armor-inventory-table'
+                armorTable: '#armor-inventory-table',
+                subrace: '#subrace',
+                encumberedLabel: '#encumbered-label'
             },
 
             bindings:{
@@ -71,9 +73,8 @@ define("CharacterView",
                 'click @ui.clearInventory': 'onClearLinkClick',
                 'change @ui.equipMain': 'onEquipMainChange',
                 'change @ui.equipOff': 'onEquipOffChange',
-                'change @ui.equipArmor': 'onEquipArmorChange'
-
-
+                'change @ui.equipArmor': 'onEquipArmorChange',
+                'change @ui.subrace' : 'onSubraceChange'
             },
 
             onRender: function(){
@@ -159,19 +160,36 @@ define("CharacterView",
             },
 
             onRaceChange: function(event){
-                if($(event.target).val() === '0') {
-                    $('.language-row').remove();
-                    this.character.race = null;
-                }else{
-                    var data = {
-                        'characterId': this.character.id + '',
-                        'raceId': this.ui.race.val() + ''
-                    };
-                    $.getJSON("race.json", data, _.bind(function (data) {
-                        this.character= data;
-                        console.log(this.character)
-                        this.setLanguages();
-                        this.setProficiencies();
+                var data = {
+                    'characterId': this.character.id + '',
+                    'raceId': this.ui.race.val() + ''
+                };
+                $.getJSON("race.json", data, _.bind(function (data) {
+                    this.character= data;
+                    this.setLanguages();
+                    this.setProficiencies();
+                    this.setSubRaces();
+                    console.log(this.character)
+                }, this));
+            },
+
+            onSubraceChange : function(){
+                var data = {
+                    'characterId': this.character.id + '',
+                    'subraceId': this.ui.subrace.val() + ''
+                };
+                $.getJSON("subrace.json", data, _.bind(function (data) {
+                    this.character= data;
+                    this.setProficiencies();
+                }, this));
+
+            },
+
+            setSubRaces: function(){
+                $('.subrace-option').remove();
+                if(this.character.race.availableSubraces.length > 0){
+                    $(this.character.race.availableSubraces).each(_.bind(function(key, value){
+                        this.ui.subrace.append('<option class="subrace-option" value="' + value.id + '">' + value.name + '</option>')
                     }, this));
                 }
             },
@@ -230,7 +248,16 @@ define("CharacterView",
             },
 
             setRaceProficiencies: function(){
+                var proficiencies = []
                 $(this.character.race.proficiencies).each(_.bind(function(key, value){
+                    proficiencies.push(value);
+                }, this));
+                if(this.character.subrace != null) {
+                    $(this.character.subrace.proficiencies).each(_.bind(function (key, value) {
+                        proficiencies.push(value);
+                    }, this));
+                }
+                $(proficiencies).each(_.bind(function(key, value){
                     var $element;
                     switch(value.proficiencyType){
                         case 'SKILL':
@@ -249,9 +276,9 @@ define("CharacterView",
                             $element = this.ui.saveProficiencies;
                             break;
                     }
-                        $element.append('<tr class="proficiency-row"><td>' +
-                            '<input name="proficiencies" type="hidden" value="' + value.id + '">'
-                            + value.name + '</input></td>')
+                    $element.append('<tr class="proficiency-row"><td>' +
+                        '<input name="proficiencies" type="hidden" value="' + value.id + '">'
+                        + value.name + '</input></td>')
                 },this))
 
                 $('.proficiency.skill').on('click', _.bind(this.onSkillCheckboxClick,this));
@@ -284,7 +311,6 @@ define("CharacterView",
 
             setLanguages: function(){
                 $('.language-row').remove();
-                console.log(this.character.languages)
                 $(this.character.languages).each(_.bind(function(key, value){
                     this.ui.languages.append('<tr class="language-row"><td><input name="languages" type="hidden" value="' + value.id + '">' + value.name + '</input></td>')
                 }, this));
@@ -455,7 +481,6 @@ define("CharacterView",
                     items.push(value.id + '');
                 });
                 $('.store-item').each(_.bind(function(key, value){
-                    console.log($(value).prop('checked') )
                     if($(value).prop('checked') === true) {
                         items.push($(value).val());
                     }
@@ -492,6 +517,11 @@ define("CharacterView",
                 this.setMainHandOptions();
                 this.setOffHandOptions();
                 this.setArmorOptions();
+                if(this.character.encumbered){
+                    this.ui.encumberedLabel.show();
+                }else{
+                    this.ui.encumberedLabel.hide();
+                }
             },
 
             findItemInInventory: function(id){

@@ -33,10 +33,9 @@ public class SubRaceModel {
     @ManyToOne
     private RaceModel parentRace;
 
-    @JsonBackReference
+    @JsonManagedReference
     @ManyToMany
     private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
-
 
     public Long getId() {
         return id;

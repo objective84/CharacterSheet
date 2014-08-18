@@ -18,7 +18,7 @@ public abstract class EquipmentModel {
 
     protected Long id;
     protected String name;
-    protected int itemWeight;
+    protected Long itemWeight;
     protected String description;
     protected int price;
 
@@ -44,11 +44,11 @@ public abstract class EquipmentModel {
         this.name = name;
     }
 
-    public int getItemWeight() {
+    public Long getItemWeight() {
         return itemWeight;
     }
 
-    public void setItemWeight(int itemWeight) {
+    public void setItemWeight(Long itemWeight) {
         this.itemWeight = itemWeight;
     }
 

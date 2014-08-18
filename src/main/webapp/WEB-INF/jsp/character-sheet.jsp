@@ -49,6 +49,19 @@
                         <td>${characterModel.race.raceName}</td>
                     </c:otherwise>
                 </c:choose>
+                <td class="subraces">
+                  <td><spring:message code="character.subrace"/></td>
+                    <c:choose>
+                        <c:when test="${create}">
+                            <td><select id="subrace" class="subraces">
+                                <option value="0">Select a sub-race</option>
+                            </select></td>
+                        </c:when>
+                        <c:otherwise>
+                            <td>${characterModel.subrace.name}</td>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
                 <td><spring:message code="character.class"/></td>
                 <c:choose>
                     <c:when test="${create}">
@@ -69,7 +82,7 @@
                 <td colspan="2">
                     <form:input cssClass="input-box-small" id="level" path="level" readonly="true"/>
                     <spring:message code="character.ac"/>
-                <input class="input-box-small" id="armor-class" readonly="true"/>
+                    <input class="input-box-small" id="armor-class" readonly="true"/>
                 </td>
 
             </tr>
@@ -181,6 +194,7 @@
         </div>
         <div class="clear"/>
         <h3><spring:message code="character.inventory"/></h3>
+            <span id="encumbered-label">ENCUMBERED!</span>
         <div class="table_container">
             <table class="side-by-side" id="weapon-inventory-table">
                 <tr><th>Weapons</th></tr>

@@ -21,7 +21,7 @@ public class WeaponConverter {
         weapon.setId(weaponModel.getId());
         weapon.setName(weaponModel.getName());
         weapon.setDescription(weaponModel.getDescription());
-        weapon.setItemWeight(weaponModel.getItemWeight());
+//        weapon.setItemWeight(weaponModel.getItemWeight());
         weapon.setPrice(weaponModel.getPrice());
         weapon.setPriceDenomination(weaponModel.getPriceDenomination().getId());
 
@@ -46,7 +46,7 @@ public class WeaponConverter {
         weaponModel.setId(weapon.getId());
         weaponModel.setName(weapon.getName());
         weaponModel.setDescription(weapon.getDescription());
-        weaponModel.setItemWeight(weapon.getItemWeight());
+//        weaponModel.setItemWeight(weapon.getItemWeight());
         weaponModel.setPrice(weapon.getPrice());
         weaponModel.setPriceDenomination(adminService.findCoin(weapon.getPriceDenomination()));
 
