@@ -4,13 +4,39 @@
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 
 <div class="modal" id="store-modal">
+    <%--<div class="filters">--%>
+        <%--<div class="table_container">--%>
+            <%--<table class="side-by-side">--%>
+                <%--<tr><th>Weapon Filters</th></tr>--%>
+                <%--<c:forEach items="${weaponFilters}" var="filter">--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<input type="checkbox" value="${filter}">--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                <%--</c:forEach>--%>
+            <%--</table>--%>
+            <%--<table class="side-by-side">--%>
+                <%--<tr><th>Armor Filters</th></tr>--%>
+                <%--<c:forEach items="${armorFilters}" var="filter">--%>
+                    <%--<tr>--%>
+                        <%--<td>--%>
+                            <%--<input type="checkbox" value="${filter}">--%>
+                        <%--</td>--%>
+                    <%--</tr>--%>
+                <%--</c:forEach>--%>
+            <%--</table>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+     <input type="checkbox" class="filter" value="${filterByProficiency}"><span class="link-small">${filterByProficiency}</span>
+    <div class="clear"/>
     <div class="table_container">
-        <table class="side-by-side">
+        <table class="side-by-side" id="weapon-table">
             <tr>
                 <th>Name</th><th>Damage</th><th>Price</th><th>Weight</th>
             </tr>
             <c:forEach items="${allWeapons}" var="weapon">
-                <tr>
+                <tr class="store-item-row">
                     <td>
                         <input type="checkbox" name="store-item" class='store-item' id="item_${weapon.id}" value="${weapon.id}">
                         <span>${weapon.name}</span>
@@ -21,12 +47,12 @@
                 </tr>
             </c:forEach>
         </table>
-        <table class="side-by-side">
+        <table class="side-by-side" id="armor-table">
             <tr>
                 <th>Name</th><th>AC</th><th>Strength</th><th>Stealth</th><th>Price</th><th>Weight</th>
             </tr>
             <c:forEach items="${allArmor}" var="armor">
-                <tr>
+                <tr class="store-item-row">
                     <td>
                         <input type="checkbox" name="store-item" class='store-item' id="item_${armor.id}" value="${armor.id}">
                         <span>${armor.name}</span>

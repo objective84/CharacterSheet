@@ -363,4 +363,9 @@ public class DefaultAdminFacade implements AdminFacade {
     public EquipmentModel findEquipment(Long id) {
         return adminService.findEquipment(id);
     }
+
+    @Override
+    public List<EquipmentModel> getAllEquipmentModels(){
+        return adminService.findAllEquipment();
+    }
 }

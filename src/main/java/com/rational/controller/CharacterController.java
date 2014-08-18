@@ -10,6 +10,7 @@ import com.rational.model.Proficiency;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.CoinPurse;
 import com.rational.model.enums.AbilityTypeEnum;
+import com.rational.model.enums.EquipmentFilterEnum;
 import com.rational.model.equipment.ArmorModel;
 import com.rational.model.equipment.EquipmentModel;
 import com.rational.model.equipment.WeaponModel;
@@ -106,6 +107,9 @@ public class CharacterController {
         addEquipmentToModel(mav, characterModel);
         mav.addObject("character", character);
         mav.addObject("abilityTypes", AbilityTypeEnum.values());
+        mav.addObject("weaponFilters", EquipmentFilterEnum.getWeaponFilters());
+        mav.addObject("armorFilters", EquipmentFilterEnum.getArmorFilters());
+        mav.addObject("filterByProficiency", EquipmentFilterEnum.BY_PROFICIENCY.toString());
         return mav;
     }
 
@@ -164,6 +168,22 @@ public class CharacterController {
                                             @RequestParam(value = "subraceId") String subraceId){
         CharacterModel characterModel = characterFacade.setCharacterSubrace(characterId, subraceId);;
         return characterModel;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/filterEquipmentByProficiency", method = RequestMethod.GET, produces = "application/json")
+    public ResponseData<List<EquipmentModel>> filterEquipment(@RequestParam(value = "characterId") String characterId,
+                                                              @RequestParam(value= "filter") String filter){
+        ResponseData<List<EquipmentModel>> responseData = new ResponseData<List<EquipmentModel>>();
+
+        if(filter.equals("true"))
+        {
+            responseData.setData(characterFacade.filterByProficiency(characterId));
+        }else{
+            responseData.setData(adminFacade.getAllEquipmentModels());
+        }
+
+        return responseData;
     }
 
     @ResponseBody

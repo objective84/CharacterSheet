@@ -54,9 +54,13 @@ define("CharacterView",
                 equipOff: '#off-select',
                 equipArmor: '#armor-select',
                 weaponTable: '#weapon-inventory-table',
-                armorTable: '#armor-inventory-table',
+                storeArmorTable: '#armor-inventory-table',
                 subrace: '#subrace',
-                encumberedLabel: '#encumbered-label'
+                encumberedLabel: '#encumbered-label',
+                storeWeaponTable: '#weapon-table',
+                storeArmorTable: '#armor-table',
+                speed: '#speed'
+
             },
 
             bindings:{
@@ -82,14 +86,29 @@ define("CharacterView",
                 this.ui.languageSubmit.on('click', _.bind(this.onLanguageSubmitClick, this));
                 this.ui.storeSubmit.on('click', _.bind(this.onStoreSubmitClick, this));
                 this.ui.abilityPointLabel.text(this.abilityScoreText + this.abilityPoints);
-                this.setAbilityMods();
                 this.setCharacter();
+            },
+
+            refreshCharacter: function(){
+                this.setAC();
+                this.setAbilities();
+                this.setLanguagesAllowed();
+                this.setCoinPurse();
+                this.setProficiencies();
+                this.setMaxHealth();
+                this.setSkillsToSelect();
+                this.setLanguageSelect();
+                this.setInventory();
+                this.setMainHandOptions();
+                this.setOffHandOptions();
+                this.setArmorOptions();
+                this.setSpeed();
             },
 
             setCharacter: function(){
                 $.getJSON("character.json", 'characterId=' + this.ui.id.val(), _.bind(function (data) {
                     this.character = data;
-                    this.setAC();
+                    this.refreshCharacter();
                 }, this));
             },
 
@@ -105,7 +124,17 @@ define("CharacterView",
                 }
             },
 
-            setAbilityMods: function(){
+            setSpeed: function(){
+                this.ui.speed.val(this.character.speed);
+            },
+
+            setAbilities: function(){
+                this.ui.str.val(this.character.str);
+                this.ui.dex.val(this.character.dex);
+                this.ui.con.val(this.character.con);
+                this.ui.int.val(this.character.intel);
+                this.ui.wis.val(this.character.wis);
+                this.ui.cha.val(this.character.cha);
                 $('.ability').each(_.bind(function(key, value){
                     this.setAbilityMod($(value).attr('id'), $(value).val());
                 },this));
@@ -152,9 +181,7 @@ define("CharacterView",
                     };
                     $.getJSON("class.json", data, _.bind(function (character) {
                         this.character = character;
-                        this.setProficiencies();
-                        this.setMaxHealth();
-                        this.setCoinPurse();
+                        this.refreshCharacter();
                     }, this));
                 }
             },
@@ -166,10 +193,8 @@ define("CharacterView",
                 };
                 $.getJSON("race.json", data, _.bind(function (data) {
                     this.character= data;
-                    this.setLanguages();
-                    this.setProficiencies();
+                    this.refreshCharacter();
                     this.setSubRaces();
-                    console.log(this.character)
                 }, this));
             },
 
@@ -180,7 +205,7 @@ define("CharacterView",
                 };
                 $.getJSON("subrace.json", data, _.bind(function (data) {
                     this.character= data;
-                    this.setProficiencies();
+                    this.refreshCharacter();
                 }, this));
 
             },
@@ -195,12 +220,14 @@ define("CharacterView",
             },
 
             setCoinPurse: function(){
-                var purse = this.character.coinPurse;
-                this.ui.copperInput.val(purse.cp);
-                this.ui.silverInput.val(purse.sp);
-                this.ui.electrumInput.val(purse.ep);
-                this.ui.goldInput.val(purse.gp);
-                this.ui.platinumInput.val(purse.pp);
+                if(this.character.coinPurse) {
+                    var purse = this.character.coinPurse;
+                    this.ui.copperInput.val(purse.cp);
+                    this.ui.silverInput.val(purse.sp);
+                    this.ui.electrumInput.val(purse.ep);
+                    this.ui.goldInput.val(purse.gp);
+                    this.ui.platinumInput.val(purse.pp);
+                }
             },
 
             setProficiencies: function(){
@@ -361,6 +388,40 @@ define("CharacterView",
 
             onStoreLinkClick: function(){
                 this.modalOpen('store-modal', 'store-modal');
+                $('.filter').on('change', _.bind(this.onFilterSelected, this));
+            },
+
+            onFilterSelected: function(event){
+                var filter = $(event.target).prop('checked') === true ? "true" : "false";
+                var data = {
+                    characterId: this.character.id,
+                    filter: filter
+                };
+                $.getJSON("filterEquipmentByProficiency.json", data, _.bind(function(data){
+                    $('.store-item-row').remove();
+                    console.log(data);
+                    $(data.data).each(_.bind(function(key, value){
+                        if(value.weaponRange){
+                            this.addWeaponToStore(value);
+                        }else if(value.armorClass){
+                            this.addArmorToStore(value);
+                        }
+                    }, this));
+                }, this));
+            },
+
+            addWeaponToStore: function(weapon){
+                this.ui.storeWeaponTable.append("<tr class='store-item-row'><td><input type='checkbox' name='store-item' class='store-item' id='item_" + weapon.id + "' value='"+
+                    weapon.id + "'>" + "<span>"+ weapon.name + "</span></td><td><span>"+ weapon.numberOfDice +  weapon.damageDice.name+ "</span></td>" +
+                    "<td><span>" + weapon.price + weapon.priceDenomination.abbr + "</span></td><td><span>" + weapon.itemWeight + "</span></td></tr>");
+            },
+
+            addArmorToStore: function(armor){
+                var append = "<tr class='store-item-row'><td><input type='checkbox' name='store-item' class='store-item' id='item_" + armor.id+ "' " +
+                    "value='" + armor.id+ "'><span>" + armor.name+ "</span></td><td><span>" + armor.armorClass+ "</span></td><td><span>" +
+                    armor.strength+ "</span></td><td><span>" + (armor.stealthDisadvantage == true ? 'Yes' : '')+ "</span></td><td><span>" +
+                    armor.price+ " " + armor.priceDenomination.abbr+ "</span></td><td><span>" + armor.itemWeight+ "</span></td></tr>";
+                this.ui.storeArmorTable.append(append);
             },
 
             onLanguageSubmitClick: function(event){
@@ -456,13 +517,7 @@ define("CharacterView",
             },
 
             onAbilityScoreResetClick: function(){
-                this.ui.str.val(this.minAbilityScore);
-                this.ui.dex.val(this.minAbilityScore);
-                this.ui.con.val(this.minAbilityScore);
-                this.ui.int.val(this.minAbilityScore);
-                this.ui.wis.val(this.minAbilityScore);
-                this.ui.cha.val(this.minAbilityScore);
-                this.setAbilityMods();
+                this.setAbilities();
                 this.showHideAbilityChangeButtons();
                 this.ui.abilityPointLabel.text(this.abilityScoreText + this.maxAbilityPoints);
             },
@@ -492,8 +547,7 @@ define("CharacterView",
                 $.getJSON('equipment.json', "ids=" + JSON.stringify(data), _.bind(function(data){
                     if(data.code === 1) {
                         this.character = data.data;
-                        this.setInventory();
-                        this.setCoinPurse();
+                        this.refreshCharacter();
                         this.modalClose('store-modal');
                         alert(data.message);
                     }else if(data.code === 0){
@@ -510,13 +564,10 @@ define("CharacterView",
                     if(item.maxWeaponRange !== undefined) {
                         $element = this.ui.weaponTable;
                     }else if(item.armorClass !== undefined){
-                        $element = this.ui.armorTable;
+                        $element = this.ui.storeArmorTable;
                     }
                     $element.append('<tr class="inventory-item" ><td><span name="inventory>" value="' + item.id + '">' + item.name + '</span></td></tr>')
-                }, this))
-                this.setMainHandOptions();
-                this.setOffHandOptions();
-                this.setArmorOptions();
+                }, this));
                 if(this.character.encumbered){
                     this.ui.encumberedLabel.show();
                 }else{

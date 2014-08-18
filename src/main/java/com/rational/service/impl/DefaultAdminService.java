@@ -8,10 +8,13 @@ import com.rational.model.enums.CoinTypeEnum;
 import com.rational.model.equipment.*;
 import com.rational.repository.*;
 import com.rational.service.AdminService;
+import org.hibernate.validator.jtype.TypeUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("defaultAdminService")
@@ -322,6 +325,23 @@ public class DefaultAdminService implements AdminService {
     @Override
     public List<SpellModel> findAllSpells(){
         return spellRepository.findAll();
+    }
+
+    @Override
+    public List<EquipmentModel> findEquipmentOfType(Type type) {
+        List<EquipmentModel> equipmentModels = equipmentRepository.findAll();
+        List<EquipmentModel> temp = new ArrayList<EquipmentModel>(equipmentModels);
+        for(EquipmentModel model : temp){
+            if(!TypeUtils.isInstance(type, model)){
+                equipmentModels.remove(model);
+            }
+        }
+        return equipmentModels;
+    }
+
+    @Override
+    public List<EquipmentModel> findAllEquipment(){
+        return equipmentRepository.findAll();
     }
 
 }

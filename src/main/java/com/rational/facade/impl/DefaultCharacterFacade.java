@@ -8,9 +8,12 @@ import com.rational.forms.Character;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
 import com.rational.model.enums.CoinTypeEnum;
+import com.rational.model.enums.EquipmentFilterEnum;
 import com.rational.model.enums.ExchangeRateEnum;
 import com.rational.model.enums.ProficiencyTypeEnum;
+import com.rational.model.equipment.ArmorModel;
 import com.rational.model.equipment.EquipmentModel;
+import com.rational.model.equipment.WeaponModel;
 import com.rational.model.exceptions.PurchaseException;
 import com.rational.service.AdminService;
 import com.rational.service.CharacterService;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -51,13 +55,13 @@ public class DefaultCharacterFacade implements CharacterFacade {
 
     @Override
     public CharacterModel save(Character character) {
-        return characterService.save(characterConverter.convert(character,
-                character.getId() == null ? new CharacterModel(): characterService.findCharacter(character.getId())));
+        return assembleCharacter(characterService.save(characterConverter.convert(character,
+                character.getId() == null ? new CharacterModel() : characterService.findCharacter(character.getId()))));
     }
 
     @Override
     public CharacterModel save(CharacterModel character) {
-        return characterService.save(character);
+        return assembleCharacter(characterService.save(character));
     }
 
     @Override
@@ -86,7 +90,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         if(id != 0){
             characterModel = characterService.findCharacter(id);
         }
-        return characterModel;
+        return assembleCharacter(characterModel);
     }
 
     @Override
@@ -104,7 +108,6 @@ public class DefaultCharacterFacade implements CharacterFacade {
         List<EquipmentModel> equipmentModels = equipmentConverter.convertToModels(equipmentIds);
 
         BigDecimal totalCost = BigDecimal.ZERO;
-        Long weight = 0L;
         for(EquipmentModel equipmentModel : equipmentModels){
             if(!CoinTypeEnum.PLATINUM.equals(equipmentModel.getPriceDenomination().getCoinType())) {
                 BigDecimal exchange = ExchangeRateEnum.getExchangeRate(
@@ -113,7 +116,6 @@ public class DefaultCharacterFacade implements CharacterFacade {
             }else{
                 totalCost = totalCost.add(BigDecimal.valueOf(equipmentModel.getPrice()));
             }
-            weight += Long.valueOf(equipmentModel.getItemWeight());
         }
 
         BigDecimal change = currencyService.getTotalPurseValueInPlatinum(characterModel.getCoinPurse()).subtract(totalCost);
@@ -125,12 +127,8 @@ public class DefaultCharacterFacade implements CharacterFacade {
         characterModel.setCoinPurse(currencyService.convertTotal(change));
         characterModel.setInventory(equipmentModels);
 
-        characterModel.setInventoryWeight(characterModel.getInventoryWeight() + weight);
-        if(characterModel.getInventoryWeight() > characterModel.getStr() * 10){
-            characterModel.setEncumbered(true);
-        }
         characterModel = characterService.save(characterModel);
-        return characterModel;
+        return assembleCharacter(characterModel);
     }
 
     @Override
@@ -140,11 +138,9 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setClazz(classModel);
         character.setCoinPurse(currencyService.getStartingWealth(classModel.getStartingWealthDie(), classModel.getStartingWealthDieAmount()));
         character.setMaxHealth(classModel.getHitDie().getMaxRoll());
-        setCharacterTraits(character);
-        setCharacterProficiencies(character);
         characterService.save(character);
 
-        return character;
+        return assembleCharacter(character);
     }
 
     @Override
@@ -157,11 +153,8 @@ public class DefaultCharacterFacade implements CharacterFacade {
             RaceModel race = adminService.findRace(Long.decode(raceId));
             character.setRace(race);
         }
-        setCharacterLanguages(character);
-        setCharacterTraits(character);
-        setCharacterProficiencies(character);
         characterService.save(character);
-        return character;
+        return assembleCharacter(character);
     }
 
     @Override
@@ -184,11 +177,9 @@ public class DefaultCharacterFacade implements CharacterFacade {
             SubRaceModel subrace = adminService.findSubrace(Long.decode(subraceId));
             character.setSubrace(subrace);
         }
-        setCharacterLanguages(character);
-        setCharacterTraits(character);
-        setCharacterProficiencies(character);
         characterService.save(character);
-        return character;    }
+        return assembleCharacter(character);
+    }
 
     private void setCharacterLanguages(CharacterModel character){
         Set<LanguageModel> languages =  new HashSet<LanguageModel>();
@@ -224,5 +215,92 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setTraits(traitModels);
     }
 
+    @Override
+    public List<EquipmentModel> filterEquipmentList(List<String> filters, String characterId){
+        List<EquipmentModel> equipmentModels = new ArrayList<EquipmentModel>();
+        List<EquipmentFilterEnum> filterEnums = EquipmentFilterEnum.getEnumValues(filters);
+        for(EquipmentFilterEnum filter : filterEnums){
+            switch (filter){
+                case WEAPONS:
+                    equipmentModels.addAll(adminService.findEquipmentOfType(WeaponModel.class));
+                    break;
+                case ARMOR:
+                    equipmentModels.addAll(adminService.findEquipmentOfType(ArmorModel.class));
+                    break;
+                case BY_PROFICIENCY:
+                    continue;
+            }
+        }
+
+//        if(filterEnums.contains(EquipmentFilterEnum.BY_PROFICIENCY)){
+//            filterByProficiency(characterId, equipmentModels);
+//        }
+
+        return equipmentModels;
+    }
+
+    @Override
+    public List<EquipmentModel> filterByProficiency(String characterId){
+        List<EquipmentModel> equipmentModels = adminService.findAllEquipment();
+        List<EquipmentModel> temp = new ArrayList<EquipmentModel>(equipmentModels);
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        setCharacterProficiencies(character);
+
+        for(EquipmentModel model : temp){
+            if(!hasProficiency(character, model)){
+                equipmentModels.remove(model);
+            }
+        }
+
+        return equipmentModels;
+    }
+
+    private Boolean hasProficiency(CharacterModel character, EquipmentModel equipment){
+        for(Proficiency proficiency : equipment.getProficiencies()){
+            if(character.getProficiencies().contains(proficiency)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void setInventoryWeight(CharacterModel character){
+
+        Long weight = 0L;
+        for(EquipmentModel equipmentModel : character.getInventory()) {
+            weight += Long.valueOf(equipmentModel.getItemWeight());
+        }
+        character.setInventoryWeight(weight);
+    }
+
+    private void setCharacterSpeed(CharacterModel character){
+        if(null == character.getRace()) return;
+        Integer speed = character.getRace().getSpeed();
+        setInventoryWeight(character);
+        if (character.getInventoryWeight() > character.getStr() * 5) {
+            if (character.getInventoryWeight() > character.getStr() * 10) {
+                speed -= 20;
+                //TODO: assign trait for disadvantage on attack rolls, and ability/saves for Str/Dex/Con
+            } else {
+                speed -= 10;
+            }
+            character.setEncumbered(true);
+        } else {
+            //TODO: remove above trait if present
+        }
+        character.setSpeed(speed);
+    }
+
+
+
+    private CharacterModel assembleCharacter(CharacterModel character){
+
+        setCharacterTraits(character);
+        setCharacterLanguages(character);
+        setCharacterProficiencies(character);
+        setCharacterSpeed(character);
+
+        return character;
+    }
 
 }

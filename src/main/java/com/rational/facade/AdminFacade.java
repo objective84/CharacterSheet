@@ -133,4 +133,6 @@ public interface AdminFacade {
     WeaponModel findWeaponModel(Long id);
 
     EquipmentModel findEquipment(Long id);
+
+    List<EquipmentModel> getAllEquipmentModels();
 }

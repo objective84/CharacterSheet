@@ -26,6 +26,8 @@ public class CharacterModel {
 
     private boolean encumbered;
 
+    private Integer speed = 0;
+
     @ManyToOne
     private ClassModel clazz;
 
@@ -292,5 +294,13 @@ public class CharacterModel {
 
     public void setEncumbered(boolean encumbered) {
         this.encumbered = encumbered;
+    }
+
+    public Integer getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(Integer speed) {
+        this.speed = speed;
     }
 }

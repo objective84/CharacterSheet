@@ -98,3 +98,8 @@ table.side-by-side.currency{
     color: #b81900;
     display: none;
 }
+
+.filter-text{
+    margin-left: 5px;
+    font-size: 10;
+}

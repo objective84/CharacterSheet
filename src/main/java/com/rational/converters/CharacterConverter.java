@@ -58,6 +58,7 @@ public class CharacterConverter {
         abilityScores.put(AbilityTypeEnum.Wis, characterModel.getWis());
         abilityScores.put(AbilityTypeEnum.Cha, characterModel.getCha());
         character.setAbilityScores(abilityScores);
+        character.setSpeed(characterModel.getSpeed());
 
 //        character.setLanguages(languageConverter.convertToIds(characterModel.getLanguages()));
 //        character.setProficiencies(proficiencyConverter.convertToIds(characterModel.getProficiencies()));
@@ -104,6 +105,7 @@ public class CharacterConverter {
         characterModel.setIntel(character.getAbilityScores().get(AbilityTypeEnum.Int));
         characterModel.setWis(character.getAbilityScores().get(AbilityTypeEnum.Wis));
         characterModel.setCha(character.getAbilityScores().get(AbilityTypeEnum.Cha));
+        characterModel.setSpeed(character.getSpeed());
 //
 //        characterModel.setProficiencies(proficiencyConverter.convertToModels(character.getProficiencies()));
 //        characterModel.setLanguages(languageConverter.convertToModels(character.getLanguages()));
