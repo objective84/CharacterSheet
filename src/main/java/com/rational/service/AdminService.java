@@ -105,4 +105,10 @@ public interface AdminService {
     EquipmentModel findEquipment(Long id);
 
     CoinPurse saveCoinPurse(CoinPurse purse);
+
+    SpellModel saveSpell(SpellModel spell);
+
+    SpellModel findSpell(Long id);
+
+    List<SpellModel> findAllSpells();
 }

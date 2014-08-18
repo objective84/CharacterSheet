@@ -45,6 +45,9 @@ public class ClassModel {
     @ManyToOne
     private Dice startingWealthDie;
 
+    @ManyToMany
+    private List<SpellModel> spells = new ArrayList<SpellModel>();
+
     public Long getId() {
         return id;
     }
@@ -115,5 +118,13 @@ public class ClassModel {
 
     public void setStartingWealthDie(Dice startingWealthDie) {
         this.startingWealthDie = startingWealthDie;
+    }
+
+    public List<SpellModel> getSpells() {
+        return spells;
+    }
+
+    public void setSpells(List<SpellModel> spells) {
+        this.spells = spells;
     }
 }

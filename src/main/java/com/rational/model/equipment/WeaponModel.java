@@ -33,15 +33,6 @@ public class WeaponModel extends EquipmentModel{
         this.weaponRange = weaponRange;
     }
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "equippedMainHand", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CharacterModel> equippedMain = new ArrayList<CharacterModel>();
-
-    @JsonBackReference
-    @OneToMany(mappedBy = "equippedOffHand", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CharacterModel> equippedOff = new ArrayList<CharacterModel>();
-
-
     @ManyToOne
     @JsonManagedReference
     public WeaponGroup getWeaponGroup() {

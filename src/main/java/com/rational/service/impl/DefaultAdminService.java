@@ -62,6 +62,9 @@ public class DefaultAdminService implements AdminService {
     @Resource
     private CoinPurseRepository coinPurseRepository;
 
+    @Resource
+    private SpellRepository spellRepository;
+
 
 
     /* Proficiencies */
@@ -304,6 +307,21 @@ public class DefaultAdminService implements AdminService {
     @Override
     public CoinPurse saveCoinPurse(CoinPurse purse){
         return coinPurseRepository.save(purse);
+    }
+
+    @Override
+    public SpellModel saveSpell(SpellModel spell){
+        return spellRepository.save(spell);
+    }
+
+    @Override
+    public SpellModel findSpell(Long id){
+        return spellRepository.findOne(id);
+    }
+
+    @Override
+    public List<SpellModel> findAllSpells(){
+        return spellRepository.findAll();
     }
 
 }

@@ -349,6 +349,38 @@ CREATE TABLE `racemodel_traitmodel` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+DROP TABLE  IF EXISTS `spellmodel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellmodel`(
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `level` int(11) DEFAULT NULL,
+  `damageDiceAmount` int(11) DEFAULT NULL,
+  `savingThrow` varchar(255) DEFAULT NULL,
+  `saveDC` int(11) DEFAULT NULL,
+  `condition` varchar(255) DEFAULT NULL,
+  `damageDice_id` bigint(20) DEFAULT NULL,
+   PRIMARY KEY (`id`),
+  KEY `FKA1B205C2685E7306` (`damageDice_id`),
+  CONSTRAINT `FKA1B205C2685E7306` FOREIGN KEY (`damageDice_id`) REFERENCES `dice` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `spellmodel_classmodel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spellmodel_classmodel`(
+  `spellmodel_id` bigint(20) NOT NULL,
+  `classmodel_id` bigint(20) NOT NULL,
+  KEY `FKEB5CED18C82B3DE5` (`spellmodel_id`),
+  KEY `FKEB5CED1815C8A526` (`classmodel_id`),
+  CONSTRAINT `FKEB5CED18C82B3DE5` FOREIGN KEY (`spellmodel_id`) REFERENCES `spellmodel` (`id`),
+  CONSTRAINT `FKEB5CED1815C8A526` FOREIGN KEY (`classmodel_id`) REFERENCES `classmodel` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 DROP TABLE IF EXISTS `subraces_proficiency`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -360,6 +392,7 @@ CREATE TABLE `subraces_proficiency` (
   CONSTRAINT `FKEB5CED1815C8A525` FOREIGN KEY (`subRaces_id`) REFERENCES `subraces` (`id`),
   CONSTRAINT `FKEB5CED18C82B3DE4` FOREIGN KEY (`proficiencies_id`) REFERENCES `proficiency` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 DROP TABLE IF EXISTS `subclass_trait`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

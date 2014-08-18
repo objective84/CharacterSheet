@@ -27,10 +27,6 @@ public class LanguageModel {
     @ManyToMany(mappedBy = "languages", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RaceModel> races = new ArrayList<RaceModel>();
 
-    @JsonBackReference
-    @ManyToMany(mappedBy = "languages", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CharacterModel> characters = new ArrayList<CharacterModel>();
-
     public String getName() {
         return name;
     }
@@ -61,13 +57,5 @@ public class LanguageModel {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public List<CharacterModel> getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(List<CharacterModel> characters) {
-        this.characters = characters;
     }
 }

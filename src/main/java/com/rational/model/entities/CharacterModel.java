@@ -81,7 +81,7 @@ public class CharacterModel {
     @OneToOne(cascade = CascadeType.ALL)
     private CoinPurse coinPurse;
 
-    private Long inventoryWeight = 0L;
+    private Long inventoryWeight;
 
     public CharacterModel(){}
 

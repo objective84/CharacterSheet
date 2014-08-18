@@ -1,6 +1,7 @@
 package com.rational.model;
 
 import com.rational.model.entities.ClassModel;
+import com.rational.model.entities.SpellModel;
 import com.rational.model.equipment.WeaponModel;
 import org.codehaus.jackson.annotate.JsonBackReference;
 
@@ -29,6 +30,8 @@ public class Dice {
     private List<WeaponModel> weapons = new ArrayList<WeaponModel>();
 
     private List<ClassModel> classWealthDie = new ArrayList<ClassModel>();
+
+    private List<SpellModel> spells = new ArrayList<SpellModel>();
 
     public Dice(){}
 
@@ -66,12 +69,6 @@ public class Dice {
         this.minRoll = minRoll;
     }
 
-    @OneToMany(mappedBy = "hitDie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonBackReference
-    public List<ClassModel> getClasses() {
-        return classes;
-    }
-
     public void setClasses(List<ClassModel> classes) {
         this.classes = classes;
     }
@@ -81,6 +78,13 @@ public class Dice {
     public List<WeaponModel> getWeapons() {
         return weapons;
     }
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "hitDie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public List<ClassModel> getClasses() {
+        return classes;
+    }
+
     public void setWeapons(List<WeaponModel> weapons) {
         this.weapons = weapons;
     }
@@ -93,5 +97,15 @@ public class Dice {
 
     public void setClassWealthDie(List<ClassModel> classWealthDie) {
         this.classWealthDie = classWealthDie;
+    }
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "damageDice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public List<SpellModel> getSpells() {
+        return spells;
+    }
+
+    public void setSpells(List<SpellModel> spells) {
+        this.spells = spells;
     }
 }
