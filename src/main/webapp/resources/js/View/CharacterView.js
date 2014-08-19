@@ -92,6 +92,7 @@ define("CharacterView",
             refreshCharacter: function(){
                 this.setAC();
                 this.setAbilities();
+                this.setLanguages();
                 this.setLanguagesAllowed();
                 this.setCoinPurse();
                 this.setProficiencies();

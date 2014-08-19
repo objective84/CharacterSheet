@@ -290,7 +290,11 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setSpeed(speed);
     }
 
-
+    private void processTraits(CharacterModel character){
+        for(TraitModel trait : character.getTraits()){
+            trait.processTrait(character);
+        }
+    }
 
     private CharacterModel assembleCharacter(CharacterModel character){
 
@@ -298,7 +302,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         setCharacterLanguages(character);
         setCharacterProficiencies(character);
         setCharacterSpeed(character);
-
+        processTraits(character);
         return character;
     }
 

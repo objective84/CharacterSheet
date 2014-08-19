@@ -17,4 +17,9 @@ public enum AbilityTypeEnum{
     public static String value(AbilityTypeEnum abilityType){
         return abilityType.type;
     }
+
+    @Override
+    public String toString(){
+        return type;
+    }
 }
