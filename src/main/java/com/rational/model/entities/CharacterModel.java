@@ -27,6 +27,8 @@ public class CharacterModel {
 
     private boolean encumbered;
 
+    private Integer speed = 0;
+
     @ManyToOne
     private ClassModel clazz;
 
@@ -309,10 +311,17 @@ public class CharacterModel {
 
     public Integer getSaveDC(){
         if(getClazz() != null && getClazz().getMagicAbility() != null) {
-            int saveDC = 8 + getAbilityByType(getClazz().getMagicAbility()).getScore() + ;
+            //TODO add prof Modifier to the save DC
+            int saveDC = 8 + getAbilityByType(getClazz().getMagicAbility()).getScore();
         }
         return null;
     };
 
+    public Integer getSpeed() {
+        return speed;
+    }
 
+    public void setSpeed(Integer speed) {
+        this.speed = speed;
+    }
 }

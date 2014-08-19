@@ -94,6 +94,8 @@
                     <form:input cssClass="input-box-small" id="maxHealth" path="maxHealth" value="${character.maxHealth}" readonly="true"/>
                     <spring:message code="character.currentHealth"/>
                     <form:input cssClass="input-box-small" id="currentHealth" path="currentHealth" />
+                    <spring:message code="character.speed"/>
+                    <form:input cssClass="input-box-small" id="speed" path="speed" />
                 </td>
             </tr>
         </table>
@@ -194,7 +196,7 @@
         </div>
         <div class="clear"/>
         <h3><spring:message code="character.inventory"/></h3>
-            <span id="encumbered-label">ENCUMBERED!</span>
+            <span id="encumbered-label"><spring:message code="character.encumbered"/></span>
         <div class="table_container">
             <table class="side-by-side" id="weapon-inventory-table">
                 <tr><th>Weapons</th></tr>

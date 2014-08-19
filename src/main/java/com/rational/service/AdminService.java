@@ -2,12 +2,12 @@ package com.rational.service;
 
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
-import com.rational.model.entities.SubRaceModel;
 import com.rational.model.entities.*;
 import com.rational.model.enums.CoinTypeEnum;
 import com.rational.model.equipment.*;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public interface AdminService {
@@ -111,4 +111,8 @@ public interface AdminService {
     SpellModel findSpell(Long id);
 
     List<SpellModel> findAllSpells();
+
+    List<EquipmentModel> findEquipmentOfType(Type type);
+
+    List<EquipmentModel> findAllEquipment();
 }

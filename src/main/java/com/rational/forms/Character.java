@@ -14,6 +14,7 @@ public class Character {
     private Integer level = 0;
     private Long clazz = 0l;
     private Long race = 0l;
+    private Integer speed = 0;
     private Integer maxHealth = 0;
     private Integer currentHealth = 0;
     private Map<AbilityTypeEnum, Integer> abilityScores = new HashMap<AbilityTypeEnum, Integer>();
@@ -156,5 +157,13 @@ public class Character {
 
     public void setCoinPurse(Map<String, Integer> coinPurse) {
         this.coinPurse = coinPurse;
+    }
+
+    public Integer getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(Integer speed) {
+        this.speed = speed;
     }
 }

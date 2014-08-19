@@ -50,6 +50,9 @@ public class ClassModel {
     private Dice startingWealthDie;
 
     @ManyToMany
+    @JoinTable(name="spellmodel_classmodel",
+            joinColumns = @JoinColumn(name="spellmodel_id"),
+            inverseJoinColumns = @JoinColumn(name="classmodel_id"))
     private List<SpellModel> spells = new ArrayList<SpellModel>();
 
     public Long getId() {

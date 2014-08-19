@@ -4,6 +4,7 @@ import com.rational.forms.Character;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.enums.ProficiencyTypeEnum;
+import com.rational.model.equipment.EquipmentModel;
 import com.rational.model.exceptions.PurchaseException;
 
 import java.util.List;
@@ -34,4 +35,8 @@ public interface CharacterFacade {
     Set<Proficiency> getProficienciesOfType(Set<Proficiency> proficiencies, ProficiencyTypeEnum type);
 
     CharacterModel setCharacterSubrace(String characterId, String subraceId);
+
+    List<EquipmentModel> filterEquipmentList(List<String> filters, String characterId);
+
+    List<EquipmentModel> filterByProficiency(String characterId);
 }

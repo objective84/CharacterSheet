@@ -117,6 +117,7 @@ CREATE TABLE `charactermodel` (
   `subrace_id` bigint(20) DEFAULT NULL,
   `inventoryWeight` bigint(20) Default 0,
   `encumbered` tinyint(1) NOT NULL,
+  `speed` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKD88FADA091512DE8` (`clazz_id`),
   KEY `FKD88FADA0E2831F45` (`coinPurse_id`),
