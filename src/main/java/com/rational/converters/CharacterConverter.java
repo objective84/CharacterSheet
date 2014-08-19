@@ -1,6 +1,7 @@
 package com.rational.converters;
 
 import com.rational.forms.Character;
+import com.rational.model.entities.Ability;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.CoinPurse;
 import com.rational.model.enums.AbilityTypeEnum;
@@ -51,12 +52,12 @@ public class CharacterConverter {
         character.setMaxHealth(characterModel.getMaxHealth());
         character.setCurrentHealth(characterModel.getCurrentHealth());
         Map<AbilityTypeEnum, Integer> abilityScores = new HashMap<AbilityTypeEnum, Integer>();
-        abilityScores.put(AbilityTypeEnum.Str, characterModel.getStr());
-        abilityScores.put(AbilityTypeEnum.Dex, characterModel.getDex());
-        abilityScores.put(AbilityTypeEnum.Con, characterModel.getCon());
-        abilityScores.put(AbilityTypeEnum.Int, characterModel.getIntel());
-        abilityScores.put(AbilityTypeEnum.Wis, characterModel.getWis());
-        abilityScores.put(AbilityTypeEnum.Cha, characterModel.getCha());
+        abilityScores.put(AbilityTypeEnum.Str, characterModel.getStr().getScore());
+        abilityScores.put(AbilityTypeEnum.Dex, characterModel.getDex().getScore());
+        abilityScores.put(AbilityTypeEnum.Con, characterModel.getCon().getScore());
+        abilityScores.put(AbilityTypeEnum.Int, characterModel.getIntel().getScore());
+        abilityScores.put(AbilityTypeEnum.Wis, characterModel.getWis().getScore());
+        abilityScores.put(AbilityTypeEnum.Cha, characterModel.getCha().getScore());
         character.setAbilityScores(abilityScores);
 
 //        character.setLanguages(languageConverter.convertToIds(characterModel.getLanguages()));
@@ -98,12 +99,12 @@ public class CharacterConverter {
         characterModel.setLevel(character.getLevel());
         characterModel.setMaxHealth(character.getMaxHealth());
         characterModel.setCurrentHealth(character.getCurrentHealth());
-        characterModel.setStr(character.getAbilityScores().get(AbilityTypeEnum.Str));
-        characterModel.setDex(character.getAbilityScores().get(AbilityTypeEnum.Dex));
-        characterModel.setCon(character.getAbilityScores().get(AbilityTypeEnum.Con));
-        characterModel.setIntel(character.getAbilityScores().get(AbilityTypeEnum.Int));
-        characterModel.setWis(character.getAbilityScores().get(AbilityTypeEnum.Wis));
-        characterModel.setCha(character.getAbilityScores().get(AbilityTypeEnum.Cha));
+        characterModel.getStr().setScore(character.getAbilityScores().get(AbilityTypeEnum.Str));
+        characterModel.getDex().setScore(character.getAbilityScores().get(AbilityTypeEnum.Dex));
+        characterModel.getCon().setScore(character.getAbilityScores().get(AbilityTypeEnum.Con));
+        characterModel.getIntel().setScore(character.getAbilityScores().get(AbilityTypeEnum.Int));
+        characterModel.getWis().setScore(character.getAbilityScores().get(AbilityTypeEnum.Wis));
+        characterModel.getCha().setScore(character.getAbilityScores().get(AbilityTypeEnum.Cha));
 //
 //        characterModel.setProficiencies(proficiencyConverter.convertToModels(character.getProficiencies()));
 //        characterModel.setLanguages(languageConverter.convertToModels(character.getLanguages()));

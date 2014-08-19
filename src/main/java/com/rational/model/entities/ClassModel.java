@@ -2,6 +2,7 @@ package com.rational.model.entities;
 
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
+import com.rational.model.enums.AbilityTypeEnum;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -40,6 +41,9 @@ public class ClassModel {
     private Integer skillsAtCreation;
 
     private Integer startingWealthDieAmount;
+
+    @Column(name="magic_ability")
+    private AbilityTypeEnum magicAbility;
 
     @JsonManagedReference
     @ManyToOne
@@ -126,5 +130,13 @@ public class ClassModel {
 
     public void setSpells(List<SpellModel> spells) {
         this.spells = spells;
+    }
+
+    public AbilityTypeEnum getMagicAbility() {
+        return magicAbility;
+    }
+
+    public void setMagicAbility(AbilityTypeEnum magicAbility) {
+        this.magicAbility = magicAbility;
     }
 }

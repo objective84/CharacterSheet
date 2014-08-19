@@ -126,7 +126,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         characterModel.setInventory(equipmentModels);
 
         characterModel.setInventoryWeight(characterModel.getInventoryWeight() + weight);
-        if(characterModel.getInventoryWeight() > characterModel.getStr() * 10){
+        if(characterModel.getInventoryWeight() > characterModel.getStr().getScore() * 10){
             characterModel.setEncumbered(true);
         }
         characterModel = characterService.save(characterModel);

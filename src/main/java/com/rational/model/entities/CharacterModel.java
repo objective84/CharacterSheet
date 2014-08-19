@@ -2,6 +2,7 @@ package com.rational.model.entities;
 
 
 import com.rational.model.Proficiency;
+import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.equipment.ArmorModel;
 import com.rational.model.equipment.EquipmentModel;
 import com.rational.model.equipment.WeaponModel;
@@ -52,12 +53,12 @@ public class CharacterModel {
 
     private int maxHealth;
     private int currentHealth;
-    private int str;
-    private int dex;
-    private int con;
-    private int intel;
-    private int wis;
-    private int cha;
+    private Ability str = new Ability(AbilityTypeEnum.Str);
+    private Ability dex = new Ability(AbilityTypeEnum.Dex);
+    private Ability con = new Ability(AbilityTypeEnum.Con);
+    private Ability intel = new Ability(AbilityTypeEnum.Int);
+    private Ability wis = new Ability(AbilityTypeEnum.Wis);
+    private Ability cha = new Ability(AbilityTypeEnum.Cha);
 
     @JsonManagedReference
     @ManyToMany
@@ -117,51 +118,51 @@ public class CharacterModel {
         this.name = name;
     }
 
-    public int getStr() {
+    public Ability getStr() {
         return str;
     }
 
-    public void setStr(int str) {
+    public void setStr(Ability str) {
         this.str = str;
     }
 
-    public int getDex() {
+    public Ability getDex() {
         return dex;
     }
 
-    public void setDex(int dex) {
+    public void setDex(Ability dex) {
         this.dex = dex;
     }
 
-    public int getCon() {
+    public Ability getCon() {
         return con;
     }
 
-    public void setCon(int con) {
+    public void setCon(Ability con) {
         this.con = con;
     }
 
-    public int getIntel() {
+    public Ability getIntel() {
         return intel;
     }
 
-    public void setIntel(int intel) {
+    public void setIntel(Ability intel) {
         this.intel = intel;
     }
 
-    public int getWis() {
+    public Ability getWis() {
         return wis;
     }
 
-    public void setWis(int wis) {
+    public void setWis(Ability wis) {
         this.wis = wis;
     }
 
-    public int getCha() {
+    public Ability getCha() {
         return cha;
     }
 
-    public void setCha(int cha) {
+    public void setCha(Ability cha) {
         this.cha = cha;
     }
 
@@ -293,4 +294,25 @@ public class CharacterModel {
     public void setEncumbered(boolean encumbered) {
         this.encumbered = encumbered;
     }
+
+    public Ability getAbilityByType(AbilityTypeEnum type){
+        switch (type){
+            case Str: return getStr();
+            case Dex: return getDex();
+            case Con: return getCon();
+            case Int: return getIntel();
+            case Wis: return getWis();
+            case Cha: return getCha();
+        }
+        return null;
+    }
+
+    public Integer getSaveDC(){
+        if(getClazz() != null && getClazz().getMagicAbility() != null) {
+            int saveDC = 8 + getAbilityByType(getClazz().getMagicAbility()).getScore() + ;
+        }
+        return null;
+    };
+
+
 }

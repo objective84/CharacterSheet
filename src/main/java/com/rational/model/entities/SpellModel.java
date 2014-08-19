@@ -24,7 +24,6 @@ public class SpellModel {
     private Dice damageDice;
 
     private String savingThrow;
-    private Integer saveDC;
     private String condition;
 
     @ManyToMany
@@ -86,14 +85,6 @@ public class SpellModel {
 
     public void setSavingThrow(String savingThrow) {
         this.savingThrow = savingThrow;
-    }
-
-    public Integer getSaveDC() {
-        return saveDC;
-    }
-
-    public void setSaveDC(Integer saveDC) {
-        this.saveDC = saveDC;
     }
 
     public String getCondition() {

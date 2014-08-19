@@ -1,0 +1,1 @@
+ALTER TABLE classmodel  ADD [COLUMN] magic_ability varchar;
