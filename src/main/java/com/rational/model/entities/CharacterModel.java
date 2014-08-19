@@ -30,13 +30,17 @@ public class CharacterModel {
     private Integer speed = 0;
 
     @ManyToOne
-    private ClassModel clazz;
-
-    @ManyToOne
     private RaceModel race;
 
     @ManyToOne
     private SubRaceModel subrace;
+
+    @ManyToOne
+    private CharacterAdvancement characterAdvancement;
+
+    @ManyToMany
+    @JoinTable(name="", inverseJoinColumns = @JoinColumn(name = "character_id"))
+    private List<ClassModel> clazzes;
 
     @ManyToMany
     @JoinTable(name="character_language",
@@ -104,14 +108,17 @@ public class CharacterModel {
         this.race = race;
     }
 
-    public ClassModel getClazz() {
-        return clazz;
+    public List<ClassModel> getClazzes() {
+        return clazzes;
     }
 
-    public void setClazz(ClassModel clazz) {
-        this.clazz = clazz;
+    public void setClazzes(List<ClassModel> clazzes) {
+        this.clazzes = clazzes;
     }
 
+    public void addClazz(ClassModel clazz){
+        getClazzes().add(clazz);
+    }
     public String getName() {
         return name;
     }
@@ -297,6 +304,14 @@ public class CharacterModel {
         this.encumbered = encumbered;
     }
 
+    public CharacterAdvancement getCharacterAdvancement() {
+        return characterAdvancement;
+    }
+
+    public void setCharacterAdvancement(CharacterAdvancement characterAdvancement) {
+        this.characterAdvancement = characterAdvancement;
+    }
+
     public Ability getAbilityByType(AbilityTypeEnum type){
         switch (type){
             case Str: return getStr();
@@ -310,9 +325,20 @@ public class CharacterModel {
     }
 
     public Integer getSaveDC(){
-        if(getClazz() != null && getClazz().getMagicAbility() != null) {
-            //TODO add prof Modifier to the save DC
-            int saveDC = 8 + getAbilityByType(getClazz().getMagicAbility()).getScore();
+        if(getClazzes() != null){
+            Ability magicAbility = null;
+
+            //Get the highest magic ability
+            for(ClassModel clazz : getClazzes()){
+                if(magicAbility == null){
+                    magicAbility = getAbilityByType(clazz.getMagicAbility());
+                }else if(clazz.getMagicAbility() != null && magicAbility.getScore() < getAbilityByType(clazz.getMagicAbility()).getScore()){
+                    magicAbility = getAbilityByType(clazz.getMagicAbility());
+                }
+            }
+            if(magicAbility != null && getCharacterAdvancement() != null){
+                return 8 + magicAbility.getScore() + getCharacterAdvancement().getProficiencyBonus();
+            }
         }
         return null;
     };

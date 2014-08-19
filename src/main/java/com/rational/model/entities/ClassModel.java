@@ -55,6 +55,9 @@ public class ClassModel {
             inverseJoinColumns = @JoinColumn(name="classmodel_id"))
     private List<SpellModel> spells = new ArrayList<SpellModel>();
 
+    @OneToMany
+    private List<Level> levels;
+
     public Long getId() {
         return id;
     }
@@ -141,5 +144,13 @@ public class ClassModel {
 
     public void setMagicAbility(AbilityTypeEnum magicAbility) {
         this.magicAbility = magicAbility;
+    }
+
+    public List<Level> getLevels() {
+        return levels;
+    }
+
+    public void setLevels(List<Level> levels) {
+        this.levels = levels;
     }
 }
