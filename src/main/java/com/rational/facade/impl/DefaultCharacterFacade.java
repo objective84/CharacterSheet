@@ -7,10 +7,7 @@ import com.rational.facade.CharacterFacade;
 import com.rational.forms.Character;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
-import com.rational.model.enums.CoinTypeEnum;
-import com.rational.model.enums.EquipmentFilterEnum;
-import com.rational.model.enums.ExchangeRateEnum;
-import com.rational.model.enums.ProficiencyTypeEnum;
+import com.rational.model.enums.*;
 import com.rational.model.equipment.ArmorModel;
 import com.rational.model.equipment.EquipmentModel;
 import com.rational.model.equipment.WeaponModel;
@@ -276,8 +273,8 @@ public class DefaultCharacterFacade implements CharacterFacade {
         if(null == character.getRace()) return;
         Integer speed = character.getRace().getSpeed();
         setInventoryWeight(character);
-        if (character.getInventoryWeight() > character.getStr().getScore() * 5) {
-            if (character.getInventoryWeight() > character.getStr().getScore() * 10) {
+        if (character.getInventoryWeight() > character.getAbilities().getAbilityScore(AbilityTypeEnum.Str) * 5) {
+            if (character.getInventoryWeight() > character.getAbilities().getAbilityScore(AbilityTypeEnum.Str) * 10) {
                 speed -= 20;
                 //TODO: assign trait for disadvantage on attack rolls, and ability/saves for Str/Dex/Con
             } else {
@@ -298,8 +295,14 @@ public class DefaultCharacterFacade implements CharacterFacade {
         setCharacterLanguages(character);
         setCharacterProficiencies(character);
         setCharacterSpeed(character);
-
+        processTraits(character);
         return character;
+    }
+
+    private void processTraits(CharacterModel character){
+        for(TraitModel trait : character.getTraits()){
+            trait.processTrait(character);
+        }
     }
 
 }

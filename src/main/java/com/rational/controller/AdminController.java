@@ -400,7 +400,7 @@ public class AdminController {
             mav.addObject("trait", trait);
             session.removeAttribute("clazz");
         }else {
-            mav.addObject("trait", new TraitModel());
+//            mav.addObject("trait", new TraitModel());
         }
         mav.addObject("allTraits", adminFacade.findAllTraits());
         mav.addObject("modTypes", TraitModTypeEnum.values());

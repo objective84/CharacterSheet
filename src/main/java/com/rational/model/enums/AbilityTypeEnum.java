@@ -4,7 +4,7 @@ public enum AbilityTypeEnum{
     Str("Str"),
     Dex("Dex"),
     Con("Con"),
-    Int("Int"),
+    Int("Intel"),
     Wis("Wis"),
     Cha("Cha");
 

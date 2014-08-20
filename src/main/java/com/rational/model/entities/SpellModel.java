@@ -1,6 +1,7 @@
 package com.rational.model.entities;
 
 import com.rational.model.Dice;
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class SpellModel {
     private String savingThrow;
     private String condition;
 
+    @JsonBackReference
     @ManyToMany
     @JoinTable(name="spellmodel_classmodel",
             joinColumns = @JoinColumn(name="spellmodel_id"),

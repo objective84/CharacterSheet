@@ -27,6 +27,8 @@ public class SubRaceModel {
 
     @JsonManagedReference
     @ManyToMany
+    @JoinTable(name="subraces_traitmodel",
+            joinColumns = @JoinColumn(name="subraces_id"), inverseJoinColumns = @JoinColumn(name="traitmodel_id"))
     private List<TraitModel> subRacialTraits = new ArrayList<TraitModel>();
 
     @JsonBackReference

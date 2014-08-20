@@ -2,7 +2,6 @@ package com.rational.model.entities;
 
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
-import com.rational.model.enums.AbilityTypeEnum;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -29,8 +28,10 @@ public class ClassModel {
     @JsonManagedReference
     private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
-    @ManyToMany(mappedBy="classes", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @ManyToMany
+    @JoinTable(name="classmodel_traitmodel",
+            joinColumns = @JoinColumn(name="traitmodel_id"),
+            inverseJoinColumns = @JoinColumn(name="classmodel_id"))
     private List<TraitModel> classTraits = new ArrayList<TraitModel>();
 
     @OneToMany(mappedBy = "baseClass", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -42,18 +43,20 @@ public class ClassModel {
 
     private Integer startingWealthDieAmount;
 
-    @Column(name="magic_ability")
-    private AbilityTypeEnum magicAbility;
-
     @JsonManagedReference
     @ManyToOne
     private Dice startingWealthDie;
 
+    @JsonManagedReference
     @ManyToMany
     @JoinTable(name="spellmodel_classmodel",
             joinColumns = @JoinColumn(name="spellmodel_id"),
             inverseJoinColumns = @JoinColumn(name="classmodel_id"))
     private List<SpellModel> spells = new ArrayList<SpellModel>();
+
+
+    @Column(name="magic_ability")
+    private String magicAbility;
 
     public Long getId() {
         return id;
@@ -134,12 +137,11 @@ public class ClassModel {
     public void setSpells(List<SpellModel> spells) {
         this.spells = spells;
     }
-
-    public AbilityTypeEnum getMagicAbility() {
+    public String getMagicAbility() {
         return magicAbility;
     }
 
-    public void setMagicAbility(AbilityTypeEnum magicAbility) {
+    public void setMagicAbility(String magicAbility) {
         this.magicAbility = magicAbility;
     }
 }

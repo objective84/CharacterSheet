@@ -20,13 +20,9 @@ public class CharacterModel {
     @Id
     @GeneratedValue
     private Long id;
-
     private String name;
-
     private Integer level;
-
     private boolean encumbered;
-
     private Integer speed = 0;
 
     @ManyToOne
@@ -49,18 +45,15 @@ public class CharacterModel {
     private Set<Proficiency> proficiencies = new HashSet<Proficiency>();
 
     @ManyToMany
-    @JoinTable(name="character_traits",
-            joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="trait_id"))
+    @JoinTable(name="traitmodel_charactermodel",
+            joinColumns = @JoinColumn(name="charactermodel_id"), inverseJoinColumns = @JoinColumn(name="traitmodel_id"))
     private Set<TraitModel> traits = new HashSet<TraitModel>();
 
     private int maxHealth;
     private int currentHealth;
-    private Ability str = new Ability(AbilityTypeEnum.Str);
-    private Ability dex = new Ability(AbilityTypeEnum.Dex);
-    private Ability con = new Ability(AbilityTypeEnum.Con);
-    private Ability intel = new Ability(AbilityTypeEnum.Int);
-    private Ability wis = new Ability(AbilityTypeEnum.Wis);
-    private Ability cha = new Ability(AbilityTypeEnum.Cha);
+
+    @ManyToOne
+    private Abilities abilities;
 
     @JsonManagedReference
     @ManyToMany
@@ -118,54 +111,6 @@ public class CharacterModel {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Ability getStr() {
-        return str;
-    }
-
-    public void setStr(Ability str) {
-        this.str = str;
-    }
-
-    public Ability getDex() {
-        return dex;
-    }
-
-    public void setDex(Ability dex) {
-        this.dex = dex;
-    }
-
-    public Ability getCon() {
-        return con;
-    }
-
-    public void setCon(Ability con) {
-        this.con = con;
-    }
-
-    public Ability getIntel() {
-        return intel;
-    }
-
-    public void setIntel(Ability intel) {
-        this.intel = intel;
-    }
-
-    public Ability getWis() {
-        return wis;
-    }
-
-    public void setWis(Ability wis) {
-        this.wis = wis;
-    }
-
-    public Ability getCha() {
-        return cha;
-    }
-
-    public void setCha(Ability cha) {
-        this.cha = cha;
     }
 
     public Integer getLevel() {
@@ -297,22 +242,22 @@ public class CharacterModel {
         this.encumbered = encumbered;
     }
 
-    public Ability getAbilityByType(AbilityTypeEnum type){
-        switch (type){
-            case Str: return getStr();
-            case Dex: return getDex();
-            case Con: return getCon();
-            case Int: return getIntel();
-            case Wis: return getWis();
-            case Cha: return getCha();
-        }
-        return null;
-    }
+//    public Abilities getAbilityByType(AbilityTypeEnum type){
+//        switch (type){
+//            case Str: return getStr();
+//            case Dex: return getDex();
+//            case Con: return getCon();
+//            case Int: return getIntel();
+//            case Wis: return getWis();
+//            case Cha: return getCha();
+//        }
+//        return null;
+//    }
 
     public Integer getSaveDC(){
         if(getClazz() != null && getClazz().getMagicAbility() != null) {
             //TODO add prof Modifier to the save DC
-            int saveDC = 8 + getAbilityByType(getClazz().getMagicAbility()).getScore();
+            int saveDC = 8 + abilities.getAbilityScore(AbilityTypeEnum.valueOf(getClazz().getMagicAbility()));
         }
         return null;
     };
@@ -324,4 +269,15 @@ public class CharacterModel {
     public void setSpeed(Integer speed) {
         this.speed = speed;
     }
+
+    public Abilities getAbilities() {
+        return abilities;
+    }
+
+    public void setAbilities(Abilities abilities) {
+        this.abilities = abilities;
+    }
+
+
+
 }

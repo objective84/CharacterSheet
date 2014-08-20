@@ -12,12 +12,29 @@ USE `charactersheet`;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
+
+DROP TABLE IF EXISTS `abilities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `abilities` (
+`id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `str` int(11) DEFAULT '8',
+  `dex` int(11) DEFAULT '8',
+  `con` int(11) DEFAULT '8',
+  `intel` int(11) DEFAULT '8',
+  `wis` int(11) DEFAULT '8',
+  `cha` int(11) DEFAULT '8',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 DROP TABLE IF EXISTS `armorgroup`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `armorgroup` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) DEFAULT NULL,
+`id` bigint(20) NOT NULL AUTO_INCREMENT,
+`description` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -85,11 +102,11 @@ DROP TABLE IF EXISTS `character_traits`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `character_traits` (
   `character_id` bigint(20) NOT NULL,
-  `trait_id` bigint(20) NOT NULL,
-  KEY `FKE71261FB56E9E79C` (`trait_id`),
+  `traitmodel_id` bigint(20) NOT NULL,
+  KEY `FKE71261FB56E9E79C` (`traitmodel_id`),
   KEY `FKE71261FB6666F1E6` (`character_id`),
   CONSTRAINT `FKE71261FB6666F1E6` FOREIGN KEY (`character_id`) REFERENCES `charactermodel` (`id`),
-  CONSTRAINT `FKE71261FB56E9E79C` FOREIGN KEY (`trait_id`) REFERENCES `traitmodel` (`id`)
+  CONSTRAINT `FKE71261FB56E9E79C` FOREIGN KEY (`traitmodel_id`) REFERENCES `traitmodel` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -98,16 +115,10 @@ DROP TABLE IF EXISTS `charactermodel`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `charactermodel` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `cha` int(11) NOT NULL,
-  `con` int(11) NOT NULL,
   `currentHealth` int(11) NOT NULL,
-  `dex` int(11) NOT NULL,
-  `intel` int(11) NOT NULL,
   `level` int(11) DEFAULT NULL,
   `maxHealth` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `str` int(11) NOT NULL,
-  `wis` int(11) NOT NULL,
   `clazz_id` bigint(20) DEFAULT NULL,
   `coinPurse_id` bigint(20) DEFAULT NULL,
   `equippedArmor_id` bigint(20) DEFAULT NULL,
@@ -118,6 +129,7 @@ CREATE TABLE `charactermodel` (
   `inventoryWeight` bigint(20) Default 0,
   `encumbered` tinyint(1) NOT NULL,
   `speed` int(11) DEFAULT NULL,
+  `abilities_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKD88FADA091512DE8` (`clazz_id`),
   KEY `FKD88FADA0E2831F45` (`coinPurse_id`),
@@ -126,26 +138,28 @@ CREATE TABLE `charactermodel` (
   KEY `FKD88FADA01A1779EE` (`equippedOffHand_id`),
   KEY `FKD88FADA0F7C9388C` (`race_id`),
   KEY `FKD88FADA04D389736` (`subrace_id`),
+  KEY `FKD88FADA0F7C9388D` (`abilities_id`),
   CONSTRAINT `FKD88FADA04D389736` FOREIGN KEY (`subrace_id`) REFERENCES `subraces` (`id`),
   CONSTRAINT `FKD88FADA01A1779EE` FOREIGN KEY (`equippedOffHand_id`) REFERENCES `equipmentmodel` (`id`),
   CONSTRAINT `FKD88FADA01C005348` FOREIGN KEY (`equippedMainHand_id`) REFERENCES `weaponmodel` (`id`),
   CONSTRAINT `FKD88FADA091512DE8` FOREIGN KEY (`clazz_id`) REFERENCES `classmodel` (`id`),
   CONSTRAINT `FKD88FADA0D0CD221C` FOREIGN KEY (`equippedArmor_id`) REFERENCES `armormodel` (`id`),
   CONSTRAINT `FKD88FADA0E2831F45` FOREIGN KEY (`coinPurse_id`) REFERENCES `coinpurse` (`id`),
-  CONSTRAINT `FKD88FADA0F7C9388C` FOREIGN KEY (`race_id`) REFERENCES `racemodel` (`id`)
+  CONSTRAINT `FKD88FADA0F7C9388C` FOREIGN KEY (`race_id`) REFERENCES `racemodel` (`id`),
+  CONSTRAINT `FKD88FADA0F7C9388D` FOREIGN KEY (`race_id`) REFERENCES `abilities` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-DROP TABLE IF EXISTS `class_trait`;
+DROP TABLE IF EXISTS `classmodel_traitmodel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `class_trait` (
-  `class_id` bigint(20) NOT NULL,
-  `trait_id` bigint(20) NOT NULL,
-  KEY `FKE7A30487B3B84272` (`trait_id`),
-  KEY `FKE7A30487341CFFF2` (`class_id`),
-  CONSTRAINT `FKE7A30487341CFFF2` FOREIGN KEY (`class_id`) REFERENCES `traitmodel` (`id`),
-  CONSTRAINT `FKE7A30487B3B84272` FOREIGN KEY (`trait_id`) REFERENCES `classmodel` (`id`)
+  `classmodel_id` bigint(20) NOT NULL,
+  `traitmodel_id` bigint(20) NOT NULL,
+  KEY `FKE7A30487B3B84272` (`traitmodel_id`),
+  KEY `FKE7A30487341CFFF2` (`classmodel_id`),
+  CONSTRAINT `FKE7A30487341CFFF2` FOREIGN KEY (`classmodel_id`) REFERENCES `traitmodel` (`id`),
+  CONSTRAINT `FKE7A30487B3B84272` FOREIGN KEY (`traitmodel_id`) REFERENCES `classmodel` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -254,11 +268,11 @@ DROP TABLE IF EXISTS `equipmentmodel_traitmodel`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `equipmentmodel_traitmodel` (
   `equipment_id` bigint(20) NOT NULL,
-  `traits_id` bigint(20) NOT NULL,
-  KEY `FKE8CAB23F41213E25` (`traits_id`),
+  `traitmodel_id` bigint(20) NOT NULL,
+  KEY `FKE8CAB23F41213E25` (`traitmodel_id`),
   KEY `FKE8CAB23FF8D2D49F` (`equipment_id`),
   CONSTRAINT `FKE8CAB23FF8D2D49F` FOREIGN KEY (`equipment_id`) REFERENCES `equipmentmodel` (`id`),
-  CONSTRAINT `FKE8CAB23F41213E25` FOREIGN KEY (`traits_id`) REFERENCES `traitmodel` (`id`)
+  CONSTRAINT `FKE8CAB23F41213E25` FOREIGN KEY (`traitmodel_id`) REFERENCES `traitmodel` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -291,11 +305,11 @@ DROP TABLE IF EXISTS `race_trait`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `race_trait` (
   `race_id` bigint(20) NOT NULL,
-  `trait_id` bigint(20) NOT NULL,
-  KEY `FKAA407F20A2CEC2F` (`trait_id`),
+  `traitmodel_id` bigint(20) NOT NULL,
+  KEY `FKAA407F20A2CEC2F` (`traitmodel_id`),
   KEY `FKAA407F20448633F9` (`race_id`),
   CONSTRAINT `FKAA407F20448633F9` FOREIGN KEY (`race_id`) REFERENCES `traitmodel` (`id`),
-  CONSTRAINT `FKAA407F20A2CEC2F` FOREIGN KEY (`trait_id`) REFERENCES `racemodel` (`id`)
+  CONSTRAINT `FKAA407F20A2CEC2F` FOREIGN KEY (`traitmodel_id`) REFERENCES `racemodel` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -342,11 +356,11 @@ DROP TABLE IF EXISTS `racemodel_traitmodel`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `racemodel_traitmodel` (
   `RaceModel_id` bigint(20) NOT NULL,
-  `traits_id` bigint(20) NOT NULL,
-  KEY `FKA1B205C241213E25` (`traits_id`),
+  `traitmodel_id` bigint(20) NOT NULL,
+  KEY `FKA1B205C241213E25` (`traitmodel_id`),
   KEY `FKA1B205C2685E7305` (`RaceModel_id`),
   CONSTRAINT `FKA1B205C2685E7305` FOREIGN KEY (`RaceModel_id`) REFERENCES `racemodel` (`id`),
-  CONSTRAINT `FKA1B205C241213E25` FOREIGN KEY (`traits_id`) REFERENCES `traitmodel` (`id`)
+  CONSTRAINT `FKA1B205C241213E25` FOREIGN KEY (`traitmodel_id`) REFERENCES `traitmodel` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -400,11 +414,11 @@ DROP TABLE IF EXISTS `subclass_trait`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `subclass_trait` (
   `subclass_id` bigint(20) NOT NULL,
-  `trait_id` bigint(20) NOT NULL,
-  KEY `FK5227DE47C1B53AC8` (`trait_id`),
+  `traitmodel_id` bigint(20) NOT NULL,
+  KEY `FK5227DE47C1B53AC8` (`traitmodel_id`),
   KEY `FK5227DE477E9C7E32` (`subclass_id`),
   CONSTRAINT `FK5227DE477E9C7E32` FOREIGN KEY (`subclass_id`) REFERENCES `traitmodel` (`id`),
-  CONSTRAINT `FK5227DE47C1B53AC8` FOREIGN KEY (`trait_id`) REFERENCES `subclassmodel` (`id`)
+  CONSTRAINT `FK5227DE47C1B53AC8` FOREIGN KEY (`traitmodel_id`) REFERENCES `subclassmodel` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -427,11 +441,11 @@ DROP TABLE IF EXISTS `subclassmodel_traitmodel`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `subclassmodel_traitmodel` (
   `SubClassModel_id` bigint(20) NOT NULL,
-  `subClassTraits_id` bigint(20) NOT NULL,
-  KEY `FK42F020097D2E89ED` (`subClassTraits_id`),
+  `traitmodel_id` bigint(20) NOT NULL,
+  KEY `FK42F020097D2E89ED` (`traitmodel_id`),
   KEY `FK42F020096B72F305` (`SubClassModel_id`),
   CONSTRAINT `FK42F020096B72F305` FOREIGN KEY (`SubClassModel_id`) REFERENCES `subclassmodel` (`id`),
-  CONSTRAINT `FK42F020097D2E89ED` FOREIGN KEY (`subClassTraits_id`) REFERENCES `traitmodel` (`id`)
+  CONSTRAINT `FK42F020097D2E89ED` FOREIGN KEY (`traitmodel_id`) REFERENCES `traitmodel` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -440,11 +454,11 @@ DROP TABLE IF EXISTS `subrace_trait`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `subrace_trait` (
   `subrace_id` bigint(20) NOT NULL,
-  `trait_id` bigint(20) NOT NULL,
-  KEY `FK52D96D601B249119` (`trait_id`),
+  `traitmodel_id` bigint(20) NOT NULL,
+  KEY `FK52D96D601B249119` (`traitmodel_id`),
   KEY `FK52D96D6088FDEDB9` (`subrace_id`),
   CONSTRAINT `FK52D96D6088FDEDB9` FOREIGN KEY (`subrace_id`) REFERENCES `traitmodel` (`id`),
-  CONSTRAINT `FK52D96D601B249119` FOREIGN KEY (`trait_id`) REFERENCES `subraces` (`id`)
+  CONSTRAINT `FK52D96D601B249119` FOREIGN KEY (`traitmodel_id`) REFERENCES `subraces` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -467,11 +481,11 @@ DROP TABLE IF EXISTS `subraces_traitmodel`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `subraces_traitmodel` (
   `subraces_id` bigint(20) NOT NULL,
-  `subRacialTraits_id` bigint(20) NOT NULL,
-  KEY `FKCA2D84B83D0DBA25` (`subRacialTraits_id`),
+  `traitmodel_id` bigint(20) NOT NULL,
+  KEY `FKCA2D84B83D0DBA25` (`traitmodel_id`),
   KEY `FKCA2D84B815C8A525` (`subraces_id`),
   CONSTRAINT `FKCA2D84B815C8A525` FOREIGN KEY (`subraces_id`) REFERENCES `subraces` (`id`),
-  CONSTRAINT `FKCA2D84B83D0DBA25` FOREIGN KEY (`subRacialTraits_id`) REFERENCES `traitmodel` (`id`)
+  CONSTRAINT `FKCA2D84B83D0DBA25` FOREIGN KEY (`traitmodel_id`) REFERENCES `traitmodel` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -482,21 +496,59 @@ CREATE TABLE `traitmodel` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `traitModifier` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `modifyabilitytrait`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `modifyabilitytrait` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `modAmount` int(11) DEFAULT NULL,
+  `ability` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK4B1DE24D15FEE84F` (`id`),
+  CONSTRAINT `FK4B1DE24D15FEE84F` FOREIGN KEY (`id`) REFERENCES `traitmodel` (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 DROP TABLE IF EXISTS `traitmodel_charactermodel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `traitmodel_charactermodel` (
-  `TraitModel_id` bigint(20) NOT NULL,
-  `characters_id` bigint(20) NOT NULL,
-  KEY `FK66933C8451CA2F05` (`characters_id`),
+  `traitmodel_id` bigint(20) NOT NULL,
+  `charactermodel_id` bigint(20) NOT NULL,
+  KEY `FK66933C8451CA2F05` (`charactermodel_id`),
   KEY `FK66933C84323588AF` (`TraitModel_id`),
-  CONSTRAINT `FK66933C84323588AF` FOREIGN KEY (`TraitModel_id`) REFERENCES `traitmodel` (`id`),
-  CONSTRAINT `FK66933C8451CA2F05` FOREIGN KEY (`characters_id`) REFERENCES `charactermodel` (`id`)
+  CONSTRAINT `FK66933C84323588AF` FOREIGN KEY (`traitmodel_id`) REFERENCES `traitmodel` (`id`),
+  CONSTRAINT `FK66933C8451CA2F05` FOREIGN KEY (`charactermodel_id`) REFERENCES `charactermodel` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `classmodel_traitmodel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `classmodel_traitmodel` (
+  `traitmodel_id` bigint(20) NOT NULL,
+  `classmodel_id` bigint(20) NOT NULL,
+  KEY `FK66933C8451CA2F06` (`classmodel_id`),
+  KEY `FK66933C84323588AG` (`TraitModel_id`),
+  CONSTRAINT `FK66933C84323588AG` FOREIGN KEY (`traitmodel_id`) REFERENCES `traitmodel` (`id`),
+  CONSTRAINT `FK66933C8451CA2F06` FOREIGN KEY (`classmodel_id`) REFERENCES `classmodel` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `racemodel_traitmodel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `racemodel_traitmodel` (
+  `traitmodel_id` bigint(20) NOT NULL,
+  `racemodel_id` bigint(20) NOT NULL,
+  KEY `FK66933C8451CA2F06` (`racemodel_id`),
+  KEY `FK66933C84323588AG` (`TraitModel_id`),
+  CONSTRAINT `FK66933C84323588AH` FOREIGN KEY (`traitmodel_id`) REFERENCES `traitmodel` (`id`),
+  CONSTRAINT `FK66933C8451CA2F07` FOREIGN KEY (`racemodel_id`) REFERENCES `racemodel` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

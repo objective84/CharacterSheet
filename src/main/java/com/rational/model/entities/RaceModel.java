@@ -32,8 +32,9 @@ public class RaceModel {
     @ManyToMany
     private List<LanguageModel> languages = new ArrayList<LanguageModel>();
 
-    @JsonManagedReference
     @ManyToMany
+    @JoinTable(name="racemodel_traitmodel",
+            joinColumns = @JoinColumn(name="racemodel_id"), inverseJoinColumns = @JoinColumn(name="traitmodel_id"))
     private List<TraitModel> traits = new ArrayList<TraitModel>();
 
     @JsonManagedReference

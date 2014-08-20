@@ -14,7 +14,6 @@ import java.util.List;
 @Entity
 public class WeaponGroup {
 
-
     private Long id;
 
     private String name;

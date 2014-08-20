@@ -129,12 +129,12 @@ define("CharacterView",
             },
 
             setAbilities: function(){
-                this.ui.str.val(this.character.str);
-                this.ui.dex.val(this.character.dex);
-                this.ui.con.val(this.character.con);
-                this.ui.int.val(this.character.intel);
-                this.ui.wis.val(this.character.wis);
-                this.ui.cha.val(this.character.cha);
+                this.ui.str.val(this.character.abilities.str);
+                this.ui.dex.val(this.character.abilities.dex);
+                this.ui.con.val(this.character.abilities.con);
+                this.ui.int.val(this.character.abilities.intel);
+                this.ui.wis.val(this.character.abilities.wis);
+                this.ui.cha.val(this.character.abilities.cha);
                 $('.ability').each(_.bind(function(key, value){
                     this.setAbilityMod($(value).attr('id'), $(value).val());
                 },this));

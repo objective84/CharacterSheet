@@ -1,13 +1,11 @@
 package com.rational.model.equipment;
 
 import com.rational.model.Dice;
-import com.rational.model.entities.CharacterModel;
-import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 /**
  * Created by awest on 7/23/14.
@@ -70,7 +68,6 @@ public class WeaponModel extends EquipmentModel{
     }
 
     public boolean isTwoHanded() {
-
         return twoHanded;
     }
 
