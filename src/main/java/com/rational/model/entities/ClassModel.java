@@ -58,6 +58,9 @@ public class ClassModel {
     @Column(name="magic_ability")
     private String magicAbility;
 
+    @OneToMany(mappedBy = "clazz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Level> levels = new ArrayList<Level>();
+
     public Long getId() {
         return id;
     }
@@ -143,5 +146,13 @@ public class ClassModel {
 
     public void setMagicAbility(String magicAbility) {
         this.magicAbility = magicAbility;
+    }
+
+    public List<Level> getLevels() {
+        return levels;
+    }
+
+    public void setLevels(List<Level> levels) {
+        this.levels = levels;
     }
 }

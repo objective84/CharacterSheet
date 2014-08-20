@@ -26,13 +26,20 @@ public class CharacterModel {
     private Integer speed = 0;
 
     @ManyToOne
-    private ClassModel clazz;
-
-    @ManyToOne
     private RaceModel race;
 
     @ManyToOne
     private SubRaceModel subrace;
+
+    @ManyToOne
+    private CharacterAdvancement characterAdvancement;
+
+    @ManyToOne
+    private ClassModel clazz;
+
+    @ManyToMany
+    @JoinTable(name="charactermodel_multiclasses", joinColumns = @JoinColumn(name="charactermodel_id"), inverseJoinColumns = @JoinColumn(name = "classmodel_id"))
+    private List<ClassModel> multiClassList;
 
     @ManyToMany
     @JoinTable(name="character_language",
@@ -97,14 +104,17 @@ public class CharacterModel {
         this.race = race;
     }
 
-    public ClassModel getClazz() {
-        return clazz;
+    public List<ClassModel> getMultiClassList() {
+        return multiClassList;
     }
 
-    public void setClazz(ClassModel clazz) {
-        this.clazz = clazz;
+    public void setMultiClassList(List<ClassModel> multiClassList) {
+        this.multiClassList = multiClassList;
     }
 
+    public void addClazz(ClassModel clazz){
+        getMultiClassList().add(clazz);
+    }
     public String getName() {
         return name;
     }
@@ -139,25 +149,10 @@ public class CharacterModel {
 
     public Set<Proficiency> getProficiencies() { return this.proficiencies;}
 
-//    public Set<Proficiency> getAllProficiencies() {
-//        Set<Proficiency> allProficiencies = new HashSet<Proficiency>();
-//        allProficiencies.addAll(this.proficiencies);
-//        allProficiencies.addAll(this.race.getProficiencies());
-//        allProficiencies.addAll(this.clazz.getProficiencies());
-//        return allProficiencies;
-//    }
-
     public void setProficiencies(Set<Proficiency> proficiencies) {
         this.proficiencies = proficiencies;
     }
     public Set<LanguageModel> getLanguages() {return this.languages;}
-
-//    public Set<LanguageModel> getAllLanguageModels() {
-//        Set<LanguageModel> allLanguages = new HashSet<LanguageModel>();
-//        allLanguages.addAll(this.languages);
-//        allLanguages.addAll(this.race.getLanguages());
-//        return allLanguages;
-//    }
 
     public void setLanguages(Set<LanguageModel> languages) {
         this.languages = languages;
@@ -165,14 +160,6 @@ public class CharacterModel {
 
     public Set<TraitModel> getTraits() {return this.traits;}
 
-
-//    public Set<TraitModel> getAllTraits() {
-//        Set<TraitModel> allTraits = new HashSet<TraitModel>();
-//        allTraits.addAll(this.traits);
-//        allTraits.addAll(this.race.getTraits());
-//        allTraits.addAll(this.getClazz().getClassTraits());
-//        return allTraits;
-//    }
 
     public void setTraits(Set<TraitModel> traits) {
         this.traits = traits;
@@ -242,22 +229,37 @@ public class CharacterModel {
         this.encumbered = encumbered;
     }
 
-//    public Abilities getAbilityByType(AbilityTypeEnum type){
-//        switch (type){
-//            case Str: return getStr();
-//            case Dex: return getDex();
-//            case Con: return getCon();
-//            case Int: return getIntel();
-//            case Wis: return getWis();
-//            case Cha: return getCha();
-//        }
-//        return null;
-//    }
-
-    public Integer getSaveDC(){
-        if(getClazz() != null && getClazz().getMagicAbility() != null) {
+    public Integer getSaveDC() {
+        if (getClazz() != null && getClazz().getMagicAbility() != null) {
             //TODO add prof Modifier to the save DC
-            int saveDC = 8 + abilities.getAbilityScore(AbilityTypeEnum.valueOf(getClazz().getMagicAbility()));
+            return 8 + abilities.getAbilityScore(AbilityTypeEnum.valueOf(getClazz().getMagicAbility()));
+        }
+        return null;
+    }
+
+        public CharacterAdvancement getCharacterAdvancement() {
+            return characterAdvancement;
+        }
+
+        public void setCharacterAdvancement(CharacterAdvancement characterAdvancement) {
+            this.characterAdvancement = characterAdvancement;
+        }
+
+    public Integer getSaveDC(Long classId){
+        if(getMultiClassList() != null){
+            AbilityTypeEnum magicAbility = null;
+            if(this.clazz.getId() == classId){
+                magicAbility = AbilityTypeEnum.valueOf(this.clazz.getMagicAbility());
+            }else{
+                for(ClassModel clazz : this.multiClassList){
+                    if(clazz.getId() == classId){
+                        magicAbility = AbilityTypeEnum.valueOf(clazz.getMagicAbility());
+                    }
+                }
+            }
+            if(magicAbility != null && getCharacterAdvancement() != null){
+                return 8 + abilities.getAbilityModifier(magicAbility) + getCharacterAdvancement().getProficiencyBonus();
+            }
         }
         return null;
     };
@@ -279,5 +281,11 @@ public class CharacterModel {
     }
 
 
+    public ClassModel getClazz() {
+        return clazz;
+    }
 
+    public void setClazz(ClassModel clazz) {
+        this.clazz = clazz;
+    }
 }

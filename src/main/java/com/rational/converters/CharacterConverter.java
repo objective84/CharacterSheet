@@ -2,6 +2,7 @@ package com.rational.converters;
 
 import com.rational.forms.Character;
 import com.rational.model.entities.CharacterModel;
+import com.rational.model.entities.ClassModel;
 import com.rational.model.entities.CoinPurse;
 import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.equipment.EquipmentModel;
@@ -41,8 +42,9 @@ public class CharacterConverter {
 
         character.setId(characterModel.getId());
         character.setName(characterModel.getName());
-        if(null != characterModel.getClazz()) {
-            character.setClazz(characterModel.getClazz().getId());
+        if(null != characterModel.getMultiClassList()) {
+            //FIXME This needs to handle multiclassing
+            character.setClazz(characterModel.getMultiClassList().get(0).getId());
         }
         if(null != characterModel.getRace()){
             character.setRace(characterModel.getRace().getId());
@@ -95,7 +97,14 @@ public class CharacterConverter {
         characterModel.setId(character.getId());
         characterModel.setName(character.getName());
         characterModel.setRace(adminService.findRace(character.getRace()));
-        characterModel.setClazz(adminService.findClass(character.getClazz()));
+        if(characterModel.getMultiClassList() == null){
+            characterModel.setMultiClassList(new ArrayList<ClassModel>());
+        }
+        if(!characterModel.getMultiClassList().contains(adminService.findClass(character.getClazz()))){
+            ClassModel classModel = adminService.findClass(character.getClazz());
+            characterModel.addClazz(classModel);
+        }
+
         characterModel.setLevel(character.getLevel());
         characterModel.setMaxHealth(character.getMaxHealth());
         characterModel.setCurrentHealth(character.getCurrentHealth());
