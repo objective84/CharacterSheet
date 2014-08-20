@@ -1,6 +1,6 @@
-CREATE TABLE `charactersheet`.`character_advancement` (
-  `id_character_advancement` INT NOT NULL,
-  `total_level` INT NULL,
-  `proficiency_bonus` INT NULL,
-  `experience_points` INT NULL,
-  PRIMARY KEY (`id_character_advancement`));
+CREATE TABLE `charactersheet`.`characteradvancement` (
+  `id` bigint(20) NOT NULL,
+  `total_level` int(11) NULL,
+  `proficiency_bonus` int(11) NULL,
+  `experience_points` int(11) NULL,
+  PRIMARY KEY (`id`));

@@ -52,8 +52,13 @@ public class DefaultCharacterFacade implements CharacterFacade {
 
     @Override
     public CharacterModel save(Character character) {
-        return assembleCharacter(characterService.save(characterConverter.convert(character,
-                character.getId() == null ? new CharacterModel() : characterService.findCharacter(character.getId()))));
+        CharacterModel characterModel = new CharacterModel();
+        if(character.getId() == null){
+            characterModel.setAbilities(new Abilities(8,8,8,8,8,8));
+        }else{
+            characterModel = characterService.findCharacter(character.getId());
+        }
+        return assembleCharacter(characterService.save(characterConverter.convert(character, characterModel)));
     }
 
     @Override
@@ -252,6 +257,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
     }
 
     private Boolean hasProficiency(CharacterModel character, EquipmentModel equipment){
+        setCharacterProficiencies(character);
         for(Proficiency proficiency : equipment.getProficiencies()){
             if(character.getProficiencies().contains(proficiency)){
                 return true;
@@ -286,8 +292,6 @@ public class DefaultCharacterFacade implements CharacterFacade {
         }
         character.setSpeed(speed);
     }
-
-
 
     private CharacterModel assembleCharacter(CharacterModel character){
 

@@ -42,7 +42,7 @@
                         <td><form:select path="parentRace" >
                             <form:option value="0" label="Select a race" />
                             <c:forEach items="${races}" var="race">
-                                <form:option value="${race.id}" label="${race.raceName}"/>
+                                <form:option value="${race.id}" label="${race.name}"/>
                             </c:forEach>
                         </form:select> </td>
                     </tr>

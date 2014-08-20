@@ -31,7 +31,7 @@
                 <table>
                     <tr>
                         <th>Name</th>
-                        <td><form:input path="raceName"></form:input></td>
+                        <td><form:input path="name"></form:input></td>
                     </tr>
                     <tr>
                         <th>Description</th>
@@ -84,7 +84,7 @@
                     <tr><td>Races:</td></tr>
                     <c:forEach items="${races}" var="race">
                         <tr>
-                            <td><a class="entry-link" href="#" id="${race.id}">${race.raceName}</a></td>
+                            <td><a class="entry-link" href="#" id="${race.id}">${race.name}</a></td>
                         </tr>
                     </c:forEach>
                 </table>

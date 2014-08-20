@@ -21,8 +21,8 @@ public class SubRace {
         return name;
     }
 
-    public void setName(String raceName) {
-        this.name = raceName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

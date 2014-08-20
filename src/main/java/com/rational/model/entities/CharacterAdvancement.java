@@ -1,25 +1,23 @@
 package com.rational.model.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Andy on 8/19/2014.
  */
-@Entity(name = "character_advancement")
+@Entity
 public class CharacterAdvancement {
-    @Id
-    @GeneratedValue
-    @Column(name = "id_character_advancement")
-    private Long id;
-    @Column(name = "total_level")
-    private int totalLevel;
-    @Column(name = "proficiency_bonus")
-    private int proficiencyBonus;
-    @Column(name = "experience_points")
-    private int experiencePoints;
+
+    @Id @GeneratedValue private Long id;
+
+    @Column(name = "total_level") private int totalLevel;
+    @Column(name = "proficiency_bonus") private int proficiencyBonus;
+    @Column(name = "experience_points") private int experiencePoints;
+
+    @OneToMany(mappedBy = "characterAdvancement", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CharacterModel> characters = new ArrayList<CharacterModel>();
 
     public Long getId() {
         return id;
@@ -51,5 +49,13 @@ public class CharacterAdvancement {
 
     public void setExperiencePoints(int experiencePoints) {
         this.experiencePoints = experiencePoints;
+    }
+
+    public List<CharacterModel> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<CharacterModel> characters) {
+        this.characters = characters;
     }
 }

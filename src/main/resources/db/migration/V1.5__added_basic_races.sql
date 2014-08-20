@@ -1,7 +1,7 @@
-INSERT INTO `charactersheet`.`racemodel` (`id`, `description`,`raceName`,`size`, `speed`) VALUES ('1', NULL, 'Dwarf','Medium','25');
-INSERT INTO `charactersheet`.`racemodel` (`id`, `description`,`raceName`,`size`, `speed`) VALUES ('2', NULL, 'Elf','Medium','30');
-INSERT INTO `charactersheet`.`racemodel` (`id`, `description`,`raceName`,`size`, `speed`) VALUES ('3', NULL, 'Halfling','Small','25');
-INSERT INTO `charactersheet`.`racemodel` (`id`, `description`,`raceName`,`size`, `speed`) VALUES ('4', NULL, 'Human','Medium','30');
+INSERT INTO `charactersheet`.`racemodel` (`id`, `description`,`name`,`size`, `speed`) VALUES ('1', NULL, 'Dwarf','Medium','25');
+INSERT INTO `charactersheet`.`racemodel` (`id`, `description`,`name`,`size`, `speed`) VALUES ('2', NULL, 'Elf','Medium','30');
+INSERT INTO `charactersheet`.`racemodel` (`id`, `description`,`name`,`size`, `speed`) VALUES ('3', NULL, 'Halfling','Small','25');
+INSERT INTO `charactersheet`.`racemodel` (`id`, `description`,`name`,`size`, `speed`) VALUES ('4', NULL, 'Human','Medium','30');
 
 INSERT INTO `charactersheet`.`racemodel_languagemodel` (`races_id`, `languages_id`) VALUES ('1', '2');
 INSERT INTO `charactersheet`.`racemodel_languagemodel` (`races_id`, `languages_id`) VALUES ('1', '1');

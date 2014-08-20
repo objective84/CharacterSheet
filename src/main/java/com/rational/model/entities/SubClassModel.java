@@ -20,9 +20,8 @@ public class SubClassModel {
     @Column(name="description")
     private String description;
 
-    @JsonManagedReference
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TraitModel> subClassTraits = new ArrayList<TraitModel>();
+    @JoinTable(name="subclass_trait",joinColumns = @JoinColumn(name="subclass_id"), inverseJoinColumns = @JoinColumn(name="trait_id"))
+    @JsonManagedReference @ManyToMany private List<TraitModel> subClassTraits = new ArrayList<TraitModel>();
 
     @ManyToOne
     @JsonBackReference

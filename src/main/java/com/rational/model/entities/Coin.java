@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 public class Coin {
 
-    private Long id;
+    @Id @GeneratedValue private Long id;
 
     private String denomination;
 
@@ -19,8 +19,8 @@ public class Coin {
 
     private Long lowerCoin;
 
-    @JsonBackReference
-    private List<EquipmentModel> equipment;
+    @OneToMany(mappedBy = "priceDenomination", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference private List<EquipmentModel> equipment;
 
     public String getDenomination() {
         return denomination;
@@ -39,9 +39,6 @@ public class Coin {
         abbr = type.getAbbr();
     }
 
-
-    @Id
-    @GeneratedValue
     public Long getId() {
         return id;
     }
@@ -58,7 +55,6 @@ public class Coin {
         this.abbr = abbr;
     }
 
-    @OneToMany(mappedBy = "priceDenomination", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<EquipmentModel> getEquipment() {
         return equipment;
     }
@@ -67,7 +63,6 @@ public class Coin {
         this.equipment = equipment;
     }
 
-    @Transient
     public CoinTypeEnum getCoinType(){
         return CoinTypeEnum.valueOf(denomination.toUpperCase());
     }

@@ -1,15 +1,19 @@
 package com.rational.model.entities;
 
-import javax.persistence.ManyToOne;
+import org.codehaus.jackson.annotate.JsonBackReference;
+
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Andy on 8/19/2014.
  */
+@Entity
 public class Level {
-    private int levelNumber;
-    private List<TraitModel> traits;
-    private int proficiencyBonus;
+
+    private Integer levelNumber;
+    private Integer proficiencyBonus;
     private Integer cantripsKnown;
     private Integer spellsKnown;
     private Integer firstLevelSpellSlots;
@@ -22,14 +26,18 @@ public class Level {
     private Integer eighthLevelSpellSlots;
     private Integer ninthLevelSpellSlots;
 
-    @ManyToOne
-    private ClassModel clazz;
+    @Id @GeneratedValue private Long id;
+    @ManyToOne @JsonBackReference private ClassModel clazz;
 
-    public int getLevelNumber() {
+    @JoinTable(name="level_classmodel",
+            joinColumns = @JoinColumn(name="level_id"), inverseJoinColumns = @JoinColumn(name="classmodel_id"))
+    @ManyToMany private List<TraitModel> traits = new ArrayList<TraitModel>();
+
+    public Integer getLevelNumber() {
         return levelNumber;
     }
 
-    public void setLevelNumber(int levelNumber) {
+    public void setLevelNumber(Integer levelNumber) {
         this.levelNumber = levelNumber;
     }
 
@@ -41,11 +49,11 @@ public class Level {
         this.traits = traits;
     }
 
-    public int getProficiencyBonus() {
+    public Integer getProficiencyBonus() {
         return proficiencyBonus;
     }
 
-    public void setProficiencyBonus(int proficiencyBonus) {
+    public void setProficiencyBonus(Integer proficiencyBonus) {
         this.proficiencyBonus = proficiencyBonus;
     }
 
@@ -143,5 +151,13 @@ public class Level {
 
     public void setClazz(ClassModel clazz) {
         this.clazz = clazz;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

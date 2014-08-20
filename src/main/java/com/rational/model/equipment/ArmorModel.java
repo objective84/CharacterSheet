@@ -14,14 +14,13 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("A")
 public class ArmorModel extends EquipmentModel{
 
-    private ArmorGroup armorGroup;
     private Integer armorClass;
     private Integer maxDexModifier;
     private Integer strength;
     private boolean stealthDisadvantage;
 
-    @JsonManagedReference
-    @ManyToOne
+    @JsonManagedReference @ManyToOne private ArmorGroup armorGroup;
+
     public ArmorGroup getArmorGroup() {
         return armorGroup;
     }

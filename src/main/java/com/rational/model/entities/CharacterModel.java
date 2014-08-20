@@ -17,74 +17,43 @@ import java.util.Set;
 @Entity
 public class CharacterModel {
 
-    @Id
-    @GeneratedValue
-    private Long id;
     private String name;
-    private Integer level;
     private boolean encumbered;
     private Integer speed = 0;
-
-    @ManyToOne
-    private RaceModel race;
-
-    @ManyToOne
-    private SubRaceModel subrace;
-
-    @ManyToOne
-    private CharacterAdvancement characterAdvancement;
-
-    @ManyToOne
-    private ClassModel clazz;
-
-    @ManyToMany
-    @JoinTable(name="charactermodel_multiclasses", joinColumns = @JoinColumn(name="charactermodel_id"), inverseJoinColumns = @JoinColumn(name = "classmodel_id"))
-    private List<ClassModel> multiClassList;
-
-    @ManyToMany
-    @JoinTable(name="character_language",
-            joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="language_id"))
-    private Set<LanguageModel> languages = new HashSet<LanguageModel>();
-
-    @ManyToMany
-    @JoinTable(name="character_proficiency",
-            joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="proficiency_id"))
-    private Set<Proficiency> proficiencies = new HashSet<Proficiency>();
-
-    @ManyToMany
-    @JoinTable(name="traitmodel_charactermodel",
-            joinColumns = @JoinColumn(name="charactermodel_id"), inverseJoinColumns = @JoinColumn(name="traitmodel_id"))
-    private Set<TraitModel> traits = new HashSet<TraitModel>();
-
     private int maxHealth;
     private int currentHealth;
-
-    @ManyToOne
-    private Abilities abilities;
-
-    @JsonManagedReference
-    @ManyToMany
-    @JoinTable(name="character_equipment", joinColumns = @JoinColumn(name="character_id"),
-            inverseJoinColumns = @JoinColumn(name="equipment_id"))
-    private List<EquipmentModel> inventory = new ArrayList<EquipmentModel>();
-
-    @JsonManagedReference
-    @ManyToOne
-    private ArmorModel equippedArmor;
-
-    @JsonManagedReference
-    @ManyToOne
-    private WeaponModel equippedMainHand;
-
-    @JsonManagedReference
-    @ManyToOne
-    private EquipmentModel equippedOffHand;
-
-    @JsonManagedReference
-    @OneToOne(cascade = CascadeType.ALL)
-    private CoinPurse coinPurse;
-
     private Long inventoryWeight;
+
+    @Id @GeneratedValue private Long id;
+    @ManyToOne private RaceModel race;
+    @ManyToOne private SubRaceModel subrace;
+    @ManyToOne private CharacterAdvancement characterAdvancement;
+    @ManyToOne private ClassModel clazz;
+    @ManyToOne(cascade = CascadeType.ALL) private Abilities abilities;
+    @JsonManagedReference @ManyToOne private ArmorModel equippedArmor;
+    @JsonManagedReference @ManyToOne private WeaponModel equippedMainHand;
+    @JsonManagedReference @ManyToOne private EquipmentModel equippedOffHand;
+    @JsonManagedReference @OneToOne(cascade = CascadeType.ALL) private CoinPurse coinPurse;
+
+    @JoinTable(name="charactermodel_multiclasses",
+            joinColumns = @JoinColumn(name="charactermodel_id"), inverseJoinColumns = @JoinColumn(name = "classmodel_id"))
+    @ManyToMany private List<ClassModel> multiClassList;
+
+    @JoinTable(name="character_language",
+            joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="language_id"))
+    @ManyToMany private Set<LanguageModel> languages = new HashSet<LanguageModel>();
+
+    @JoinTable(name="character_proficiency",
+            joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="proficiency_id"))
+    @ManyToMany private Set<Proficiency> proficiencies = new HashSet<Proficiency>();
+
+    @JoinTable(name="traitmodel_charactermodel",
+            joinColumns = @JoinColumn(name="charactermodel_id"), inverseJoinColumns = @JoinColumn(name="traitmodel_id"))
+    @ManyToMany private Set<TraitModel> traits = new HashSet<TraitModel>();
+
+    @JoinTable(name="character_equipment",
+            joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="equipment_id"))
+    @JsonManagedReference @ManyToMany private List<EquipmentModel> inventory = new ArrayList<EquipmentModel>();
 
     public CharacterModel(){}
 
@@ -115,20 +84,13 @@ public class CharacterModel {
     public void addClazz(ClassModel clazz){
         getMultiClassList().add(clazz);
     }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
     }
 
     public int getMaxHealth() {
@@ -152,14 +114,18 @@ public class CharacterModel {
     public void setProficiencies(Set<Proficiency> proficiencies) {
         this.proficiencies = proficiencies;
     }
-    public Set<LanguageModel> getLanguages() {return this.languages;}
+
+    public Set<LanguageModel> getLanguages() {
+        return this.languages;
+    }
 
     public void setLanguages(Set<LanguageModel> languages) {
         this.languages = languages;
     }
 
-    public Set<TraitModel> getTraits() {return this.traits;}
-
+    public Set<TraitModel> getTraits() {
+        return this.traits;
+    }
 
     public void setTraits(Set<TraitModel> traits) {
         this.traits = traits;
@@ -229,21 +195,13 @@ public class CharacterModel {
         this.encumbered = encumbered;
     }
 
-    public Integer getSaveDC() {
-        if (getClazz() != null && getClazz().getMagicAbility() != null) {
-            //TODO add prof Modifier to the save DC
-            return 8 + abilities.getAbilityScore(AbilityTypeEnum.valueOf(getClazz().getMagicAbility()));
-        }
-        return null;
+    public CharacterAdvancement getCharacterAdvancement() {
+        return characterAdvancement;
     }
 
-        public CharacterAdvancement getCharacterAdvancement() {
-            return characterAdvancement;
-        }
-
-        public void setCharacterAdvancement(CharacterAdvancement characterAdvancement) {
-            this.characterAdvancement = characterAdvancement;
-        }
+    public void setCharacterAdvancement(CharacterAdvancement characterAdvancement) {
+        this.characterAdvancement = characterAdvancement;
+    }
 
     public Integer getSaveDC(Long classId){
         if(getMultiClassList() != null){

@@ -2,7 +2,6 @@ package com.rational.model.entities;
 
 import com.rational.model.Proficiency;
 import org.codehaus.jackson.annotate.JsonBackReference;
-import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,29 +14,17 @@ import java.util.List;
 @Table(name="subraces")
 public class SubRaceModel {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @Column(name="name")
     private String name;
-
-    @Column(name="description")
     private String description;
 
-    @JsonManagedReference
-    @ManyToMany
-    @JoinTable(name="subraces_traitmodel",
-            joinColumns = @JoinColumn(name="subraces_id"), inverseJoinColumns = @JoinColumn(name="traitmodel_id"))
-    private List<TraitModel> subRacialTraits = new ArrayList<TraitModel>();
+    @Id @GeneratedValue private Long id;
+    @JsonBackReference @ManyToOne private RaceModel parentRace;
 
-    @JsonBackReference
-    @ManyToOne
-    private RaceModel parentRace;
+    @JoinTable(name="subraces_proficiency", joinColumns = @JoinColumn(name="subraces_id"), inverseJoinColumns = @JoinColumn(name="proficiencies_id"))
+    @ManyToMany private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
-    @JsonManagedReference
-    @ManyToMany
-    private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
+    @JoinTable(name="subraces_traitmodel", joinColumns = @JoinColumn(name="subraces_id"), inverseJoinColumns = @JoinColumn(name="traitmodel_id"))
+    @ManyToMany private List<TraitModel> subRacialTraits = new ArrayList<TraitModel>();
 
     public Long getId() {
         return id;

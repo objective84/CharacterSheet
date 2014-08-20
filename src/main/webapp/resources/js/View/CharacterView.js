@@ -57,10 +57,8 @@ define("CharacterView",
                 storeArmorTable: '#armor-inventory-table',
                 subrace: '#subrace',
                 encumberedLabel: '#encumbered-label',
-                storeWeaponTable: '#weapon-table',
-                storeArmorTable: '#armor-table',
-                speed: '#speed'
-
+                speed: '#speed',
+                traits: '#traits-table'
             },
 
             bindings:{
@@ -93,6 +91,7 @@ define("CharacterView",
                 this.setAC();
                 this.setAbilities();
                 this.setLanguagesAllowed();
+                this.setLanguages();
                 this.setCoinPurse();
                 this.setProficiencies();
                 this.setMaxHealth();
@@ -103,6 +102,7 @@ define("CharacterView",
                 this.setOffHandOptions();
                 this.setArmorOptions();
                 this.setSpeed();
+                this.setTraits();
             },
 
             setCharacter: function(){
@@ -121,6 +121,12 @@ define("CharacterView",
                     }
 
                     this.ui.ac.val(armor.armorClass + dexMod);
+                }
+            },
+
+            setTraits: function(){
+                for(var i= 0; i< this.character.traits; i++){
+                    this.ui.traits.append("<tr><td>" + this.character.traits[i].name + "</td></tr>");
                 }
             },
 
@@ -148,6 +154,8 @@ define("CharacterView",
                 }else if($ability.prop('id') === this.ui.int.prop('id')){
                     this.setLanguagesAllowed();
                     this.setLanguageSelect();
+                }else if($ability.prop('id') === this.ui.dex.prop('id')){
+                    this.setAC()
                 }
             },
 
