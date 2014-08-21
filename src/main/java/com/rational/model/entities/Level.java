@@ -1,25 +1,44 @@
 package com.rational.model.entities;
 
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by Andy on 8/19/2014.
  */
+@Entity
 public class Level {
+    @Id
+    @GeneratedValue
+    @Column(name = "id_level")
+    private Long id_level;
+    @Column(name = "level_number")
     private int levelNumber;
+    @ManyToMany
     private List<TraitModel> traits;
+    @Column(name = "proficiency_bonus")
     private int proficiencyBonus;
+    @Column(name = "cantrips_known")
     private Integer cantripsKnown;
+    @Column(name = "spells_known")
     private Integer spellsKnown;
+    @Column(name = "first_level_spell_slots")
     private Integer firstLevelSpellSlots;
+    @Column(name = "second_level_spell_slots")
     private Integer secondLevelSpellSlots;
+    @Column(name = "third_level_spell_slots")
     private Integer thirdLevelSpellSlots;
+    @Column(name = "fourth_level_spell_slots")
     private Integer fourthLevelSpellSlots;
+    @Column(name = "fifth_level_spell_slots")
     private Integer fifthLevelSpellSlots;
+    @Column(name = "sixth_level_spell_slots")
     private Integer sixthLevelSpellSlots;
+    @Column(name = "seventh_level_spell_slots")
     private Integer seventhLevelSpellSlots;
+    @Column(name = "eighth_level_spell_slots")
     private Integer eighthLevelSpellSlots;
+    @Column(name = "ninth_level_spell_slots")
     private Integer ninthLevelSpellSlots;
 
     @ManyToOne
