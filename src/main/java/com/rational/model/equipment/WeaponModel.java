@@ -18,6 +18,7 @@ public class WeaponModel extends EquipmentModel{
     private Integer weaponRange;
     private Integer maxWeaponRange;
     private Dice damageDice;
+    //TODO change this to the new DamageType object
     private String damageType;
 
     private Integer numberOfDice;
