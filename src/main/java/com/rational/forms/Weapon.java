@@ -1,8 +1,5 @@
 package com.rational.forms;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Weapon extends Equipment{
 
     private Long weaponGroup;

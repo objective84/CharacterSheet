@@ -1,8 +1,7 @@
 package com.rational.model.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 
 /**
  * Created by Andy on 8/22/2014.
@@ -38,4 +37,5 @@ public class DamageType {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }

@@ -23,8 +23,8 @@ public class SpellModel {
     @ManyToOne
     @JsonManagedReference
     private Dice damageDice;
-
-    private DamageType damamgeType;
+    @ManyToOne
+    private DamageType damageType;
     private String savingThrow;
     private String condition;
     private boolean requiresVerbalComponent;
@@ -167,5 +167,13 @@ public class SpellModel {
 
     public void setRitual(boolean ritual) {
         this.ritual = ritual;
+    }
+
+    public DamageType getDamageType() {
+        return damageType;
+    }
+
+    public void setDamageType(DamageType damageType) {
+        this.damageType = damageType;
     }
 }

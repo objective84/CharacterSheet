@@ -42,7 +42,6 @@ public class Level {
     private Integer ninthLevelSpellSlots;
 
     @ManyToOne
-    @Column
     private ClassModel clazz;
 
     public int getLevelNumber() {

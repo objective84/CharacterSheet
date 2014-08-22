@@ -1,11 +1,10 @@
 package com.rational.model.equipment;
 
 import com.rational.model.Dice;
+import com.rational.model.entities.DamageType;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Created by awest on 7/23/14.
@@ -18,8 +17,7 @@ public class WeaponModel extends EquipmentModel{
     private Integer weaponRange;
     private Integer maxWeaponRange;
     private Dice damageDice;
-    //TODO change this to the new DamageType object
-    private String damageType;
+    private DamageType damageType;
 
     private Integer numberOfDice;
     private boolean twoHanded;
@@ -76,11 +74,13 @@ public class WeaponModel extends EquipmentModel{
         this.twoHanded = twoHanded;
     }
 
-    public String getDamageType() {
+    @ManyToOne
+    @JsonManagedReference
+    public DamageType getDamageType() {
         return damageType;
     }
 
-    public void setDamageType(String damageType) {
+    public void setDamageType(DamageType damageType) {
         this.damageType = damageType;
     }
 }
