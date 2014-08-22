@@ -32,13 +32,14 @@ public class CharacterModel {
     private SubRaceModel subrace;
 
     @ManyToOne
+    @JoinColumn(name = "character_advancement_id")
     private CharacterAdvancement characterAdvancement;
 
     @ManyToOne
     private ClassModel clazz;
 
     @ManyToMany
-    @JoinTable(name="charactermodel_multiclasses", joinColumns = @JoinColumn(name="charactermodel_id"), inverseJoinColumns = @JoinColumn(name = "classmodel_id"))
+    @JoinTable(name="classmodel_charactermodel", joinColumns = @JoinColumn(name="charactermodel_id"), inverseJoinColumns = @JoinColumn(name = "classmodel_id"))
     private List<ClassModel> multiClassList;
 
     @ManyToMany

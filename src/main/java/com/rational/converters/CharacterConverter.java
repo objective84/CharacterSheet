@@ -42,7 +42,7 @@ public class CharacterConverter {
 
         character.setId(characterModel.getId());
         character.setName(characterModel.getName());
-        if(null != characterModel.getMultiClassList()) {
+        if(null != characterModel.getMultiClassList() && characterModel.getMultiClassList().size() != 0) {
             //FIXME This needs to handle multiclassing
             character.setClazz(characterModel.getMultiClassList().get(0).getId());
         }
