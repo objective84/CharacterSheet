@@ -79,6 +79,7 @@ public abstract class EquipmentModel {
 
     @JsonManagedReference
     @ManyToMany
+    @JoinTable(name="equipmentmodel_traitmodel", joinColumns = @JoinColumn(name="equipment_id"), inverseJoinColumns = @JoinColumn(name="traitmodel_id"))
     public List<TraitModel> getTraits() {
         return traits;
     }
@@ -88,6 +89,7 @@ public abstract class EquipmentModel {
     }
 
     @ManyToMany
+    @JoinTable(name="equipmentmodel_proficiency", joinColumns = @JoinColumn(name="equipment_id"), inverseJoinColumns = @JoinColumn(name="proficiencies_id"))
     public List<Proficiency> getProficiencies() {
         return proficiencies;
     }

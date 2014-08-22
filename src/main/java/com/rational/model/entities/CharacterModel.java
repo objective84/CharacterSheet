@@ -60,7 +60,7 @@ public class CharacterModel {
     private int maxHealth;
     private int currentHealth;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Abilities abilities;
 
     @JsonManagedReference

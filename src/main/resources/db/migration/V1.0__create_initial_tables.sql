@@ -146,7 +146,7 @@ CREATE TABLE `charactermodel` (
   CONSTRAINT `FKD88FADA0D0CD221C` FOREIGN KEY (`equippedArmor_id`) REFERENCES `armormodel` (`id`),
   CONSTRAINT `FKD88FADA0E2831F45` FOREIGN KEY (`coinPurse_id`) REFERENCES `coinpurse` (`id`),
   CONSTRAINT `FKD88FADA0F7C9388C` FOREIGN KEY (`race_id`) REFERENCES `racemodel` (`id`),
-  CONSTRAINT `FKD88FADA0F7C9388D` FOREIGN KEY (`race_id`) REFERENCES `abilities` (`id`)
+  CONSTRAINT `FKD88FADA0F7C9388D` FOREIGN KEY (`abilities_id`) REFERENCES `abilities` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

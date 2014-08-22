@@ -52,14 +52,17 @@ public class CharacterConverter {
         character.setLevel(characterModel.getLevel());
         character.setMaxHealth(characterModel.getMaxHealth());
         character.setCurrentHealth(characterModel.getCurrentHealth());
-        Map<AbilityTypeEnum, Integer> abilityScores = new HashMap<AbilityTypeEnum, Integer>();
-        abilityScores.put(AbilityTypeEnum.Str, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Str));
-        abilityScores.put(AbilityTypeEnum.Dex, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Dex));
-        abilityScores.put(AbilityTypeEnum.Con, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Con));
-        abilityScores.put(AbilityTypeEnum.Int, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Int));
-        abilityScores.put(AbilityTypeEnum.Wis, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Wis));
-        abilityScores.put(AbilityTypeEnum.Cha, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Cha));
-        character.setAbilityScores(abilityScores);
+        if(characterModel.getAbilities() != null) {
+            Map<AbilityTypeEnum, Integer> abilityScores = new HashMap<AbilityTypeEnum, Integer>();
+            abilityScores.put(AbilityTypeEnum.Str, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Str));
+            abilityScores.put(AbilityTypeEnum.Dex, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Dex));
+            abilityScores.put(AbilityTypeEnum.Con, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Con));
+            abilityScores.put(AbilityTypeEnum.Int, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Int));
+            abilityScores.put(AbilityTypeEnum.Wis, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Wis));
+            abilityScores.put(AbilityTypeEnum.Cha, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Cha));
+
+            character.setAbilityScores(abilityScores);
+        }
         character.setSpeed(characterModel.getSpeed());
 
 //        character.setLanguages(languageConverter.convertToIds(characterModel.getLanguages()));

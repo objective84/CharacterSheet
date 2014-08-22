@@ -12,13 +12,13 @@ CREATE TABLE `charactersheet`.`level` (
   `fifth_level_spell_slots` INT NULL,
   `sixth_level_spell_slots` INT NULL,
   `seventh_level_spell_slots` INT NULL,
-  `eigth_level_spell_slots` INT NULL,
+  `eighth_level_spell_slots` INT NULL,
   `ninth_level_spell_slots` INT NULL,
-  `class_id` BIGINT NOT NULL,
+  `clazz_id` BIGINT NOT NULL,
   PRIMARY KEY (`id_level`),
-  INDEX `class_level_fk_idx` (`class_id` ASC),
+  INDEX `class_level_fk_idx` (`clazz_id` ASC),
   CONSTRAINT `class_level_fk`
-    FOREIGN KEY (`class_id`)
+    FOREIGN KEY (`clazz_id`)
     REFERENCES `charactersheet`.`classmodel` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
