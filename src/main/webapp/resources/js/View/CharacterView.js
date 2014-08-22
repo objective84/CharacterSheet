@@ -59,8 +59,10 @@ define("CharacterView",
                 storeArmorTable: '#armor-inventory-table',
                 subrace: '#subrace',
                 encumberedLabel: '#encumbered-label',
-                speed: '#speed',
-                traits: '#traits-table'
+                storeWeaponTable: '#weapon-table',
+                storeArmorTable: '#armor-table',
+                speed: '#speed'
+
             },
 
             bindings:{

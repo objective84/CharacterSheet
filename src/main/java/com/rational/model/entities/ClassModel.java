@@ -14,28 +14,53 @@ import java.util.List;
 @Entity
 public class ClassModel {
 
-    @Id @GeneratedValue private Long id;
-    @Column(name="skills_at_creation") private Integer skillsAtCreation;
-    @ManyToOne @JsonManagedReference private Dice hitDie;
-    @Column(name="magic_ability") private String magicAbility;
-    @OneToMany(mappedBy = "clazz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Level> levels = new ArrayList<Level>();
-    @JsonManagedReference @ManyToOne private Dice startingWealthDie;
-
-    @JoinTable(name="classmodel_traitmodel", joinColumns = @JoinColumn(name="traitmodel_id"), inverseJoinColumns = @JoinColumn(name="classmodel_id"))
-    @ManyToMany private List<TraitModel> classTraits = new ArrayList<TraitModel>();
-
-    @OneToMany(mappedBy = "baseClass", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference private List<SubClassModel> subClasses = new ArrayList<SubClassModel>();
-
-    @JoinTable(name="spellmodel_classmodel",joinColumns = @JoinColumn(name="spellmodel_id"),inverseJoinColumns = @JoinColumn(name="classmodel_id"))
-    @JsonManagedReference @ManyToMany private List<SpellModel> spells = new ArrayList<SpellModel>();
-
-    @JoinTable(name="classmodel_proficiency",joinColumns = @JoinColumn(name="classes_id"),inverseJoinColumns = @JoinColumn(name="proficiencies_id"))
-    @ManyToMany private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
+    @Id
+    @GeneratedValue
+    private Long id;
 
     private String name;
+
+    @ManyToOne
+    @JsonManagedReference
+    private Dice hitDie;
+
+    @ManyToMany
+    @JsonManagedReference
+    private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
+
+    @ManyToMany
+    @JoinTable(name="classmodel_traitmodel",
+            joinColumns = @JoinColumn(name="traitmodel_id"),
+            inverseJoinColumns = @JoinColumn(name="classmodel_id"))
+    private List<TraitModel> classTraits = new ArrayList<TraitModel>();
+
+    @OneToMany(mappedBy = "baseClass", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<SubClassModel> subClasses = new ArrayList<SubClassModel>();
+
+    @Column(name="skills_at_creation")
+    private Integer skillsAtCreation;
+
     private Integer startingWealthDieAmount;
+
+    @JsonManagedReference
+    @ManyToOne
+    private Dice startingWealthDie;
+
+    @JsonManagedReference
+    @ManyToMany
+    @JoinTable(name="spellmodel_classmodel",
+            joinColumns = @JoinColumn(name="spellmodel_id"),
+            inverseJoinColumns = @JoinColumn(name="classmodel_id"))
+    private List<SpellModel> spells = new ArrayList<SpellModel>();
+
+
+    @Column(name="magic_ability")
+    private String magicAbility;
+
+    @OneToMany(mappedBy = "clazz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Level> levels = new ArrayList<Level>();
+
     public Long getId() {
         return id;
     }

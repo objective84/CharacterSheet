@@ -22,7 +22,7 @@ public class RaceConverter {
         RaceModel raceModel = new RaceModel();
 
         raceModel.setId(race.getId());
-        raceModel.setName(race.getName());
+        raceModel.setRaceName(race.getRaceName());
         raceModel.setDescription(race.getDescription());
         raceModel.setSize(race.getSize());
         raceModel.setSpeed(race.getSpeed());
@@ -35,7 +35,7 @@ public class RaceConverter {
     public Race convert(RaceModel raceModel){
         Race race = new Race();
         race.setId(raceModel.getId());
-        race.setName(raceModel.getName());
+        race.setRaceName(raceModel.getRaceName());
         race.setDescription(raceModel.getDescription());
         race.setSize(raceModel.getSize());
         race.setSpeed(raceModel.getSpeed());

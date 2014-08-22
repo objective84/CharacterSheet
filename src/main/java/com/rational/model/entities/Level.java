@@ -1,9 +1,6 @@
 package com.rational.model.entities;
 
-import org.codehaus.jackson.annotate.JsonBackReference;
-
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,33 +8,48 @@ import java.util.List;
  */
 @Entity
 public class Level {
-
-    private Integer levelNumber;
-    private Integer proficiencyBonus;
+    @Id
+    @GeneratedValue
+    @Column(name = "id_level")
+    private Long id_level;
+    @Column(name = "level_number")
+    private int levelNumber;
+    @ManyToMany
+    private List<TraitModel> traits;
+    @Column(name = "proficiency_bonus")
+    private int proficiencyBonus;
+    @Column(name = "cantrips_known")
     private Integer cantripsKnown;
+    @Column(name = "spells_known")
     private Integer spellsKnown;
+    @Column(name = "first_level_spell_slots")
     private Integer firstLevelSpellSlots;
+    @Column(name = "second_level_spell_slots")
     private Integer secondLevelSpellSlots;
+    @Column(name = "third_level_spell_slots")
     private Integer thirdLevelSpellSlots;
+    @Column(name = "fourth_level_spell_slots")
     private Integer fourthLevelSpellSlots;
+    @Column(name = "fifth_level_spell_slots")
     private Integer fifthLevelSpellSlots;
+    @Column(name = "sixth_level_spell_slots")
     private Integer sixthLevelSpellSlots;
+    @Column(name = "seventh_level_spell_slots")
     private Integer seventhLevelSpellSlots;
+    @Column(name = "eighth_level_spell_slots")
     private Integer eighthLevelSpellSlots;
+    @Column(name = "ninth_level_spell_slots")
     private Integer ninthLevelSpellSlots;
 
-    @Id @GeneratedValue private Long id;
-    @ManyToOne @JsonBackReference private ClassModel clazz;
+    @ManyToOne
+    @Column
+    private ClassModel clazz;
 
-    @JoinTable(name="level_classmodel",
-            joinColumns = @JoinColumn(name="level_id"), inverseJoinColumns = @JoinColumn(name="classmodel_id"))
-    @ManyToMany private List<TraitModel> traits = new ArrayList<TraitModel>();
-
-    public Integer getLevelNumber() {
+    public int getLevelNumber() {
         return levelNumber;
     }
 
-    public void setLevelNumber(Integer levelNumber) {
+    public void setLevelNumber(int levelNumber) {
         this.levelNumber = levelNumber;
     }
 
@@ -49,11 +61,11 @@ public class Level {
         this.traits = traits;
     }
 
-    public Integer getProficiencyBonus() {
+    public int getProficiencyBonus() {
         return proficiencyBonus;
     }
 
-    public void setProficiencyBonus(Integer proficiencyBonus) {
+    public void setProficiencyBonus(int proficiencyBonus) {
         this.proficiencyBonus = proficiencyBonus;
     }
 
@@ -151,13 +163,5 @@ public class Level {
 
     public void setClazz(ClassModel clazz) {
         this.clazz = clazz;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

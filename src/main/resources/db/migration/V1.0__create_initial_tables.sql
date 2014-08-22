@@ -319,7 +319,7 @@ DROP TABLE IF EXISTS `racemodel`;
 CREATE TABLE `racemodel` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `raceName` varchar(255) DEFAULT NULL,
   `size` varchar(255) DEFAULT NULL,
   `speed` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)

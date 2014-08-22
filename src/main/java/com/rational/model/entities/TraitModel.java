@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class TraitModel {
 
+
     @Id
     @GeneratedValue
     private Long id;

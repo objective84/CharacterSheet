@@ -14,14 +14,15 @@ import java.lang.reflect.InvocationTargetException;
 public class Abilities {
 
     public static final Integer MAX_ABILITY_POINTS = 27;
+    @Id
+    @GeneratedValue
+    private Long id;
     private Integer str;
     private Integer dex;
     private Integer con;
     private Integer intel;
     private Integer wis;
     private Integer cha;
-
-    @Id @GeneratedValue private Long id;
 
     public Abilities(){}
 
