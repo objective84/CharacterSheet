@@ -24,8 +24,16 @@ public class SpellModel {
     @JsonManagedReference
     private Dice damageDice;
 
+    private DamageType damamgeType;
     private String savingThrow;
     private String condition;
+    private boolean requiresVerbalComponent;
+    private boolean requiresSomaticComponent;
+    private String materialComponent;
+    private String duration;
+    private String target;
+    private boolean requiresAttackRoll;
+    private boolean ritual;
 
     @JsonBackReference
     @ManyToMany
@@ -103,5 +111,61 @@ public class SpellModel {
 
     public void setClasses(List<ClassModel> classes) {
         this.classes = classes;
+    }
+
+    public boolean isRequiresVerbalComponent() {
+        return requiresVerbalComponent;
+    }
+
+    public void setRequiresVerbalComponent(boolean requiresVerbalComponent) {
+        this.requiresVerbalComponent = requiresVerbalComponent;
+    }
+
+    public boolean isRequiresSomaticComponent() {
+        return requiresSomaticComponent;
+    }
+
+    public void setRequiresSomaticComponent(boolean requiresSomaticComponent) {
+        this.requiresSomaticComponent = requiresSomaticComponent;
+    }
+
+    public String getMaterialComponent() {
+        return materialComponent;
+    }
+
+    public void setMaterialComponent(String materialComponent) {
+        this.materialComponent = materialComponent;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    public boolean isRequiresAttackRoll() {
+        return requiresAttackRoll;
+    }
+
+    public void setRequiresAttackRoll(boolean requiresAttackRoll) {
+        this.requiresAttackRoll = requiresAttackRoll;
+    }
+
+    public boolean isRitual() {
+        return ritual;
+    }
+
+    public void setRitual(boolean ritual) {
+        this.ritual = ritual;
     }
 }
