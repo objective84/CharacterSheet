@@ -256,6 +256,14 @@ public class DefaultCharacterFacade implements CharacterFacade {
         return equipmentModels;
     }
 
+    @Override
+    public Abilities increaseAbilityScore(String characterId, String type) {
+        CharacterModel character = characterService.findCharacter(Long.valueOf(characterId));
+        character.getAbilities().increaseScoreByOne(AbilityTypeEnum.valueOf(type));
+        characterService.save(character);
+        return character.getAbilities();
+    }
+
     private Boolean hasProficiency(CharacterModel character, EquipmentModel equipment){
         setCharacterProficiencies(character);
         for(Proficiency proficiency : equipment.getProficiencies()){

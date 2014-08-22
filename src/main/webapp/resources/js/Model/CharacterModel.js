@@ -2,23 +2,36 @@
  * Created by Peter's Desktop on 7/22/2014.
  */
 define("CharacterModel",
-    ["jquery", "underscore", "backbone"],
-    function($, _, backbone){
-        return backbone.Model.extend({
+    ["jquery", "underscore", "backbone", "epoxy"],
+    function($, _, backbone, epoxy){
+        var model = backbone.Model.extend({
             idAttribute: "_id",
-            urlRoot: 'character.json',
-              default:{
+            urlRoot: $('#pathContext').val() + '/character',
+              defaults:{
                   id: "",
                   name: "",
-                  race: "",
-                  classType: "",
-                  str: "8",
-                  dex: "8",
-                  con: "8",
-                  intel: "8",
-                  wis: "8",
-                  cha: "8",
+                  encumbered: false,
+                  speed: 0,
+                  maxHealth: 0,
+                  currentHealth: 0,
+                  inventoryWeight: 0,
+                  race: null,
+                  subrace: null,
+                  clazz: null,
+                  characterAdvancement: null,
+                  abilities: null,
+                  equippedMainHand: null,
+                  equippedOffHand: null,
+                  equippedArmor: null,
+                  coinPurse: null,
+                  multiClassList: null,
+                  languages: null,
+                  proficiencies: null,
+                  traits: null,
+                  inventory: null
               }
         });
+        epoxy.Model.mixin(model.prototype);
+        return model;
     }
 );

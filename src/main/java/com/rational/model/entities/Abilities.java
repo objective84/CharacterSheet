@@ -13,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 @Entity
 public class Abilities {
 
+    public static final Integer MAX_ABILITY_POINTS = 27;
     private Integer str;
     private Integer dex;
     private Integer con;
@@ -31,6 +32,15 @@ public class Abilities {
         this.intel = intel;
         this.wis = wis;
         this.cha = cha;
+    }
+
+    public void increaseScoreByOne(AbilityTypeEnum ability){
+        int score = getAbilityScore(ability);
+        int totalCost = getTotalAbilityCost();
+        if(totalCost > MAX_ABILITY_POINTS ||
+                totalCost + getScoreCost(score) > MAX_ABILITY_POINTS) return;
+
+        setAbilityScore(ability, getAbilityScore(ability) + 1);
     }
 
     public void setAbilityScore(AbilityTypeEnum ability, Integer score){
@@ -74,6 +84,14 @@ public class Abilities {
             return Math.round(score/2 - 5);
         else
             return null;
+    }
+
+    public Integer getTotalAbilityCost(){
+        return getScoreCost(str) + getScoreCost(dex) + getScoreCost(con) + getScoreCost(intel) + getScoreCost(wis) + getScoreCost(cha);
+    }
+
+    public Integer getScoreCost(Integer score){
+        return score - 8 + (score - 13 > 0 ? score - 13: 0);
     }
 
     public Long getId() {
@@ -131,4 +149,5 @@ public class Abilities {
     public void setCha(Integer cha) {
         this.cha = cha;
     }
+
 }

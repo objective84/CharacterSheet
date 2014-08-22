@@ -39,4 +39,6 @@ public interface CharacterFacade {
     List<EquipmentModel> filterEquipmentList(List<String> filters, String characterId);
 
     List<EquipmentModel> filterByProficiency(String characterId);
+
+    com.rational.model.entities.Abilities increaseAbilityScore(String characterId, String type);
 }

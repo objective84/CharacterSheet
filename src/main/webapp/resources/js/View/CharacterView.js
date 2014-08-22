@@ -1,7 +1,7 @@
 define("CharacterView",
-    ["jquery", "underscore", "marionette", "CharacterModel", 'jqueryUi'],
-    function($, _, marionette, CharacterModel, jqueryUi){
-        return marionette.ItemView.extend({
+    ["jquery", "underscore", "marionette", "CharacterModel", 'jqueryUi', 'epoxy', 'AbilitiesView'],
+    function($, _, marionette, CharacterModel, jqueryUi, epoxy, AbilitiesView){
+        var view = marionette.ItemView.extend({
             el: '#character-sheet',
             model: null,
             skillsAllowed: 0,
@@ -12,6 +12,8 @@ define("CharacterView",
             minAbilityScore: 8,
             abilityPoints: 27,
             abilityScoreText: 'Ability Points: ',
+
+            abilitiesView: null,
 
             ui:{
                 id: '#characterId',
@@ -62,14 +64,27 @@ define("CharacterView",
             },
 
             bindings:{
-
+//                '#name': ,
+//                '#race': ,
+//                '#class-select': ,
+//                '#level': ,
+//                '#armor-class': ,
+//                '#maxHealth': ,
+//                '#currentHealth': ,
+//                '#Str': 'text:abilities.str'
+//                '#Dex': ,
+//                '#Con': ,
+//                '#ConMod': ,
+//                '#Int': ,
+//                '#IntMod': ,
+//                '#Wis': ,
+//                '#Cha': ,
             },
 
             events:{
                 'change @ui.clazz': 'onClassChange',
                 'change @ui.race' : 'onRaceChange',
                 'click @ui.languageSubmit' : 'onLanguageSubmitClick',
-                'click .ability-change': 'onAbilityChangeButtonClick',
                 'click @ui.abilityScoreReset': 'onAbilityScoreResetClick',
                 'click @ui.storeLink': 'onStoreLinkClick',
                 'click @ui.clearInventory': 'onClearLinkClick',
@@ -85,36 +100,48 @@ define("CharacterView",
                 this.ui.storeSubmit.on('click', _.bind(this.onStoreSubmitClick, this));
                 this.ui.abilityPointLabel.text(this.abilityScoreText + this.abilityPoints);
                 this.setCharacter();
+
+                $('#character-sheet').on("Event_AbilitiesUpdated", function(){
+                    console.log("TRIGGERED!")
+                });
             },
 
             refreshCharacter: function(){
-                this.setAC();
-                this.setAbilities();
-                this.setLanguagesAllowed();
-                this.setLanguages();
-                this.setCoinPurse();
-                this.setProficiencies();
-                this.setMaxHealth();
-                this.setSkillsToSelect();
-                this.setLanguageSelect();
-                this.setInventory();
-                this.setMainHandOptions();
-                this.setOffHandOptions();
-                this.setArmorOptions();
-                this.setSpeed();
-                this.setTraits();
+//                this.setAC();
+////                this.setAbilities();
+//                this.setLanguagesAllowed();
+//                this.setLanguages();
+//                this.setCoinPurse();
+//                this.setProficiencies();
+//                this.setMaxHealth();
+//                this.setSkillsToSelect();
+//                this.setLanguageSelect();
+//                this.setInventory();
+//                this.setMainHandOptions();
+//                this.setOffHandOptions();
+//                this.setArmorOptions();
+//                this.setSpeed();
+//                this.setTraits();
             },
 
             setCharacter: function(){
-                $.getJSON("character.json", 'characterId=' + this.ui.id.val(), _.bind(function (data) {
-                    this.character = data;
-                    this.refreshCharacter();
-                }, this));
+                this.model = new CharacterModel({_id: this.ui.id.val()});
+                this.applyBindings();
+                this.model.fetch({success: _.bind(function(){
+                    console.log(this.model);
+
+
+                    this.abilitiesView = new AbilitiesView();
+                    this.listenTo(this.abilitiesView, AbilitiesView.Event_AbilitiesUpdated, _.bind(this.onAbilitiesUpdated, this));
+                    this.abilitiesView.onRender(this.model.get('abilities'));
+
+                }, this)});
+
             },
 
             setAC: function(){
-                if(this.character.equippedArmor){
-                    var armor = this.character.equippedArmor;
+                if(this.model.get('equippedArmor')){
+                    var armor = this.model.get('equippedArmor');
                     var dexMod = this.getAbilityMod(this.ui.dex.val());
                     if(dexMod > armor.maxDexModifier){
                         dexMod = armor.maxDexModifier;
@@ -125,55 +152,30 @@ define("CharacterView",
             },
 
             setTraits: function(){
-                for(var i= 0; i< this.character.traits; i++){
-                    this.ui.traits.append("<tr><td>" + this.character.traits[i].name + "</td></tr>");
+                for(var i= 0; i< this.model.get('traits'); i++){
+                    this.ui.traits.append("<tr><td>" + this.model.get('traits')[i].name + "</td></tr>");
                 }
             },
 
             setSpeed: function(){
-                this.ui.speed.val(this.character.speed);
+                this.ui.speed.val(this.model.get('speed'));
             },
 
-            setAbilities: function(){
-                this.ui.str.val(this.character.abilities.str);
-                this.ui.dex.val(this.character.abilities.dex);
-                this.ui.con.val(this.character.abilities.con);
-                this.ui.int.val(this.character.abilities.intel);
-                this.ui.wis.val(this.character.abilities.wis);
-                this.ui.cha.val(this.character.abilities.cha);
-                $('.ability').each(_.bind(function(key, value){
-                    this.setAbilityMod($(value).attr('id'), $(value).val());
-                },this));
-            },
-
-            updateAbilities: function($ability){
-                var id = $ability.attr('id');
-                this.setAbilityMod(id, $ability.val());
-                if($ability.prop('id') == this.ui.con.prop('id')){
-                    this.setMaxHealth();
-                }else if($ability.prop('id') === this.ui.int.prop('id')){
-                    this.setLanguagesAllowed();
-                    this.setLanguageSelect();
-                }else if($ability.prop('id') === this.ui.dex.prop('id')){
-                    this.setAC()
-                }
-            },
+//            setAbilities: function(){
+//                this.ui.str.val(this.model.get('abilities.str);
+//                this.ui.dex.val(this.model.get('abilities.dex);
+//                this.ui.con.val(this.model.get('abilities.con);
+//                this.ui.int.val(this.model.get('abilities.intel);
+//                this.ui.wis.val(this.model.get('abilities.wis);
+//                this.ui.cha.val(this.model.get('abilities.cha);
+//
+//            },
 
             setLanguagesAllowed: function(){
                 this.languagesAllowed = this.getAbilityMod(this.ui.int.val()) - $('.language-row').length;
-                if(this.character.race){
-                    this.languagesAllowed = this.languagesAllowed + this.character.race.languages.length;
+                if(this.model.get('race')){
+                    this.languagesAllowed = this.languagesAllowed + this.model.get('race').languages.length;
                 }
-            },
-
-            setAbilityMod: function(id, val){
-                var mod = this.getAbilityMod(val)
-                mod = (mod >= 0) ? (' + ' + mod) : (' - ' + Math.abs(mod));
-                $('#'+id + "Mod").prop('textContent', mod);
-            },
-
-            getAbilityMod: function(score){
-                return (parseInt(score) === 0) ? 0: parseInt(Math.floor(( score - 10) / 2));
             },
 
             onClassChange: function(event){
@@ -181,14 +183,15 @@ define("CharacterView",
                     $('.proficiency-row').remove();
                     this.skillsAllowed = 0;
                     this.setSkillsToSelect();
-                    this.character.clazz = null;
+                    this.model.set('clazz', null);
                 }else {
                     var data = {
-                        'characterId': this.character.id + '',
+                        'characterId': this.model.get('id') + '',
                         'classId': this.ui.clazz.val() + ''
                     };
                     $.getJSON("class.json", data, _.bind(function (character) {
-                        this.character = character;
+                        //TODO
+//                        this.character = character;
                         this.refreshCharacter();
                     }, this));
                 }
@@ -196,11 +199,12 @@ define("CharacterView",
 
             onRaceChange: function(event){
                 var data = {
-                    'characterId': this.character.id + '',
+                    'characterId': this.model.get('id') + '',
                     'raceId': this.ui.race.val() + ''
                 };
                 $.getJSON("race.json", data, _.bind(function (data) {
-                    this.character= data;
+                    //TODO
+//                    this.character= data;
                     this.refreshCharacter();
                     this.setSubRaces();
                 }, this));
@@ -208,11 +212,12 @@ define("CharacterView",
 
             onSubraceChange : function(){
                 var data = {
-                    'characterId': this.character.id + '',
+                    'characterId': this.model.get('id') + '',
                     'subraceId': this.ui.subrace.val() + ''
                 };
                 $.getJSON("subrace.json", data, _.bind(function (data) {
-                    this.character= data;
+                        //TODO
+//                    this.character= data;
                     this.refreshCharacter();
                 }, this));
 
@@ -220,16 +225,16 @@ define("CharacterView",
 
             setSubRaces: function(){
                 $('.subrace-option').remove();
-                if(this.character.race.availableSubraces.length > 0){
-                    $(this.character.race.availableSubraces).each(_.bind(function(key, value){
+                if(this.model.get('race').availableSubraces.length > 0){
+                    $(this.model.get('race').availableSubraces).each(_.bind(function(key, value){
                         this.ui.subrace.append('<option class="subrace-option" value="' + value.id + '">' + value.name + '</option>')
                     }, this));
                 }
             },
 
             setCoinPurse: function(){
-                if(this.character.coinPurse) {
-                    var purse = this.character.coinPurse;
+                if(this.model.get('coinPurse')) {
+                    var purse = this.model.get('coinPurse');
                     this.ui.copperInput.val(purse.cp);
                     this.ui.silverInput.val(purse.sp);
                     this.ui.electrumInput.val(purse.ep);
@@ -240,17 +245,17 @@ define("CharacterView",
 
             setProficiencies: function(){
                 $('.proficiency-row').remove();
-                if(this.character.race != null) {
+                if(this.model.get('race') != null) {
                     this.setRaceProficiencies();
                 }
-                if(this.character.clazz != null) {
+                if(this.model.get('clazz') != null) {
                     this.setClassProficiencies();
                 }
             },
 
             setClassProficiencies: function(){
-                this.skillsAllowed = this.character.clazz.skillsAtCreation;
-                $(this.character.clazz.proficiencies).each(_.bind(function(key, value){
+                this.skillsAllowed = this.model.get('clazz').skillsAtCreation;
+                $(this.model.get('clazz').proficiencies).each(_.bind(function(key, value){
                     var $element;
                     switch(value.proficiencyType){
                         case 'SKILL':
@@ -284,11 +289,11 @@ define("CharacterView",
 
             setRaceProficiencies: function(){
                 var proficiencies = []
-                $(this.character.race.proficiencies).each(_.bind(function(key, value){
+                $(this.model.get('race').proficiencies).each(_.bind(function(key, value){
                     proficiencies.push(value);
                 }, this));
-                if(this.character.subrace != null) {
-                    $(this.character.subrace.proficiencies).each(_.bind(function (key, value) {
+                if(this.model.get('subrace') != null) {
+                    $(this.model.get('subrace').proficiencies).each(_.bind(function (key, value) {
                         proficiencies.push(value);
                     }, this));
                 }
@@ -346,13 +351,13 @@ define("CharacterView",
 
             setLanguages: function(){
                 $('.language-row').remove();
-                $(this.character.languages).each(_.bind(function(key, value){
+                $(this.model.get('languages')).each(_.bind(function(key, value){
                     this.ui.languages.append('<tr class="language-row"><td><input name="languages" type="hidden" value="' + value.id + '">' + value.name + '</input></td>')
                 }, this));
             },
 
             setMaxHealth: function(){
-                this.ui.maxHealth.val(this.character.maxHealth + this.getAbilityMod(this.ui.con.val()));
+                this.ui.maxHealth.val(this.model.get('maxHealth') + this.getAbilityMod(this.ui.con.val()));
                 this.ui.currentHealth.val(this.ui.maxHealth.val());
             },
 
@@ -402,7 +407,7 @@ define("CharacterView",
             onFilterSelected: function(event){
                 var filter = $(event.target).prop('checked') === true ? "true" : "false";
                 var data = {
-                    characterId: this.character.id,
+                    characterId: this.model.get('id'),
                     filter: filter
                 };
                 $.getJSON("filterEquipmentByProficiency.json", data, _.bind(function(data){
@@ -449,31 +454,6 @@ define("CharacterView",
                 this.setLanguageSelect();
             },
 
-            onAbilityChangeButtonClick: function(event){
-                var ability = $(event.target).prop('id').substr(0,3);
-                var $element = $('#' + ability);
-                var score = parseInt($element.val());
-                if($(event.target).prop('id').indexOf('minus') === -1){
-                    var newScore = score + 1;
-                    var newPointsVal = this.abilityPoints - this.getAbilityPointCost(newScore);
-                    if(newPointsVal < 0 ) return;
-                    $element.val(newScore);
-                }else{
-                    var newScore = score - 1;
-                    var newPointsVal = this.abilityPoints + this.getAbilityPointCost(newScore, true);
-                    $element.val(newScore);
-                }
-                this.abilityPoints = newPointsVal;
-                if(this.abilityPoints === 0){
-                    this.ui.abilityPointLabel.text('');
-                }else {
-                    this.ui.abilityPointLabel.text(this.abilityScoreText + this.abilityPoints);
-                }
-                this.showHideAbilityChangeButtons();
-                this.setAbilityMod(ability, newScore);
-                this.updateAbilities($element);
-            },
-
             getAbilityPointCost: function(val, neg){
                 if(val === 13 && neg){
                     return 2;
@@ -495,6 +475,174 @@ define("CharacterView",
                 }else{
                     return cost + this.abilityPoints <= this.maxAbilityPoints && score >= this.minAbilityScore;
                 }
+            },
+
+            onAbilityScoreResetClick: function(){
+//                this.setAbilities();
+                this.showHideAbilityChangeButtons();
+                this.ui.abilityPointLabel.text(this.abilityScoreText + this.maxAbilityPoints);
+            },
+
+            rollDice: function(die, amt){
+                var totalRoll = 0;
+                for(var i=0; i<amt; i++){
+                    totalRoll += Math.floor(Math.random() * die.maxRoll) + die.minRoll;
+                }
+                return totalRoll;
+            },
+
+            onStoreSubmitClick: function(){
+                var items = [];
+                $(this.model.get('inventory')).each(function(key, value){
+                    items.push(value.id + '');
+                });
+                $('.store-item').each(_.bind(function(key, value){
+                    if($(value).prop('checked') === true) {
+                        items.push($(value).val());
+                    }
+                }, this));
+
+                var data = {charId: this.model.get('id'),
+                    equipmentIds: items};
+
+                $.getJSON('equipment.json', "ids=" + JSON.stringify(data), _.bind(function(data){
+                    if(data.code === 1) {
+                        this.character = data.data;
+                        this.refreshCharacter();
+                        this.modalClose('store-modal');
+                        alert(data.message);
+                    }else if(data.code === 0){
+                        alert(data.errorMessage);
+                    }
+                }, this));
+            },
+
+            setInventory: function(){
+                $('tr.inventory-item').remove();
+                $(this.model.get('inventory')).each(_.bind(function(key, value){
+                    var item = this.findItemInInventory(value.id);
+                    var $element;
+                    if(item.maxWeaponRange !== undefined) {
+                        $element = this.ui.weaponTable;
+                    }else if(item.armorClass !== undefined){
+                        $element = this.ui.storeArmorTable;
+                    }
+                    $element.append('<tr class="inventory-item" ><td><span name="inventory>" value="' + item.id + '">' + item.name + '</span></td></tr>')
+                }, this));
+                if(this.model.get('encumbered')){
+                    this.ui.encumberedLabel.show();
+                }else{
+                    this.ui.encumberedLabel.hide();
+                }
+            },
+
+            findItemInInventory: function(id){
+                for(var i=0; i < this.model.get('inventory').length; i++){
+                    if(this.model.get('inventory')[i].id === id){
+                        return this.model.get('inventory')[i];
+                    }
+                }
+            },
+
+            setMainHandOptions: function(){
+                $('.main-hand-option').remove();
+                $.getJSON('main-hand.json', "characterId=" + this.model.get('id'), _.bind(function(data){
+                    $(data).each(_.bind(function(key, value){
+                        this.ui.equipMain.append('<option class="main-hand-option" value="' + value.id + '">' + value.name + '</option>')
+                    }, this));
+                }, this));
+            },
+
+            setOffHandOptions: function(){
+                $('.off-hand-option').remove();
+                $.getJSON('off-hand.json', "characterId=" + this.model.get('id'), _.bind(function(data){
+                    $(data).each(_.bind(function(key, value){
+                        this.ui.equipOff.append('<option class="off-hand-option" value="' + value.id + '">' + value.name + '</option>')
+                    }, this));
+                }, this));
+            },
+
+            setArmorOptions: function(){
+                $('.armor-option').remove();
+                $.getJSON('armor.json', "characterId=" + this.model.get('id'), _.bind(function(data){
+                    $(data).each(_.bind(function(key, value){
+                        this.ui.equipArmor.append('<option class="armor-option" value="' + value.id + '">' + value.name + '</option>')
+                    }, this));
+                }, this));
+            },
+
+            onClearLinkClick: function(){
+                var data = {charId: this.model.get('id'),
+                    equipmentIds: []};
+
+                $.getJSON('equipment.json', "ids=" + JSON.stringify(data), _.bind(function(data){
+                    this.character = data;
+                }, this));
+            },
+
+            onEquipMainChange: function(){
+                var data = {
+                    "characterId": this.model.get('id'),
+                    "itemId": this.ui.equipMain.val()
+                };
+                $.getJSON('equip-main-hand.json', data, _.bind(function(data){
+                    this.character = data;
+                }, this));
+            },
+
+            onEquipOffChange: function(){
+                var data = {
+                    "characterId": this.model.get('id'),
+                    "itemId": this.ui.equipOff.val()
+                };
+                $.getJSON('equip-off-hand.json', data, _.bind(function(data){
+                    this.character = data;
+                }, this));
+            },
+
+            onEquipArmorChange: function(){
+                var data = {
+                    "characterId": this.model.get('id'),
+                    "itemId": this.ui.equipArmor.val()
+                };
+                $.getJSON('equip-armor.json', data, _.bind(function(data){
+                    this.character = data;
+                    this.setAC();
+                }, this));
+            },
+
+
+            //*** Character Abilities ***//
+
+            onAbilitiesUpdated: function(){
+                this.setAbilityMods();
+                this.setMaxHealth();
+                this.setLanguagesAllowed();
+                this.setLanguageSelect();
+                this.setAC()
+            },
+
+            onAbilityChangeButtonClick: function(event){
+                var ability = $(event.target).prop('id').substr(0,3);
+                var $element = $('#' + ability);
+                var score = parseInt($element.val());
+                if($(event.target).prop('id').indexOf('minus') === -1){
+                    var newScore = score + 1;
+                    var newPointsVal = this.abilityPoints - this.getAbilityPointCost(newScore);
+                    if(newPointsVal < 0 ) return;
+                    $element.val(newScore);
+                }else{
+                    var newScore = score - 1;
+                    var newPointsVal = this.abilityPoints + this.getAbilityPointCost(newScore, true);
+                    $element.val(newScore);
+                }
+                this.abilityPoints = newPointsVal;
+                if(this.abilityPoints === 0){
+                    this.ui.abilityPointLabel.text('');
+                }else {
+                    this.ui.abilityPointLabel.text(this.abilityScoreText + this.abilityPoints);
+                }
+                this.showHideAbilityChangeButtons();
             },
 
             showHideAbilityChangeButtons: function(neg){
@@ -524,139 +672,18 @@ define("CharacterView",
                 }, this))
             },
 
-            onAbilityScoreResetClick: function(){
-                this.setAbilities();
-                this.showHideAbilityChangeButtons();
-                this.ui.abilityPointLabel.text(this.abilityScoreText + this.maxAbilityPoints);
+            setAbilityMods: function(){
+                $('.ability').each(_.bind(function(key, value){
+                    var mod = this.getAbilityMod($(value).val())
+                    mod = (mod >= 0) ? (' + ' + mod) : (' - ' + Math.abs(mod));
+                    $('#'+$(value).attr('id') + "Mod").prop('textContent', mod);
+                },this));
             },
 
-            rollDice: function(die, amt){
-                var totalRoll = 0;
-                for(var i=0; i<amt; i++){
-                    totalRoll += Math.floor(Math.random() * die.maxRoll) + die.minRoll;
-                }
-                return totalRoll;
+            getAbilityMod: function(score){
+                return (parseInt(score) === 0) ? 0: parseInt(Math.floor(( score - 10) / 2));
             },
 
-            onStoreSubmitClick: function(){
-                var items = [];
-                $(this.character.inventory).each(function(key, value){
-                    items.push(value.id + '');
-                });
-                $('.store-item').each(_.bind(function(key, value){
-                    if($(value).prop('checked') === true) {
-                        items.push($(value).val());
-                    }
-                }, this));
-
-                var data = {charId: this.character.id,
-                    equipmentIds: items};
-
-                $.getJSON('equipment.json', "ids=" + JSON.stringify(data), _.bind(function(data){
-                    if(data.code === 1) {
-                        this.character = data.data;
-                        this.refreshCharacter();
-                        this.modalClose('store-modal');
-                        alert(data.message);
-                    }else if(data.code === 0){
-                        alert(data.errorMessage);
-                    }
-                }, this));
-            },
-
-            setInventory: function(){
-                $('tr.inventory-item').remove();
-                $(this.character.inventory).each(_.bind(function(key, value){
-                    var item = this.findItemInInventory(value.id);
-                    var $element;
-                    if(item.maxWeaponRange !== undefined) {
-                        $element = this.ui.weaponTable;
-                    }else if(item.armorClass !== undefined){
-                        $element = this.ui.storeArmorTable;
-                    }
-                    $element.append('<tr class="inventory-item" ><td><span name="inventory>" value="' + item.id + '">' + item.name + '</span></td></tr>')
-                }, this));
-                if(this.character.encumbered){
-                    this.ui.encumberedLabel.show();
-                }else{
-                    this.ui.encumberedLabel.hide();
-                }
-            },
-
-            findItemInInventory: function(id){
-                for(var i=0; i < this.character.inventory.length; i++){
-                    if(this.character.inventory[i].id === id){
-                        return this.character.inventory[i];
-                    }
-                }
-            },
-
-            setMainHandOptions: function(){
-                $('.main-hand-option').remove();
-                $.getJSON('main-hand.json', "characterId=" + this.character.id, _.bind(function(data){
-                    $(data).each(_.bind(function(key, value){
-                        this.ui.equipMain.append('<option class="main-hand-option" value="' + value.id + '">' + value.name + '</option>')
-                    }, this));
-                }, this));
-            },
-
-            setOffHandOptions: function(){
-                $('.off-hand-option').remove();
-                $.getJSON('off-hand.json', "characterId=" + this.character.id, _.bind(function(data){
-                    $(data).each(_.bind(function(key, value){
-                        this.ui.equipOff.append('<option class="off-hand-option" value="' + value.id + '">' + value.name + '</option>')
-                    }, this));
-                }, this));
-            },
-
-            setArmorOptions: function(){
-                $('.armor-option').remove();
-                $.getJSON('armor.json', "characterId=" + this.character.id, _.bind(function(data){
-                    $(data).each(_.bind(function(key, value){
-                        this.ui.equipArmor.append('<option class="armor-option" value="' + value.id + '">' + value.name + '</option>')
-                    }, this));
-                }, this));
-            },
-
-            onClearLinkClick: function(){
-                var data = {charId: this.character.id,
-                    equipmentIds: []};
-
-                $.getJSON('equipment.json', "ids=" + JSON.stringify(data), _.bind(function(data){
-                    this.character = data;
-                }, this));
-            },
-
-            onEquipMainChange: function(){
-                var data = {
-                    "characterId": this.character.id,
-                    "itemId": this.ui.equipMain.val()
-                };
-                $.getJSON('equip-main-hand.json', data, _.bind(function(data){
-                    this.character = data;
-                }, this));
-            },
-
-            onEquipOffChange: function(){
-                var data = {
-                    "characterId": this.character.id,
-                    "itemId": this.ui.equipOff.val()
-                };
-                $.getJSON('equip-off-hand.json', data, _.bind(function(data){
-                    this.character = data;
-                }, this));
-            },
-
-            onEquipArmorChange: function(){
-                var data = {
-                    "characterId": this.character.id,
-                    "itemId": this.ui.equipArmor.val()
-                };
-                $.getJSON('equip-armor.json', data, _.bind(function(data){
-                    this.character = data;
-                    this.setAC();
-                }, this));
-            },
 
             modalOpen: function(type, key) {
                 var modal_width = 540;
@@ -727,6 +754,8 @@ define("CharacterView",
 
 
         });
+        epoxy.View.mixin(view.prototype);
+        return view;
     })
 ;
 

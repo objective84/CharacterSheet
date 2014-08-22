@@ -11,6 +11,7 @@ require.config({
         LanguageView: 'View/LanguageView',
         CharacterListView: 'View/CharacterListView',
         WeaponEntryView: 'View/WeaponEntryView',
+        AbilitiesView: 'View/AbilitiesView',
         // Behaviors
 
         // Other
@@ -19,11 +20,13 @@ require.config({
 
         //Models
         CharacterModel: 'Model/CharacterModel',
+        AbilitiesModel: 'Model/AbilitiesModel',
         //Libs
         jquery: 'lib/jquery',
         jqueryUi: 'lib/jquery-ui',
         underscore: 'lib/underscore',
         backbone: 'lib/backbone',
-        marionette: 'lib/marionette'
+        marionette: 'lib/marionette',
+        epoxy: 'lib/epoxy'
     }
 });

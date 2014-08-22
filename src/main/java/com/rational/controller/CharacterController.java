@@ -7,6 +7,7 @@ import com.rational.forms.Character;
 import com.rational.forms.ProficienciesForm;
 import com.rational.forms.ResponseData;
 import com.rational.model.Proficiency;
+import com.rational.model.entities.Abilities;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.CoinPurse;
 import com.rational.model.enums.AbilityTypeEnum;
@@ -133,6 +134,21 @@ public class CharacterController {
     public CharacterModel getCharacter(@RequestParam(value = "characterId") String characterId){
         return characterFacade.getCharacterModel(Long.valueOf(characterId));
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/character/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public CharacterModel characterFetch(@PathVariable final String characterId){
+        return characterFacade.getCharacterModel(Long.valueOf(characterId));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/change-ability", method = RequestMethod.GET, produces = "application/json")
+    public Abilities increaseAbilityScore(@RequestParam(value = "characterId") String characterId,
+                                            @RequestParam(value = "abilityType") String type){
+        return characterFacade.increaseAbilityScore(characterId, type);
+    }
+
+
 
     @RequestMapping(value = "/delete-character", method = RequestMethod.GET)
     public String deleteCharacter(@RequestParam(value = "characterId") String characterId){
