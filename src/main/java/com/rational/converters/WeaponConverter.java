@@ -1,6 +1,7 @@
 package com.rational.converters;
 
 import com.rational.forms.Weapon;
+import com.rational.model.entities.TraitModel;
 import com.rational.model.equipment.WeaponModel;
 import com.rational.service.AdminService;
 import org.springframework.stereotype.Component;
@@ -31,9 +32,9 @@ public class WeaponConverter {
         weapon.setWeaponRange(weaponModel.getWeaponRange());
         weapon.setTwoHanded(weaponModel.isTwoHanded());
         List<Long> traitIds = new ArrayList<Long>();
-//        for(TraitModel trait : weaponModel.getTraits()){
-//            traitIds.add(trait.getId());
-//        }
+        for(TraitModel trait : weaponModel.getTraits()){
+            traitIds.add(trait.getId());
+        }
         weapon.setTraits(traitIds);
 
         return weapon;
@@ -55,7 +56,7 @@ public class WeaponConverter {
         weaponModel.setMaxWeaponRange(weapon.getMaxWeaponRange());
         weaponModel.setWeaponRange(weapon.getWeaponRange());
         weaponModel.setTwoHanded(weapon.isTwoHanded());
-//        weaponModel.setTraits(adminService.findTraits(weapon.getTraits()));
+        weaponModel.setTraits(adminService.findTraits(weapon.getTraits()));
 
         return weaponModel;
     }

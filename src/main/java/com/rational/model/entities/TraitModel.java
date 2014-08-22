@@ -1,10 +1,16 @@
 package com.rational.model.entities;
 
+import com.rational.model.equipment.EquipmentModel;
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class TraitModel {
+
 
     @Id
     @GeneratedValue

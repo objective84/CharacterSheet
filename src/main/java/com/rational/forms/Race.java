@@ -5,7 +5,7 @@ import java.util.List;
 public class Race {
 
     private long id;
-    private String name;
+    private String raceName;
     private String description;
     private String size;
     private Integer speed;
@@ -21,12 +21,12 @@ public class Race {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getRaceName() {
+        return raceName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRaceName(String raceName) {
+        this.raceName = raceName;
     }
 
     public String getDescription() {

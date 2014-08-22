@@ -25,11 +25,14 @@ public class SpellModel {
     private Dice damageDice;
 
     private String savingThrow;
-
     private String condition;
 
-    @JoinTable(name="spellmodel_classmodel", joinColumns = @JoinColumn(name="spellmodel_id"), inverseJoinColumns = @JoinColumn(name="classmodel_id"))
-    @JsonBackReference @ManyToMany private List<ClassModel> classes = new ArrayList<ClassModel>();
+    @JsonBackReference
+    @ManyToMany
+    @JoinTable(name="spellmodel_classmodel",
+            joinColumns = @JoinColumn(name="spellmodel_id"),
+            inverseJoinColumns = @JoinColumn(name="classmodel_id"))
+    private List<ClassModel> classes = new ArrayList<ClassModel>();
 
     public Long getId() {
         return id;

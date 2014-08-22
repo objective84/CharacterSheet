@@ -14,14 +14,14 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("W")
 public class WeaponModel extends EquipmentModel{
 
+    private WeaponGroup weaponGroup;
     private Integer weaponRange;
     private Integer maxWeaponRange;
+    private Dice damageDice;
     private String damageType;
+
     private Integer numberOfDice;
     private boolean twoHanded;
-
-    @ManyToOne @JsonManagedReference private WeaponGroup weaponGroup;
-    @ManyToOne @JsonManagedReference private Dice damageDice;
 
     public Integer getWeaponRange() {
         return weaponRange;
@@ -31,6 +31,8 @@ public class WeaponModel extends EquipmentModel{
         this.weaponRange = weaponRange;
     }
 
+    @ManyToOne
+    @JsonManagedReference
     public WeaponGroup getWeaponGroup() {
         return weaponGroup;
     }
@@ -38,7 +40,7 @@ public class WeaponModel extends EquipmentModel{
     public void setWeaponGroup(WeaponGroup weaponGroup) {
         this.weaponGroup = weaponGroup;
     }
-
+//
     public Integer getNumberOfDice() {
         return numberOfDice;
     }
@@ -47,6 +49,8 @@ public class WeaponModel extends EquipmentModel{
         this.numberOfDice = numberOfDice;
     }
 
+    @ManyToOne
+    @JsonManagedReference
     public Dice getDamageDice() {
         return damageDice;
     }

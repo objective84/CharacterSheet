@@ -41,26 +41,26 @@
                         <td><form:select id="race" path="race">
                             <form:option value="0" label="Select a race"/>
                             <c:forEach items="${races}" var="race">
-                                <form:option value="${race.id}" label="${race.name}"/>
+                                <form:option value="${race.id}" label="${race.raceName}"/>
                             </c:forEach>
                         </form:select></td>
                     </c:when>
                     <c:otherwise>
-                        <td>${characterModel.race.name}</td>
+                        <td>${characterModel.race.raceName}</td>
                     </c:otherwise>
                 </c:choose>
                 <td class="subraces">
-                <td><spring:message code="character.subrace"/></td>
-                <c:choose>
-                    <c:when test="${create}">
-                        <td><select id="subrace" class="subraces">
-                            <option value="0">Select a sub-race</option>
-                        </select></td>
-                    </c:when>
-                    <c:otherwise>
-                        <td>${characterModel.subrace.name}</td>
-                    </c:otherwise>
-                </c:choose>
+                  <td><spring:message code="character.subrace"/></td>
+                    <c:choose>
+                        <c:when test="${create}">
+                            <td><select id="subrace" class="subraces">
+                                <option value="0">Select a sub-race</option>
+                            </select></td>
+                        </c:when>
+                        <c:otherwise>
+                            <td>${characterModel.subrace.name}</td>
+                        </c:otherwise>
+                    </c:choose>
                 </td>
                 <td><spring:message code="character.class"/></td>
                 <c:choose>
@@ -196,7 +196,7 @@
         </div>
         <div class="clear"/>
         <h3><spring:message code="character.inventory"/></h3>
-        <span id="encumbered-label"><spring:message code="character.encumbered"/></span>
+            <span id="encumbered-label"><spring:message code="character.encumbered"/></span>
         <div class="table_container">
             <table class="side-by-side" id="weapon-inventory-table">
                 <tr><th>Weapons</th></tr>
@@ -253,26 +253,23 @@
                 </c:forEach>
             </table>
         </div>
-        <div class="clear"/>
-        <br/>
-        <div class="table_container">
+        <div class="clear">
+            <br/>
             <h3><spring:message code="character.languages"/></h3>
-            <table class="side-by-side" id="languages">
+            <table id="languages">
                 <c:forEach items="${characterModel.race.languages}" var="language">
                     <tr><td>${language.name}</td></tr>
                 </c:forEach>
             </table>
-            <table class="side-by-side" id="traits-table">
-            </table>
+            <tr colspan="3">
+                <td>
+                    <input type="submit" value="Save"/>
+                </td>
+            </tr>
+            </form:form>
+
+            <modals:language-modal></modals:language-modal>
+            <modals:store-modal></modals:store-modal>
         </div>
-        <div class="clear"/>
-        <br/>
-
-        <input type="submit" value="Save"/>
-
-        </form:form>
-
-        <modals:language-modal></modals:language-modal>
-        <modals:store-modal></modals:store-modal>
 </body>
 </html>

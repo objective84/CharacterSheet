@@ -13,14 +13,15 @@ import java.lang.reflect.InvocationTargetException;
 @Entity
 public class Abilities {
 
+    @Id
+    @GeneratedValue
+    private Long id;
     private Integer str;
     private Integer dex;
     private Integer con;
     private Integer intel;
     private Integer wis;
     private Integer cha;
-
-    @Id @GeneratedValue private Long id;
 
     public Abilities(){}
 

@@ -13,13 +13,13 @@ import java.util.List;
 @Entity
 public class ArmorGroup {
 
+    private Long id;
+
     private String name;
+
     private String description;
 
-    @Id @GeneratedValue private Long id;
-
-    @OneToMany(mappedBy = "armorGroup", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonBackReference private List<ArmorModel> armor = new ArrayList<ArmorModel>();
+    private List<ArmorModel> armor = new ArrayList<ArmorModel>();
 
     public String getName() {
         return name;
@@ -37,6 +37,8 @@ public class ArmorGroup {
         this.description = description;
     }
 
+    @Id
+    @GeneratedValue
     public Long getId() {
         return id;
     }
@@ -45,6 +47,8 @@ public class ArmorGroup {
         this.id = id;
     }
 
+    @JsonBackReference
+    @OneToMany(mappedBy = "armorGroup", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<ArmorModel> getArmor() {
         return armor;
     }

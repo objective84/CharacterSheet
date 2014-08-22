@@ -13,24 +13,37 @@ import java.util.List;
 @Entity
 public class RaceModel {
 
+    @Id
+    @GeneratedValue
+    private Long id;
 
-    private String name;
+    private String raceName;
+
+    @Column(name="description")
     private String description;
+
+    @Column(name="size")
     private String size;
+
+    @Column(name="speed")
     private Integer speed;
 
-    @Id @GeneratedValue private Long id;
+    @JsonManagedReference
+    @ManyToMany
+    private List<LanguageModel> languages = new ArrayList<LanguageModel>();
+
+    @ManyToMany
+    @JoinTable(name="racemodel_traitmodel",
+            joinColumns = @JoinColumn(name="racemodel_id"), inverseJoinColumns = @JoinColumn(name="traitmodel_id"))
+    private List<TraitModel> traits = new ArrayList<TraitModel>();
+
+    @JsonManagedReference
     @OneToMany(mappedBy = "parentRace", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference private List<SubRaceModel> availableSubraces = new ArrayList<SubRaceModel>();
+    private List<SubRaceModel> availableSubraces = new ArrayList<SubRaceModel>();
 
-    @JoinTable(name="racemodel_traitmodel",joinColumns = @JoinColumn(name="racemodel_id"), inverseJoinColumns = @JoinColumn(name="traitmodel_id"))
-    @ManyToMany private List<TraitModel> traits = new ArrayList<TraitModel>();
-
-    @JoinTable(name="racemodel_languagemodel",joinColumns = @JoinColumn(name="races_id"), inverseJoinColumns = @JoinColumn(name="languages_id"))
-    @JsonManagedReference @ManyToMany private List<LanguageModel> languages = new ArrayList<LanguageModel>();
-
-    @JoinTable(name="racemodel_proficiency",joinColumns = @JoinColumn(name="races_id"), inverseJoinColumns = @JoinColumn(name="proficiencies_id"))
-    @JsonManagedReference @ManyToMany private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
+    @JsonManagedReference
+    @ManyToMany
+    private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
     public Long getId() {
         return id;
@@ -40,12 +53,12 @@ public class RaceModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getRaceName() {
+        return raceName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRaceName(String raceName) {
+        this.raceName = raceName;
     }
 
     public String getDescription() {
@@ -80,6 +93,7 @@ public class RaceModel {
         this.languages = languages;
     }
 
+
     public List<SubRaceModel> getAvailableSubraces() {
         return availableSubraces;
     }
@@ -95,6 +109,14 @@ public class RaceModel {
     public void setTraits(List<TraitModel> traits) {
         this.traits = traits;
     }
+
+//    public List<CharacterModel> getCharacter() {
+//        return characters;
+//    }
+//
+//    public void setCharacter(List<CharacterModel> characters) {
+//        this.characters = characters;
+//    }
 
     public List<Proficiency> getProficiencies() {
         return proficiencies;

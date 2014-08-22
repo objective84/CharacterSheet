@@ -42,24 +42,23 @@ public class CharacterConverter {
 
         character.setId(characterModel.getId());
         character.setName(characterModel.getName());
-//        if(null != characterModel.getMultiClassList()) {
-//            //FIXME This needs to handle multiclassing
-//            character.setClazz(characterModel.getMultiClassList().get(0).getId());
-//        }
+        if(null != characterModel.getMultiClassList()) {
+            //FIXME This needs to handle multiclassing
+            character.setClazz(characterModel.getMultiClassList().get(0).getId());
+        }
         if(null != characterModel.getRace()){
             character.setRace(characterModel.getRace().getId());
         }
+        character.setLevel(characterModel.getLevel());
         character.setMaxHealth(characterModel.getMaxHealth());
         character.setCurrentHealth(characterModel.getCurrentHealth());
         Map<AbilityTypeEnum, Integer> abilityScores = new HashMap<AbilityTypeEnum, Integer>();
-        if(characterModel.getAbilities() != null) {
-            abilityScores.put(AbilityTypeEnum.Str, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Str));
-            abilityScores.put(AbilityTypeEnum.Dex, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Dex));
-            abilityScores.put(AbilityTypeEnum.Con, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Con));
-            abilityScores.put(AbilityTypeEnum.Int, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Int));
-            abilityScores.put(AbilityTypeEnum.Wis, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Wis));
-            abilityScores.put(AbilityTypeEnum.Cha, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Cha));
-        }
+        abilityScores.put(AbilityTypeEnum.Str, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Str));
+        abilityScores.put(AbilityTypeEnum.Dex, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Dex));
+        abilityScores.put(AbilityTypeEnum.Con, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Con));
+        abilityScores.put(AbilityTypeEnum.Int, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Int));
+        abilityScores.put(AbilityTypeEnum.Wis, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Wis));
+        abilityScores.put(AbilityTypeEnum.Cha, characterModel.getAbilities().getAbilityScore(AbilityTypeEnum.Cha));
         character.setAbilityScores(abilityScores);
         character.setSpeed(characterModel.getSpeed());
 
@@ -106,6 +105,7 @@ public class CharacterConverter {
             characterModel.addClazz(classModel);
         }
 
+        characterModel.setLevel(character.getLevel());
         characterModel.setMaxHealth(character.getMaxHealth());
         characterModel.setCurrentHealth(character.getCurrentHealth());
         if(characterModel.getAbilities() != null) {

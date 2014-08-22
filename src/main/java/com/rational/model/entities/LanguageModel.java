@@ -4,10 +4,11 @@
 package com.rational.model.entities;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import org.codehaus.jackson.annotate.JsonBackReference;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class LanguageModel {
@@ -21,6 +22,10 @@ public class LanguageModel {
 
     @Column(name="description")
     private String description;
+
+    @JsonBackReference
+    @ManyToMany(mappedBy = "languages", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RaceModel> races = new ArrayList<RaceModel>();
 
     public String getName() {
         return name;
@@ -36,6 +41,14 @@ public class LanguageModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<RaceModel> getRaces() {
+        return races;
+    }
+
+    public void setRaces(List<RaceModel> races) {
+        this.races = races;
     }
 
     public Long getId() {

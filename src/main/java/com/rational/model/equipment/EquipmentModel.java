@@ -2,6 +2,7 @@ package com.rational.model.equipment;
 
 import com.rational.model.Proficiency;
 import com.rational.model.entities.Coin;
+import com.rational.model.entities.TraitModel;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -15,19 +16,18 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class EquipmentModel {
 
+    protected Long id;
     protected String name;
     protected Long itemWeight;
     protected String description;
     protected int price;
 
-    @Id @GeneratedValue protected Long id;
-    @JsonManagedReference @ManyToOne protected Coin priceDenomination;
-
-
-    @JoinTable(name="equipmentmodel_proficiency",
-            joinColumns = @JoinColumn(name="equipment_id"), inverseJoinColumns = @JoinColumn(name="proficiencies_id"))
-    @ManyToMany protected List<Proficiency> proficiencies = new ArrayList<Proficiency>();
-
+    @JsonManagedReference
+    protected Coin priceDenomination;
+    private List<TraitModel> traits = new ArrayList<TraitModel>();
+    protected List<Proficiency> proficiencies = new ArrayList<Proficiency>();
+    @Id
+    @GeneratedValue
     public Long getId() {
         return id;
     }
@@ -68,6 +68,7 @@ public abstract class EquipmentModel {
         this.price = price;
     }
 
+    @ManyToOne
     public Coin getPriceDenomination() {
         return priceDenomination;
     }
@@ -76,6 +77,17 @@ public abstract class EquipmentModel {
         this.priceDenomination = priceDenomination;
     }
 
+    @JsonManagedReference
+    @ManyToMany
+    public List<TraitModel> getTraits() {
+        return traits;
+    }
+
+    public void setTraits(List<TraitModel> traits) {
+        this.traits = traits;
+    }
+
+    @ManyToMany
     public List<Proficiency> getProficiencies() {
         return proficiencies;
     }
