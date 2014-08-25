@@ -21,10 +21,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component(value = "defaultCharacterFacade")
 public class DefaultCharacterFacade implements CharacterFacade {
@@ -141,6 +138,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setClazz(classModel);
         character.setCoinPurse(currencyService.getStartingWealth(classModel.getStartingWealthDie(), classModel.getStartingWealthDieAmount()));
         character.setMaxHealth(classModel.getHitDie().getMaxRoll());
+        character.setCurrentHealth(character.getMaxHealth());
         characterService.save(character);
 
         return assembleCharacter(character);
@@ -259,11 +257,37 @@ public class DefaultCharacterFacade implements CharacterFacade {
     }
 
     @Override
-    public Abilities increaseAbilityScore(String characterId, String type) {
+    public Abilities increaseDecreaseAbilityScore(String characterId, String type, Boolean positive) {
         CharacterModel character = characterService.findCharacter(Long.valueOf(characterId));
-        character.getAbilities().increaseScoreByOne(AbilityTypeEnum.valueOf(type));
+        character.getAbilities().increaseDecreaseScoreByOne(AbilityTypeEnum.getValueOf(type), positive);
         characterService.save(character);
         return character.getAbilities();
+    }
+
+    @Override
+    public void equipArmor(String characterId, String itemId) {
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        if(itemId.equals("0")){
+            character.setEquippedArmor(null);
+        }else {
+            character.setEquippedArmor(adminFacade.getArmorModel(Long.decode(itemId)));
+        }
+        characterService.save(character);
+    }
+
+    private void setAC(CharacterModel character){
+        Integer ac = 0;
+        Integer dexMod = character.getAbilities().getAbilityModifier(AbilityTypeEnum.Dex);
+        if(character.getEquippedArmor() == null){
+            ac = 10;
+
+        }else {
+            ac = character.getEquippedArmor().getArmorClass();
+            if(dexMod > character.getEquippedArmor().getMaxDexModifier()){
+                dexMod = character.getEquippedArmor().getMaxDexModifier();
+            }
+        }
+        character.setArmorClass(ac + dexMod);
     }
 
     private Boolean hasProficiency(CharacterModel character, EquipmentModel equipment){
@@ -311,6 +335,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         setCharacterProficiencies(character);
         setCharacterSpeed(character);
         processTraits(character);
+        setAC(character);
         return character;
     }
 

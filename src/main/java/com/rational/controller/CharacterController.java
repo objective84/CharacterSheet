@@ -10,6 +10,7 @@ import com.rational.model.Proficiency;
 import com.rational.model.entities.Abilities;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.CoinPurse;
+import com.rational.model.entities.RaceModel;
 import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.enums.EquipmentFilterEnum;
 import com.rational.model.equipment.ArmorModel;
@@ -115,9 +116,9 @@ public class CharacterController {
     }
 
     private void addEquipmentToModel(ModelAndView mav, CharacterModel character) {
-            mav.addObject("inventoryWeapons", adminFacade.getWeaponsFromInventory(character));
-            mav.addObject("inventoryOffHandItems", adminFacade.getOffHandFromInventory(character));
-            mav.addObject("inventoryArmor", adminFacade.getArmorFromInventory(character));
+        mav.addObject("inventoryWeapons", adminFacade.getWeaponsFromInventory(character));
+        mav.addObject("inventoryOffHandItems", adminFacade.getOffHandFromInventory(character));
+        mav.addObject("inventoryArmor", adminFacade.getArmorFromInventory(character));
         mav.addObject("allWeapons", adminFacade.findAllWeaponModels());
         mav.addObject("allArmor", adminFacade.findAllArmorModels());
     }
@@ -143,12 +144,11 @@ public class CharacterController {
 
     @ResponseBody
     @RequestMapping(value = "/change-ability", method = RequestMethod.GET, produces = "application/json")
-    public Abilities increaseAbilityScore(@RequestParam(value = "characterId") String characterId,
-                                            @RequestParam(value = "abilityType") String type){
-        return characterFacade.increaseAbilityScore(characterId, type);
+    public Abilities increaseDecreaseAbilityScore(@RequestParam(value = "characterId") String characterId,
+                                                  @RequestParam(value = "abilityType") String type,
+                                                  @RequestParam(value = "positive") String positive){
+        return characterFacade.increaseDecreaseAbilityScore(characterId, type, positive.equals("positive"));
     }
-
-
 
     @RequestMapping(value = "/delete-character", method = RequestMethod.GET)
     public String deleteCharacter(@RequestParam(value = "characterId") String characterId){
@@ -160,7 +160,7 @@ public class CharacterController {
     @RequestMapping(value="/class", method = RequestMethod.GET, produces = "application/json")
     public CharacterModel setCharacterClass(@RequestParam(value = "characterId") String characterId,
                                             @RequestParam(value = "classId") String classId){
-            CharacterModel characterModel =characterFacade.setCharacterClass(Long.valueOf(characterId), Long.valueOf(classId));
+        CharacterModel characterModel = characterFacade.setCharacterClass(Long.valueOf(characterId), Long.valueOf(classId));
         return characterModel;
     }
 
@@ -173,15 +173,21 @@ public class CharacterController {
     @ResponseBody
     @RequestMapping(value="/race", method = RequestMethod.GET, produces = "application/json")
     public CharacterModel setCharacterRace(@RequestParam(value = "characterId") String characterId,
-                                            @RequestParam(value = "raceId") String raceId){
+                                           @RequestParam(value = "raceId") String raceId){
         CharacterModel characterModel = characterFacade.setCharacterRace(characterId, raceId);;
         return characterModel;
     }
 
     @ResponseBody
+    @RequestMapping(value="/race/{raceId}", method = RequestMethod.GET, produces = "application/json")
+    public RaceModel fetchRace(@PathVariable String raceId){
+        return adminFacade.getRaceModel(raceId);
+    }
+
+    @ResponseBody
     @RequestMapping(value="/subrace", method = RequestMethod.GET, produces = "application/json")
     public CharacterModel setCharacterSubRace(@RequestParam(value = "characterId") String characterId,
-                                            @RequestParam(value = "subraceId") String subraceId){
+                                              @RequestParam(value = "subraceId") String subraceId){
         CharacterModel characterModel = characterFacade.setCharacterSubrace(characterId, subraceId);;
         return characterModel;
     }
@@ -278,6 +284,7 @@ public class CharacterController {
     public CharacterModel setArmor(@RequestParam(value = "characterId") String characterId,
                                    @RequestParam(value = "itemId") String itemId){
         CharacterModel character = characterFacade.getCharacterModel(Long.decode(characterId));
+        characterFacade.equipArmor(characterId, itemId);
         character.setEquippedArmor(adminFacade.getArmorModel(Long.decode(itemId)));
         character = characterFacade.save(character);
 

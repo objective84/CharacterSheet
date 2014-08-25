@@ -12,7 +12,8 @@ define("AbilitiesModel",
                     con: '0',
                     intel: '0',
                     wis: '0',
-                    cha: '0'
+                    cha: '0',
+                    abilityPointsRemaining: '0'
                 },
 
                 setAbilities: function(abilities){
@@ -22,6 +23,8 @@ define("AbilitiesModel",
                     this.set('intel', abilities.intel);
                     this.set('wis', abilities.wis);
                     this.set('cha', abilities.cha);
+                    this.set('abilityPointsRemaining', abilities.abilityPointsRemaining);
+                    console.log(abilities.abilityPointsRemaining);
                 }
             });
         epoxy.Model.mixin(model.prototype);

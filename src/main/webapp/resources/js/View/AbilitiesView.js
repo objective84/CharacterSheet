@@ -24,7 +24,8 @@ define("AbilitiesView",
                     '#Con': 'value:con',
                     '#Int': 'value:intel',
                     '#Wis': 'value:wis',
-                    '#Cha': 'value:cha'
+                    '#Cha': 'value:cha',
+                    '#ability-point-label': 'text:abilityPointsUsed'
                 },
                 events: {
                     'change model' : 'onModelChanged'

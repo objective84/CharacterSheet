@@ -79,7 +79,7 @@ public interface AdminFacade {
 
     Map<Long, Proficiency> getProficienciesMap();
 
-    RaceModel getRaceModel(Long id);
+    RaceModel getRaceModel(String id);
 
     Dice saveDice(Dice dice);
 

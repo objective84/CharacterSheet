@@ -257,7 +257,7 @@
             <h3><spring:message code="character.languages"/></h3>
             <table id="languages">
                 <c:forEach items="${characterModel.race.languages}" var="language">
-                    <tr><td>${language.name}</td></tr>
+                    <tr class="language-row"><td>${language.name}</td></tr>
                 </c:forEach>
             </table>
             <tr colspan="3">
@@ -265,10 +265,10 @@
                     <input type="submit" value="Save"/>
                 </td>
             </tr>
-            </form:form>
-
             <modals:language-modal></modals:language-modal>
             <modals:store-modal></modals:store-modal>
+            </form:form>
+
         </div>
 </body>
 </html>

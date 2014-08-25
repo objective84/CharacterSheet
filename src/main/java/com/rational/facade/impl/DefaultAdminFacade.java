@@ -200,8 +200,8 @@ public class DefaultAdminFacade implements AdminFacade {
     }
 
     @Override
-    public RaceModel getRaceModel(Long id) {
-        return adminService.findRace(id);
+    public RaceModel getRaceModel(String id) {
+        return adminService.findRace(Long.decode(id));
     }
 
     @Override

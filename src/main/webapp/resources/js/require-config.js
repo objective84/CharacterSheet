@@ -12,6 +12,7 @@ require.config({
         CharacterListView: 'View/CharacterListView',
         WeaponEntryView: 'View/WeaponEntryView',
         AbilitiesView: 'View/AbilitiesView',
+        CoinPurseView: 'View/CoinPurseView',
         // Behaviors
 
         // Other
@@ -21,6 +22,7 @@ require.config({
         //Models
         CharacterModel: 'Model/CharacterModel',
         AbilitiesModel: 'Model/AbilitiesModel',
+        CoinPurseModel: 'Model/CoinPurseModel',
         //Libs
         jquery: 'lib/jquery',
         jqueryUi: 'lib/jquery-ui',

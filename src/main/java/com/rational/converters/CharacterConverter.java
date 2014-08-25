@@ -65,7 +65,7 @@ public class CharacterConverter {
         }
         character.setSpeed(characterModel.getSpeed());
 
-//        character.setLanguages(languageConverter.convertToIds(characterModel.getLanguages()));
+//        character.setLanguageTable(languageConverter.convertToIds(characterModel.getLanguages()));
 //        character.setProficiencies(proficiencyConverter.convertToIds(characterModel.getProficiencies()));
         if(null != characterModel.getCoinPurse()) {
             Map<String, Integer> coinPurse = new HashMap<String, Integer>();
@@ -121,7 +121,7 @@ public class CharacterConverter {
         }
         characterModel.setSpeed(character.getSpeed());
 //        characterModel.setProficiencies(proficiencyConverter.convertToModels(character.getProficiencies()));
-//        characterModel.setLanguages(languageConverter.convertToModels(character.getLanguages()));
+//        characterModel.setLanguageTable(languageConverter.convertToModels(character.getLanguages()));
 
         if(null != characterModel.getCoinPurse()) {
             CoinPurse purse = new CoinPurse();

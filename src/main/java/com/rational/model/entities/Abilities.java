@@ -2,6 +2,7 @@ package com.rational.model.entities;
 
 import com.rational.model.enums.AbilityTypeEnum;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,6 +18,7 @@ public class Abilities {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(name="ability_points_used")private Integer abilityPointsRemaining = MAX_ABILITY_POINTS;
     private Integer str;
     private Integer dex;
     private Integer con;
@@ -35,13 +37,10 @@ public class Abilities {
         this.cha = cha;
     }
 
-    public void increaseScoreByOne(AbilityTypeEnum ability){
-        int score = getAbilityScore(ability);
-        int totalCost = getTotalAbilityCost();
-        if(totalCost > MAX_ABILITY_POINTS ||
-                totalCost + getScoreCost(score) > MAX_ABILITY_POINTS) return;
-
-        setAbilityScore(ability, getAbilityScore(ability) + 1);
+    public void increaseDecreaseScoreByOne(AbilityTypeEnum ability, Boolean positive){
+        int score = positive ? getAbilityScore(ability)+1 : getAbilityScore(ability)-1;
+        abilityPointsRemaining -= getScoreCost(score);
+        setAbilityScore(ability, score);
     }
 
     public void setAbilityScore(AbilityTypeEnum ability, Integer score){
@@ -151,4 +150,11 @@ public class Abilities {
         this.cha = cha;
     }
 
+    public Integer getAbilityPointsRemaining() {
+        return abilityPointsRemaining;
+    }
+
+    public void setAbilityPointsRemaining(Integer abilityPointsRemaining) {
+        this.abilityPointsRemaining = abilityPointsRemaining;
+    }
 }
