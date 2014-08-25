@@ -20,3 +20,14 @@ ADD CONSTRAINT `weapon_damage_type_fk`
   REFERENCES `charactersheet`.`damagetype` (`id`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+
+ALTER TABLE `charactersheet`.`weaponmodel`
+DROP FOREIGN KEY `weapon_damage_type_fk`;
+ALTER TABLE `charactersheet`.`weaponmodel`
+CHANGE COLUMN `damageType` `damageType_id` BIGINT(20) NULL DEFAULT NULL ;
+ALTER TABLE `charactersheet`.`weaponmodel`
+ADD CONSTRAINT `weapon_damage_type_fk`
+FOREIGN KEY (`damageType_id`)
+REFERENCES `charactersheet`.`damagetype` (`id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
