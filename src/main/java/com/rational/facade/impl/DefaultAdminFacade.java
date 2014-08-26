@@ -368,4 +368,14 @@ public class DefaultAdminFacade implements AdminFacade {
     public List<EquipmentModel> getAllEquipmentModels(){
         return adminService.findAllEquipment();
     }
+
+    @Override
+    public void saveAbilities(Abilities abilities) {
+        adminService.saveAbilities(abilities);
+    }
+
+    @Override
+    public Abilities findAbilities(String id) {
+        return adminService.findAbilities(Long.valueOf(id));
+    }
 }

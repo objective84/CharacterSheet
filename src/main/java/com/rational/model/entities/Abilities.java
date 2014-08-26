@@ -2,7 +2,6 @@ package com.rational.model.entities;
 
 import com.rational.model.enums.AbilityTypeEnum;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,11 +13,9 @@ import java.lang.reflect.InvocationTargetException;
 @Entity
 public class Abilities {
 
-    public static final Integer MAX_ABILITY_POINTS = 27;
     @Id
     @GeneratedValue
     private Long id;
-    @Column(name="ability_points_used")private Integer abilityPointsRemaining = MAX_ABILITY_POINTS;
     private Integer str;
     private Integer dex;
     private Integer con;
@@ -37,10 +34,13 @@ public class Abilities {
         this.cha = cha;
     }
 
-    public void increaseDecreaseScoreByOne(AbilityTypeEnum ability, Boolean positive){
-        int score = positive ? getAbilityScore(ability)+1 : getAbilityScore(ability)-1;
-        abilityPointsRemaining -= getScoreCost(score);
-        setAbilityScore(ability, score);
+    public Abilities(String str, String dex, String con, String intel, String wis, String cha){
+        this.str = Integer.decode(str);
+        this.dex = Integer.decode(dex);
+        this.con = Integer.decode(con);
+        this.intel = Integer.decode(intel);
+        this.wis = Integer.decode(wis);
+        this.cha = Integer.decode(cha);
     }
 
     public void setAbilityScore(AbilityTypeEnum ability, Integer score){
@@ -148,13 +148,5 @@ public class Abilities {
 
     public void setCha(Integer cha) {
         this.cha = cha;
-    }
-
-    public Integer getAbilityPointsRemaining() {
-        return abilityPointsRemaining;
-    }
-
-    public void setAbilityPointsRemaining(Integer abilityPointsRemaining) {
-        this.abilityPointsRemaining = abilityPointsRemaining;
     }
 }

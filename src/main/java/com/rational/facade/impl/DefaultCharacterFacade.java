@@ -21,7 +21,10 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Component(value = "defaultCharacterFacade")
 public class DefaultCharacterFacade implements CharacterFacade {
@@ -254,14 +257,6 @@ public class DefaultCharacterFacade implements CharacterFacade {
         }
 
         return equipmentModels;
-    }
-
-    @Override
-    public Abilities increaseDecreaseAbilityScore(String characterId, String type, Boolean positive) {
-        CharacterModel character = characterService.findCharacter(Long.valueOf(characterId));
-        character.getAbilities().increaseDecreaseScoreByOne(AbilityTypeEnum.getValueOf(type), positive);
-        characterService.save(character);
-        return character.getAbilities();
     }
 
     @Override

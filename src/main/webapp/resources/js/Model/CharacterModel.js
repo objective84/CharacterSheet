@@ -5,8 +5,7 @@ define("CharacterModel",
     ["jquery", "underscore", "backbone", "epoxy"],
     function($, _, backbone, epoxy){
         var model = backbone.Model.extend({
-                idAttribute: "_id",
-                urlRoot: $('#pathContext').val() + '/character',
+                idAttribute: '_id',
                 defaults:{
                     id: "",
                     name: "",
@@ -32,15 +31,9 @@ define("CharacterModel",
                     inventory: null
                 },
 
-                fetchModel: function(callback){
-                    this.fetch({success: _.bind(function(){
-                        if(callback)callback();
-                        this.trigger(this.constructor.Event_CharacterUpdated);
-                    }, this)});
+                url: function() {
+                   return $('#pathContext').val() + '/character/' + this.id;
                 }
-            },
-            {
-                Event_CharacterUpdated: 'Event_CharacterUpdated'
             }
         );
         epoxy.Model.mixin(model.prototype);

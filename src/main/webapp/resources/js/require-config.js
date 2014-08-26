@@ -13,8 +13,8 @@ require.config({
         WeaponEntryView: 'View/WeaponEntryView',
         AbilitiesView: 'View/AbilitiesView',
         CoinPurseView: 'View/CoinPurseView',
+        RaceView: 'View/RaceView',
         // Behaviors
-
         // Other
         main: 'main',
         //Views
@@ -23,6 +23,7 @@ require.config({
         CharacterModel: 'Model/CharacterModel',
         AbilitiesModel: 'Model/AbilitiesModel',
         CoinPurseModel: 'Model/CoinPurseModel',
+        RaceModel: 'Model/RaceModel',
         //Libs
         jquery: 'lib/jquery',
         jqueryUi: 'lib/jquery-ui',

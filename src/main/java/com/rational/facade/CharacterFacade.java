@@ -2,7 +2,6 @@ package com.rational.facade;
 
 import com.rational.forms.Character;
 import com.rational.model.Proficiency;
-import com.rational.model.entities.Abilities;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.enums.ProficiencyTypeEnum;
 import com.rational.model.equipment.EquipmentModel;
@@ -41,7 +40,7 @@ public interface CharacterFacade {
 
     List<EquipmentModel> filterByProficiency(String characterId);
 
-    Abilities increaseDecreaseAbilityScore(String characterId, String type, Boolean positive);
+//    Abilities increaseDecreaseAbilityScore(String characterId, String type, Boolean positive);
 
     void equipArmor(String characterId, String itemId);
 }

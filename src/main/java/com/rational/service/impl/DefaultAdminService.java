@@ -68,6 +68,9 @@ public class DefaultAdminService implements AdminService {
     @Resource
     private SpellRepository spellRepository;
 
+    @Resource
+    private AbilitiesRepository abilitiesRepository;
+
 
 
     /* Proficiencies */
@@ -342,6 +345,16 @@ public class DefaultAdminService implements AdminService {
     @Override
     public List<EquipmentModel> findAllEquipment(){
         return equipmentRepository.findAll();
+    }
+
+    @Override
+    public void saveAbilities(Abilities abilities) {
+        abilitiesRepository.save(abilities);
+    }
+
+    @Override
+    public Abilities findAbilities(Long id) {
+        return abilitiesRepository.findOne(id);
     }
 
 }

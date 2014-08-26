@@ -18,7 +18,7 @@ public class DefaultCharacterService implements CharacterService{
     @Override
     @Transactional
     public CharacterModel save(CharacterModel character) {
-        return characterRepository.save(character);
+        return characterRepository.saveAndFlush(character);
     }
 
     @Override

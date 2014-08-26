@@ -142,12 +142,17 @@ public class CharacterController {
         return characterFacade.getCharacterModel(Long.valueOf(characterId));
     }
 
+    @RequestMapping(value = "/abilities", method = RequestMethod.POST, consumes = "application/json")
+    public String saveAbilities(@RequestBody Abilities abilities){
+        adminFacade.saveAbilities(abilities);
+        return "success";
+    }
+
     @ResponseBody
-    @RequestMapping(value = "/change-ability", method = RequestMethod.GET, produces = "application/json")
-    public Abilities increaseDecreaseAbilityScore(@RequestParam(value = "characterId") String characterId,
-                                                  @RequestParam(value = "abilityType") String type,
-                                                  @RequestParam(value = "positive") String positive){
-        return characterFacade.increaseDecreaseAbilityScore(characterId, type, positive.equals("positive"));
+    @RequestMapping(value = "/abilities/{id}", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
+    public Abilities saveAbilities(@PathVariable String id){
+        Abilities abilities = adminFacade.findAbilities(id);
+        return abilities;
     }
 
     @RequestMapping(value = "/delete-character", method = RequestMethod.GET)
@@ -171,11 +176,16 @@ public class CharacterController {
     }
 
     @ResponseBody
-    @RequestMapping(value="/race", method = RequestMethod.GET, produces = "application/json")
-    public CharacterModel setCharacterRace(@RequestParam(value = "characterId") String characterId,
-                                           @RequestParam(value = "raceId") String raceId){
-        CharacterModel characterModel = characterFacade.setCharacterRace(characterId, raceId);;
-        return characterModel;
+    @RequestMapping(value="/race/{characterId}/{raceId}", method = RequestMethod.GET, produces = "application/json")
+    public RaceModel getCharacterRace(@PathVariable String characterId, @PathVariable String raceId){
+        RaceModel raceModel = characterFacade.getCharacterModel(Long.decode(characterId)).getRace();
+        return raceModel;
+    }
+
+    @RequestMapping(value="/race/{characterId}/{raceId}", method = RequestMethod.POST)
+    public String setCharacterRace(@PathVariable String characterId, @PathVariable String raceId){
+        characterFacade.setCharacterRace(characterId, raceId);
+        return "success";
     }
 
     @ResponseBody
