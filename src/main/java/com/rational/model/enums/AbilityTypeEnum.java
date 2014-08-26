@@ -17,4 +17,8 @@ public enum AbilityTypeEnum{
     public static String value(AbilityTypeEnum abilityType){
         return abilityType.type;
     }
+
+    public String getType() {
+        return type;
+    }
 }
