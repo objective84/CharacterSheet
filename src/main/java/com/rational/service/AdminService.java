@@ -115,4 +115,8 @@ public interface AdminService {
     List<EquipmentModel> findEquipmentOfType(Type type);
 
     List<EquipmentModel> findAllEquipment();
+
+    void saveAbilities(Abilities abilities);
+
+    Abilities findAbilities(Long aLong);
 }

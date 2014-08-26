@@ -24,6 +24,7 @@ public class CharacterModel {
     private Integer level;
     private boolean encumbered;
     private Integer speed = 0;
+    private Integer armorClass;
 
     @ManyToOne
     private RaceModel race;
@@ -233,7 +234,7 @@ public class CharacterModel {
     public Integer getSaveDC() {
         if (getClazz() != null && getClazz().getMagicAbility() != null) {
             //TODO add prof Modifier to the save DC
-            return 8 + abilities.getAbilityScore(AbilityTypeEnum.valueOf(getClazz().getMagicAbility()));
+            return 8 + abilities.getAbilityScore(AbilityTypeEnum.getValueOf(getClazz().getMagicAbility()));
         }
         return null;
     }
@@ -250,11 +251,11 @@ public class CharacterModel {
         if(getMultiClassList() != null){
             AbilityTypeEnum magicAbility = null;
             if(this.clazz.getId() == classId){
-                magicAbility = AbilityTypeEnum.valueOf(this.clazz.getMagicAbility());
+                magicAbility = AbilityTypeEnum.getValueOf(this.clazz.getMagicAbility());
             }else{
                 for(ClassModel clazz : this.multiClassList){
                     if(clazz.getId() == classId){
-                        magicAbility = AbilityTypeEnum.valueOf(clazz.getMagicAbility());
+                        magicAbility = AbilityTypeEnum.getValueOf(clazz.getMagicAbility());
                     }
                 }
             }
@@ -288,5 +289,13 @@ public class CharacterModel {
 
     public void setClazz(ClassModel clazz) {
         this.clazz = clazz;
+    }
+
+    public Integer getArmorClass() {
+        return armorClass;
+    }
+
+    public void setArmorClass(Integer armorClass) {
+        this.armorClass = armorClass;
     }
 }

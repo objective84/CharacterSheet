@@ -141,6 +141,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setClazz(classModel);
         character.setCoinPurse(currencyService.getStartingWealth(classModel.getStartingWealthDie(), classModel.getStartingWealthDieAmount()));
         character.setMaxHealth(classModel.getHitDie().getMaxRoll());
+        character.setCurrentHealth(character.getMaxHealth());
         characterService.save(character);
 
         return assembleCharacter(character);
@@ -258,6 +259,32 @@ public class DefaultCharacterFacade implements CharacterFacade {
         return equipmentModels;
     }
 
+    @Override
+    public void equipArmor(String characterId, String itemId) {
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        if(itemId.equals("0")){
+            character.setEquippedArmor(null);
+        }else {
+            character.setEquippedArmor(adminFacade.getArmorModel(Long.decode(itemId)));
+        }
+        characterService.save(character);
+    }
+
+    private void setAC(CharacterModel character){
+        Integer ac = 0;
+        Integer dexMod = character.getAbilities().getAbilityModifier(AbilityTypeEnum.Dex);
+        if(character.getEquippedArmor() == null){
+            ac = 10;
+
+        }else {
+            ac = character.getEquippedArmor().getArmorClass();
+            if(dexMod > character.getEquippedArmor().getMaxDexModifier()){
+                dexMod = character.getEquippedArmor().getMaxDexModifier();
+            }
+        }
+        character.setArmorClass(ac + dexMod);
+    }
+
     private Boolean hasProficiency(CharacterModel character, EquipmentModel equipment){
         for(Proficiency proficiency : equipment.getProficiencies()){
             if(character.getProficiencies().contains(proficiency)){
@@ -303,6 +330,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         setCharacterProficiencies(character);
         setCharacterSpeed(character);
         processTraits(character);
+        setAC(character);
         return character;
     }
 

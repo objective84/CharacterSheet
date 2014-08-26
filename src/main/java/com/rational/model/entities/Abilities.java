@@ -34,6 +34,15 @@ public class Abilities {
         this.cha = cha;
     }
 
+    public Abilities(String str, String dex, String con, String intel, String wis, String cha){
+        this.str = Integer.decode(str);
+        this.dex = Integer.decode(dex);
+        this.con = Integer.decode(con);
+        this.intel = Integer.decode(intel);
+        this.wis = Integer.decode(wis);
+        this.cha = Integer.decode(cha);
+    }
+
     public void setAbilityScore(AbilityTypeEnum ability, Integer score){
         try {
             this.getClass().getMethod("set" + ability.toString(), Integer.class).invoke(this, score);
@@ -75,6 +84,14 @@ public class Abilities {
             return Math.round(score/2 - 5);
         else
             return null;
+    }
+
+    public Integer getTotalAbilityCost(){
+        return getScoreCost(str) + getScoreCost(dex) + getScoreCost(con) + getScoreCost(intel) + getScoreCost(wis) + getScoreCost(cha);
+    }
+
+    public Integer getScoreCost(Integer score){
+        return score - 8 + (score - 13 > 0 ? score - 13: 0);
     }
 
     public Long getId() {

@@ -14,8 +14,14 @@ public enum AbilityTypeEnum{
         this.type = type;
     }
 
-    public static String value(AbilityTypeEnum abilityType){
-        return abilityType.type;
+    public static AbilityTypeEnum getValueOf(String value){
+        if(value.equals("Int")) return Int;
+        return AbilityTypeEnum.valueOf(value);
+    }
+
+    @Override
+    public String toString(){
+        return type;
     }
 
     public String getType() {

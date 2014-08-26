@@ -39,4 +39,8 @@ public interface CharacterFacade {
     List<EquipmentModel> filterEquipmentList(List<String> filters, String characterId);
 
     List<EquipmentModel> filterByProficiency(String characterId);
+
+//    Abilities increaseDecreaseAbilityScore(String characterId, String type, Boolean positive);
+
+    void equipArmor(String characterId, String itemId);
 }

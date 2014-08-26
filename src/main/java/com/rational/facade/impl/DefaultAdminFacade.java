@@ -200,8 +200,8 @@ public class DefaultAdminFacade implements AdminFacade {
     }
 
     @Override
-    public RaceModel getRaceModel(Long id) {
-        return adminService.findRace(id);
+    public RaceModel getRaceModel(String id) {
+        return adminService.findRace(Long.decode(id));
     }
 
     @Override
@@ -367,5 +367,15 @@ public class DefaultAdminFacade implements AdminFacade {
     @Override
     public List<EquipmentModel> getAllEquipmentModels(){
         return adminService.findAllEquipment();
+    }
+
+    @Override
+    public void saveAbilities(Abilities abilities) {
+        adminService.saveAbilities(abilities);
+    }
+
+    @Override
+    public Abilities findAbilities(String id) {
+        return adminService.findAbilities(Long.valueOf(id));
     }
 }

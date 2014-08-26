@@ -17,6 +17,7 @@ public class WeaponModel extends EquipmentModel{
     private Integer weaponRange;
     private Integer maxWeaponRange;
     private Dice damageDice;
+
     private DamageType damageType;
 
     private Integer numberOfDice;
@@ -39,7 +40,7 @@ public class WeaponModel extends EquipmentModel{
     public void setWeaponGroup(WeaponGroup weaponGroup) {
         this.weaponGroup = weaponGroup;
     }
-//
+
     public Integer getNumberOfDice() {
         return numberOfDice;
     }
