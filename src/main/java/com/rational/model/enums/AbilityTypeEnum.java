@@ -23,4 +23,8 @@ public enum AbilityTypeEnum{
     public String toString(){
         return type;
     }
+
+    public String getType() {
+        return type;
+    }
 }

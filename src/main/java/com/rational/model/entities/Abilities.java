@@ -57,7 +57,7 @@ public class Abilities {
 
     public Integer getAbilityScore(AbilityTypeEnum ability){
         try {
-            return (Integer)this.getClass().getMethod("get" + ability.toString()).invoke(this);
+            return (Integer)this.getClass().getMethod("get" + ability.getType()).invoke(this);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
