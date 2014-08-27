@@ -2,6 +2,7 @@ package com.rational.facade;
 
 import com.rational.forms.Character;
 import com.rational.model.Proficiency;
+import com.rational.model.entities.Abilities;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.enums.ProficiencyTypeEnum;
 import com.rational.model.equipment.EquipmentModel;
@@ -30,7 +31,7 @@ public interface CharacterFacade {
 
     CharacterModel setCharacterClass(Long characterId, Long classId);
 
-    CharacterModel setCharacterRace(String characterId, String raceId);
+    com.rational.model.entities.RaceModel setCharacterRace(String characterId, String raceId);
 
     Set<Proficiency> getProficienciesOfType(Set<Proficiency> proficiencies, ProficiencyTypeEnum type);
 
@@ -43,4 +44,6 @@ public interface CharacterFacade {
 //    Abilities increaseDecreaseAbilityScore(String characterId, String type, Boolean positive);
 
     void equipArmor(String characterId, String itemId);
+
+    Abilities findAbilities(String characterId);
 }

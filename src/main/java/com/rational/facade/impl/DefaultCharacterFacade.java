@@ -148,17 +148,18 @@ public class DefaultCharacterFacade implements CharacterFacade {
     }
 
     @Override
-    public CharacterModel setCharacterRace(String characterId, String raceId) {
+    public RaceModel setCharacterRace(String characterId, String raceId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         character.setSubrace(null);
+        RaceModel race;
         if(raceId == "0"){
-            character.setRace(null);
+            race = null;
         }else {
-            RaceModel race = adminService.findRace(Long.decode(raceId));
-            character.setRace(race);
+            race = adminService.findRace(Long.decode(raceId));
         }
+        character.setRace(race);
         characterService.save(character);
-        return assembleCharacter(character);
+        return race;
     }
 
     @Override
@@ -268,6 +269,12 @@ public class DefaultCharacterFacade implements CharacterFacade {
             character.setEquippedArmor(adminFacade.getArmorModel(Long.decode(itemId)));
         }
         characterService.save(character);
+    }
+
+    @Override
+    public Abilities findAbilities(String id) {
+        CharacterModel character = characterService.findCharacter(Long.decode(id));
+        return assembleCharacter(character).getAbilities();
     }
 
     private void setAC(CharacterModel character){

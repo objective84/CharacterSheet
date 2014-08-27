@@ -19,12 +19,20 @@ define("RaceModel",
                     proficiencies: null
                 },
 
-                url: function(url){
-                    if(url) {
-                        return url;
+                fetchRace: function(options){
+                    options = options || {};
+                    if (options.characterId !== undefined) {
+                        options.url = $('#pathContext').val() + '/race/' + options.characterId + '/' + this.get('id') + '.json';
                     }else{
-                        return $('#pathContext').val() + '/race/' + this.get('id') + '.json';
+                        options.url = $('#pathContext').val() + '/race/' + this.get('id') + '.json';
+
                     }
+
+                    return Backbone.Model.prototype.fetch.call(this, options);
+                },
+
+                url: function(){
+                    return $('#pathContext').val() + '/race/' + this.characterId + '/' + this.get('id') + '.json';
                 }
             }
         );

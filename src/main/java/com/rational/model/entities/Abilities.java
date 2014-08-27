@@ -86,10 +86,6 @@ public class Abilities {
             return null;
     }
 
-    public Integer getTotalAbilityCost(){
-        return getScoreCost(str) + getScoreCost(dex) + getScoreCost(con) + getScoreCost(intel) + getScoreCost(wis) + getScoreCost(cha);
-    }
-
     public Integer getScoreCost(Integer score){
         return score - 8 + (score - 13 > 0 ? score - 13: 0);
     }

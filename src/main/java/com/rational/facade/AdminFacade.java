@@ -136,7 +136,7 @@ public interface AdminFacade {
 
     List<EquipmentModel> getAllEquipmentModels();
 
-    void saveAbilities(Abilities abilities);
+    Abilities saveAbilities(Abilities abilities);
 
     Abilities findAbilities(String id);
 }

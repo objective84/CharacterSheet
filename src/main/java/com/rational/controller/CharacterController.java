@@ -142,16 +142,17 @@ public class CharacterController {
         return characterFacade.getCharacterModel(Long.valueOf(characterId));
     }
 
+    @ResponseBody
     @RequestMapping(value = "/abilities", method = RequestMethod.POST, consumes = "application/json")
-    public String saveAbilities(@RequestBody Abilities abilities){
-        adminFacade.saveAbilities(abilities);
-        return "success";
+    public Abilities saveAbilities(@RequestBody Abilities abilities){
+        Abilities saved =  adminFacade.saveAbilities(abilities);
+        return saved;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/abilities/{id}", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
-    public Abilities saveAbilities(@PathVariable String id){
-        Abilities abilities = adminFacade.findAbilities(id);
+    @RequestMapping(value = "/abilities/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public Abilities getAbilities(@PathVariable String characterId){
+        Abilities abilities = characterFacade.findAbilities(characterId);
         return abilities;
     }
 
@@ -182,10 +183,11 @@ public class CharacterController {
         return raceModel;
     }
 
+    @ResponseBody
     @RequestMapping(value="/race/{characterId}/{raceId}", method = RequestMethod.POST)
-    public String setCharacterRace(@PathVariable String characterId, @PathVariable String raceId){
-        characterFacade.setCharacterRace(characterId, raceId);
-        return "success";
+    public RaceModel setCharacterRace(@PathVariable String characterId, @PathVariable String raceId){
+        RaceModel race = characterFacade.setCharacterRace(characterId, raceId);
+        return race;
     }
 
     @ResponseBody

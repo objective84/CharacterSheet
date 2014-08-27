@@ -370,12 +370,13 @@ public class DefaultAdminFacade implements AdminFacade {
     }
 
     @Override
-    public void saveAbilities(Abilities abilities) {
-        adminService.saveAbilities(abilities);
+    public Abilities saveAbilities(Abilities abilities) {
+        return adminService.saveAbilities(abilities);
     }
 
     @Override
     public Abilities findAbilities(String id) {
-        return adminService.findAbilities(Long.valueOf(id));
+        CharacterModel character = characterService.findCharacter(Long.decode(id));
+        return character.getAbilities();
     }
 }

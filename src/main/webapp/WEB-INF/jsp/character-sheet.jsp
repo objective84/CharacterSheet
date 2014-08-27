@@ -39,12 +39,12 @@
                 <td><spring:message code="character.race"/></td>
                 <c:choose>
                     <c:when test="${create}">
-                        <td><form:select id="race" path="race">
-                            <form:option value="0" label="Select a race"/>
+                        <td><select id="race">
+                            <option value="0">Select a race</option>
                             <c:forEach items="${races}" var="race">
-                                <form:option value="${race.id}" label="${race.raceName}"/>
+                                <option value="${race.id}">${race.raceName}</option>
                             </c:forEach>
-                        </form:select></td>
+                        </select></td>
                     </c:when>
                     <c:otherwise>
                         <td>${characterModel.race.raceName}</td>
@@ -77,6 +77,7 @@
                         <td>${characterModel.clazz.name}</td>
                     </c:otherwise>
                 </c:choose>
+                <td><input type="button" id="fetch-character" value="Fetch Character"></td>
             </tr>
             <tr >
                 <td><spring:message code="character.level"/></td>
