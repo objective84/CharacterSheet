@@ -76,6 +76,7 @@ define("CharacterView",
 
             refreshCharacter: function(){
                 this.model.fetch({success: _.bind(function(){
+                    debugger;
                     this.abilitiesView.fetchAbilities();
                     this.languagesAllowed = setLanguagesAllowed(this.model);
                     this.setLanguageTable();
@@ -118,12 +119,20 @@ define("CharacterView",
 
                     this.raceView.fetch(_.bind(function(){
                         this.model.race = this.raceView.model;
-                    },this))
+                    },this));
                     this.listenTo(this.abilitiesView, 'updateAbilities', _.bind(this.abilitiesView.fetchAbilities, this.abilitiesView));
-                    this.listenTo(this.raceView, 'updateAbilities', _.bind(this.abilitiesView.fetchAbilities, this.abilitiesView));
-                    this.listenTo(this.raceView, 'updateProficiencies', this.setProficiencies);
+                    this.listenTo(this.raceView, 'raceUpdated', _.bind(this.onRaceUpdated, this));
                 }, this)});
 
+            },
+
+            onRaceUpdated: function(){
+                this.model.fetch({success: _.bind(function(){
+                    this.abilitiesView.fetchAbilities();
+                    this.setProficiencies();
+                    this.setLanguageTable();
+                    this.setLanguageSelectionLink();
+                }, this)});
             },
 
             setAC: function(){
@@ -315,9 +324,9 @@ define("CharacterView",
 //                }
 //            },
 
-            setLanguageTable: function(model){
+            setLanguageTable: function(){
                 $('.language-row').remove();
-                $(model.get('languages')).each(_.bind(function(key, value){
+                $(this.model.get('languages')).each(_.bind(function(key, value){
                     $('#languages').append('<tr class="language-row"><td><input name="languages" type="hidden" value="' + value.id + '">' + value.name + '</input></td>')
                 }, this));
             },

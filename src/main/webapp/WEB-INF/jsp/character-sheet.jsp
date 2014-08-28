@@ -225,29 +225,29 @@
             <table class="side-by-side proficiencies" id="skillProfs">
                 <tr><th>Skills</th></tr>
                 <c:forEach items="${skillProficiencies}" var="skill">
-                    <tr><td>${skill.name}</td></tr>
+                    <tr class="proficiency-row"><td>${skill.name}</td></tr>
                 </c:forEach>
             </table>
             <table class="side-by-side proficiencies" id="toolProfs">
                 <tr><th>Tools</th></tr>
                 <c:forEach items="${toolProficiencies}" var="tool">
-                    <tr><td>${tool.name}</td></tr>
+                    <tr class="proficiency-row"><td>${tool.name}</td></tr>
                 </c:forEach>
             </table>
             <table class="side-by-side proficiencies" id="weaponProfs">
                 <tr><th>Weapons</th></tr>
                 <c:forEach items="${weaponProficiencies}" var="weapon">
-                    <tr><td>${weapon.name}</td></tr>
+                    <tr class="proficiency-row"><td>${weapon.name}</td></tr>
                 </c:forEach>
             </table>
             <table class="side-by-side proficiencies" id="armorProfs">
                 <tr><th>Armor</th></tr>
                 <c:forEach items="${armorProficiencies}" var="armor">
-                    <tr><td>${armor.name}</td></tr>
+                    <tr class="proficiency-row"><td>${armor.name}</td></tr>
                 </c:forEach>
             </table>
             <table class="side-by-side proficiencies" id="saveProfs">
-                <tr><th>Saving Throws</th></tr>
+                <tr class="proficiency-row"><th>Saving Throws</th></tr>
                 <c:forEach items="${savingThrowProficiencies}" var="save">
                     <tr><td>${save.name}</td></tr>
                 </c:forEach>

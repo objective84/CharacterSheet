@@ -44,8 +44,7 @@ define("RaceView",
                 this.model.set('id', $(event.target).val());
                 this.model.save(null, {success: _.bind(function(){
                     this.setSubRaces();
-                    this.trigger('updateProficiencies');
-                    this.trigger('updateAbilities');
+                    this.trigger('raceUpdated');
                 }, this)});
             },
 
