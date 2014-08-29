@@ -35,8 +35,7 @@ public class Dice {
 
     public Dice(){}
 
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     public Long getId() {
         return id;
     }
@@ -73,8 +72,8 @@ public class Dice {
         this.classes = classes;
     }
 
-    @OneToMany(mappedBy = "damageDice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
+    @OneToMany(mappedBy = "damageDice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<WeaponModel> getWeapons() {
         return weapons;
     }
@@ -99,8 +98,7 @@ public class Dice {
         this.classWealthDie = classWealthDie;
     }
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "damageDice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference @OneToMany(mappedBy = "damageDice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public List<SpellModel> getSpells() {
         return spells;
     }

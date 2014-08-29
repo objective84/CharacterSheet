@@ -160,14 +160,6 @@ public class CharacterController {
     }
 
     @ResponseBody
-    @RequestMapping(value="/class", method = RequestMethod.GET, produces = "application/json")
-    public CharacterModel setCharacterClass(@RequestParam(value = "characterId") String characterId,
-                                            @RequestParam(value = "classId") String classId){
-        CharacterModel characterModel = characterFacade.setCharacterClass(Long.valueOf(characterId), Long.valueOf(classId));
-        return characterModel;
-    }
-
-    @ResponseBody
     @RequestMapping(value = "/proficiencies", method = RequestMethod.GET, produces = "application/json")
     public ProficienciesForm getProficiencies(@RequestParam(value = "classId") String classId){
         return new ProficienciesForm(adminFacade.getClassModel(Long.valueOf(classId)).getProficiencies());
@@ -207,7 +199,19 @@ public class CharacterController {
         return subrace;
     }
 
+    @ResponseBody
+    @RequestMapping(value="/class/{characterId}/{classId}", method = RequestMethod.POST, produces = "application/json")
+    public ClassModel setCharacterClass(@PathVariable String characterId, @PathVariable String classId){
+        ClassModel clazz = characterFacade.setCharacterClass(Long.valueOf(characterId), Long.valueOf(classId));
+        return clazz;
+    }
 
+    @ResponseBody
+    @RequestMapping(value="/class/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public ClassModel getCharacterClass(@PathVariable String characterId){
+        ClassModel clazz = characterFacade.getCharacterClass(characterId);
+        return clazz;
+    }
 
 
 

@@ -1,7 +1,9 @@
 package com.rational.model.entities;
 
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * Created by Andy on 8/22/2014.
@@ -13,6 +15,9 @@ public class DamageType {
     private Long id;
     private String name;
     private String description;
+
+//    @JsonBackReference @OneToMany(mappedBy = "damageType", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<SpellModel> spells = new ArrayList<SpellModel>();
 
     public Long getId() {
         return id;
@@ -38,4 +43,11 @@ public class DamageType {
         this.description = description;
     }
 
+//    public List<SpellModel> getSpells() {
+//        return spells;
+//    }
+//
+//    public void setSpells(List<SpellModel> spells) {
+//        this.spells = spells;
+//    }
 }

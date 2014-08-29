@@ -1,6 +1,6 @@
 define("CharacterView",
-    ["jquery", "underscore", "marionette", "CharacterModel", 'jqueryUi', 'epoxy', 'AbilitiesView', 'CoinPurseView', 'RaceView', 'SubraceView'],
-    function($, _, marionette, CharacterModel, jqueryUi, epoxy, AbilitiesView, CoinPurseView, RaceView, SubraceView){
+    ["jquery", "underscore", "marionette", "CharacterModel", 'jqueryUi', 'epoxy', 'AbilitiesView', 'CoinPurseView', 'RaceView', 'SubraceView', 'ClassView'],
+    function($, _, marionette, CharacterModel, jqueryUi, epoxy, AbilitiesView, CoinPurseView, RaceView, SubraceView, ClassView){
         var view = marionette.ItemView.extend({
             el: '#character-sheet',
             model: null,
@@ -12,6 +12,7 @@ define("CharacterView",
             coinPurseView: null,
             raceView: null,
             subraceView: null,
+            classView: null,
 
             ui:{
                 id: '#characterId',
@@ -58,7 +59,6 @@ define("CharacterView",
             },
 
             events:{
-                'change @ui.clazz': 'onClassChange',
                 'change @ui.race' : 'onRaceChange',
                 'click @ui.languageSubmit' : 'onLanguageSubmitClick',
                 'click @ui.storeLink': 'onStoreLinkClick',
@@ -120,25 +120,27 @@ define("CharacterView",
                     this.raceView.fetch(_.bind(function(){
                         this.model.race = this.raceView.model;
                     },this));
-                    this.listenTo(this.raceView, 'raceUpdated', _.bind(this.onRaceUpdated, this));
+                    this.listenTo(this.raceView, 'raceUpdated', _.bind(this.
+                        onRaceUpdated, this));
 
                     this.subraceView = new SubraceView();
                     this.subraceView.render();
                     this.subraceView.setCharacterId(this.model.get('id'));
                     if(this.model.get('subrace'))this.subraceView.model.set('id', this.model.get('subrace').id);
-                    this.raceView.fetch(_.bind(function(){
+                    this.subraceView.fetch(_.bind(function(){
                         this.model.race = this.raceView.model;
                     },this));
-                    this.listenTo(this.raceView, 'subraceUpdated', _.bind(this.onSubraceUpdated, this));
+                    this.listenTo(this.subraceView, 'subraceUpdated', _.bind(this.onSubraceUpdated, this));
 
-//                    this.subraceView = new SubraceView();
-//                    this.subraceView.render();
-//                    this.subraceView.setCharacterId(this.model.get('id'));
-//                    if(this.model.get('subrace'))this.subraceView.model.set('id', this.model.get('subrace').id);
-//                    this.subraceView.fetch(_.bind(function(){
-//                        this.model.subrace = this.subraceView.model;
-//                    }, this));
-//                    this.listenTo(this.subraceView, 'subraceUpdated', _.bind(this.onSubraceUpdated, this));
+                    this.classView = new ClassView();
+                    this.classView.render();
+                    this.classView.setCharacterId(this.model.get('id'));
+                    if(this.model.get('clazz'))this.classView.model.set('id', this.model.get('clazz').id);
+                    this.classView.fetch(_.bind(function(){
+                        this.model.clazz = this.classView.model;
+                    },this));
+                    this.listenTo(this.classView, 'classUpdated', _.bind(this.onClassUpdated, this));
+
                 }, this)});
             },
 
@@ -159,6 +161,14 @@ define("CharacterView",
 
             },
 
+            onClassUpdated: function(){
+                this.model.fetch({success: _.bind(function(){
+                    this.skillsAllowed = 0;
+                    this.setSkillProficienciesOptions();
+                    console.log(this.classView.model)
+                }, this)})
+            },
+
             setAC: function(){
                 if(this.model.get('equippedArmor')){
                     var armor = this.model.get('equippedArmor');
@@ -174,23 +184,6 @@ define("CharacterView",
             setTraits: function(){
                 for(var i= 0; i< this.model.get('traits'); i++){
                     this.ui.traits.append("<tr><td>" + this.model.get('traits')[i].name + "</td></tr>");
-                }
-            },
-
-            onClassChange: function(event){
-                if($(event.target).val() === '0'){
-                    $('.proficiency-row').remove();
-                    this.skillsAllowed = 0;
-                    this.setSkillProficienciesOptions();
-                    this.model.set('clazz', null);
-                }else {
-                    var data = {
-                        'characterId': this.model.get('id') + '',
-                        'classId': this.ui.clazz.val() + ''
-                    };
-                    $.getJSON("class.json", data, _.bind(function (character) {
-                        this.fetchModel();
-                    }, this));
                 }
             },
 

@@ -257,7 +257,7 @@
             <br/>
             <h3><spring:message code="character.languages"/></h3>
             <table id="languages">
-                <c:forEach items="${characterModel.race.languages}" var="language">
+                <c:forEach items="${character.race.languages}" var="language">
                     <tr class="language-row"><td>${language.name}</td></tr>
                 </c:forEach>
             </table>

@@ -3,29 +3,30 @@
  */
 
 
-define("SubraceView",
-    ["jquery", "underscore", "marionette", "AbilitiesModel", 'jqueryUi', 'epoxy', 'SubraceModel'],
-    function($, _, marionette, CharacterModel, jqueryUi, epoxy, SubraceModel) {
+define("ClassView",
+    ["jquery", "underscore", "marionette", "AbilitiesModel", 'jqueryUi', 'epoxy', 'ClassModel'],
+    function($, _, marionette, CharacterModel, jqueryUi, epoxy, ClassModel) {
         var view = marionette.ItemView.extend({
             el: '#character-sheet',
             model: null,
             characterId: '',
 
             ui: {
-                subrace: '#subrace'
+                clazz: '#class-select'
             },
 
             events: {
-                'change @ui.subrace' : 'onSubraceChange'
+                'change @ui.clazz' : 'onClassChange'
             },
 
             onRender: function(){
-                this.model = new SubraceModel();
+                this.model = new ClassModel();
             },
 
             fetch: function(callback){
-                this.model.fetchSubrace({success: _.bind(function(){
+                this.model.fetchClass({success: _.bind(function(){
                     if(callback)callback();
+                    console.log(this.model)
                 },this)});
             },
 
@@ -37,10 +38,10 @@ define("SubraceView",
 //                $('#pathContext').val() + '/race/' + this.get('_id') + '/' + this.characterId + '.json';
             },
 
-            onSubraceChange : function(){
-                this.model.set('id', this.ui.subrace.val());
+            onClassChange : function(){
+                this.model.set('id', this.ui.clazz.val());
                 this.model.save(null, {success: _.bind(function(){
-                    this.trigger('subraceUpdated');
+                    this.trigger('classUpdated');
                 }, this)});
             },
 

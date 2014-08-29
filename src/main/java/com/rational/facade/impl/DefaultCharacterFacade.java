@@ -135,7 +135,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
     }
 
     @Override
-    public CharacterModel setCharacterClass(Long characterId, Long classId) {
+    public ClassModel setCharacterClass(Long characterId, Long classId) {
         CharacterModel character = characterService.findCharacter(characterId);
         ClassModel classModel = adminService.findClass(classId);
         character.setClazz(classModel);
@@ -144,7 +144,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setCurrentHealth(character.getMaxHealth());
         characterService.save(character);
 
-        return assembleCharacter(character);
+        return classModel;
     }
 
     @Override
@@ -283,6 +283,11 @@ public class DefaultCharacterFacade implements CharacterFacade {
     public Abilities findAbilities(String id) {
         CharacterModel character = characterService.findCharacter(Long.decode(id));
         return assembleCharacter(character).getAbilities();
+    }
+
+    @Override
+    public ClassModel getCharacterClass(String characterId) {
+        return characterService.findCharacter(Long.decode(characterId)).getClazz();
     }
 
     private void setAC(CharacterModel character){

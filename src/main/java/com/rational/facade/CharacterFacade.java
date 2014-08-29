@@ -4,6 +4,7 @@ import com.rational.forms.Character;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.Abilities;
 import com.rational.model.entities.CharacterModel;
+import com.rational.model.entities.ClassModel;
 import com.rational.model.entities.SubRaceModel;
 import com.rational.model.enums.ProficiencyTypeEnum;
 import com.rational.model.equipment.EquipmentModel;
@@ -30,7 +31,7 @@ public interface CharacterFacade {
 
     CharacterModel purchaseGear(Long charId, Set<Long> equipmentIds) throws PurchaseException;
 
-    CharacterModel setCharacterClass(Long characterId, Long classId);
+    com.rational.model.entities.ClassModel setCharacterClass(Long characterId, Long classId);
 
     com.rational.model.entities.RaceModel setCharacterRace(String characterId, String raceId);
 
@@ -49,4 +50,6 @@ public interface CharacterFacade {
     void equipArmor(String characterId, String itemId);
 
     Abilities findAbilities(String characterId);
+
+    ClassModel getCharacterClass(String characterId);
 }

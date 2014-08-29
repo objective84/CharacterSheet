@@ -15,6 +15,7 @@ require.config({
         CoinPurseView: 'View/CoinPurseView',
         RaceView: 'View/RaceView',
         SubraceView: 'View/SubraceView',
+        ClassView: 'View/ClassView',
         // Behaviors
         // Other
         main: 'main',
