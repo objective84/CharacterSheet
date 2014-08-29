@@ -131,6 +131,11 @@ public class DefaultAdminFacade implements AdminFacade {
     }
 
     @Override
+    public SubRaceModel findSubraceModel(Long id) {
+        return adminService.findSubrace(id);
+    }
+
+    @Override
     public List<SubRace> findAllSubraces() {
         return subRaceConverter.convertToForms(adminService.findAllSubraces());
     }

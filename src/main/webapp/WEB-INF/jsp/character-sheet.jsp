@@ -149,19 +149,19 @@
             </table>
             <table class="side-by-side ability-row">
                 <tr>
-                    <td>Copper:</td><td> <form:input path="coinPurse['copper']" cssClass="input-box-small" id="money-copper" /></td>
+                    <td>Copper:</td><td> <input class="input-box-small" id="money-copper" /></td>
                 </tr>
                 <tr>
-                    <td>Silver:</td><td> <form:input path="coinPurse['silver']" cssClass="input-box-small" id="money-silver" /></td>
+                    <td>Silver:</td><td> <input class="input-box-small" id="money-silver" /></td>
                 </tr>
                 <tr>
-                    <td>Electrum:</td><td> <form:input path="coinPurse['electrum']" cssClass="input-box-small" id="money-electrum" /></td>
+                    <td>Electrum:</td><td> <input class="input-box-small" id="money-electrum" /></td>
                 </tr>
                 <tr>
-                    <td>Gold:</td><td> <form:input path="coinPurse['gold']" cssClass="input-box-small" id="money-gold" /></td>
+                    <td>Gold:</td><td> <input class="input-box-small" id="money-gold" /></td>
                 </tr>
                 <tr>
-                    <td>Platinum:</td><td> <form:input path="coinPurse['platinum']" cssClass="input-box-small" id="money-platinum" /></td>
+                    <td>Platinum:</td><td> <input class="input-box-small" id="money-platinum" /></td>
                 </tr>
             </table>
             <table class="side-by-side ability-row">

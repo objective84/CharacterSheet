@@ -174,7 +174,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
     }
 
     @Override
-    public CharacterModel setCharacterSubrace(String characterId, String subraceId) {
+    public SubRaceModel setCharacterSubrace(String characterId, String subraceId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         if(subraceId == "0"){
             character.setSubrace(null);
@@ -183,7 +183,12 @@ public class DefaultCharacterFacade implements CharacterFacade {
             character.setSubrace(subrace);
         }
         characterService.save(character);
-        return assembleCharacter(character);
+        return character.getSubrace();
+    }
+
+    @Override
+    public SubRaceModel getCharacterSubrace(String characterId){
+        return characterService.findCharacter(Long.valueOf(characterId)).getSubrace();
     }
 
     private void setCharacterLanguages(CharacterModel character){
@@ -213,6 +218,9 @@ public class DefaultCharacterFacade implements CharacterFacade {
         Set<TraitModel> traitModels =  new HashSet<TraitModel>();
         if(null != character.getRace()) {
             traitModels.addAll(character.getRace().getTraits());
+        }
+        if(null != character.getSubrace()) {
+            traitModels.addAll(character.getSubrace().getSubRacialTraits());
         }
         if(null != character.getClazz()) {
             traitModels.addAll(character.getClazz().getClassTraits());

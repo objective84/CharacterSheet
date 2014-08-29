@@ -1,6 +1,6 @@
 define("CharacterView",
-    ["jquery", "underscore", "marionette", "CharacterModel", 'jqueryUi', 'epoxy', 'AbilitiesView', 'CoinPurseView', 'RaceView'],
-    function($, _, marionette, CharacterModel, jqueryUi, epoxy, AbilitiesView, CoinPurseView, RaceView){
+    ["jquery", "underscore", "marionette", "CharacterModel", 'jqueryUi', 'epoxy', 'AbilitiesView', 'CoinPurseView', 'RaceView', 'SubraceView'],
+    function($, _, marionette, CharacterModel, jqueryUi, epoxy, AbilitiesView, CoinPurseView, RaceView, SubraceView){
         var view = marionette.ItemView.extend({
             el: '#character-sheet',
             model: null,
@@ -11,6 +11,7 @@ define("CharacterView",
             abilitiesView: null,
             coinPurseView: null,
             raceView: null,
+            subraceView: null,
 
             ui:{
                 id: '#characterId',
@@ -65,9 +66,8 @@ define("CharacterView",
                 'change @ui.equipMain': 'onEquipMainChange',
                 'change @ui.equipOff': 'onEquipOffChange',
                 'change @ui.equipArmor': 'onEquipArmorChange',
-                'change @ui.subrace' : 'onSubraceChange',
                 'click @ui.storeSubmit': 'onStoreSubmitClick',
-                'click #fetch-character' : 'fetchModel'
+                'click #fetch-character' : 'refreshCharacter'
             },
 
             onRender: function(){
@@ -107,6 +107,7 @@ define("CharacterView",
                     this.abilitiesView.model.characterId = this.model.get('id');
                     this.model.set('abilities', this.abilitiesView.model);
                     this.abilitiesView.fetchAbilities();
+                    this.listenTo(this.abilitiesView, 'updateAbilities', _.bind(this.abilitiesView.fetchAbilities, this.abilitiesView));
 
                     this.coinPurseView = new CoinPurseView();
                     this.coinPurseView.onRender(this.model.get('coinPurse'));
@@ -116,14 +117,29 @@ define("CharacterView",
                     this.raceView.render();
                     this.raceView.setCharacterId(this.model.get('id'));
                     if(this.model.get('race'))this.raceView.model.set('id', this.model.get('race').id);
-
                     this.raceView.fetch(_.bind(function(){
                         this.model.race = this.raceView.model;
                     },this));
-                    this.listenTo(this.abilitiesView, 'updateAbilities', _.bind(this.abilitiesView.fetchAbilities, this.abilitiesView));
                     this.listenTo(this.raceView, 'raceUpdated', _.bind(this.onRaceUpdated, this));
-                }, this)});
 
+                    this.subraceView = new SubraceView();
+                    this.subraceView.render();
+                    this.subraceView.setCharacterId(this.model.get('id'));
+                    if(this.model.get('subrace'))this.subraceView.model.set('id', this.model.get('subrace').id);
+                    this.raceView.fetch(_.bind(function(){
+                        this.model.race = this.raceView.model;
+                    },this));
+                    this.listenTo(this.raceView, 'subraceUpdated', _.bind(this.onSubraceUpdated, this));
+
+//                    this.subraceView = new SubraceView();
+//                    this.subraceView.render();
+//                    this.subraceView.setCharacterId(this.model.get('id'));
+//                    if(this.model.get('subrace'))this.subraceView.model.set('id', this.model.get('subrace').id);
+//                    this.subraceView.fetch(_.bind(function(){
+//                        this.model.subrace = this.subraceView.model;
+//                    }, this));
+//                    this.listenTo(this.subraceView, 'subraceUpdated', _.bind(this.onSubraceUpdated, this));
+                }, this)});
             },
 
             onRaceUpdated: function(){
@@ -133,6 +149,14 @@ define("CharacterView",
                     this.setLanguageTable();
                     this.setLanguageSelectionLink();
                 }, this)});
+            },
+
+            onSubraceUpdated: function(){
+                this.model.fetch({success: _.bind(function(){
+                    this.abilitiesView.fetchAbilities();
+                    this.setProficiencies();
+                }, this)});
+
             },
 
             setAC: function(){

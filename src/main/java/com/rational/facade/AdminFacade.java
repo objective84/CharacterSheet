@@ -48,6 +48,8 @@ public interface AdminFacade {
 
     SubRace findSubrace(Long id);
 
+    SubRaceModel findSubraceModel(Long id);
+
     List<SubRace> findAllSubraces();
 
 

@@ -7,10 +7,7 @@ import com.rational.forms.Character;
 import com.rational.forms.ProficienciesForm;
 import com.rational.forms.ResponseData;
 import com.rational.model.Proficiency;
-import com.rational.model.entities.Abilities;
-import com.rational.model.entities.CharacterModel;
-import com.rational.model.entities.CoinPurse;
-import com.rational.model.entities.RaceModel;
+import com.rational.model.entities.*;
 import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.enums.EquipmentFilterEnum;
 import com.rational.model.equipment.ArmorModel;
@@ -90,7 +87,7 @@ public class CharacterController {
     @RequestMapping(value="/character-sheet", method= RequestMethod.GET)
     public ModelAndView character(final Model model, HttpSession session) {
         ModelAndView mav = new ModelAndView(CHARACTER);
-        Character character= (Character)session.getAttribute("character");
+        Character character = (Character)session.getAttribute("character");
         CharacterModel characterModel;
         mav.addObject("create", true);
         if(null == character.getId()){
@@ -105,9 +102,9 @@ public class CharacterController {
         mav.addObject("raceMap", adminFacade.getRaceMap());
         mav.addObject("races", adminFacade.findAllRaces());
         mav.addObject("languages", adminFacade.findAllLanguages());
-        mav.addObject("characterModel", characterModel);
+        mav.addObject("character", characterModel);
         addEquipmentToModel(mav, characterModel);
-        mav.addObject("character", character);
+//        mav.addObject("character", character);
         mav.addObject("abilityTypes", AbilityTypeEnum.values());
         mav.addObject("weaponFilters", EquipmentFilterEnum.getWeaponFilters());
         mav.addObject("armorFilters", EquipmentFilterEnum.getArmorFilters());
@@ -197,12 +194,62 @@ public class CharacterController {
     }
 
     @ResponseBody
-    @RequestMapping(value="/subrace", method = RequestMethod.GET, produces = "application/json")
-    public CharacterModel setCharacterSubRace(@RequestParam(value = "characterId") String characterId,
-                                              @RequestParam(value = "subraceId") String subraceId){
-        CharacterModel characterModel = characterFacade.setCharacterSubrace(characterId, subraceId);;
-        return characterModel;
+    @RequestMapping(value="/subrace/{characterId}/{subraceId}", method = RequestMethod.POST, produces = "application/json")
+    public SubRaceModel setCharacterSubRace(@PathVariable String characterId, @PathVariable String subraceId){
+        SubRaceModel subrace = characterFacade.setCharacterSubrace(characterId, subraceId);;
+        return subrace;
     }
+
+    @ResponseBody
+    @RequestMapping(value="/subrace/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public SubRaceModel getCharacterSubRace(@PathVariable String characterId){
+        SubRaceModel subrace = characterFacade.getCharacterSubrace(characterId);
+        return subrace;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @ResponseBody
     @RequestMapping(value="/filterEquipmentByProficiency", method = RequestMethod.GET, produces = "application/json")
