@@ -1,6 +1,6 @@
 define("CharacterView",
-    ["jquery", "underscore", "marionette", "CharacterModel", 'jqueryUi', 'epoxy', 'AbilitiesView', 'CoinPurseView', 'RaceView'],
-    function($, _, marionette, CharacterModel, jqueryUi, epoxy, AbilitiesView, CoinPurseView, RaceView){
+    ["jquery", "underscore", "marionette", "CharacterModel", 'jqueryUi', 'epoxy', 'AbilitiesView', 'CoinPurseView', 'RaceView', 'SubraceView', 'ClassView'],
+    function($, _, marionette, CharacterModel, jqueryUi, epoxy, AbilitiesView, CoinPurseView, RaceView, SubraceView, ClassView){
         var view = marionette.ItemView.extend({
             el: '#character-sheet',
             model: null,
@@ -11,6 +11,8 @@ define("CharacterView",
             abilitiesView: null,
             coinPurseView: null,
             raceView: null,
+            subraceView: null,
+            classView: null,
 
             ui:{
                 id: '#characterId',
@@ -57,7 +59,6 @@ define("CharacterView",
             },
 
             events:{
-                'change @ui.clazz': 'onClassChange',
                 'change @ui.race' : 'onRaceChange',
                 'click @ui.languageSubmit' : 'onLanguageSubmitClick',
                 'click @ui.storeLink': 'onStoreLinkClick',
@@ -65,8 +66,8 @@ define("CharacterView",
                 'change @ui.equipMain': 'onEquipMainChange',
                 'change @ui.equipOff': 'onEquipOffChange',
                 'change @ui.equipArmor': 'onEquipArmorChange',
-                'change @ui.subrace' : 'onSubraceChange',
-                'click @ui.storeSubmit': 'onStoreSubmitClick'
+                'click @ui.storeSubmit': 'onStoreSubmitClick',
+                'click #fetch-character' : 'refreshCharacter'
             },
 
             onRender: function(){
@@ -74,40 +75,27 @@ define("CharacterView",
             },
 
             refreshCharacter: function(){
-                debugger;
-                this.model.fetch();
-                this.abilitiesView.model.setAbilities(this.model.abilities);
-                this.abilitiesView.fetch();
-
-                for (var key in this.model.changed) {
-                    switch(key){
-                        case 'languages':
-                            this.languagesAllowed = setLanguagesAllowed(this.model);
-                            this.setLanguageTable();
-                            this.setLanguageSelectionLink();
-                            break;
-                        case 'proficiencies':
-                            this.setProficiencies();
-                            this.setSkillProficienciesOptions();
-                            break;
-                        case 'inventory':
-                            this.setMainHandOptions();
-                            this.setOffHandOptions();
-                            this.setArmorOptions();
-                            this.setInventory();
-                            break;
-                        case 'traits':
-                            this.setTraits();
-                            break;
-                        case 'race':
-                            this.setSubRaces();
-                            break;
-                    }
-                }
+                this.model.fetch({success: _.bind(function(){
+                    debugger;
+                    this.abilitiesView.fetchAbilities();
+                    this.languagesAllowed = setLanguagesAllowed(this.model);
+                    this.setLanguageTable();
+                    this.setLanguageSelectionLink();
+                    this.setProficiencies();
+                    this.setSkillProficienciesOptions();
+                    this.setMainHandOptions();
+                    this.setOffHandOptions();
+                    this.setArmorOptions();
+                    this.setInventory();
+                    this.setTraits();
+                }, this)});
             },
 
             fetchModel: function(){
-                this.model.fetch({success: this.refreshCharacter()});
+//                this.model.fetch({success: this.refreshCharacter()});
+                this.model.fetch({success: _.bind(function(){
+                    console.log(this.model);
+                }, this)});
             },
 
             setCharacter: function(){
@@ -116,22 +104,69 @@ define("CharacterView",
                 this.model.fetch({success: _.bind(function(){
                     this.abilitiesView = new AbilitiesView();
                     this.abilitiesView.render();
-                    this.abilitiesView.setAbilities(this.model.get('abilities'));
+                    this.abilitiesView.model.characterId = this.model.get('id');
+                    this.model.set('abilities', this.abilitiesView.model);
+                    this.abilitiesView.fetchAbilities();
+                    this.listenTo(this.abilitiesView, 'updateAbilities', _.bind(this.abilitiesView.fetchAbilities, this.abilitiesView));
+
                     this.coinPurseView = new CoinPurseView();
                     this.coinPurseView.onRender(this.model.get('coinPurse'));
+
 
                     this.raceView = new RaceView();
                     this.raceView.render();
                     this.raceView.setCharacterId(this.model.get('id'));
-                    this.raceView.model.set('id', this.model.get('race').id);
-                    this.listenTo(this.raceView, 'updateCharacter', this.refreshCharacter);
+                    if(this.model.get('race'))this.raceView.model.set('id', this.model.get('race').id);
                     this.raceView.fetch(_.bind(function(){
                         this.model.race = this.raceView.model;
-                        console.log(this.model.race);
-                    },this))
-                    console.log(this);
+                    },this));
+                    this.listenTo(this.raceView, 'raceUpdated', _.bind(this.
+                        onRaceUpdated, this));
+
+                    this.subraceView = new SubraceView();
+                    this.subraceView.render();
+                    this.subraceView.setCharacterId(this.model.get('id'));
+                    if(this.model.get('subrace'))this.subraceView.model.set('id', this.model.get('subrace').id);
+                    this.subraceView.fetch(_.bind(function(){
+                        this.model.race = this.raceView.model;
+                    },this));
+                    this.listenTo(this.subraceView, 'subraceUpdated', _.bind(this.onSubraceUpdated, this));
+
+                    this.classView = new ClassView();
+                    this.classView.render();
+                    this.classView.setCharacterId(this.model.get('id'));
+                    if(this.model.get('clazz'))this.classView.model.set('id', this.model.get('clazz').id);
+                    this.classView.fetch(_.bind(function(){
+                        this.model.clazz = this.classView.model;
+                    },this));
+                    this.listenTo(this.classView, 'classUpdated', _.bind(this.onClassUpdated, this));
+
+                }, this)});
+            },
+
+            onRaceUpdated: function(){
+                this.model.fetch({success: _.bind(function(){
+                    this.abilitiesView.fetchAbilities();
+                    this.setProficiencies();
+                    this.setLanguageTable();
+                    this.setLanguageSelectionLink();
+                }, this)});
+            },
+
+            onSubraceUpdated: function(){
+                this.model.fetch({success: _.bind(function(){
+                    this.abilitiesView.fetchAbilities();
+                    this.setProficiencies();
                 }, this)});
 
+            },
+
+            onClassUpdated: function(){
+                this.model.fetch({success: _.bind(function(){
+                    this.skillsAllowed = 0;
+                    this.setSkillProficienciesOptions();
+                    console.log(this.classView.model)
+                }, this)})
             },
 
             setAC: function(){
@@ -152,23 +187,6 @@ define("CharacterView",
                 }
             },
 
-            onClassChange: function(event){
-                if($(event.target).val() === '0'){
-                    $('.proficiency-row').remove();
-                    this.skillsAllowed = 0;
-                    this.setSkillProficienciesOptions();
-                    this.model.set('clazz', null);
-                }else {
-                    var data = {
-                        'characterId': this.model.get('id') + '',
-                        'classId': this.ui.clazz.val() + ''
-                    };
-                    $.getJSON("class.json", data, _.bind(function (character) {
-                        this.fetchModel();
-                    }, this));
-                }
-            },
-
             /// *** Race and Subrace *** ///
 
             onSubraceChange : function(){
@@ -179,15 +197,6 @@ define("CharacterView",
                 $.getJSON("subrace.json", data, _.bind(function (data) {
                     this.model.fetch();
                 }, this));
-            },
-
-            setSubRaces: function(){
-                $('.subrace-option').remove();
-                if(this.model.get('race').availableSubraces.length > 0){
-                    $(this.model.get('race').availableSubraces).each(_.bind(function(key, value){
-                        this.ui.subrace.append('<option class="subrace-option" value="' + value.id + '">' + value.name + '</option>')
-                    }, this));
-                }
             },
 
             /// *** Skills and Proficiencies *** ///
@@ -238,7 +247,7 @@ define("CharacterView",
 
             setRaceProficiencies: function(){
                 var proficiencies = []
-                $(this.model.get('race').proficiencies).each(_.bind(function(key, value){
+                $(this.raceView.model.get('proficiencies')).each(_.bind(function(key, value){
                     proficiencies.push(value);
                 }, this));
                 if(this.model.get('subrace') != null) {
@@ -246,6 +255,7 @@ define("CharacterView",
                         proficiencies.push(value);
                     }, this));
                 }
+                console.log(proficiencies)
                 $(proficiencies).each(_.bind(function(key, value){
                     var $element;
                     switch(value.proficiencyType){
@@ -334,7 +344,7 @@ define("CharacterView",
             setLanguageTable: function(){
                 $('.language-row').remove();
                 $(this.model.get('languages')).each(_.bind(function(key, value){
-                    this.ui.languages.append('<tr class="language-row"><td><input name="languages" type="hidden" value="' + value.id + '">' + value.name + '</input></td>')
+                    $('#languages').append('<tr class="language-row"><td><input name="languages" type="hidden" value="' + value.id + '">' + value.name + '</input></td>')
                 }, this));
             },
 

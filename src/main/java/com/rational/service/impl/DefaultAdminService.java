@@ -348,8 +348,8 @@ public class DefaultAdminService implements AdminService {
     }
 
     @Override
-    public void saveAbilities(Abilities abilities) {
-        abilitiesRepository.save(abilities);
+    public Abilities saveAbilities(Abilities abilities) {
+        return abilitiesRepository.save(abilities);
     }
 
     @Override

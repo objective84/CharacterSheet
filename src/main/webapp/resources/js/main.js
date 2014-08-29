@@ -32,8 +32,6 @@ function setLanguagesAllowed(model){
     }
 }
 
-
-
 function getAbilityMod(score){
     return (parseInt(score) === 0) ? 0: parseInt(Math.floor(( score - 10) / 2));
 }

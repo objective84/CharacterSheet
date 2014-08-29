@@ -135,7 +135,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
     }
 
     @Override
-    public CharacterModel setCharacterClass(Long characterId, Long classId) {
+    public ClassModel setCharacterClass(Long characterId, Long classId) {
         CharacterModel character = characterService.findCharacter(characterId);
         ClassModel classModel = adminService.findClass(classId);
         character.setClazz(classModel);
@@ -144,21 +144,22 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setCurrentHealth(character.getMaxHealth());
         characterService.save(character);
 
-        return assembleCharacter(character);
+        return classModel;
     }
 
     @Override
-    public CharacterModel setCharacterRace(String characterId, String raceId) {
+    public RaceModel setCharacterRace(String characterId, String raceId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         character.setSubrace(null);
+        RaceModel race;
         if(raceId == "0"){
-            character.setRace(null);
+            race = null;
         }else {
-            RaceModel race = adminService.findRace(Long.decode(raceId));
-            character.setRace(race);
+            race = adminService.findRace(Long.decode(raceId));
         }
+        character.setRace(race);
         characterService.save(character);
-        return assembleCharacter(character);
+        return race;
     }
 
     @Override
@@ -173,7 +174,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
     }
 
     @Override
-    public CharacterModel setCharacterSubrace(String characterId, String subraceId) {
+    public SubRaceModel setCharacterSubrace(String characterId, String subraceId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         if(subraceId == "0"){
             character.setSubrace(null);
@@ -182,7 +183,12 @@ public class DefaultCharacterFacade implements CharacterFacade {
             character.setSubrace(subrace);
         }
         characterService.save(character);
-        return assembleCharacter(character);
+        return character.getSubrace();
+    }
+
+    @Override
+    public SubRaceModel getCharacterSubrace(String characterId){
+        return characterService.findCharacter(Long.valueOf(characterId)).getSubrace();
     }
 
     private void setCharacterLanguages(CharacterModel character){
@@ -212,6 +218,9 @@ public class DefaultCharacterFacade implements CharacterFacade {
         Set<TraitModel> traitModels =  new HashSet<TraitModel>();
         if(null != character.getRace()) {
             traitModels.addAll(character.getRace().getTraits());
+        }
+        if(null != character.getSubrace()) {
+            traitModels.addAll(character.getSubrace().getSubRacialTraits());
         }
         if(null != character.getClazz()) {
             traitModels.addAll(character.getClazz().getClassTraits());
@@ -268,6 +277,17 @@ public class DefaultCharacterFacade implements CharacterFacade {
             character.setEquippedArmor(adminFacade.getArmorModel(Long.decode(itemId)));
         }
         characterService.save(character);
+    }
+
+    @Override
+    public Abilities findAbilities(String id) {
+        CharacterModel character = characterService.findCharacter(Long.decode(id));
+        return assembleCharacter(character).getAbilities();
+    }
+
+    @Override
+    public ClassModel getCharacterClass(String characterId) {
+        return characterService.findCharacter(Long.decode(characterId)).getClazz();
     }
 
     private void setAC(CharacterModel character){

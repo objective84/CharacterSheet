@@ -2,7 +2,10 @@ package com.rational.facade;
 
 import com.rational.forms.Character;
 import com.rational.model.Proficiency;
+import com.rational.model.entities.Abilities;
 import com.rational.model.entities.CharacterModel;
+import com.rational.model.entities.ClassModel;
+import com.rational.model.entities.SubRaceModel;
 import com.rational.model.enums.ProficiencyTypeEnum;
 import com.rational.model.equipment.EquipmentModel;
 import com.rational.model.exceptions.PurchaseException;
@@ -28,13 +31,15 @@ public interface CharacterFacade {
 
     CharacterModel purchaseGear(Long charId, Set<Long> equipmentIds) throws PurchaseException;
 
-    CharacterModel setCharacterClass(Long characterId, Long classId);
+    com.rational.model.entities.ClassModel setCharacterClass(Long characterId, Long classId);
 
-    CharacterModel setCharacterRace(String characterId, String raceId);
+    com.rational.model.entities.RaceModel setCharacterRace(String characterId, String raceId);
 
     Set<Proficiency> getProficienciesOfType(Set<Proficiency> proficiencies, ProficiencyTypeEnum type);
 
-    CharacterModel setCharacterSubrace(String characterId, String subraceId);
+    com.rational.model.entities.SubRaceModel setCharacterSubrace(String characterId, String subraceId);
+
+    SubRaceModel getCharacterSubrace(String characterId);
 
     List<EquipmentModel> filterEquipmentList(List<String> filters, String characterId);
 
@@ -43,4 +48,8 @@ public interface CharacterFacade {
 //    Abilities increaseDecreaseAbilityScore(String characterId, String type, Boolean positive);
 
     void equipArmor(String characterId, String itemId);
+
+    Abilities findAbilities(String characterId);
+
+    ClassModel getCharacterClass(String characterId);
 }

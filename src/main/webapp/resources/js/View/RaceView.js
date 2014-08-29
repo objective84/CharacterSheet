@@ -15,11 +15,6 @@ define("RaceView",
                 subrace: '#subrace'
             },
 
-            bindings: {
-                '#race': 'selectedIndex:id',
-                '#subrace': 'options:availableSubraces'
-            },
-
             events: {
                 'change @ui.race' : 'onRaceChange'
             },
@@ -29,8 +24,11 @@ define("RaceView",
             },
 
             fetch: function(callback){
-                debugger;
-                this.model.fetch({success: callback});
+                this.model.fetchRace({success: _.bind(function(){
+                    if(callback)callback();
+                    this.setSubRaces();
+                    this.ui.race.val(this.model.get('id'));
+                },this)});
             },
 
             setCharacterId: function(id){
@@ -43,17 +41,20 @@ define("RaceView",
             },
 
             onRaceChange: function(event){
-                this.model.set('_id', $(event.target).val());
-                this.model.fetch({success: _.bind(function(){
-                    this.trigger('updateCharacter');
+                this.model.set('id', $(event.target).val());
+                this.model.save(null, {success: _.bind(function(){
+                    this.setSubRaces();
+                    this.trigger('raceUpdated');
                 }, this)});
-//                var data = {
-//                    'characterId': this.model.get('id') + '',
-//                    'raceId': this.ui.race.val() + ''
-//                };
-//                $.getJSON("race.json", data, _.bind(function () {
-//                    this.fetchModel();
-//                }, this));
+            },
+
+            setSubRaces: function(){
+                $('.subrace-option').remove();
+                if(this.model.get('availableSubraces').length > 0){
+                    $(this.model.get('availableSubraces')).each(_.bind(function(key, value){
+                        this.ui.subrace.append('<option class="subrace-option" value="' + value.id + '">' + value.name + '</option>')
+                    }, this));
+                }
             },
 
             initialize: function(){

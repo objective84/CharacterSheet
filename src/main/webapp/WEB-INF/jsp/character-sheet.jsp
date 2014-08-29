@@ -39,12 +39,12 @@
                 <td><spring:message code="character.race"/></td>
                 <c:choose>
                     <c:when test="${create}">
-                        <td><form:select id="race" path="race">
-                            <form:option value="0" label="Select a race"/>
+                        <td><select id="race">
+                            <option value="0">Select a race</option>
                             <c:forEach items="${races}" var="race">
-                                <form:option value="${race.id}" label="${race.raceName}"/>
+                                <option value="${race.id}">${race.raceName}</option>
                             </c:forEach>
-                        </form:select></td>
+                        </select></td>
                     </c:when>
                     <c:otherwise>
                         <td>${characterModel.race.raceName}</td>
@@ -77,6 +77,7 @@
                         <td>${characterModel.clazz.name}</td>
                     </c:otherwise>
                 </c:choose>
+                <td><input type="button" id="fetch-character" value="Fetch Character"></td>
             </tr>
             <tr >
                 <td><spring:message code="character.level"/></td>
@@ -148,19 +149,19 @@
             </table>
             <table class="side-by-side ability-row">
                 <tr>
-                    <td>Copper:</td><td> <form:input path="coinPurse['copper']" cssClass="input-box-small" id="money-copper" /></td>
+                    <td>Copper:</td><td> <input class="input-box-small" id="money-copper" /></td>
                 </tr>
                 <tr>
-                    <td>Silver:</td><td> <form:input path="coinPurse['silver']" cssClass="input-box-small" id="money-silver" /></td>
+                    <td>Silver:</td><td> <input class="input-box-small" id="money-silver" /></td>
                 </tr>
                 <tr>
-                    <td>Electrum:</td><td> <form:input path="coinPurse['electrum']" cssClass="input-box-small" id="money-electrum" /></td>
+                    <td>Electrum:</td><td> <input class="input-box-small" id="money-electrum" /></td>
                 </tr>
                 <tr>
-                    <td>Gold:</td><td> <form:input path="coinPurse['gold']" cssClass="input-box-small" id="money-gold" /></td>
+                    <td>Gold:</td><td> <input class="input-box-small" id="money-gold" /></td>
                 </tr>
                 <tr>
-                    <td>Platinum:</td><td> <form:input path="coinPurse['platinum']" cssClass="input-box-small" id="money-platinum" /></td>
+                    <td>Platinum:</td><td> <input class="input-box-small" id="money-platinum" /></td>
                 </tr>
             </table>
             <table class="side-by-side ability-row">
@@ -224,29 +225,29 @@
             <table class="side-by-side proficiencies" id="skillProfs">
                 <tr><th>Skills</th></tr>
                 <c:forEach items="${skillProficiencies}" var="skill">
-                    <tr><td>${skill.name}</td></tr>
+                    <tr class="proficiency-row"><td>${skill.name}</td></tr>
                 </c:forEach>
             </table>
             <table class="side-by-side proficiencies" id="toolProfs">
                 <tr><th>Tools</th></tr>
                 <c:forEach items="${toolProficiencies}" var="tool">
-                    <tr><td>${tool.name}</td></tr>
+                    <tr class="proficiency-row"><td>${tool.name}</td></tr>
                 </c:forEach>
             </table>
             <table class="side-by-side proficiencies" id="weaponProfs">
                 <tr><th>Weapons</th></tr>
                 <c:forEach items="${weaponProficiencies}" var="weapon">
-                    <tr><td>${weapon.name}</td></tr>
+                    <tr class="proficiency-row"><td>${weapon.name}</td></tr>
                 </c:forEach>
             </table>
             <table class="side-by-side proficiencies" id="armorProfs">
                 <tr><th>Armor</th></tr>
                 <c:forEach items="${armorProficiencies}" var="armor">
-                    <tr><td>${armor.name}</td></tr>
+                    <tr class="proficiency-row"><td>${armor.name}</td></tr>
                 </c:forEach>
             </table>
             <table class="side-by-side proficiencies" id="saveProfs">
-                <tr><th>Saving Throws</th></tr>
+                <tr class="proficiency-row"><th>Saving Throws</th></tr>
                 <c:forEach items="${savingThrowProficiencies}" var="save">
                     <tr><td>${save.name}</td></tr>
                 </c:forEach>
@@ -256,7 +257,7 @@
             <br/>
             <h3><spring:message code="character.languages"/></h3>
             <table id="languages">
-                <c:forEach items="${characterModel.race.languages}" var="language">
+                <c:forEach items="${character.race.languages}" var="language">
                     <tr class="language-row"><td>${language.name}</td></tr>
                 </c:forEach>
             </table>

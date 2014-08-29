@@ -7,7 +7,7 @@ define("AbilitiesModel",
     function($, _, backbone, epoxy){
         var model = backbone.Model.extend({
             idAttribute: '_id',
-            urlRoot: 'abilities.json',
+            characterId: '0',
             defaults:{
                 id: '',
                 str: '0',
@@ -26,6 +26,16 @@ define("AbilitiesModel",
                 this.set('intel', abilities.intel);
                 this.set('wis', abilities.wis);
                 this.set('cha', abilities.cha);
+            },
+
+            fetchAbilities: function(options){
+                options = options || {};
+                options.url = $('#pathContext').val() + '/abilities/' + this.characterId + '.json';
+                return Backbone.Model.prototype.fetch.call(this, options);
+            },
+
+            url: function(){
+                return $('#pathContext').val() + '/abilities.json';
             }
 
         });

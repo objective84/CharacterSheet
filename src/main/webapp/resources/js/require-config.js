@@ -14,6 +14,8 @@ require.config({
         AbilitiesView: 'View/AbilitiesView',
         CoinPurseView: 'View/CoinPurseView',
         RaceView: 'View/RaceView',
+        SubraceView: 'View/SubraceView',
+        ClassView: 'View/ClassView',
         // Behaviors
         // Other
         main: 'main',
@@ -24,6 +26,8 @@ require.config({
         AbilitiesModel: 'Model/AbilitiesModel',
         CoinPurseModel: 'Model/CoinPurseModel',
         RaceModel: 'Model/RaceModel',
+        ClassModel: 'Model/ClassModel',
+        SubraceModel: 'Model/SubraceModel',
         //Libs
         jquery: 'lib/jquery',
         jqueryUi: 'lib/jquery-ui',

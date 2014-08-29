@@ -7,10 +7,7 @@ import com.rational.forms.Character;
 import com.rational.forms.ProficienciesForm;
 import com.rational.forms.ResponseData;
 import com.rational.model.Proficiency;
-import com.rational.model.entities.Abilities;
-import com.rational.model.entities.CharacterModel;
-import com.rational.model.entities.CoinPurse;
-import com.rational.model.entities.RaceModel;
+import com.rational.model.entities.*;
 import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.enums.EquipmentFilterEnum;
 import com.rational.model.equipment.ArmorModel;
@@ -90,7 +87,7 @@ public class CharacterController {
     @RequestMapping(value="/character-sheet", method= RequestMethod.GET)
     public ModelAndView character(final Model model, HttpSession session) {
         ModelAndView mav = new ModelAndView(CHARACTER);
-        Character character= (Character)session.getAttribute("character");
+        Character character = (Character)session.getAttribute("character");
         CharacterModel characterModel;
         mav.addObject("create", true);
         if(null == character.getId()){
@@ -105,9 +102,9 @@ public class CharacterController {
         mav.addObject("raceMap", adminFacade.getRaceMap());
         mav.addObject("races", adminFacade.findAllRaces());
         mav.addObject("languages", adminFacade.findAllLanguages());
-        mav.addObject("characterModel", characterModel);
+        mav.addObject("character", characterModel);
         addEquipmentToModel(mav, characterModel);
-        mav.addObject("character", character);
+//        mav.addObject("character", character);
         mav.addObject("abilityTypes", AbilityTypeEnum.values());
         mav.addObject("weaponFilters", EquipmentFilterEnum.getWeaponFilters());
         mav.addObject("armorFilters", EquipmentFilterEnum.getArmorFilters());
@@ -142,16 +139,17 @@ public class CharacterController {
         return characterFacade.getCharacterModel(Long.valueOf(characterId));
     }
 
+    @ResponseBody
     @RequestMapping(value = "/abilities", method = RequestMethod.POST, consumes = "application/json")
-    public String saveAbilities(@RequestBody Abilities abilities){
-        adminFacade.saveAbilities(abilities);
-        return "success";
+    public Abilities saveAbilities(@RequestBody Abilities abilities){
+        Abilities saved =  adminFacade.saveAbilities(abilities);
+        return saved;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/abilities/{id}", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
-    public Abilities saveAbilities(@PathVariable String id){
-        Abilities abilities = adminFacade.findAbilities(id);
+    @RequestMapping(value = "/abilities/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public Abilities getAbilities(@PathVariable String characterId){
+        Abilities abilities = characterFacade.findAbilities(characterId);
         return abilities;
     }
 
@@ -159,14 +157,6 @@ public class CharacterController {
     public String deleteCharacter(@RequestParam(value = "characterId") String characterId){
         characterFacade.deleteCharacter(Long.valueOf(characterId));
         return "deleted";
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/class", method = RequestMethod.GET, produces = "application/json")
-    public CharacterModel setCharacterClass(@RequestParam(value = "characterId") String characterId,
-                                            @RequestParam(value = "classId") String classId){
-        CharacterModel characterModel = characterFacade.setCharacterClass(Long.valueOf(characterId), Long.valueOf(classId));
-        return characterModel;
     }
 
     @ResponseBody
@@ -182,10 +172,11 @@ public class CharacterController {
         return raceModel;
     }
 
+    @ResponseBody
     @RequestMapping(value="/race/{characterId}/{raceId}", method = RequestMethod.POST)
-    public String setCharacterRace(@PathVariable String characterId, @PathVariable String raceId){
-        characterFacade.setCharacterRace(characterId, raceId);
-        return "success";
+    public RaceModel setCharacterRace(@PathVariable String characterId, @PathVariable String raceId){
+        RaceModel race = characterFacade.setCharacterRace(characterId, raceId);
+        return race;
     }
 
     @ResponseBody
@@ -195,12 +186,74 @@ public class CharacterController {
     }
 
     @ResponseBody
-    @RequestMapping(value="/subrace", method = RequestMethod.GET, produces = "application/json")
-    public CharacterModel setCharacterSubRace(@RequestParam(value = "characterId") String characterId,
-                                              @RequestParam(value = "subraceId") String subraceId){
-        CharacterModel characterModel = characterFacade.setCharacterSubrace(characterId, subraceId);;
-        return characterModel;
+    @RequestMapping(value="/subrace/{characterId}/{subraceId}", method = RequestMethod.POST, produces = "application/json")
+    public SubRaceModel setCharacterSubRace(@PathVariable String characterId, @PathVariable String subraceId){
+        SubRaceModel subrace = characterFacade.setCharacterSubrace(characterId, subraceId);;
+        return subrace;
     }
+
+    @ResponseBody
+    @RequestMapping(value="/subrace/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public SubRaceModel getCharacterSubRace(@PathVariable String characterId){
+        SubRaceModel subrace = characterFacade.getCharacterSubrace(characterId);
+        return subrace;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/class/{characterId}/{classId}", method = RequestMethod.POST, produces = "application/json")
+    public ClassModel setCharacterClass(@PathVariable String characterId, @PathVariable String classId){
+        ClassModel clazz = characterFacade.setCharacterClass(Long.valueOf(characterId), Long.valueOf(classId));
+        return clazz;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/class/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public ClassModel getCharacterClass(@PathVariable String characterId){
+        ClassModel clazz = characterFacade.getCharacterClass(characterId);
+        return clazz;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @ResponseBody
     @RequestMapping(value="/filterEquipmentByProficiency", method = RequestMethod.GET, produces = "application/json")

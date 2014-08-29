@@ -39,17 +39,16 @@ define("AbilitiesView",
                     'click @ui.abilityScoreReset': 'onAbilityScoreResetClick'
             },
 
+            fetchAbilities: function(){
+                this.model.fetchAbilities({success: _.bind(function(){
+                    this.showHideAbilityChangeButtons();
+                    this.setAbilityMods();
+                }, this)})
+            },
+
             onRender: function(){
                 this.model = new AbilitiesModel();
                 this.applyBindings();
-            },
-
-            fetch: function(callback){
-                if(callback){
-                    this.model.fetch({success: callback});
-                }else{
-                    this.model.fetch();
-                }
             },
 
             onAbilityChangeButtonClick: function(event){

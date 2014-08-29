@@ -20,38 +20,32 @@ public class ClassModel {
 
     private String name;
 
-    @ManyToOne
-    @JsonManagedReference
-    private Dice hitDie;
-
-    @ManyToMany
-    @JsonManagedReference
-    private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
-
-    @ManyToMany
-    @JoinTable(name="classmodel_traitmodel",
-            joinColumns = @JoinColumn(name="traitmodel_id"),
-            inverseJoinColumns = @JoinColumn(name="classmodel_id"))
-    private List<TraitModel> classTraits = new ArrayList<TraitModel>();
-
-    @OneToMany(mappedBy = "baseClass", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private List<SubClassModel> subClasses = new ArrayList<SubClassModel>();
-
     @Column(name="skills_at_creation")
     private Integer skillsAtCreation;
 
     private Integer startingWealthDieAmount;
 
-    @JsonManagedReference
     @ManyToOne
+    @JsonManagedReference
+    private Dice hitDie;
+
+    @ManyToMany
+    @JoinTable(name="classmodel_proficiency", joinColumns = @JoinColumn(name="proficiencies_id"), inverseJoinColumns = @JoinColumn(name="classes_id"))
+    private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
+
+    @ManyToMany
+    @JoinTable(name="classmodel_traitmodel", joinColumns = @JoinColumn(name="traitmodel_id"), inverseJoinColumns = @JoinColumn(name="classmodel_id"))
+    private List<TraitModel> classTraits = new ArrayList<TraitModel>();
+
+    @JsonManagedReference @OneToMany(mappedBy = "baseClass", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SubClassModel> subClasses = new ArrayList<SubClassModel>();
+
+
+    @ManyToOne @JsonManagedReference
     private Dice startingWealthDie;
 
-    @JsonManagedReference
-    @ManyToMany
-    @JoinTable(name="spellmodel_classmodel",
-            joinColumns = @JoinColumn(name="spellmodel_id"),
-            inverseJoinColumns = @JoinColumn(name="classmodel_id"))
+    @ManyToMany @JsonManagedReference
+    @JoinTable(name="spellmodel_classmodel", joinColumns = @JoinColumn(name="spellmodel_id"), inverseJoinColumns = @JoinColumn(name="classmodel_id"))
     private List<SpellModel> spells = new ArrayList<SpellModel>();
 
 
