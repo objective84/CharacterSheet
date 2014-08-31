@@ -370,7 +370,7 @@ DROP TABLE  IF EXISTS `spellmodel`;
 CREATE TABLE `spellmodel`(
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `description` varchar(10000) DEFAULT NULL,
   `level` int(11) DEFAULT NULL,
   `damageDiceAmount` int(11) DEFAULT NULL,
   `savingThrow` varchar(255) DEFAULT NULL,
