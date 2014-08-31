@@ -10,4 +10,4 @@ INSERT INTO `charactersheet`.`damagetype` values (9,"Poison","Venomous stings an
 INSERT INTO `charactersheet`.`damagetype` values (10,"Psychic","Mental abilities such as a mind flayer's psionic blast deal psychic damage.");
 INSERT INTO `charactersheet`.`damagetype` values (11,"Radiant","Radiant damage, dealt by a cleric's flame strike spell or an angel's smiting weapon, sears the flesh like fire and overloads the spirit with power.");
 INSERT INTO `charactersheet`.`damagetype` values (12,"Slashing","Swords, axes, and monsters' claws deal slashing damage.");
-INSERT INTO `charactersheet`.`damagetype` values (13,"Thunder","A concussive burst o f sound, such as the effect o f the thunderwavespell, deals thunder damage.");
+INSERT INTO `charactersheet`.`damagetype` values (13,"Thunder","A concussive burst of sound, such as the effect o f the thunderwavespell, deals thunder damage.");
