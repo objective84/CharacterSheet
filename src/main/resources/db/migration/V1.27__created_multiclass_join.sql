@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS `charactersheet`.`v`;
 CREATE TABLE `charactersheet`.`classmodel_charactermodel` (
   `classmodel_id` BIGINT NOT NULL,
   `charactermodel_id` BIGINT NOT NULL,

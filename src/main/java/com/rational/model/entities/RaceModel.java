@@ -43,6 +43,7 @@ public class RaceModel {
 
     @JsonManagedReference
     @ManyToMany
+    @JoinTable(name="racemodel_proficiency", joinColumns = @JoinColumn(name="races_id"), inverseJoinColumns = @JoinColumn(name="proficiencies_id"))
     private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
     public Long getId() {

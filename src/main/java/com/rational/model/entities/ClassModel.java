@@ -30,7 +30,7 @@ public class ClassModel {
     private Dice hitDie;
 
     @ManyToMany
-    @JoinTable(name="classmodel_proficiency", joinColumns = @JoinColumn(name="proficiencies_id"), inverseJoinColumns = @JoinColumn(name="classes_id"))
+    @JoinTable(name="classmodel_proficiency", joinColumns = @JoinColumn(name="classes_id"), inverseJoinColumns = @JoinColumn(name="proficiencies_id"))
     private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
     @ManyToMany

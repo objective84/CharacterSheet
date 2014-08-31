@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS `traitmodel_level`;
 CREATE TABLE `charactersheet`.`traitmodel_level` (
   `traitmodel_id` BIGINT NOT NULL,
   `level_id` BIGINT NOT NULL,

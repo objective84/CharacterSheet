@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS `level`;
 CREATE TABLE `charactersheet`.`level` (
   `id_level` BIGINT NOT NULL,
   `level_number` INT NOT NULL,

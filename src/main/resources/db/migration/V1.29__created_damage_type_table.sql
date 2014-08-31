@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS `damagetype`;
 CREATE TABLE `charactersheet`.`damagetype` (
   `id` BIGINT NOT NULL,
   `name` VARCHAR(255) NOT NULL,

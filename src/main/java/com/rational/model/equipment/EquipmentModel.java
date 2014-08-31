@@ -77,8 +77,7 @@ public abstract class EquipmentModel {
         this.priceDenomination = priceDenomination;
     }
 
-    @JsonManagedReference
-    @ManyToMany
+    @JsonManagedReference @ManyToMany
     @JoinTable(name="equipmentmodel_traitmodel", joinColumns = @JoinColumn(name="equipment_id"), inverseJoinColumns = @JoinColumn(name="traitmodel_id"))
     public List<TraitModel> getTraits() {
         return traits;
@@ -88,8 +87,9 @@ public abstract class EquipmentModel {
         this.traits = traits;
     }
 
+    @JsonManagedReference
     @ManyToMany
-    @JoinTable(name="equipmentmodel_proficiency", joinColumns = @JoinColumn(name="equipment_id"), inverseJoinColumns = @JoinColumn(name="proficiencies_id"))
+    @JoinTable(name="equipmentmodel_proficiency", joinColumns = @JoinColumn(name="proficiencies_id"), inverseJoinColumns = @JoinColumn(name="equipment_id"))
     public List<Proficiency> getProficiencies() {
         return proficiencies;
     }

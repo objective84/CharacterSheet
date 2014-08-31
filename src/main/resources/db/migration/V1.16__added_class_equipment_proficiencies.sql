@@ -1,4 +1,3 @@
-
 INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('1', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Light Armor'));
 INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('1', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Medium Armor'));
 INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('1', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Shields'));
@@ -10,6 +9,7 @@ INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficienc
 INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('2', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Longsword'));
 INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('2', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Rapier'));
 INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('2', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Shortsword'));
+
 
 INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('3', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Light Armor'));
 INSERT INTO `charactersheet`.`classmodel_proficiency` (`classes_id`, `proficiencies_id`) VALUES ('3', (SELECT id from `charactersheet`.`proficiency` WHERE `name`='Medium Armor'));

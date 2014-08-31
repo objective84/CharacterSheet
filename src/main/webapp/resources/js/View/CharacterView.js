@@ -165,7 +165,7 @@ define("CharacterView",
                 this.model.fetch({success: _.bind(function(){
                     this.skillsAllowed = 0;
                     this.setSkillProficienciesOptions();
-                    console.log(this.classView.model)
+                    this.setProficiencies();
                 }, this)})
             },
 

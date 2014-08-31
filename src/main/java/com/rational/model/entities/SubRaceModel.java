@@ -37,6 +37,7 @@ public class SubRaceModel {
 
     @JsonManagedReference
     @ManyToMany
+    @JoinTable(name="subraces_proficiency", joinColumns = @JoinColumn(name="subraces_id"), inverseJoinColumns = @JoinColumn(name="proficiencies_id"))
     private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
     public Long getId() {
