@@ -6,7 +6,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
           '1', #level
           '1', #damageDiceAmount
           '2', #damageDice ID
-          'necrotic', #damageType ID
+          '7', #damageType ID
           '', #savingThrow
           '', #condition
           '1', #requiresVerbalComponent
@@ -20,15 +20,15 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
           'Enchantment', #school
           '90' #range in feet
           );
-INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`)
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
   VALUES ('299', #id
           'Hold Person', #name
           '1 action', #castingTime
           'Choose a humanoid that you can see within range. The target must succeed on a Wisdom saving throw or be paralyzed for the duration. At the end of each of its turns, the target can make another Wisdom saving throw. On a su cce ss, the spell ends on the target. At Higher Levels. When you cast this spell using a spell slot of 3rd level or higher, you can target one additional humanoid for each slot level above 2nd. The humanoids must be within 30 feet of each other when you target them.',
           '2', #level
-          '', #damageDiceAmount
-          '', #damageDice ID
-          '', #damageType ID
+          null, #damageDiceAmount
+          null, #damageDice ID
+          null, #damageType ID
           'Wisdom', #savingThrow
           'paralyzed', #condition
           '1', #requiresVerbalComponent
@@ -42,15 +42,15 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
           'Enchantment', #school
           '60' #range in feet
           );
-INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`)
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
   VALUES ('298', #id
           'Hold Monster', #name
           '1 action', #castingTime
           'Choose a creature that you can see within range. The target must succeed on a Wisdom saving throw or be paralyzed for the duration. This spell has no effect on undead. At the end of each of its turns, the target can make another Wisdom saving throw. On a success, the spell ends on the target. At Higher Levels. When you cast this spell using a spell slot of 6th level or higher, you can target one additional creature for each slot level above 5th. The creatures must be within 30 feet of each other when you target them.',
           '5', #level
-          '', #damageDiceAmount
-          '', #damageDice ID
-          '', #damageType ID
+          null, #damageDiceAmount
+          null, #damageDice ID
+          null, #damageType ID
           'Wisdom', #savingThrow
           'paralyzed', #condition
           '1', #requiresVerbalComponent
@@ -64,15 +64,15 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
           'Enchantment', #school
           '90' #range in feet
           );
-INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`)
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
   VALUES ('297', #id
           'Holy Aura', #name
           '1 action', #castingTime
           'Divine light washes out from you and coalesces in a soft radiance in a 30-foot radius around you. Creatures of your choice in that radius when you cast this spell shed dim light in a 5-foot radius and have advantage on all saving throws, and other creatures have disadvantage on attack rolls against them until the spell ends. In addition, when a fiend or an undead hits an affected creature with a melee attack, the aura flashes with brilliant light. The attacker must succeed on a Constitution saving throw or be blinded until the spell ends.',
           '8', #level
-          '', #damageDiceAmount
-          '', #damageDice ID
-          '', #damageType ID
+          null, #damageDiceAmount
+          null, #damageDice ID
+          null, #damageType ID
           'Constitution', #savingThrow
           'blinded', #condition
           '1', #requiresVerbalComponent
@@ -86,7 +86,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
           'abjuration', #school
           '0' #range in feet
           );
-INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`)
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
   VALUES ('296', #id
           'Hunger of Hadar', #name
           '1 action', #castingTime
@@ -108,7 +108,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
           'conjuration', #school
           '150' #range in feet
           );
-INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`)
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
   VALUES ('295', #id
           'Hunter''s Mark', #name
           '1 bonus action', #castingTime
@@ -116,7 +116,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
           '1', #level
           '1', #damageDiceAmount
           '2', #damageDice ID
-          '', #damageType ID
+          null, #damageType ID
           '', #savingThrow
           '', #condition
           '1', #requiresVerbalComponent
@@ -130,15 +130,15 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
           'divination', #school
           '90' #range in feet
           );
-INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`)
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
   VALUES ('294', #id
           'Hypnotic Pattern', #name
           '1 action', #castingTime
           'You create a twisting pattern of colors that weaves through the air inside a 30-foot cube within range. The pattern appears for a moment and vanishes. Each creature in the area who sees the pattern must make a Wisdom saving throw. On a failed save, the creature becomes charmed for the duration. While charmed by this spell, the creature is incapacitated and has a speed of 0. The spell ends for an affected creature if it takes any damage or if someone else uses an action to shake the creature out of its stupor.',
           '3', #level
-          '', #damageDiceAmount
-          '', #damageDice ID
-          '', #damageType ID
+          null, #damageDiceAmount
+          null, #damageDice ID
+          null, #damageType ID
           'Wisdom', #savingThrow
           'incapacitated', #condition
           '0', #requiresVerbalComponent
@@ -152,11 +152,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
           'illusion', #school
           '120' #range in feet
           );
-INSERT INTO `charactersheet`.`spellmodel` (
-`id`,
-`name`,
-`castingTime`,
-`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`)
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
   VALUES ('293', #id
           'Ice Storm', #name
           '1 action', #castingTime

@@ -384,4 +384,9 @@ public class DefaultAdminFacade implements AdminFacade {
         CharacterModel character = characterService.findCharacter(Long.decode(id));
         return character.getAbilities();
     }
+
+    @Override
+    public SpellModel findSpell(String spellId) {
+        return adminService.findSpell(Long.decode(spellId));
+    }
 }

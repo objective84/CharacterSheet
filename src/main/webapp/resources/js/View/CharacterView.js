@@ -48,8 +48,8 @@ define("CharacterView",
                 storeArmorTable: '#armor-inventory-table',
                 subrace: '#subrace',
                 encumberedLabel: '#encumbered-label',
-                speed: '#speed'
-
+                speed: '#speed',
+                testSpell: "#test-spell"
             },
 
             bindings:{
@@ -67,7 +67,8 @@ define("CharacterView",
                 'change @ui.equipOff': 'onEquipOffChange',
                 'change @ui.equipArmor': 'onEquipArmorChange',
                 'click @ui.storeSubmit': 'onStoreSubmitClick',
-                'click #fetch-character' : 'refreshCharacter'
+                'click #fetch-character' : 'refreshCharacter',
+                'click @ui.testSpell' : 'onSpellClick'
             },
 
             onRender: function(){
@@ -538,6 +539,14 @@ define("CharacterView",
                 }, this));
             },
 
+            onSpellClick: function(){
+                $.getJSON('spell/29.json', _.bind(function(data){
+                    $('#spell-text-div').remove();
+                    $('#spell-text').append(data.spellModel.displayText);
+                    this.modalOpen('spell-modal', 'spell-modal');
+                }, this));
+            },
+
             modalOpen: function(type, key) {
                 var modal_width = 540;
                 var modal_height = 'auto';
@@ -550,6 +559,10 @@ define("CharacterView",
                         break;
                     case 'store-modal':
                         modal_width = 'auto';
+                        modal_height = 'auto';
+                        break;
+                    case 'spell-modal':
+                        modal_width = '450';
                         modal_height = 'auto';
                         break;
                     default:

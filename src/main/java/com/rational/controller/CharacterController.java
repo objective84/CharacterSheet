@@ -213,7 +213,10 @@ public class CharacterController {
         return clazz;
     }
 
-
+    @RequestMapping(value="/spell/{spellId}", method =  RequestMethod.GET)
+    public SpellModel getSpellText(@PathVariable String spellId){
+        return adminFacade.findSpell(spellId);
+    }
 
 
 

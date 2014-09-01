@@ -2,6 +2,7 @@ package com.rational.model.entities;
 
 
 import com.rational.model.Dice;
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
@@ -9,6 +10,30 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+        VALUES ('', #id
+        '', #name
+        '', #castingTime
+        '', #description
+        '', #level
+        '', #damageDiceAmount
+        '', #damageDice ID
+        '', #damageType ID
+        '', #savingThrow
+        '', #condition
+        '', #requiresVerbalComponent
+        '', #requiresSomaticComponent
+        '', #materialComponent
+        '', #duration
+        '', #target
+        '', #requiresAttackRoll
+        '', #ritual
+        '', #concentration
+        '', #school
+        '' #range in feet
+        );
+ */
 
 @Entity
 public class SpellModel {
@@ -21,6 +46,8 @@ public class SpellModel {
     private String description;
     private Integer level;
     private Integer damageDiceAmount;
+    private String castingTime;
+    private Integer range;
 
     @ManyToOne
     @JsonManagedReference
@@ -36,6 +63,8 @@ public class SpellModel {
     private String target;
     private Boolean requiresAttackRoll;
     private Boolean ritual;
+    private Boolean concentration;
+    private String school;
 
     @JsonBackReference
     @ManyToMany
@@ -177,5 +206,126 @@ public class SpellModel {
 
     public void setDamageType(DamageType damageType) {
         this.damageType = damageType;
+    }
+
+    public String getCastingTime() {
+        return castingTime;
+    }
+
+    public void setCastingTime(String castingTime) {
+        this.castingTime = castingTime;
+    }
+
+    public Integer getRange() {
+        return range;
+    }
+
+    public void setRange(Integer range) {
+        this.range = range;
+    }
+
+    public String parseName(){
+        String name = "";
+        String[] split = this.name.toUpperCase().split(" ");
+        for(String word : split){
+            name = name + "<span class=spell-name-head>" + word.substring(0, 1) + "</span>" +
+                    "<span class=spell-name-tail>"+ word.substring(1, word.length()) + "</span> ";
+        }
+        return name;
+    }
+
+    public String getLevelSchool(){
+        String levelSchool = "";
+        switch(this.level){
+            case 0:
+                return this.school + " cantrip";
+            case 1:
+                levelSchool = "1st";
+                break;
+            case 2:
+                levelSchool = "2nd";
+                break;
+            case 3:
+                levelSchool = "3rd";
+                break;
+            default:
+                levelSchool = level+"th";
+                break;
+        }
+        levelSchool = levelSchool + ("-level " + school.toLowerCase());
+        return levelSchool;
+    }
+
+    public String getComponents(){
+        String components = "";
+        if(requiresVerbalComponent) components = "V";
+        if(requiresSomaticComponent) components = components + ", S";
+        if(StringUtils.isNotEmpty(materialComponent)) components = components + ", M("+ materialComponent + ")";
+        return components;
+    }
+
+    public String parseDescription() {
+        String description = this.description;
+        String parsedDescription = "";
+        if(description.contains("/bullets")){
+            while (description.contains("/bullets")) {
+                int startIndex = description.indexOf("/bullets")+ 8;
+                int endIndex = description.indexOf("/bullets", startIndex+8);
+                endIndex = endIndex == -1 ? description.length() : endIndex;
+                String text = description.substring(startIndex, endIndex);
+                description = description.replaceFirst("/bullets", "<table class='bullet-list'>");
+                description = description.replaceFirst("/bullets", "</table>");
+                description = description.replace(text, formatBulletList(text));
+            }
+        }
+        if(description.contains("/b")) {
+            while (description.contains("/b")) {
+                int startIndex = description.indexOf("/b");
+                int endIndex = description.indexOf("/b", startIndex + 2) + 2;
+                String text = description.substring(startIndex, endIndex);
+                description = description.replaceFirst(text, boldText(text));
+            }
+        }
+        if(description.contains("/n")) {
+            parsedDescription = newLine(description.substring(0, description.indexOf("/n")));
+            while (description.contains("/n")) {
+                int startIndex = description.indexOf("/n");
+                int endIndex = description.indexOf("/n", startIndex + 2);
+                endIndex = endIndex == -1 ? description.length() : endIndex;
+                String text = description.substring(startIndex, endIndex);
+                description = description.replace(text, newLine(text));
+            }
+        }
+        return description;
+    }
+
+    private String newLine(String text){
+        text = text.replace("/n", "<span class='indent'/>");
+        return  "<tr><td><span class='spell-line'>   " + text + "</span></td></tr>";
+    }
+
+    private String formatBulletList(String list){
+        String[] bullets = list.split("/bt");
+        list = list.replace("/bt", "");
+        for(String bullet: bullets){
+            list = list.replace(bullet, "<tr><td>" + bullet + "</td></tr>");
+        }
+        return list;
+    }
+
+    private String boldText(String text){
+        text = text.replace("/b", "");
+        return "<span class='text-bold'>"+ text + "</span>";
+    }
+
+    public String getDisplayText(){
+        return "<div id='spell-text-div'><table>" +
+                "<tr><td>" + parseName() + "</td></tr>" +
+                "<tr><td><span class='spell-level-school'>" + this.getLevelSchool() + "</span> </td></tr>" +
+                "<tr><td><span class='spell-header'>Casting Time: </span><span class='spell-line'>" + this.castingTime + "</span> </td></tr>" +
+                "<tr><td><span class='spell-header'>Range: </span><span class='spell-line'>" + this.range + " feet</span> </td></tr>" +
+                "<tr><td><span class='spell-header'>Components: </span><span class='spell-line'>" + this.getComponents() + "</span> </td></tr>" +
+                "<tr><td><span class='spell-header'>Duration: </span><span class='spell-line'>" + this.duration + "</span> </td></tr>   " +
+                "<tr><td>" +this.parseDescription() + "</td></tr></div>";
     }
 }

@@ -1,3 +1,15 @@
+#character-sheet{
+    font-family: "Century Schoolbook";
+}
+
+.text-bold{
+    font-weight: bold;
+}
+
+table{
+    font-size: 14px;
+}
+
 .clear{
     clear: both;
 }
@@ -102,4 +114,45 @@ table.side-by-side.currency{
 .filter-text{
     margin-left: 5px;
     font-size: 10;
+}
+
+/****Spells****/
+
+#spell-text-div table{
+    line-height: 15px;
+}
+
+.spell-header{
+    font-weight: bold;
+}
+
+.spell-name-head{
+    font-size: 18px;
+}
+
+.spell-name-tail {
+    font-size: 15px;
+}
+
+.spell-level-school {
+    font-size: 15px;
+    font-style: italic;
+}
+
+.spell-header{
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.spell-line {
+    font-size: 14px;
+}
+
+span.indent{
+    margin-right: 12px;
+}
+
+table.bullet-list td {
+    padding-left: .6em;
+    text-indent: -.8em;
 }

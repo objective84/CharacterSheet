@@ -141,4 +141,6 @@ public interface AdminFacade {
     Abilities saveAbilities(Abilities abilities);
 
     Abilities findAbilities(String id);
+
+    SpellModel findSpell(String spellId);
 }

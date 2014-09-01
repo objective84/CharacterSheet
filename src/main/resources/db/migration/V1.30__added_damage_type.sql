@@ -11,3 +11,6 @@ INSERT INTO `charactersheet`.`damagetype` values (10,"Psychic","Mental abilities
 INSERT INTO `charactersheet`.`damagetype` values (11,"Radiant","Radiant damage, dealt by a cleric's flame strike spell or an angel's smiting weapon, sears the flesh like fire and overloads the spirit with power.");
 INSERT INTO `charactersheet`.`damagetype` values (12,"Slashing","Swords, axes, and monsters' claws deal slashing damage.");
 INSERT INTO `charactersheet`.`damagetype` values (13,"Thunder","A concussive burst of sound, such as the effect o f the thunderwavespell, deals thunder damage.");
+INSERT INTO `charactersheet`.`damagetype` values (14,"Healing","A wave of healing energy that restores vitality.");
+INSERT INTO `charactersheet`.`damagetype` values (15, "Elemental", "Player may choose acid, cold, fire, lightning, or thunder.");
+
