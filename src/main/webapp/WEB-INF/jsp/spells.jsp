@@ -14,10 +14,17 @@
 
 <html>
 <head>
-    <title></title>
+    <title>Spells</title>
     <template:javascript/>
 </head>
 <body>
-
+    <table>
+        <tr><td>Spells:</td></tr>
+        <c:forEach items="${allSpells}" var="spell">
+            <tr>
+                <td><a class="entry-link" href="#" id="${spell.id}">${spell.name}</a></td>
+            </tr>
+        </c:forEach>
+    </table>
 </body>
 </html>

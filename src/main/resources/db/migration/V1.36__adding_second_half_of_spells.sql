@@ -192,7 +192,7 @@ VALUES ('291', #id
         null,#damageDice_id
         null,#damageType_id
         null,#savingThrow
-        '0',#condition
+        null,#condition
         'one object that you must touch throughout the casting',#target
         '0'#requiresAttackRoll
         ),('292', #id
@@ -212,7 +212,7 @@ VALUES ('291', #id
           null,#damageDice_id
           null,#damageType_id
           null,#savingThrow
-          '0',#condition
+          null,#condition
           'one object that you must touch throughout the casting',#target
           '0'#requiresAttackRoll
           ),('290', #id
@@ -232,7 +232,7 @@ VALUES ('291', #id
             null,#damageDice_id
             null,#damageType_id
             null,#savingThrow
-            '0',#condition
+            null,#condition
             'one object that you must touch throughout the casting',#target
             '0'#requiresAttackRoll
             ),('289', #id
@@ -252,7 +252,7 @@ VALUES ('291', #id
             '3',#damageDice_id
             '4',#damageType_id
             'Dexterity',#savingThrow
-            '0',#condition
+            null,#condition
             '20-foot-radius sphere centered on a point within range',#target
             '0'#requiresAttackRoll
             ),('288', #id
@@ -272,7 +272,7 @@ VALUES ('291', #id
             '4',#damageDice_id
             '7',#damageType_id
             null,#savingThrow
-            '0',#condition
+            null,#condition
             'creature you can reach',#target
             '1'#requiresAttackRoll
             ),('287', #id
@@ -292,7 +292,7 @@ VALUES ('291', #id
             '4',#damageDice_id
             '8',#damageType_id
             'Constitution',#savingThrow
-            '0',#condition
+            null,#condition
             '20-foot-radius sphere centered on a point you choose within range',#target
             '0'#requiresAttackRoll
             ),('286', #id

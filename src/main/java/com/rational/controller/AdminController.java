@@ -182,7 +182,7 @@ public class AdminController {
     @RequestMapping(value = "/db-entry/spells", method = RequestMethod.GET)
     public ModelAndView spells(final Model model){
         ModelAndView mav = new ModelAndView(SPELLS_ENTRY);
-
+        mav.addObject("allSpells", adminFacade.findAllSpells());
         return mav;
     }
 
