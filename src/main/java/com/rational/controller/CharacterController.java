@@ -239,7 +239,7 @@ public class CharacterController {
 
     private Map<String, String> buildJspStrings(List<SpellModel> spells){
         String spellString = "";
-        String tableStart = "<table class='side-by-side'><tr><th>Level</th><th>Spell</th></tr>";
+        String tableStart = "<table class='spell-table side-by-side'><tr><th>Level</th><th>Spell</th></tr>";
         String abjuration = tableStart;
         String conjuration = tableStart;
         String divination = tableStart;

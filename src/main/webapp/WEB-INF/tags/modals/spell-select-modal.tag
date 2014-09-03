@@ -45,5 +45,8 @@
         <div id='spell-preview' class="side-by-side">
             <div id="spell-preview-text"></div>
         </div>
+        <table id="selected-spells">
+
+        </table>
     </div>
 </div>
