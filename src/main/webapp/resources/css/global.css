@@ -50,7 +50,7 @@ table th {
     margin-right: 68px !important;
     margin-left: 22px;
 }
-
+div.side-by-side,
 table.side-by-side{
     margin-right: 15px;
     float: left;
@@ -155,4 +155,36 @@ span.indent{
 table.bullet-list td {
     padding-left: .6em;
     text-indent: -.8em;
+}
+
+.spell-school-tab{
+    display: none;
+}
+
+.ui-tabs .ui-tabs-nav li a {
+    font-size:10pt !important;
+    font-family: "Century Schoolbook" !important;
+}
+
+tr.spell-line:hover{
+    background-color: deepskyblue;
+}
+
+tr.spell-line.selected{
+    background-color: blue;
+}
+
+div#spell-preview {
+    border: 1px solid black;
+    width: 500px !important;
+    float: right !important;
+}
+#spell-school-tabs{
+    border: 1px solid black;
+    width: 350px !important;
+}
+
+.ui-tabs-nav {
+    background: transparent !important;
+    border-color: #000000 !important;
 }

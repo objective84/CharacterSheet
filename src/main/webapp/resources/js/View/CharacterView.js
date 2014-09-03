@@ -49,7 +49,9 @@ define("CharacterView",
                 subrace: '#subrace',
                 encumberedLabel: '#encumbered-label',
                 speed: '#speed',
-                testSpell: "#test-spell"
+                testSpell: "#test-spell",
+                addSpellsLink: "#add-spells",
+                allSpells: "#all-spells"
             },
 
             bindings:{
@@ -68,7 +70,9 @@ define("CharacterView",
                 'change @ui.equipArmor': 'onEquipArmorChange',
                 'click @ui.storeSubmit': 'onStoreSubmitClick',
                 'click #fetch-character' : 'refreshCharacter',
-                'click @ui.testSpell' : 'onSpellClick'
+                'click @ui.testSpell' : 'onSpellClick',
+                'click @ui.addSpellsLink': 'onAddSpellLinkClick',
+                'click @ui.allSpells': 'onAllSpellsLinkClick'
             },
 
             onRender: function(){
@@ -547,6 +551,64 @@ define("CharacterView",
                 }, this));
             },
 
+            onAddSpellLinkClick:function(){
+                this.addSpellsToModal("availableSpells/"+this.model.get('id')+".json");
+            },
+
+            onAllSpellsLinkClick: function(){
+                this.addSpellsToModal("allSpells.json");
+
+            },
+
+            addSpellsToModal: function(url){
+                $.getJSON(url, null, _.bind(function(data){
+                    $('#spell-school-tabs').tabs();
+                    if(data.data.abjuration){
+                        $('#abjuration').append(data.data.abjuration);
+                        $('#tab-abjuration').show();
+                    }
+                    if(data.data.conjuration){
+                        $('#conjuration').append(data.data.conjuration);
+                        $('#tab-conjuration').show();
+                    }
+                    if(data.data.enchantment){
+                        $('#enchantment').append(data.data.enchantment);
+                        $('#tab-enchantment').show();
+                    }
+                    if(data.data.evocation){
+                        $('#evocation').append(data.data.evocation);
+                        $('#tab-evocation').show();
+                    }
+                    if(data.data.divination){
+                        $('#divination').append(data.data.divination);
+                        $('#tab-divination').show();
+                    }
+                    if(data.data.illusion){
+                        $('#illusion').append(data.data.illusion);
+                        $('#tab-illusion').show();
+                    }
+                    if(data.data.necromancy){
+                        $('#necromancy').append(data.data.necromancy);
+                        $('#tab-necromancy').show();
+                    }
+                    if(data.data.transmutation){
+                        $('#transmutation').append(data.data.transmutation);
+                        $('#tab-transmutation').show();
+                    }
+                    $('.spell-line').on('click', _.bind(this.onSpellLineClick, this));
+                    this.modalOpen('spell-select-modal', 'spell-select-modal');
+                },this));
+            },
+
+            onSpellLineClick:function(event){
+                $('.spell-line').removeClass('selected');
+                $(event.currentTarget).addClass('selected');
+                var id = $(event.currentTarget).children('.spell-select').attr('id');
+                $.getJSON('spell/' + id + '.json', _.bind(function(data){
+                    $('#spell-text-div').remove();
+                    $('#spell-preview').append(data.spellModel.displayText);
+                }, this));},
+
             modalOpen: function(type, key) {
                 var modal_width = 540;
                 var modal_height = 'auto';
@@ -566,7 +628,7 @@ define("CharacterView",
                         modal_height = 'auto';
                         break;
                     default:
-                        modal_width = 380;
+                        modal_width = 1000;
                         modal_height = 'auto';
                         break;
                 }

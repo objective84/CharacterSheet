@@ -71,6 +71,8 @@ public class DefaultAdminService implements AdminService {
     @Resource
     private AbilitiesRepository abilitiesRepository;
 
+    @Resource
+    private AdvancementRepository advancementRepository;
 
 
     /* Proficiencies */
@@ -355,6 +357,22 @@ public class DefaultAdminService implements AdminService {
     @Override
     public Abilities findAbilities(Long id) {
         return abilitiesRepository.findOne(id);
+    }
+
+    @Override
+    public Level findLevel(Long classId, int totalLevel) {
+        ClassModel clazz = classRepository.findOne(classId);
+        for(Level level : clazz.getLevels()){
+            if(level.getLevelNumber() == totalLevel){
+                return level;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public CharacterAdvancement saveAdvancement(CharacterAdvancement advancement) {
+        return advancementRepository.save(advancement);
     }
 
 }

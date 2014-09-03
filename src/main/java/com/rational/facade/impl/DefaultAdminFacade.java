@@ -389,4 +389,57 @@ public class DefaultAdminFacade implements AdminFacade {
     public SpellModel findSpell(String spellId) {
         return adminService.findSpell(Long.decode(spellId));
     }
+
+    @Override
+    public List<SpellModel> findSpells(String characterId) {
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        ClassModel clazz = character.getClazz();
+        List<SpellModel> spells = new ArrayList<SpellModel>();
+        Level classLevel = adminService.findLevel(character.getClazz().getId(), character.getLevel());
+        Integer highestSpellsSlot = getHighestSpellSlot(classLevel);
+        if(highestSpellsSlot > 0){
+            for(SpellModel spell : clazz.getSpells()){
+                if(spell.getLevel() <= highestSpellsSlot){
+                    spells.add(spell);
+                }
+            }
+        }
+        return spells;
+    }
+
+    @Override
+    public List<SpellModel> findAllSpells() {
+        return adminService.findAllSpells();
+    }
+
+    private Integer getHighestSpellSlot(Level level){
+        if(level.getNinthLevelSpellSlots() > 0){
+            return 9;
+        }
+        if(level.getEighthLevelSpellSlots() > 0){
+            return 8;
+        }
+        if(level.getSeventhLevelSpellSlots() > 0){
+            return 7;
+        }
+        if(level.getSixthLevelSpellSlots() > 0){
+            return 6;
+        }
+        if(level.getFifthLevelSpellSlots() > 0){
+            return 5;
+        }
+        if(level.getFourthLevelSpellSlots() > 0){
+            return 4;
+        }
+        if(level.getThirdLevelSpellSlots() > 0){
+            return 3;
+        }
+        if(level.getSecondLevelSpellSlots() > 0){
+            return 2;
+        }
+        if(level.getFirstLevelSpellSlots() > 0){
+            return 1;
+        }
+        return 0;
+    }
 }

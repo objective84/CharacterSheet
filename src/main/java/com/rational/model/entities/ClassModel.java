@@ -44,14 +44,18 @@ public class ClassModel {
     @ManyToOne @JsonManagedReference
     private Dice startingWealthDie;
 
-    @ManyToMany @JsonManagedReference
-    @JoinTable(name="spellmodel_classmodel", joinColumns = @JoinColumn(name="spellmodel_id"), inverseJoinColumns = @JoinColumn(name="classmodel_id"))
+    @JsonManagedReference
+    @ManyToMany
+    @JoinTable(name="spellmodel_classmodel",
+            joinColumns = @JoinColumn(name="classmodel_id"),
+            inverseJoinColumns = @JoinColumn(name="spellmodel_id"))
     private List<SpellModel> spells = new ArrayList<SpellModel>();
 
 
     @Column(name="magic_ability")
     private String magicAbility;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "clazz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Level> levels = new ArrayList<Level>();
 

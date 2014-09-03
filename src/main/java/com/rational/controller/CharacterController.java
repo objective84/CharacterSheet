@@ -25,10 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class CharacterController {
@@ -218,6 +215,103 @@ public class CharacterController {
         return adminFacade.findSpell(spellId);
     }
 
+    @ResponseBody
+    @RequestMapping(value="/availableSpells/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseData<Map<String, String>> getSpellsForClassLevel(@PathVariable String characterId){
+        ResponseData<Map<String, String>> spells = new ResponseData<Map<String, String>>();
+        spells.setData(buildJspStrings(adminFacade.findSpells(characterId)));
+        return spells;
+    }
+
+    @RequestMapping(value="/add-spell/{characterId}/{spellId}", method = RequestMethod.POST)
+    public SpellModel addSpell(@PathVariable String characterId,  @PathVariable String spellId){
+        return characterFacade.addSpell(characterId, spellId);
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value="/allSpells", method = RequestMethod.GET, produces = "application/json")
+    public ResponseData<Map<String, String>> getAllSpells(){
+        ResponseData<Map<String, String>> spells = new ResponseData<Map<String, String>>();
+        spells.setData(buildJspStrings(adminFacade.findAllSpells()));
+        return spells;
+    }
+
+    private Map<String, String> buildJspStrings(List<SpellModel> spells){
+        String spellString = "";
+        String tableStart = "<table class='side-by-side'><tr><th>Level</th><th>Spell</th></tr>";
+        String abjuration = tableStart;
+        String conjuration = tableStart;
+        String divination = tableStart;
+        String enchantment = tableStart;
+        String evocation = tableStart;
+        String illusion = tableStart;
+        String necromancy = tableStart;
+        String transmutation = tableStart;
+        boolean hasAbj = false;
+        boolean hasConj = false;
+        boolean hasDiv = false;
+        boolean hasEnc = false;
+        boolean hasEvo = false;
+        boolean hasIll = false;
+        boolean hasNec = false;
+        boolean hasTra = false;
+
+        for(SpellModel spell : spells){
+            spellString = "<tr class='spell-line'><td>" + spell.getLevel() + "</td><td id='" + spell.getId() + "' class='spell-select'><span>" + spell.getName() + "</span></td></tr>";
+            if(spell.getSchool().equalsIgnoreCase("abjuration")){
+                hasAbj = true;
+                abjuration = abjuration + spellString;
+            }
+            else if(spell.getSchool().equalsIgnoreCase("conjuration")){
+                hasConj = true;
+                conjuration = conjuration + spellString;
+            }
+            else if(spell.getSchool().equalsIgnoreCase("divination")){
+                hasDiv = true;
+                divination = divination + spellString;
+            }
+            else if(spell.getSchool().equalsIgnoreCase("enchantment")){
+                hasEnc = true;
+                enchantment = enchantment + spellString;
+            }
+            else if(spell.getSchool().equalsIgnoreCase("evocation")){
+                hasEvo = true;
+                evocation = evocation + spellString;
+            }
+            else if(spell.getSchool().equalsIgnoreCase("illusion")){
+                hasIll = true;
+                illusion = illusion + spellString;
+            }
+            else if(spell.getSchool().equalsIgnoreCase("necromancy")){
+                hasNec = true;
+                necromancy = necromancy + spellString;
+            }
+            else if(spell.getSchool().equalsIgnoreCase("transmutation")){
+                hasTra = true;
+                transmutation = transmutation + spellString;
+            }
+        }
+        abjuration = abjuration + "</table>";
+        conjuration = conjuration + "</table>";
+        divination = divination + "</table>";
+        enchantment = enchantment + "</table>";
+        evocation = evocation + "</table>";
+        illusion = illusion + "</table>";
+        necromancy = necromancy + "</table>";
+        transmutation = transmutation + "</table>";
+
+        Map<String, String> spellList = new HashMap<String, String>();
+        if(hasAbj)spellList.put("abjuration", abjuration);
+        if(hasConj)spellList.put("conjuration", conjuration);
+        if(hasDiv)spellList.put("divination", divination);
+        if(hasEnc)spellList.put("enchantment", enchantment);
+        if(hasEvo)spellList.put("evocation", evocation);
+        if(hasIll)spellList.put("illusion", illusion);
+        if(hasNec)spellList.put("necromancy", necromancy);
+        if(hasTra)spellList.put("transmutation", transmutation);
+        return spellList;
+    }
 
 
 

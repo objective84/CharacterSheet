@@ -328,4 +328,20 @@ public class SpellModel {
                 "<tr><td><span class='spell-header'>Duration: </span><span class='spell-line'>" + this.duration + "</span> </td></tr>   " +
                 "<tr><td>" +this.parseDescription() + "</td></tr></div>";
     }
+
+    public Boolean getConcentration() {
+        return concentration;
+    }
+
+    public void setConcentration(Boolean concentration) {
+        this.concentration = concentration;
+    }
+
+    public String getSchool(){
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
 }

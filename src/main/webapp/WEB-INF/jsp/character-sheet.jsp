@@ -272,10 +272,12 @@
                 <table>
                     <tr><td><a href="#" id="test-spell">Chromatic Orb</a></td></tr>
                 </table>
+                <a href="#" id="add-spells">Choose Spells</a>
             </div>
             <modals:language-modal></modals:language-modal>
             <modals:store-modal></modals:store-modal>
             <modals:spell-modal></modals:spell-modal>
+            <modals:spell-select-modal></modals:spell-select-modal>
         </form:form>
     </div>
 </body>

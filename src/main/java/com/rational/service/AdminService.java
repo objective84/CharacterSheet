@@ -119,4 +119,8 @@ public interface AdminService {
     Abilities saveAbilities(Abilities abilities);
 
     Abilities findAbilities(Long aLong);
+
+    Level findLevel(Long id, int totalLevel);
+
+    CharacterAdvancement saveAdvancement(CharacterAdvancement advancement);
 }

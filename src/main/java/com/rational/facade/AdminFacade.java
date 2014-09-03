@@ -143,4 +143,8 @@ public interface AdminFacade {
     Abilities findAbilities(String id);
 
     SpellModel findSpell(String spellId);
+
+    List<SpellModel> findSpells(String characterId);
+
+    List<SpellModel> findAllSpells();
 }

@@ -1,5 +1,7 @@
 package com.rational.model.entities;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class Level {
     @Column(name = "level_number")
     private int levelNumber;
     @ManyToMany
+    @JoinTable(name="traitmodel_level", joinColumns = @JoinColumn(name="traitmodel_id"), inverseJoinColumns = @JoinColumn(name="level_id"))
     private List<TraitModel> traits;
     @Column(name = "proficiency_bonus")
     private int proficiencyBonus;
@@ -41,6 +44,7 @@ public class Level {
     @Column(name = "ninth_level_spell_slots")
     private Integer ninthLevelSpellSlots;
 
+    @JsonBackReference
     @ManyToOne
     private ClassModel clazz;
 

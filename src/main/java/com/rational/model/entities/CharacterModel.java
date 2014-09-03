@@ -32,7 +32,7 @@ public class CharacterModel {
     @ManyToOne
     private SubRaceModel subrace;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "character_advancement_id")
     private CharacterAdvancement characterAdvancement;
 
@@ -87,6 +87,10 @@ public class CharacterModel {
     private CoinPurse coinPurse;
 
     private Long inventoryWeight;
+
+    @ManyToMany
+    @JoinTable(name="charactermodel_spellmodel", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="spellmodel_id"))
+    private List<SpellModel> spellsKnown = new ArrayList<SpellModel>();
 
     public CharacterModel(){}
 
@@ -297,5 +301,13 @@ public class CharacterModel {
 
     public void setArmorClass(Integer armorClass) {
         this.armorClass = armorClass;
+    }
+
+    public List<SpellModel> getSpellsKnown() {
+        return spellsKnown;
+    }
+
+    public void setSpellsKnown(List<SpellModel> spellsKnown) {
+        this.spellsKnown = spellsKnown;
     }
 }

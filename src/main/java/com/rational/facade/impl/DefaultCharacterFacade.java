@@ -142,6 +142,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setCoinPurse(currencyService.getStartingWealth(classModel.getStartingWealthDie(), classModel.getStartingWealthDieAmount()));
         character.setMaxHealth(classModel.getHitDie().getMaxRoll());
         character.setCurrentHealth(character.getMaxHealth());
+        character.setLevel(1);
         characterService.save(character);
 
         return classModel;
@@ -288,6 +289,15 @@ public class DefaultCharacterFacade implements CharacterFacade {
     @Override
     public ClassModel getCharacterClass(String characterId) {
         return characterService.findCharacter(Long.decode(characterId)).getClazz();
+    }
+
+    @Override
+    public SpellModel addSpell(String characterId, String spellId) {
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        SpellModel spell = adminService.findSpell(Long.decode(spellId));
+        character.getSpellsKnown().add(spell);
+        characterService.save(character);
+        return spell;
     }
 
     private void setAC(CharacterModel character){

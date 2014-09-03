@@ -2,10 +2,7 @@ package com.rational.facade;
 
 import com.rational.forms.Character;
 import com.rational.model.Proficiency;
-import com.rational.model.entities.Abilities;
-import com.rational.model.entities.CharacterModel;
-import com.rational.model.entities.ClassModel;
-import com.rational.model.entities.SubRaceModel;
+import com.rational.model.entities.*;
 import com.rational.model.enums.ProficiencyTypeEnum;
 import com.rational.model.equipment.EquipmentModel;
 import com.rational.model.exceptions.PurchaseException;
@@ -52,4 +49,6 @@ public interface CharacterFacade {
     Abilities findAbilities(String characterId);
 
     ClassModel getCharacterClass(String characterId);
+
+    SpellModel addSpell(String characterId, String spellId);
 }
