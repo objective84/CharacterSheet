@@ -162,7 +162,7 @@ table.bullet-list td {
 }
 
 .ui-tabs .ui-tabs-nav li a {
-    font-size:10pt !important;
+    font-size:8pt !important;
     font-family: "Century Schoolbook" !important;
 }
 
@@ -175,13 +175,14 @@ tr.spell-line.selected{
 }
 
 div#spell-preview {
-    border: 1px solid black;
     width: 500px !important;
+    height: 500px !important;
     float: right !important;
+    padding-left: 15px;
 }
 #spell-school-tabs{
     border: 1px solid black;
-    width: 350px !important;
+    width: 400px !important;
 }
 
 .ui-tabs-nav {

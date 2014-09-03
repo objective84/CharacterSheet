@@ -561,6 +561,7 @@ define("CharacterView",
             },
 
             addSpellsToModal: function(url){
+                $('.spell-table').remove();
                 $.getJSON(url, null, _.bind(function(data){
                     $('#spell-school-tabs').tabs();
                     if(data.data.abjuration){
@@ -596,6 +597,7 @@ define("CharacterView",
                         $('#tab-transmutation').show();
                     }
                     $('.spell-line').on('click', _.bind(this.onSpellLineClick, this));
+                    $('.spell-line').on('dblclick', _.bind(this.onSpellLineDblClick, this));
                     this.modalOpen('spell-select-modal', 'spell-select-modal');
                 },this));
             },
@@ -608,6 +610,16 @@ define("CharacterView",
                     $('#spell-text-div').remove();
                     $('#spell-preview').append(data.spellModel.displayText);
                 }, this));},
+
+            onSpellLineDblClick: function(){
+                $(event.currentTarget).addClass('selected');
+                var id = $(event.currentTarget).children('.spell-select').attr('id');
+                var text = $(event.currentTarget).children('.spell-select').text();
+                if($(".selected-spell-line#"+id) !== undefined) {
+                    $('#selected-spells').append("<tr><td><span class='selected-spell-line' id='" + id + "'></span>" + text + "</td>" +
+                        "<td><a href='#' class='link-small' data-spellid='" + id + "'>Delete</a></td></tr>");
+                }
+            },
 
             modalOpen: function(type, key) {
                 var modal_width = 540;
@@ -628,7 +640,7 @@ define("CharacterView",
                         modal_height = 'auto';
                         break;
                     default:
-                        modal_width = 1000;
+                        modal_width = 1050;
                         modal_height = 'auto';
                         break;
                 }
