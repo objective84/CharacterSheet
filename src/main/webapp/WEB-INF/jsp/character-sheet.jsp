@@ -268,7 +268,8 @@
             </tr>
 
             <div class="table_container">
-                <h3>Spells</h3>
+                <h3>Spells <a href="#" id="all-spells" class="link-small">View all</a></h3>
+
                 <table>
                     <tr><td><a href="#" id="test-spell">Chromatic Orb</a></td></tr>
                 </table>
