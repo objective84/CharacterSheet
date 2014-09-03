@@ -557,7 +557,7 @@ define("CharacterView",
 
             onAllSpellsLinkClick: function(){
                 this.addSpellsToModal("allSpells.json");
-
+                $('.spell-line').on('dblclick', _.bind(this.onSpellLineDblClick, this));
             },
 
             addSpellsToModal: function(url){
@@ -597,7 +597,6 @@ define("CharacterView",
                         $('#tab-transmutation').show();
                     }
                     $('.spell-line').on('click', _.bind(this.onSpellLineClick, this));
-                    $('.spell-line').on('dblclick', _.bind(this.onSpellLineDblClick, this));
                     this.modalOpen('spell-select-modal', 'spell-select-modal');
                 },this));
             },

@@ -175,6 +175,7 @@ tr.spell-line.selected{
 }
 
 div#spell-preview {
+    border-left: 1px solid black;
     width: 500px !important;
     height: 500px !important;
     float: right !important;
