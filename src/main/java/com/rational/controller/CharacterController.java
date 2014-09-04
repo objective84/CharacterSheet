@@ -219,7 +219,7 @@ public class CharacterController {
     @RequestMapping(value="/availableSpells/{characterId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseData<Map<String, String>> getSpellsForClassLevel(@PathVariable String characterId){
         ResponseData<Map<String, String>> spells = new ResponseData<Map<String, String>>();
-        spells.setData(buildJspStrings(adminFacade.findSpells(characterId)));
+        spells.setData(buildJspStrings(new TreeSet<SpellModel>(adminFacade.findSpells(characterId))));
         return spells;
     }
 
@@ -233,11 +233,11 @@ public class CharacterController {
     @RequestMapping(value="/allSpells", method = RequestMethod.GET, produces = "application/json")
     public ResponseData<Map<String, String>> getAllSpells(){
         ResponseData<Map<String, String>> spells = new ResponseData<Map<String, String>>();
-        spells.setData(buildJspStrings(adminFacade.findAllSpells()));
+        spells.setData(buildJspStrings(new TreeSet<SpellModel>(adminFacade.findAllSpells())));
         return spells;
     }
 
-    private Map<String, String> buildJspStrings(List<SpellModel> spells){
+    private Map<String, String> buildJspStrings(Set<SpellModel> spells){
         String spellString = "";
         String tableStart = "<table class='spell-table side-by-side'><tr><th>Level</th><th>Spell</th></tr>";
         String abjuration = tableStart;

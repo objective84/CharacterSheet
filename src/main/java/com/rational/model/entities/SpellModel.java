@@ -36,7 +36,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
  */
 
 @Entity
-public class SpellModel {
+public class SpellModel implements Comparable<SpellModel>{
 
     @Id
     @GeneratedValue
@@ -258,15 +258,29 @@ public class SpellModel {
 
     public String getComponents(){
         String components = "";
-        if(requiresVerbalComponent) components = "V";
-        if(requiresSomaticComponent) components = components + ", S";
-        if(StringUtils.isNotEmpty(materialComponent)) components = components + ", M("+ materialComponent + ")";
+        if(requiresVerbalComponent){
+            components = "V";
+            if(requiresSomaticComponent) components = components.concat(", S");
+            if(StringUtils.isNotEmpty(materialComponent)) components = components.concat(", M("+ materialComponent + ")");
+        }else if(requiresSomaticComponent) {
+            components = "S";
+            if(StringUtils.isNotEmpty(materialComponent)) components = components.concat(", M("+ materialComponent + ")");
+        }else if(StringUtils.isNotEmpty(materialComponent)){
+            components = "M("+ materialComponent + ")";
+        }
         return components;
     }
 
     public String parseDescription() {
         String description = this.description;
-        String parsedDescription = "";
+        if(description.contains("/s")){
+            while(description.contains("/s")){
+                int startIndex = description.indexOf("/s")+2;
+                int endIndex = description.indexOf("/", startIndex + 1);
+                String padding = description.substring(startIndex, endIndex);
+                description = description.replace("/s"+padding+"/", "<span style='padding: "+ padding + "px;'/>");
+            }
+        }
         if(description.contains("/bullets")){
             while (description.contains("/bullets")) {
                 int startIndex = description.indexOf("/bullets")+ 8;
@@ -287,7 +301,6 @@ public class SpellModel {
             }
         }
         if(description.contains("/n")) {
-            parsedDescription = newLine(description.substring(0, description.indexOf("/n")));
             while (description.contains("/n")) {
                 int startIndex = description.indexOf("/n");
                 int endIndex = description.indexOf("/n", startIndex + 2);
@@ -343,5 +356,11 @@ public class SpellModel {
 
     public void setSchool(String school) {
         this.school = school;
+    }
+
+    @Override
+    public int compareTo(SpellModel o) {
+        if(this.getLevel().compareTo(o.getLevel()) != 0) return this.getLevel().compareTo(o.getLevel());
+        return this.getName().compareTo(o.getName());
     }
 }

@@ -67,6 +67,10 @@ table.side-by-side.currency{
     width: auto;
 }
 
+th.spell{
+    float: left;
+}
+
 .modal{
     display: none;
 }
@@ -163,15 +167,16 @@ table.bullet-list td {
 
 .ui-tabs .ui-tabs-nav li a {
     font-size:8pt !important;
-    font-family: "Century Schoolbook" !important;
+    font-family: "Century Schoolbook",serif !important;
 }
 
 tr.spell-line:hover{
-    background-color: deepskyblue;
+    background-color: lightgrey;
 }
 
 tr.spell-line.selected{
-    background-color: blue;
+    background-color: slategrey;
+    color: white;
 }
 
 div#spell-preview {
