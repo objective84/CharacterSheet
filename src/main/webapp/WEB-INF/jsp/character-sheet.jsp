@@ -82,7 +82,7 @@
                 <tr >
                     <td><spring:message code="character.level"/></td>
                     <td colspan="2">
-                        <form:input cssClass="input-box-small" id="level" path="level" readonly="true"/>
+                        <input class="input-box-small" id="level" readonly="true"/>
                         <spring:message code="character.ac"/>
                         <input class="input-box-small" id="armor-class" readonly="true"/>
                     </td>

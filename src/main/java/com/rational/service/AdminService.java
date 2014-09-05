@@ -123,4 +123,6 @@ public interface AdminService {
     Level findLevel(Long id, int totalLevel);
 
     CharacterAdvancement saveAdvancement(CharacterAdvancement advancement);
+
+    CharacterAdvancement findAdvancement(Long id);
 }

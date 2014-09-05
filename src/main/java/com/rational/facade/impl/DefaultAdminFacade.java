@@ -395,7 +395,7 @@ public class DefaultAdminFacade implements AdminFacade {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         ClassModel clazz = character.getClazz();
         List<SpellModel> spells = new ArrayList<SpellModel>();
-        Level classLevel = adminService.findLevel(character.getClazz().getId(), character.getLevel());
+        Level classLevel = adminService.findLevel(character.getClazz().getId(), 1);//character.getCharacterAdvancement().getLevelsOfClass(clazz));
         Integer highestSpellsSlot = getHighestSpellSlot(classLevel);
         if(highestSpellsSlot > 0){
             for(SpellModel spell : clazz.getSpells()){

@@ -375,4 +375,9 @@ public class DefaultAdminService implements AdminService {
         return advancementRepository.save(advancement);
     }
 
+    @Override
+    public CharacterAdvancement findAdvancement(Long id) {
+        return advancementRepository.findOne(id);
+    }
+
 }

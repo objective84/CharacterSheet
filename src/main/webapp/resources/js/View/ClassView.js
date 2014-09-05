@@ -26,7 +26,9 @@ define("ClassView",
             fetch: function(callback){
                 this.model.fetchClass({success: _.bind(function(){
                     if(callback)callback();
-                },this)});
+                },this), error: function(model, response) {
+                    console.log('request failed' + response);
+                }});
             },
 
             setCharacterId: function(id){
@@ -41,7 +43,9 @@ define("ClassView",
                 this.model.set('id', this.ui.clazz.val());
                 this.model.save(null, {success: _.bind(function(){
                     this.trigger('classUpdated');
-                }, this)});
+                }, this), error: function(model, response) {
+                    console.log('request failed' + response);
+                }});
             },
 
             initialize: function(){

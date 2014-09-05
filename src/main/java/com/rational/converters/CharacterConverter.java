@@ -49,7 +49,6 @@ public class CharacterConverter {
         if(null != characterModel.getRace()){
             character.setRace(characterModel.getRace().getId());
         }
-        character.setLevel(characterModel.getLevel());
         character.setMaxHealth(characterModel.getMaxHealth());
         character.setCurrentHealth(characterModel.getCurrentHealth());
         if(characterModel.getAbilities() != null) {
@@ -108,7 +107,6 @@ public class CharacterConverter {
             characterModel.addClazz(classModel);
         }
 
-        characterModel.setLevel(character.getLevel());
         characterModel.setMaxHealth(character.getMaxHealth());
         characterModel.setCurrentHealth(character.getCurrentHealth());
         if(characterModel.getAbilities() != null) {

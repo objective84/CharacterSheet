@@ -1,26 +1,35 @@
 package com.rational.model.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Andy on 8/19/2014.
  */
 @Entity(name = "character_advancement")
 public class CharacterAdvancement {
-    @Id
-    @GeneratedValue
-    @Column(name = "id_character_advancement")
+
+    @Id @GeneratedValue @Column(name = "id_character_advancement")
     private Long id;
-    @Column(name = "total_level")
-    private int totalLevel;
     @Column(name = "proficiency_bonus")
     private int proficiencyBonus;
     @Column(name = "experience_points")
     private int experiencePoints;
 
-    @OneToOne(mappedBy = "characterAdvancement", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "character_advancement_id")
-    private CharacterModel character;
+    @ManyToMany
+    @JoinTable(name = "character_advancement_level",
+            joinColumns = @JoinColumn(name = "character_advancement_id"), inverseJoinColumns = @JoinColumn(name = "level_id"))
+    private List<Level> levels = new ArrayList<Level>();
+
+    public CharacterAdvancement(){
+
+    }
+
+    public CharacterAdvancement(CharacterAdvancement advancement){
+        this.setProficiencyBonus(advancement.getProficiencyBonus());
+        this.setExperiencePoints(advancement.getExperiencePoints());
+    }
 
     public Long getId() {
         return id;
@@ -31,11 +40,7 @@ public class CharacterAdvancement {
     }
 
     public int getTotalLevel() {
-        return totalLevel;
-    }
-
-    public void setTotalLevel(int totalLevel) {
-        this.totalLevel = totalLevel;
+        return levels.size();
     }
 
     public int getProficiencyBonus() {
@@ -54,11 +59,21 @@ public class CharacterAdvancement {
         this.experiencePoints = experiencePoints;
     }
 
-    public CharacterModel getCharacter() {
-        return character;
+    public List<Level> getLevels() {
+        return levels;
     }
 
-    public void setCharacter(CharacterModel character) {
-        this.character = character;
+    public void setLevels(List<Level> levels) {
+        this.levels = levels;
+    }
+
+    public int getLevelsOfClass(ClassModel clazz) {
+        int total = 0;
+        for(Level level : this.levels){
+            if(level.getClazz().getId() == clazz.getId()){
+                total++;
+            }
+        }
+        return total;
     }
 }

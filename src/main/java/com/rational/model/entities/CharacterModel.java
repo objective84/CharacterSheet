@@ -17,80 +17,44 @@ import java.util.Set;
 @Entity
 public class CharacterModel {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+    @Id @GeneratedValue private Long id;
     private String name;
-    private Integer level;
     private boolean encumbered;
     private Integer speed = 0;
-    private Integer armorClass;
-
-    @ManyToOne
-    private RaceModel race;
-
-    @ManyToOne
-    private SubRaceModel subrace;
-
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "character_advancement_id")
-    private CharacterAdvancement characterAdvancement;
-
-    @ManyToOne
-    private ClassModel clazz;
-
-    @ManyToMany
-    @JoinTable(name="classmodel_charactermodel", joinColumns = @JoinColumn(name="charactermodel_id"), inverseJoinColumns = @JoinColumn(name = "classmodel_id"))
-    private List<ClassModel> multiClassList;
-
-    @ManyToMany
-    @JoinTable(name="character_language",
-            joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="language_id"))
-    private Set<LanguageModel> languages = new HashSet<LanguageModel>();
-
-    @ManyToMany
-    @JoinTable(name="character_proficiency",
-            joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="proficiency_id"))
-    private Set<Proficiency> proficiencies = new HashSet<Proficiency>();
-
-    @ManyToMany
-    @JoinTable(name="traitmodel_charactermodel",
-            joinColumns = @JoinColumn(name="charactermodel_id"), inverseJoinColumns = @JoinColumn(name="traitmodel_id"))
-    private Set<TraitModel> traits = new HashSet<TraitModel>();
-
     private int maxHealth;
     private int currentHealth;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Abilities abilities;
-
-    @JsonManagedReference
-    @ManyToMany
-    @JoinTable(name="character_equipment", joinColumns = @JoinColumn(name="character_id"),
-            inverseJoinColumns = @JoinColumn(name="equipment_id"))
-    private List<EquipmentModel> inventory = new ArrayList<EquipmentModel>();
-
-    @JsonManagedReference
-    @ManyToOne
-    private ArmorModel equippedArmor;
-
-    @JsonManagedReference
-    @ManyToOne
-    private WeaponModel equippedMainHand;
-
-    @JsonManagedReference
-    @ManyToOne
-    private EquipmentModel equippedOffHand;
-
-    @JsonManagedReference
-    @OneToOne(cascade = CascadeType.ALL)
-    private CoinPurse coinPurse;
-
     private Long inventoryWeight;
+    private Integer armorClass;
 
-    @ManyToMany
+    @ManyToOne private RaceModel race;
+    @ManyToOne private SubRaceModel subrace;
+    @ManyToOne private ClassModel clazz;
+    @ManyToOne(cascade = CascadeType.ALL) private Abilities abilities;
+    @JsonManagedReference @ManyToOne private ArmorModel equippedArmor;
+    @JsonManagedReference @ManyToOne private WeaponModel equippedMainHand;
+    @JsonManagedReference @ManyToOne private EquipmentModel equippedOffHand;
+    @JsonManagedReference @OneToOne(cascade = CascadeType.ALL) private CoinPurse coinPurse;
+
+    @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name = "character_advancement_id")
+    private CharacterAdvancement characterAdvancement;
+
+    @JoinTable(name="classmodel_charactermodel", joinColumns = @JoinColumn(name="charactermodel_id"), inverseJoinColumns = @JoinColumn(name = "classmodel_id"))
+    @ManyToMany private List<ClassModel> multiClassList;
+
+    @JoinTable(name="character_language", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="language_id"))
+    @ManyToMany private Set<LanguageModel> languages = new HashSet<LanguageModel>();
+
+    @JoinTable(name="character_proficiency", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="proficiency_id"))
+    @ManyToMany private Set<Proficiency> proficiencies = new HashSet<Proficiency>();
+
+    @JoinTable(name="traitmodel_charactermodel", joinColumns = @JoinColumn(name="charactermodel_id"), inverseJoinColumns = @JoinColumn(name="traitmodel_id"))
+    @ManyToMany private Set<TraitModel> traits = new HashSet<TraitModel>();
+
+    @JoinTable(name="character_equipment", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="equipment_id"))
+    @ManyToMany private List<EquipmentModel> inventory = new ArrayList<EquipmentModel>();
+
     @JoinTable(name="charactermodel_spellmodel", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="spellmodel_id"))
-    private List<SpellModel> spellsKnown = new ArrayList<SpellModel>();
+    @ManyToMany private List<SpellModel> spellsKnown = new ArrayList<SpellModel>();
 
     public CharacterModel(){}
 
@@ -127,14 +91,6 @@ public class CharacterModel {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
     }
 
     public int getMaxHealth() {

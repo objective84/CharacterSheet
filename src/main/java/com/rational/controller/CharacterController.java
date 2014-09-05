@@ -89,7 +89,6 @@ public class CharacterController {
         mav.addObject("create", true);
         if(null == character.getId()){
             characterModel = characterFacade.save(new Character());
-            character.setId(characterModel.getId());
         }else{
             characterModel = characterFacade.getCharacterModel(character.getId());
             addProficienciesToModel(mav, characterModel.getProficiencies());
@@ -101,7 +100,6 @@ public class CharacterController {
         mav.addObject("languages", adminFacade.findAllLanguages());
         mav.addObject("character", characterModel);
         addEquipmentToModel(mav, characterModel);
-//        mav.addObject("character", character);
         mav.addObject("abilityTypes", AbilityTypeEnum.values());
         mav.addObject("weaponFilters", EquipmentFilterEnum.getWeaponFilters());
         mav.addObject("armorFilters", EquipmentFilterEnum.getArmorFilters());
@@ -133,7 +131,8 @@ public class CharacterController {
     @ResponseBody
     @RequestMapping(value = "/character/{characterId}", method = RequestMethod.GET, produces = "application/json")
     public CharacterModel characterFetch(@PathVariable final String characterId){
-        return characterFacade.getCharacterModel(Long.valueOf(characterId));
+        CharacterModel character = characterFacade.getCharacterModel(Long.valueOf(characterId));
+        return character;
     }
 
     @ResponseBody

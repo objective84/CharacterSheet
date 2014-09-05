@@ -55,6 +55,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         CharacterModel characterModel = new CharacterModel();
         if(character.getId() == null){
             characterModel.setAbilities(new Abilities(8,8,8,8,8,8));
+            characterModel.setCharacterAdvancement(new CharacterAdvancement(adminService.findAdvancement(1l)));
         }else{
             characterModel = characterService.findCharacter(character.getId());
         }
@@ -142,7 +143,8 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setCoinPurse(currencyService.getStartingWealth(classModel.getStartingWealthDie(), classModel.getStartingWealthDieAmount()));
         character.setMaxHealth(classModel.getHitDie().getMaxRoll());
         character.setCurrentHealth(character.getMaxHealth());
-        character.setLevel(1);
+        character.getCharacterAdvancement().getLevels().add(classModel.getLevel(1));
+
         characterService.save(character);
 
         return classModel;

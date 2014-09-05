@@ -18,17 +18,18 @@ define("CharacterModel",
                     race: null,
                     subrace: null,
                     clazz: null,
-                    characterAdvancement: null,
                     abilities: null,
+                    equippedArmor: null,
                     equippedMainHand: null,
                     equippedOffHand: null,
-                    equippedArmor: null,
                     coinPurse: null,
+                    characterAdvancement: null,
                     multiClassList: null,
                     languages: null,
                     proficiencies: null,
                     traits: null,
-                    inventory: null
+                    inventory: null,
+                    spellsKnown: null
                 },
 
                 url: function() {

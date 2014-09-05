@@ -106,6 +106,7 @@ define("CharacterView",
             setCharacter: function(){
                 this.model = new CharacterModel({_id: this.ui.id.val()});
                 this.applyBindings();
+
                 this.model.fetch({success: _.bind(function(){
                     this.abilitiesView = new AbilitiesView();
                     this.abilitiesView.render();

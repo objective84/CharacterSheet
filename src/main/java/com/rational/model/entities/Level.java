@@ -3,7 +3,6 @@ package com.rational.model.entities;
 import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Created by Andy on 8/19/2014.
@@ -16,11 +15,9 @@ public class Level {
     private Long id_level;
     @Column(name = "level_number")
     private int levelNumber;
-    @ManyToMany
-    @JoinTable(name="traitmodel_level", joinColumns = @JoinColumn(name="traitmodel_id"), inverseJoinColumns = @JoinColumn(name="level_id"))
-    private List<TraitModel> traits;
-    @Column(name = "proficiency_bonus")
-    private int proficiencyBonus;
+//    @ManyToMany
+//    @JoinTable(name="level_traitmodel", joinColumns = @JoinColumn(name="level_id"), inverseJoinColumns = @JoinColumn(name="traitmodel_id"))
+//    private List<TraitModel> traits;
     @Column(name = "cantrips_known")
     private Integer cantripsKnown;
     @Column(name = "spells_known")
@@ -56,21 +53,13 @@ public class Level {
         this.levelNumber = levelNumber;
     }
 
-    public List<TraitModel> getTraits() {
-        return traits;
-    }
-
-    public void setTraits(List<TraitModel> traits) {
-        this.traits = traits;
-    }
-
-    public int getProficiencyBonus() {
-        return proficiencyBonus;
-    }
-
-    public void setProficiencyBonus(int proficiencyBonus) {
-        this.proficiencyBonus = proficiencyBonus;
-    }
+//    public List<TraitModel> getTraits() {
+//        return traits;
+//    }
+//
+//    public void setTraits(List<TraitModel> traits) {
+//        this.traits = traits;
+//    }
 
     public Integer getCantripsKnown() {
         return cantripsKnown;
