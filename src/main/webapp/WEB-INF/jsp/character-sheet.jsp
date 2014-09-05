@@ -253,7 +253,7 @@
                     </c:forEach>
                 </table>
             </div>
-            <div class="clear"/>
+            <div class="clear"></div>
             <br/>
             <h3><spring:message code="character.languages"/></h3>
             <table id="languages">
@@ -261,24 +261,33 @@
                     <tr class="language-row"><td>${language.name}</td></tr>
                 </c:forEach>
             </table>
+            <br/>
+
+            <h3>Spells</h3><br/>
+            <div id="spell-slots"></div><br/>
+
+            <table id="spells-prepared">
+                <tr><th>Prepared Spells</th></tr>
+            </table>
+            <br/>
+
+            <table id="spells-known">
+                <tr><th>Spells Known</th></tr>
+            </table>
+            <br/>
+            <a href="#" id="add-spells">Choose Spells</a>
+            <br/>
+            <br/>
+            <br/>
             <tr colspan="3">
                 <td>
                     <input type="submit" value="Save"/>
                 </td>
             </tr>
-
-            <div class="table_container">
-                <h3>Spells <a href="#" id="all-spells" class="link-small">View all</a></h3>
-
-                <table>
-                    <tr><td><a href="#" id="test-spell">Chromatic Orb</a></td></tr>
-                </table>
-                <a href="#" id="add-spells">Choose Spells</a>
-            </div>
-            <modals:language-modal></modals:language-modal>
-            <modals:store-modal></modals:store-modal>
-            <modals:spell-modal></modals:spell-modal>
-            <modals:spell-select-modal></modals:spell-select-modal>
+            <modals:language-modal/>
+            <modals:store-modal/>
+            <modals:spell-modal/>
+            <modals:spell-select-modal/>
         </form:form>
     </div>
 </body>

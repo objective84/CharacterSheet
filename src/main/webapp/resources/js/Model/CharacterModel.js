@@ -15,6 +15,7 @@ define("CharacterModel",
                     currentHealth: 0,
                     inventoryWeight: 0,
                     armorClass: 0,
+                    numSpellsAllowed: 0,
                     race: null,
                     subrace: null,
                     clazz: null,
@@ -29,7 +30,8 @@ define("CharacterModel",
                     proficiencies: null,
                     traits: null,
                     inventory: null,
-                    spellsKnown: null
+                    spellsKnown: null,
+                    spellSlots: null
                 },
 
                 url: function() {

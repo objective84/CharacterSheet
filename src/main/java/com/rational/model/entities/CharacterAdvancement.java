@@ -76,4 +76,12 @@ public class CharacterAdvancement {
         }
         return total;
     }
+
+    public int getNumSpellsAllowed(){
+        int amt = 0;
+        for(Level level: levels){
+            amt += level.getSpellsKnown();
+        }
+        return amt;
+    }
 }

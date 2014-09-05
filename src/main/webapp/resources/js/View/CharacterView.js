@@ -81,7 +81,6 @@ define("CharacterView",
 
             refreshCharacter: function(){
                 this.model.fetch({success: _.bind(function(){
-                    debugger;
                     this.abilitiesView.fetchAbilities();
                     this.languagesAllowed = setLanguagesAllowed(this.model);
                     this.setLanguageTable();
@@ -97,7 +96,6 @@ define("CharacterView",
             },
 
             fetchModel: function(){
-//                this.model.fetch({success: this.refreshCharacter()});
                 this.model.fetch({success: _.bind(function(){
                     console.log(this.model);
                 }, this)});
@@ -108,6 +106,7 @@ define("CharacterView",
                 this.applyBindings();
 
                 this.model.fetch({success: _.bind(function(){
+                    if(this.model.get('spellSlots') != null) $('#spell-slots').append(this.model.get('spellSlots').tableHtml);
                     this.abilitiesView = new AbilitiesView();
                     this.abilitiesView.render();
                     this.abilitiesView.model.characterId = this.model.get('id');
@@ -146,7 +145,6 @@ define("CharacterView",
                         this.model.clazz = this.classView.model;
                     },this));
                     this.listenTo(this.classView, 'classUpdated', _.bind(this.onClassUpdated, this));
-
                 }, this)});
             },
 
@@ -172,6 +170,10 @@ define("CharacterView",
                     this.skillsAllowed = 0;
                     this.setSkillProficienciesOptions();
                     this.setProficiencies();
+                    if(this.model.get('clazz').magicAbility != null) {
+                        $('#spell-slots').append(this.model.get('spellSlots').tableHtml);
+                        this.ui.addSpellsLink.show();
+                    }
                 }, this)})
             },
 
@@ -261,7 +263,6 @@ define("CharacterView",
                         proficiencies.push(value);
                     }, this));
                 }
-                console.log(proficiencies)
                 $(proficiencies).each(_.bind(function(key, value){
                     var $element;
                     switch(value.proficiencyType){
@@ -553,15 +554,18 @@ define("CharacterView",
             },
 
             onAddSpellLinkClick:function(){
-                this.addSpellsToModal("availableSpells/"+this.model.get('id')+".json");
+                this.addSpellsToModal("availableSpells/"+this.model.get('id')+".json", _.bind(function(){
+                    $('.spell-line').on('dblclick', _.bind(this.onSpellLineDblClick, this));
+                }, this));
             },
 
             onAllSpellsLinkClick: function(){
-                this.addSpellsToModal("allSpells.json");
-                $('.spell-line').on('dblclick', _.bind(this.onSpellLineDblClick, this));
+                this.addSpellsToModal("allSpells.json", _.bind(function(){
+                    $('.spell-line').off('dblclick', _.bind(this.onSpellLineDblClick, this));
+                }, this));
             },
 
-            addSpellsToModal: function(url){
+            addSpellsToModal: function(url, callback){
                 $('.spell-table').remove();
                 $.getJSON(url, null, _.bind(function(data){
                     $('#spell-school-tabs').tabs();
@@ -597,7 +601,9 @@ define("CharacterView",
                         $('#transmutation').append(data.data.transmutation);
                         $('#tab-transmutation').show();
                     }
+
                     $('.spell-line').on('click', _.bind(this.onSpellLineClick, this));
+                    if(callback)callback();
                     this.modalOpen('spell-select-modal', 'spell-select-modal');
                 },this));
             },

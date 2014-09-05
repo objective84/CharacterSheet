@@ -122,6 +122,10 @@ th.spell{
 
 /****Spells****/
 
+#add-spells{
+    display: none;
+}
+
 #spell-text-div table{
     line-height: 15px;
 }

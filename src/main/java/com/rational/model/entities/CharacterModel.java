@@ -26,6 +26,9 @@ public class CharacterModel {
     private Long inventoryWeight;
     private Integer armorClass;
 
+    @JsonManagedReference @OneToOne(cascade = CascadeType.ALL) private CoinPurse coinPurse;
+    @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name="spell_slots_id") private SpellSlots spellSlots;
+    @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name = "character_advancement_id") private CharacterAdvancement characterAdvancement;
     @ManyToOne private RaceModel race;
     @ManyToOne private SubRaceModel subrace;
     @ManyToOne private ClassModel clazz;
@@ -33,10 +36,6 @@ public class CharacterModel {
     @JsonManagedReference @ManyToOne private ArmorModel equippedArmor;
     @JsonManagedReference @ManyToOne private WeaponModel equippedMainHand;
     @JsonManagedReference @ManyToOne private EquipmentModel equippedOffHand;
-    @JsonManagedReference @OneToOne(cascade = CascadeType.ALL) private CoinPurse coinPurse;
-
-    @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name = "character_advancement_id")
-    private CharacterAdvancement characterAdvancement;
 
     @JoinTable(name="classmodel_charactermodel", joinColumns = @JoinColumn(name="charactermodel_id"), inverseJoinColumns = @JoinColumn(name = "classmodel_id"))
     @ManyToMany private List<ClassModel> multiClassList;
@@ -265,5 +264,17 @@ public class CharacterModel {
 
     public void setSpellsKnown(List<SpellModel> spellsKnown) {
         this.spellsKnown = spellsKnown;
+    }
+
+    public Integer getNumSpellsAllowed(){
+        return this.characterAdvancement.getNumSpellsAllowed();
+    }
+
+    public SpellSlots getSpellSlots() {
+        return spellSlots;
+    }
+
+    public void setSpellSlots(SpellSlots spellSlots) {
+        this.spellSlots = spellSlots;
     }
 }

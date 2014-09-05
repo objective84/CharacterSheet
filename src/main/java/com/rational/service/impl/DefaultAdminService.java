@@ -74,6 +74,9 @@ public class DefaultAdminService implements AdminService {
     @Resource
     private AdvancementRepository advancementRepository;
 
+    @Resource
+    private SpellSlotsRepository spellSlotsRepository;
+
 
     /* Proficiencies */
 

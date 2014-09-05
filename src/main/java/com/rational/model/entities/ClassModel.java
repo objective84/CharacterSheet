@@ -14,20 +14,14 @@ import java.util.List;
 @Entity
 public class ClassModel {
 
-    @Id
-    @GeneratedValue
-    private Long id;
-
+    @Id @GeneratedValue private Long id;
     private String name;
-
-    @Column(name="skills_at_creation")
-    private Integer skillsAtCreation;
-
     private Integer startingWealthDieAmount;
+    @Column(name="skills_at_creation") private Integer skillsAtCreation;
+    @Column(name="magic_ability") private String magicAbility;
 
-    @ManyToOne
-    @JsonManagedReference
-    private Dice hitDie;
+    @ManyToOne @JsonManagedReference private Dice hitDie;
+    @ManyToOne @JsonManagedReference private Dice startingWealthDie;
 
     @ManyToMany
     @JoinTable(name="classmodel_proficiency", joinColumns = @JoinColumn(name="classes_id"), inverseJoinColumns = @JoinColumn(name="proficiencies_id"))
@@ -40,23 +34,10 @@ public class ClassModel {
     @JsonManagedReference @OneToMany(mappedBy = "baseClass", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SubClassModel> subClasses = new ArrayList<SubClassModel>();
 
+    @JoinTable(name="spellmodel_classmodel", joinColumns = @JoinColumn(name="classmodel_id"), inverseJoinColumns = @JoinColumn(name="spellmodel_id"))
+    @JsonManagedReference @ManyToMany private List<SpellModel> spells = new ArrayList<SpellModel>();
 
-    @ManyToOne @JsonManagedReference
-    private Dice startingWealthDie;
-
-    @JsonManagedReference
-    @ManyToMany
-    @JoinTable(name="spellmodel_classmodel",
-            joinColumns = @JoinColumn(name="classmodel_id"),
-            inverseJoinColumns = @JoinColumn(name="spellmodel_id"))
-    private List<SpellModel> spells = new ArrayList<SpellModel>();
-
-
-    @Column(name="magic_ability")
-    private String magicAbility;
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "clazz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference @OneToMany(mappedBy = "clazz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Level> levels = new ArrayList<Level>();
 
     public Long getId() {

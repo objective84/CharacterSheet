@@ -16,6 +16,7 @@ import com.rational.service.AdminService;
 import com.rational.service.CharacterService;
 import com.rational.service.CurrencyService;
 import com.rational.service.DiceService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -54,7 +55,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
     public CharacterModel save(Character character) {
         CharacterModel characterModel = new CharacterModel();
         if(character.getId() == null){
-            characterModel.setAbilities(new Abilities(8,8,8,8,8,8));
+            characterModel.setAbilities(new Abilities(8, 8, 8, 8, 8, 8));
             characterModel.setCharacterAdvancement(new CharacterAdvancement(adminService.findAdvancement(1l)));
         }else{
             characterModel = characterService.findCharacter(character.getId());
@@ -144,7 +145,12 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setMaxHealth(classModel.getHitDie().getMaxRoll());
         character.setCurrentHealth(character.getMaxHealth());
         character.getCharacterAdvancement().getLevels().add(classModel.getLevel(1));
-
+        if(StringUtils.isNotEmpty(classModel.getMagicAbility())){
+            SpellSlots spellSlots = new SpellSlots();
+            spellSlots.setPerDayOne(classModel.getLevel(1).getFirstLevelSpellSlots());
+            spellSlots.setExpendedOne(0);
+            character.setSpellSlots(spellSlots);
+        }
         characterService.save(character);
 
         return classModel;
@@ -155,7 +161,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         character.setSubrace(null);
         RaceModel race;
-        if(raceId == "0"){
+        if(raceId.equals("0")){
             race = null;
         }else {
             race = adminService.findRace(Long.decode(raceId));
@@ -179,7 +185,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
     @Override
     public SubRaceModel setCharacterSubrace(String characterId, String subraceId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
-        if(subraceId == "0"){
+        if(subraceId.equals("0")){
             character.setSubrace(null);
         }else {
             SubRaceModel subrace = adminService.findSubrace(Long.decode(subraceId));
@@ -304,17 +310,20 @@ public class DefaultCharacterFacade implements CharacterFacade {
 
     private void setAC(CharacterModel character){
         Integer ac = 0;
-        Integer dexMod = character.getAbilities().getAbilityModifier(AbilityTypeEnum.Dex);
-        if(character.getEquippedArmor() == null){
-            ac = 10;
+        if(null != character.getAbilities()) {
+            Integer dexMod = character.getAbilities().getAbilityModifier(AbilityTypeEnum.Dex);
+            if (character.getEquippedArmor() == null) {
+                ac = 10;
 
-        }else {
-            ac = character.getEquippedArmor().getArmorClass();
-            if(dexMod > character.getEquippedArmor().getMaxDexModifier()){
-                dexMod = character.getEquippedArmor().getMaxDexModifier();
+            } else {
+                ac = character.getEquippedArmor().getArmorClass();
+                if (dexMod > character.getEquippedArmor().getMaxDexModifier()) {
+                    dexMod = character.getEquippedArmor().getMaxDexModifier();
+                }
             }
+            ac+=dexMod;
         }
-        character.setArmorClass(ac + dexMod);
+        character.setArmorClass(ac);
     }
 
     private Boolean hasProficiency(CharacterModel character, EquipmentModel equipment){
@@ -330,7 +339,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
 
         Long weight = 0L;
         for(EquipmentModel equipmentModel : character.getInventory()) {
-            weight += Long.valueOf(equipmentModel.getItemWeight());
+            weight += equipmentModel.getItemWeight();
         }
         character.setInventoryWeight(weight);
     }
