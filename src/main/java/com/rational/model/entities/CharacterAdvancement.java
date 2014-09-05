@@ -18,9 +18,15 @@ public class CharacterAdvancement {
     @Column(name = "experience_points")
     private int experiencePoints;
 
-    @OneToOne(mappedBy = "characterAdvancement", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "character_advancement_id")
-    private CharacterModel character;
+
+    public CharacterAdvancement(){
+
+    }
+
+    public CharacterAdvancement(CharacterAdvancement advancement){
+        this.setProficiencyBonus(advancement.getProficiencyBonus());
+        this.setExperiencePoints(advancement.getExperiencePoints());
+    }
 
     public Long getId() {
         return id;
@@ -54,11 +60,5 @@ public class CharacterAdvancement {
         this.experiencePoints = experiencePoints;
     }
 
-    public CharacterModel getCharacter() {
-        return character;
-    }
 
-    public void setCharacter(CharacterModel character) {
-        this.character = character;
-    }
 }
