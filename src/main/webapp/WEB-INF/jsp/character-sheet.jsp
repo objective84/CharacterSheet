@@ -263,7 +263,7 @@
             </table>
             <br/>
 
-            <h3>Spells</h3><br/>
+            <h3>Spells <a href="#" class="link-small" id="all-spells">View All</a></h3><br/>
             <div id="spell-slots"></div><br/>
 
             <table id="spells-prepared">

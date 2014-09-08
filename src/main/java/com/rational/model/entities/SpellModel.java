@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
-INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
-        VALUES ('', #id
+
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('', #id
         '', #name
         '', #castingTime
         '', #description
@@ -20,6 +21,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
         '', #damageDiceAmount
         '', #damageDice ID
         '', #damageType ID
+        '', #damageBonus
         '', #savingThrow
         '', #condition
         '', #requiresVerbalComponent
@@ -32,7 +34,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
         '', #concentration
         '', #school
         '' #range in feet
-        );
+);
  */
 
 @Entity
