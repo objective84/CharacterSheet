@@ -275,14 +275,14 @@ public class SpellModel implements Comparable<SpellModel>{
 
     public String parseDescription() {
         String description = this.description;
-        if(description.contains("/s")){
-            while(description.contains("/s")){
-                int startIndex = description.indexOf("/s")+2;
-                int endIndex = description.indexOf("/", startIndex + 1);
-                String padding = description.substring(startIndex, endIndex);
-                description = description.replace("/s"+padding+"/", "<span style='padding: "+ padding + "px;'/>");
-            }
-        }
+//        if(description.contains("/s")){
+//            while(description.contains("/s")){
+//                int startIndex = description.indexOf("/s")+2;
+//                int endIndex = description.indexOf("/", startIndex + 1);
+//                String padding = description.substring(startIndex, endIndex);
+//                description = description.replace("/s"+padding+"/", "<span style='padding: "+ padding + "px;'/>");
+//            }
+//        }
         if(description.contains("/bullets")){
             while (description.contains("/bullets")) {
                 int startIndex = description.indexOf("/bullets")+ 8;

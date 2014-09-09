@@ -6,6 +6,10 @@
     font-weight: bold;
 }
 
+.text-italic{
+    font-style: italic;
+}
+
 table{
     font-size: 14px;
 }
