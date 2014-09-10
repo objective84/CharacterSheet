@@ -49,7 +49,7 @@ public class SpellModel implements Comparable<SpellModel>{
     private Integer level;
     private Integer damageDiceAmount;
     private String castingTime;
-    private Integer range;
+    private String range;
 
     @ManyToOne
     @JsonManagedReference
@@ -218,11 +218,11 @@ public class SpellModel implements Comparable<SpellModel>{
         this.castingTime = castingTime;
     }
 
-    public Integer getRange() {
+    public String getRange() {
         return range;
     }
 
-    public void setRange(Integer range) {
+    public void setRange(String range) {
         this.range = range;
     }
 
@@ -275,14 +275,14 @@ public class SpellModel implements Comparable<SpellModel>{
 
     public String parseDescription() {
         String description = this.description;
-//        if(description.contains("/s")){
-//            while(description.contains("/s")){
-//                int startIndex = description.indexOf("/s")+2;
-//                int endIndex = description.indexOf("/", startIndex + 1);
-//                String padding = description.substring(startIndex, endIndex);
-//                description = description.replace("/s"+padding+"/", "<span style='padding: "+ padding + "px;'/>");
-//            }
-//        }
+        if(description.contains("*tab")){
+            while(description.contains("*tab")){
+                int startIndex = description.indexOf("*tab")+4;
+                int endIndex = description.indexOf("*", startIndex + 1);
+                String padding = description.substring(startIndex, endIndex);
+                description = description.replace("*tab"+padding+"*", "<span style='padding: "+ padding + "px;'/>");
+            }
+        }
         if(description.contains("/bullets")){
             while (description.contains("/bullets")) {
                 int startIndex = description.indexOf("/bullets")+ 8;
@@ -333,12 +333,20 @@ public class SpellModel implements Comparable<SpellModel>{
         return "<span class='text-bold'>"+ text + "</span>";
     }
 
+    private String formatRange(){
+        try{
+            return Integer.decode(this.range) + " feet";
+        }catch (NumberFormatException e){
+            return this.range;
+        }
+    }
+
     public String getDisplayText(){
         return "<div id='spell-text-div'><table>" +
                 "<tr><td>" + parseName() + "</td></tr>" +
                 "<tr><td><span class='spell-level-school'>" + this.getLevelSchool() + "</span> </td></tr>" +
                 "<tr><td><span class='spell-header'>Casting Time: </span><span class='spell-line'>" + this.castingTime + "</span> </td></tr>" +
-                "<tr><td><span class='spell-header'>Range: </span><span class='spell-line'>" + this.range + " feet</span> </td></tr>" +
+                "<tr><td><span class='spell-header'>Range: </span><span class='spell-line'>" + formatRange() + "</span> </td></tr>" +
                 "<tr><td><span class='spell-header'>Components: </span><span class='spell-line'>" + this.getComponents() + "</span> </td></tr>" +
                 "<tr><td><span class='spell-header'>Duration: </span><span class='spell-line'>" + this.duration + "</span> </td></tr>   " +
                 "<tr><td>" +this.parseDescription() + "</td></tr></div>";
