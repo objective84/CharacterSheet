@@ -14,6 +14,7 @@
             <option value="${clazz.id}">${clazz.name}</option>
         </c:forEach>
     </select>
+    <input id="spell-search">
     <div class="table_container">
         <div class = "side-by-side" id="spell-school-tabs">
             <ul>
@@ -26,14 +27,14 @@
                 <li><a id="tab-necromancy" href="#necromancy" class="spell-school-tab">Necromancy</a></li>
                 <li><a id="tab-transmutation" href="#transmutation" class="spell-school-tab">Transmutation</a></li>
             </ul>
-            <div id="abjuration"></div>
-            <div id="conjuration"></div>
-            <div id="divination"></div>
-            <div id="enchantment"></div>
-            <div id="evocation"></div>
-            <div id="illusion"></div>
-            <div id="necromancy"></div>
-            <div id="transmutation"></div>
+            <div id="abjuration" class="spell-tab" data-tab="tab-abjuration"></div>
+            <div id="conjuration" class="spell-tab" data-tab="tab-conjuration"></div>
+            <div id="divination" class="spell-tab" data-tab="tab-divination"></div>
+            <div id="enchantment" class="spell-tab" data-tab="tab-enchantment"></div>
+            <div id="evocation" class="spell-tab" data-tab="tab-evocation"></div>
+            <div id="illusion" class="spell-tab" data-tab="tab-illusion"></div>
+            <div id="necromancy" class="spell-tab" data-tab="tab-necromancy"></div>
+            <div id="transmutation" class="spell-tab" data-tab="tab-transmutation"></div>
         </div>
         <div class="side-by-side" id="spell-level-tabs">
             <ul>
@@ -48,16 +49,16 @@
                 <li><a id="tab-eight" href="#level-eight" class="spell-level-tab">Eighth Level</a></li>
                 <li><a id="tab-nine" href="#level-nine" class="spell-level-tab">Ninth Level</a></li>
             </ul>
-            <div id="level-cantrip"></div>
-            <div id="level-one"></div>
-            <div id="level-two"></div>
-            <div id="level-three"></div>
-            <div id="level-four"></div>
-            <div id="level-five"></div>
-            <div id="level-six"></div>
-            <div id="level-seven"></div>
-            <div id="level-eight"></div>
-            <div id="level-nine"></div>
+            <div id="level-cantrip" class="spell-tab" data-tab="tab-cantrip"></div>
+            <div id="level-one" class="spell-tab" data-tab="tab-one"></div>
+            <div id="level-two" class="spell-tab" data-tab="tab-two"></div>
+            <div id="level-three" class="spell-tab" data-tab="tab-three"></div>
+            <div id="level-four" class="spell-tab" data-tab="tab-four"></div>
+            <div id="level-five" class="spell-tab" data-tab="tab-five"></div>
+            <div id="level-six" class="spell-tab" data-tab="tab-six"></div>
+            <div id="level-seven" class="spell-tab" data-tab="tab-seven"></div>
+            <div id="level-eight" class="spell-tab" data-tab="tab-eight"></div>
+            <div id="level-nine" class="spell-tab" data-tab="tab-nine"></div>
         </div>
         <div id='spell-preview' class="side-by-side">
             <div id="spell-preview-text"></div>

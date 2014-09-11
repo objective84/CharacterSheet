@@ -268,7 +268,7 @@ public class CharacterController {
         String nine = tableStart;
         String spellString;
         for(SpellModel spell : spells) {
-            spellString = "<tr class='spell-line'><td>" + spell.getSchool() + "</td><td id='" + spell.getId() + "' class='spell-select'><span>" + spell.getName() + "</span></td></tr>";
+            spellString = "<tr data-name='" + spell.getName().toLowerCase() + "' class='spell-line'><td>" + spell.getSchool() + "</td><td id='" + spell.getId() + "' class='spell-select'><span>" + spell.getName() + "</span></td></tr>";
             switch (spell.getLevel()){
                 case 0: cantrip += spellString; break;
                 case 1: one += spellString; break;
@@ -322,7 +322,8 @@ public class CharacterController {
         String transmutation = tableStart;
 
         for(SpellModel spell : spells){
-            spellString = "<tr class='spell-line'><td>" + spell.getLevel() + "</td><td id='" + spell.getId() + "' class='spell-select'><span>" + spell.getName() + "</span></td></tr>";
+            spellString = "<tr data-name='" + spell.getName().toLowerCase() + "' class='spell-line'><td>" + spell.getLevel() + "</td><td id='" +
+                    spell.getId() + "' class='spell-select'><span>" + spell.getName() + "</span></td></tr>";
             if(spell.getSchool().equalsIgnoreCase("abjuration"))abjuration += spellString;
             else if(spell.getSchool().equalsIgnoreCase("conjuration"))conjuration += spellString;
             else if(spell.getSchool().equalsIgnoreCase("divination"))divination += spellString;
