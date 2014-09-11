@@ -1,8 +1,3 @@
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)VALUES (1, 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)VALUES (32, 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)VALUES (46, 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)VALUES (3, 12);
-
 CREATE TABLE `charactersheet`.`charactermodel_spellmodel` (
   `character_id` BIGINT(20) NOT NULL,
   `spellmodel_id` BIGINT(20) NULL,

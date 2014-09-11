@@ -67,6 +67,7 @@ public interface AdminFacade {
     Map<Long, Clazz> getClassMap();
 
     List<Clazz> findAllClasses();
+    List<ClassModel> findAllClassModels();
 
 
     void saveSubClass(SubClass subClass);
@@ -147,4 +148,6 @@ public interface AdminFacade {
     List<SpellModel> findSpells(String characterId);
 
     List<SpellModel> findAllSpells();
+
+    List<ClassModel> findAllSpellcasters();
 }

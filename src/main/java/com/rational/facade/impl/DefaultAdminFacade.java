@@ -178,6 +178,11 @@ public class DefaultAdminFacade implements AdminFacade {
     }
 
     @Override
+    public List<ClassModel> findAllClassModels(){
+        return adminService.findAllClasses();
+    }
+
+    @Override
     public void saveSubClass(SubClass subClass) {
         adminService.saveSubClass(subClassConverter.convert(subClass));
     }
@@ -410,6 +415,15 @@ public class DefaultAdminFacade implements AdminFacade {
     @Override
     public List<SpellModel> findAllSpells() {
         return adminService.findAllSpells();
+    }
+
+    @Override
+    public List<ClassModel> findAllSpellcasters() {
+        List<ClassModel> classes = adminService.findAllClasses();
+        for(int i=0; i<classes.size(); i++){
+            if(null == classes.get(i).getSpells() || classes.get(i).getSpells().isEmpty()) classes.remove(i);
+        }
+        return classes;
     }
 
     private Integer getHighestSpellSlot(Level level){

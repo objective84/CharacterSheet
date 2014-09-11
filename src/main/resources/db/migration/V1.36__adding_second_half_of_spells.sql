@@ -267,7 +267,7 @@ VALUES ('291', #id
             null, #materialComponent
             'Instantancous', #duration
             '0', #concentration
-            null, #description
+            'Make a melee spell attack against a creature you can reach. On a hit, the target takes 3d10 necrotic damage. /n/bAt Higher Levels./b When you cast this spell using a spell slot o f 2nd level or higher, the damage increases by 1d10 for each slot level above 1st.', #description
             '3',#damageDiceAmount
             '4',#damageDice_id
             '7',#damageType_id

@@ -1,3 +1,6 @@
+ALTER TABLE `charactersheet`.`spellmodel`
+CHANGE COLUMN `damageBonus` `damageBonus` VARCHAR(15) NULL DEFAULT NULL ;
+
 INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
 VALUES ('218', #id
         'Light', #name
@@ -405,6 +408,29 @@ VALUES ('234', #id
         'Touch' #range in feet
 );
 INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('269', #id
+        'Pass without Trace', #name
+        '1 action', #castingTime
+        'A veil of shadows and silence radiates from you, masking you and your companions from detection. For the duration, each creature you choose within 30 feet of you (including you) has a +10 bonus to Dexterity (Stealth) checks and can’t be tracked except by magical means. A creature that receives this bonus leaves behind no tracks or other traces of its passage.', #description
+        '2', #level
+        null, #damageDiceAmount
+        null, #damageDice ID
+        null, #damageType ID
+        null, #damageBonus
+        '', #savingThrow
+        '0', #condition
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        'ashes from a burned leaf of mistletoe and a sprig of spruce', #materialComponent
+        'Concentration, up to 1 hour', #duration
+        'any creatures within 30 feet', #target
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '1', #concentration
+        'Abjuration', #school
+        'Self' #range in feet
+);
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
 VALUES ('235', #id
         'Phantasmal Force', #name
         '1 action', #castingTime
@@ -661,7 +687,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
 VALUES ('246', #id
         'Resistance', #name
         '1 action', #castingTime
-        'You touch one willing creature. Once before the spell ends, the target can roll a d4 and add the number rolled to one saving throw o f its choice. It can roll the die before or after m aking the saving throw. The spell then ends.', #description
+        'You touch one willing creature. Once before the spell ends, the target can roll a d4 and add the number rolled to one saving throw of its choice. It can roll the die before or after m aking the saving throw. The spell then ends.', #description
         '0', #level
         null, #damageDiceAmount
         null, #damageDice ID
@@ -684,7 +710,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
 VALUES ('247', #id
         'Rope Trick', #name
         '1 action', #castingTime
-        'You touch a length o f rope that is up to 60 feet long. One end of the rope then rises into the air until the whole rope hangs perpendicular to the ground. At the upper end o f the rope, an invisible entrance opens to an extradimensional space that lasts until the spell ends. /nThe extradimensional space can be reached by climbing to the top o f the rope. The space can hold as many as eight Medium or smaller creatures. The rope can be pulled into the space, making the rope disappear from view outside the space. /nAttacks and spells can’t cross through the entrance into or out o f the extradimensional space, but those inside can see out o f it as if through a 3-foot-by-5-foot window centered on the rope. /nAnything inside the extradimensional space drops out when the spell ends.', #description
+        'You touch a length of rope that is up to 60 feet long. One end of the rope then rises into the air until the whole rope hangs perpendicular to the ground. At the upper end of the rope, an invisible entrance opens to an extradimensional space that lasts until the spell ends. /nThe extradimensional space can be reached by climbing to the top of the rope. The space can hold as many as eight Medium or smaller creatures. The rope can be pulled into the space, making the rope disappear from view outside the space. /nAttacks and spells can’t cross through the entrance into or out of the extradimensional space, but those inside can see out of it as if through a 3-foot-by-5-foot window centered on the rope. /nAnything inside the extradimensional space drops out when the spell ends.', #description
         '2', #level
         null, #damageDiceAmount
         null, #damageDice ID
@@ -730,7 +756,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
 VALUES ('249', #id
         'Sanctuary', #name
         '1 bonus action', #castingTime
-        'You ward a creature within range against attack. Until the spell ends, any creature who targets the warded creature with an attack or a harmful spell must first make a Wisdom saving throw. On a failed save, the creature must choose a new target or lose the attack or spell. This spell doesn’t protect the warded creature from area effects, such as the explosion o f a fireball. /nIf the warded creature makes an attack or casts a spell that affects an enemy creature, this spell ends.', #description
+        'You ward a creature within range against attack. Until the spell ends, any creature who targets the warded creature with an attack or a harmful spell must first make a Wisdom saving throw. On a failed save, the creature must choose a new target or lose the attack or spell. This spell doesn’t protect the warded creature from area effects, such as the explosion of a fireball. /nIf the warded creature makes an attack or casts a spell that affects an enemy creature, this spell ends.', #description
         '1', #level
         null, #damageDiceAmount
         null, #damageDice ID
@@ -753,7 +779,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
 VALUES ('251', #id
         'Scorching Ray', #name
         '1 action', #castingTime
-        'You create three rays of fire and hurl them at targets within range. You can hurl them at one target or several. Make a ranged spell attack for each ray. On a hit, the target takes 2d6 fire damage. /n/bAt Higher Levels./b When you cast this spell using a spell slot o f 3rd level or higher, you create one additional ray for each slot level above 2nd.', #description
+        'You create three rays of fire and hurl them at targets within range. You can hurl them at one target or several. Make a ranged spell attack for each ray. On a hit, the target takes 2d6 fire damage. /n/bAt Higher Levels./b When you cast this spell using a spell slot of 3rd level or higher, you create one additional ray for each slot level above 2nd.', #description
         '2', #level
         '2', #damageDiceAmount
         '2', #damageDice ID
@@ -845,7 +871,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
 VALUES ('255', #id
         'Shield of Faith', #name
         '1 bonus action', #castingTime
-        'A shimmering field appears and surrounds a creature o f your choice within range, granting it a +2 bonus to AC for the duration.', #description
+        'A shimmering field appears and surrounds a creature of your choice within range, granting it a +2 bonus to AC for the duration.', #description
         '1', #level
         null, #damageDiceAmount
         null, #damageDice ID
@@ -868,7 +894,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
 VALUES ('256', #id
         'Shillelagh', #name
         '1 bonus action', #castingTime
-        'The wood of a club or quarterstaff you are holding is imbued with nature’s power. For the duration, you can use your spellcasting ability instead of Strength for the attack and damage rolls of melee attacks using that weapon, and the weapon''s damage die becomes a d8. The weapon also becomes magical, if it isn’t already. The spell ends if you cast it again or if you let go o f the weapon.', #description
+        'The wood of a club or quarterstaff you are holding is imbued with nature’s power. For the duration, you can use your spellcasting ability instead of Strength for the attack and damage rolls of melee attacks using that weapon, and the weapon''s damage die becomes a d8. The weapon also becomes magical, if it isn’t already. The spell ends if you cast it again or if you let go of the weapon.', #description
         '0', #level
         '1', #damageDiceAmount
         '3', #damageDice ID
@@ -891,7 +917,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
 VALUES ('257', #id
         'Shocking Grasp', #name
         '1 action', #castingTime
-        'Lightning springs from your hand to deliver a shock to a creature you try to touch. Make a melee spell attack against the target. You have advantage on the attack roll if the target is wearing armor made o f metal. On a hit, the target takes 1d8 lightning damage, and it can’t take reactions until the start o f its next turn. /nThe spell’s damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).', #description
+        'Lightning springs from your hand to deliver a shock to a creature you try to touch. Make a melee spell attack against the target. You have advantage on the attack roll if the target is wearing armor made of metal. On a hit, the target takes 1d8 lightning damage, and it can’t take reactions until the start of its next turn. /nThe spell’s damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).', #description
         '0', #level
         '1', #damageDiceAmount
         '3', #damageDice ID
@@ -914,45 +940,275 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
 VALUES ('258', #id
         'Shatter', #name
         '', #castingTime
-        '', #description
-        '', #level
-        '', #damageDiceAmount
-        '', #damageDice ID
-        '', #damageType ID
-        '', #damageBonus
-        '', #savingThrow
+        'A sudden loud ringing noise, painfully intense, erupts from a point of your choice within range. Each creature in a 10-foot-radius sphere centered on that point must make a Constitution saving throw. A creature takes 3d8 thunder damage on a failed save, or half as much damage on a successful one. A creature made of inorganic material such as stone, crystal, or metal has disadvantage on this saving throw. /nA nonmagical object that isn’t being worn or carried also takes the damage if it’s in the spell''s area. /nAt Higher Levels. When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d8 for each slot level above 2nd.', #description
+        '2', #level
+        '3', #damageDiceAmount
+        '6', #damageDice ID
+        '13', #damageType ID
+        null, #damageBonus
+        'Constitution', #savingThrow
         '', #condition
-        '', #requiresVerbalComponent
-        '', #requiresSomaticComponent
-        '', #materialComponent
-        '', #duration
-        '', #target
-        '', #requiresAttackRoll
-        '', #ritual
-        '', #concentration
-        '', #school
-        '' #range in feet
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        'a chip of mica', #materialComponent
+        'Instantaneous', #duration
+        'all creatures in a 10-ft radius', #target
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '0', #concentration
+        'Evocation', #school
+        '60' #range in feet
 );
 INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
-VALUES ('250', #id
-        '', #name
-        '', #castingTime
-        '', #description
-        '', #level
-        '', #damageDiceAmount
-        '', #damageDice ID
-        '', #damageType ID
-        '', #damageBonus
+VALUES ('260', #id
+        'Silence', #name
+        '1 action', #castingTime
+        'For the duration, no sound can be created within or pass through a 20-foot-radius sphere centered on a point you choose within range. Any creature or object entirely inside the sphere is immune to thunder damage, and creatures are deafened while entirely inside it. Casting a spell that includes a verbal component is impossible there.', #description
+        '2', #level
+        null, #damageDiceAmount
+        null, #damageDice ID
+        null, #damageType ID
+        null, #damageBonus
         '', #savingThrow
         '', #condition
-        '', #requiresVerbalComponent
-        '', #requiresSomaticComponent
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
         '', #materialComponent
-        '', #duration
+        'Concentration, up to 10 minutes', #duration
         '', #target
-        '', #requiresAttackRoll
-        '', #ritual
-        '', #concentration
-        '', #school
-        '' #range in feet
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '1', #concentration
+        'Illusion', #school
+        '120' #range in feet
 );
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('261', #id
+        'Silent Image', #name
+        '1 action', #castingTime
+        'You create the image of an object, a creature, or some other visible phenomenon that is no larger than a 15-foot cube. The image appears at a spot within range and lasts for the duration. The image is purely visual; it isn''t accompanied by sound, smell, or other sensory effects. /nYou can use your action to cause the image to move to any spot within range. As the image changes location, you can alter its appearance so that its movements appear natural for the image. For example, if you create an image of a creature and move it, you can alter the image so that it appears to be walking. /nPhysical interaction with the image reveals it to be an illusion, because things can pass through it. A creature that uses its action to examine the image can determine that it is an illusion with a successful Intelligence (Investigation) check against your spell save DC. If a creature discerns the illusion for what it is, the creature can see through the image.', #description
+        '1', #level
+        null, #damageDiceAmount
+        null, #damageDice ID
+        null, #damageType ID
+        null, #damageBonus
+        '', #savingThrow
+        '', #condition
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        'a bit of fleece', #materialComponent
+        'Concentration, up to 10 minutes', #duration
+        '', #target
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '1', #concentration
+        'Illusion', #school
+        '60' #range in feet
+);
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('262', #id
+        'Sleep', #name
+        '1 action', #castingTime
+        'This spell sends creatures into a magical slumber. Roll 5d8; the total is how many hit points of creatures this spell can affect. Creatures within 20 feet of a point you choose within range are affected in ascending order of their current hit points (ignoring unconscious creatures). /nStarting with the creature that has the lowest current hit points, each creature affected by this spell falls unconscious until the spell ends, the sleeper takes damage, or someone uses an action to shake or slap the sleeper awake. Subtract each creature’s hit points from the total before moving on to the creature with the next lowest hit points. A creature’s hit points must be equal to or less than the remaining total for that creature to be affected. /nUndead and creatures immune to being charmed aren’t affected by this spell. /n/bAt Higher Levels./b When you cast this spell using a spell slot of 2nd level or higher, roll an additional 2d8 for each slot level above 1st.', #description
+        '1', #level
+        '5', #damageDiceAmount
+        '3', #damageDice ID
+        null, #damageType ID
+        null, #damageBonus
+        '', #savingThrow
+        'asleep', #condition
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        'a pinch of fine sand, rose petals, or a cricket', #materialComponent
+        '1 minute', #duration
+        'all creatures within a 20-ft radius', #target
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '0', #concentration
+        'Enchantment', #school
+        '90' #range in feet
+);
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('263', #id
+        'Spare the Dying', #name
+        '1 action', #castingTime
+        'You touch a living creature that has 0 hit points. The creature becomes stable. This spell has no effect on undead or constructs.', #description
+        '0', #level
+        null, #damageDiceAmount
+        null, #damageDice ID
+        null, #damageType ID
+        null, #damageBonus
+        '', #savingThrow
+        '', #condition
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        '', #materialComponent
+        'Instantaneous', #duration
+        'a living creature with 0 hit points', #target
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '0', #concentration
+        'Necromancy', #school
+        'Touch' #range in feet
+);
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('264', #id
+        'Speak with Animals', #name
+        '1 action', #castingTime
+        'You gain the ability to comprehend and verbally communicate with beasts for the duration. The knowledge and awareness of many beasts is limited by their intelligence, but at minimum, beasts can give you information about nearby locations and monsters, including whatever they can perceive or have perceived within the past day. You might be able to persuade a beast to perform a small favor for you, at the DM’s discretion.', #description
+        '1', #level
+        null, #damageDiceAmount
+        null, #damageDice ID
+        null, #damageType ID
+        null, #damageBonus
+        '', #savingThrow
+        '', #condition
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        '', #materialComponent
+        '10 minutes', #duration
+        'Self', #target
+        '0', #requiresAttackRoll
+        '1', #ritual
+        '0', #concentration
+        'Divination', #school
+        'Self' #range in feet
+);
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('265', #id
+        'Spider Climb', #name
+        '1 action', #castingTime
+        'Until the spell ends, one willing creature you touch gains the ability to move up, down, and across vertical surfaces and upside down along ceilings, while leaving its hands free. The target also gains a climbing speed equal to its walking speed.', #description
+        '2', #level
+        null, #damageDiceAmount
+        null, #damageDice ID
+        null, #damageType ID
+        null, #damageBonus
+        '', #savingThrow
+        '', #condition
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        'a drop of bitumen and a spider', #materialComponent
+        'Concentration, up to 1 hour', #duration
+        'a willing creature', #target
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '1', #concentration
+        'Transmutation', #school
+        'Touch' #range in feet
+);
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('266', #id
+        'Spike Growth', #name
+        '1 action', #castingTime
+        'The ground in a 20-foot radius centered on a point within range twists and sprouts hard spikes and thorns. The area becomes difficult terrain for the duration. When a creature moves into or within the area, it takes 2d4 piercing damage for every 5 feet it travels. /nThe transformation of the ground is camouflaged to look natural. Any creature that can’t see the area at the time the spell is cast must make a Wisdom (Perception) check against your spell save DC to recognize the terrain as hazardous before entering it.', #description
+        '2', #level
+        2, #damageDiceAmount
+        1, #damageDice ID
+        8, #damageType ID
+        null, #damageBonus
+        '', #savingThrow
+        '', #condition
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        'seven sharp thorns or seven small twigs, each sharpened to a point', #materialComponent
+        'Concentration, up to 10 minutes', #duration
+        '', #target
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '1', #concentration
+        'Transmutation', #school
+        '150' #range in feet
+);
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('267', #id
+        'Spiritual Weapon', #name
+        '1 bonus action', #castingTime
+        'You create a floating, spectral weapon within range that lasts for the duration or until you cast this spell again. When you cast the spell, you can make a melee spell attack against a creature within 5 feet of the weapon. On a hit, the target takes force damage equal to 1d8 + your spellcasting ability modifier. /nAs a bonus action on your turn, you can move the weapon up to 20 feet and repeat the attack against a creature within 5 feet of it. /nThe weapon can take whatever form you choose. Clerics of deities who are associated with a particular weapon (as St. Cuthbert is known for his mace and Thor for his hammer) make this spell’s effect resemble that weapon. /n/bAt Higher Levels./b When you cast this spell using a spell slot of 3rd level or higher, the damage increases by 1d8 for every two slot levels above the 2nd.', #description
+        '2', #level
+        1, #damageDiceAmount
+        3, #damageDice ID
+        5, #damageType ID
+        'spellcasting', #damageBonus
+        '', #savingThrow
+        '', #condition
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        '', #materialComponent
+        '1 minute', #duration
+        'a creature', #target
+        '1', #requiresAttackRoll
+        '0', #ritual
+        '0', #concentration
+        'Evocation', #school
+        '60' #range in feet
+);
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('268', #id
+        'Suggestion', #name
+        '1 action', #castingTime
+        'You suggest a course of activity (limited to a sentence or two) and magically influence a creature you can see within range that can hear and understand you. Creatures that can’t be charmed are immune to this effect. The suggestion must be worded in such a manner as to make the course of action sound reasonable. Asking the creature to stab itself, throw itself onto a spear, immolate itself, or do some other obviously harmful act ends the spell. /nThe target must make a Wisdom saving throw. On a failed save, it pursues the course of action you described to the best of its ability. The suggested course of action can continue for the entire duration. If the suggested activity can be completed in a shorter time, the spell ends when the subject finishes what it w as asked to do. /nYou can also specify conditions that will trigger a special activity during the duration. For example, you might suggest that a knight give her warhorse to the first beggar she meets. If the condition isn’t met before the spell expires, the activity isn’t performed. /nIf you or any of your companions damage the target, the spell ends.', #description
+        '2', #level
+        null, #damageDiceAmount
+        null, #damageDice ID
+        null, #damageType ID
+        null, #damageBonus
+        'Wisdom', #savingThrow
+        'charmed', #condition
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        'a snake’s tongue and either a bit of honeycomb or a drop of sweet oil)', #materialComponent
+        'Concentration, up to 8 hours', #duration
+        'a creature that can head and understand you', #target
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '1', #concentration
+        'Enchantment', #school
+        '30' #range in feet
+);
+# INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+# VALUES ('169', #id
+#         '', #name
+#         '', #castingTime
+#         '', #description
+#         '', #level
+#         null, #damageDiceAmount
+#         null, #damageDice ID
+#         null, #damageType ID
+#         null, #damageBonus
+#         '', #savingThrow
+#         '', #condition
+#         '', #requiresVerbalComponent
+#         '', #requiresSomaticComponent
+#         '', #materialComponent
+#         '', #duration
+#         '', #target
+#         '', #requiresAttackRoll
+#         '', #ritual
+#         '', #concentration
+#         '', #school
+#         '' #range in feet
+# );
+# INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+# VALUES ('270', #id
+#         '', #name
+#         '', #castingTime
+#         '', #description
+#         '', #level
+#         null, #damageDiceAmount
+#         null, #damageDice ID
+#         null, #damageType ID
+#         null, #damageBonus
+#         '', #savingThrow
+#         '', #condition
+#         '', #requiresVerbalComponent
+#         '', #requiresSomaticComponent
+#         '', #materialComponent
+#         '', #duration
+#         '', #target
+#         '', #requiresAttackRoll
+#         '', #ritual
+#         '', #concentration
+#         '', #school
+#         '' #range in feet
+# );

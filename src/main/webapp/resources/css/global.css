@@ -194,7 +194,8 @@ div#spell-preview {
     float: right !important;
     padding-left: 15px;
 }
-#spell-school-tabs{
+#spell-school-tabs,
+#spell-level-tabs{
     border: 1px solid black;
     width: 400px !important;
 }
