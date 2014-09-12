@@ -17,7 +17,7 @@
     <input id="spell-search">
     <div class="table_container">
         <div class = "side-by-side" id="spell-school-tabs">
-            <ul>
+            <ul id="schools">
                 <li><a id="tab-abjuration" href="#abjuration" class="spell-school-tab">Abjuration</a></li>
                 <li><a id="tab-conjuration" href="#conjuration" class="spell-school-tab">Conjuration</a></li>
                 <li><a id="tab-divination" href="#divination" class="spell-school-tab">Divination</a></li>
@@ -37,7 +37,7 @@
             <div id="transmutation" class="spell-tab" data-tab="tab-transmutation"></div>
         </div>
         <div class="side-by-side" id="spell-level-tabs">
-            <ul>
+            <ul id="levels">
                 <li><a id="tab-cantrip" href="#level-cantrip" class="spell-level-tab">Cantrips</a></li>
                 <li><a id="tab-one" href="#level-one" class="spell-level-tab">First Level</a></li>
                 <li><a id="tab-two" href="#level-two" class="spell-level-tab">Second Level</a></li>

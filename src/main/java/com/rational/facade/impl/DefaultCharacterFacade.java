@@ -1,10 +1,8 @@
 package com.rational.facade.impl;
 
-import com.rational.converters.CharacterConverter;
 import com.rational.converters.EquipmentConverter;
 import com.rational.facade.AdminFacade;
 import com.rational.facade.CharacterFacade;
-import com.rational.forms.Character;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
 import com.rational.model.enums.*;
@@ -40,9 +38,6 @@ public class DefaultCharacterFacade implements CharacterFacade {
     CharacterService characterService;
 
     @Resource
-    CharacterConverter characterConverter;
-
-    @Resource
     EquipmentConverter equipmentConverter;
 
     @Resource
@@ -52,7 +47,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
     DiceService diceService;
 
     @Override
-    public CharacterModel save(Character character) {
+    public CharacterModel save(CharacterModel character) {
         CharacterModel characterModel = new CharacterModel();
         if(character.getId() == null){
             characterModel.setAbilities(new Abilities(8, 8, 8, 8, 8, 8));
@@ -64,22 +59,17 @@ public class DefaultCharacterFacade implements CharacterFacade {
     }
 
     @Override
-    public CharacterModel save(CharacterModel character) {
-        return assembleCharacter(characterService.save(character));
+    public List<CharacterModel> findAllCharacters() {
+        return characterService.findAllCharacters();
     }
 
     @Override
-    public List<Character> findAllCharacters() {
-        return characterConverter.convertToForms(characterService.findAllCharacters());
+    public CharacterModel findCharacter(Long id) {
+        return characterService.findCharacter(id);
     }
 
     @Override
-    public Character findCharacter(Long id) {
-        return characterConverter.convert(characterService.findCharacter(id));
-    }
-
-    @Override
-    public Character levelUp(Character character)
+    public CharacterModel levelUp(CharacterModel character)
     {
         //TODO: increase health
         //TODO: add class traits

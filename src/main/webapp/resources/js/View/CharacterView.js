@@ -598,12 +598,20 @@ define("CharacterView",
             },
 
             hideTabsWithNoSpells:function(text){
+                var index = null;
+                var $tabs = $('#sort-by').val() === 'Level' ? $('#levels') : $('#schools');
+                $tabs.tabs({'active': 5});
                 $('.spell-tab').each(function(key, value){
-                    console.log($('#' + $(value).prop('id') + ' tr.visible').size());
+                    var $tab = $('#' + $(value).data('tab'));
                     if($('#' + $(value).prop('id') + ' .spell-line.visible').size() === 0){
-                        $('#' + $(value).data('tab')).hide();
+                        $tab.hide();
                     }else{
-                        $('#' + $(value).data('tab')).show();
+                        $tab.show();
+                        if(index === null) {
+                            index = $tab.parent().index();
+                            console.log($('#spell-level-tabs').tabs('option', 'select'));
+                            $('#spell-level-tabs').tabs('option', 'select', 5);
+                        }
                     }
                 });
             },

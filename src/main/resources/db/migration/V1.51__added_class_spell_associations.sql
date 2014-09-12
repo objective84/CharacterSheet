@@ -115,6 +115,14 @@ INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmode
 # INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 #   VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Suggestion'), 2);
 
+########## Level 3 ##########
+########## Level 4 ##########
+########## Level 5 ##########
+########## Level 6 ##########
+########## Level 7 ##########
+########## Level 8 ##########
+########## Level 9 ##########
+
 ########## Cleric Spells ##########
 
 ########## Cantrips ##########
@@ -210,109 +218,6 @@ VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Zone of Trut
 ########## Level 7 ##########
 ########## Level 8 ##########
 ########## Level 9 ##########
-
-########## Druid Spells ##########
-
-########## Cantrips ##########
-
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Animate Dead'), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
-########## Level 1 ##########
-########## Level 2 ##########
-########## Level 3 ##########
-########## Level 4 ##########
-########## Level 5 ##########
-########## Level 6 ##########
-########## Level 7 ##########
-########## Level 8 ##########
-########## Level 9 ##########
-
 
 
 ########## Druid Spells ##########
@@ -935,8 +840,6 @@ INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmode
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='See Invisibility'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Shatter'), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`=''), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Spider Climb'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)

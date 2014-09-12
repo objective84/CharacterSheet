@@ -3,7 +3,6 @@ package com.rational.controller;
 import com.rational.converters.EquipmentConverter;
 import com.rational.facade.AdminFacade;
 import com.rational.facade.CharacterFacade;
-import com.rational.forms.Character;
 import com.rational.forms.ProficienciesForm;
 import com.rational.forms.ResponseData;
 import com.rational.model.Proficiency;
@@ -65,14 +64,10 @@ public class CharacterController {
     }
 
     @RequestMapping(value="/characterlist", method= RequestMethod.POST)
-    public ModelAndView getCharacterList(@ModelAttribute Character character, final Model model, HttpSession session){
-        ModelAndView mav = new ModelAndView(REDIRECT_CHARACTER);
-        if("delete".equals(character.getName())){
-            characterFacade.deleteCharacter(character.getId());
-            mav.setViewName(REDIRECT_CHARACTER_LIST);
-            character = new Character();
-        }else if(null == character.getId()){
-            character = new Character();
+    public ModelAndView getCharacterList(@ModelAttribute CharacterModel character, final ModelAndView mav, HttpSession session){
+        mav.setViewName(REDIRECT_CHARACTER);
+        if(null == character.getId()){
+            character = new CharacterModel();
         }else{
             character = characterFacade.findCharacter(character.getId());
         }
@@ -82,16 +77,15 @@ public class CharacterController {
     }
 
     @RequestMapping(value="/character-sheet", method= RequestMethod.GET)
-    public ModelAndView character(final Model model, HttpSession session) {
-        ModelAndView mav = new ModelAndView(CHARACTER);
-        Character character = (Character)session.getAttribute("character");
-        CharacterModel characterModel;
+    public ModelAndView character(final ModelAndView mav, HttpSession session) {
+        mav.setViewName(CHARACTER);
+        CharacterModel character = (CharacterModel)session.getAttribute("character");
         mav.addObject("create", true);
         if(null == character.getId()){
-            characterModel = characterFacade.save(new Character());
+            character = characterFacade.save(new CharacterModel());
         }else{
-            characterModel = characterFacade.getCharacterModel(character.getId());
-            addProficienciesToModel(mav, characterModel.getProficiencies());
+            character = characterFacade.getCharacterModel(character.getId());
+            addProficienciesToModel(mav, character.getProficiencies());
         }
         mav.addObject("classes", adminFacade.findAllClasses());
         mav.addObject("spellcasters", adminFacade.findAllSpellcasters());
@@ -99,13 +93,19 @@ public class CharacterController {
         mav.addObject("raceMap", adminFacade.getRaceMap());
         mav.addObject("races", adminFacade.findAllRaces());
         mav.addObject("languages", adminFacade.findAllLanguages());
-        mav.addObject("character", characterModel);
-        addEquipmentToModel(mav, characterModel);
+        mav.addObject("character", character);
+        addEquipmentToModel(mav, character);
         mav.addObject("abilityTypes", AbilityTypeEnum.values());
         mav.addObject("weaponFilters", EquipmentFilterEnum.getWeaponFilters());
         mav.addObject("armorFilters", EquipmentFilterEnum.getArmorFilters());
         mav.addObject("filterByProficiency", EquipmentFilterEnum.BY_PROFICIENCY.toString());
         return mav;
+    }
+
+    @RequestMapping(value="character/delete/{characterId}", method = RequestMethod.DELETE)
+    public String deleteCharacter(@PathVariable String characterId){
+        characterFacade.deleteCharacter(Long.decode(characterId));
+        return "deleted";
     }
 
     private void addEquipmentToModel(ModelAndView mav, CharacterModel character) {
@@ -117,7 +117,7 @@ public class CharacterController {
     }
 
     @RequestMapping(value="/character-sheet", method= RequestMethod.POST)
-    public ModelAndView saveCharacter(@ModelAttribute Character character, Model model){
+    public ModelAndView saveCharacter(@ModelAttribute CharacterModel character, Model model){
         ModelAndView mav = new ModelAndView(REDIRECT_CHARACTER_LIST);
         characterFacade.save(character);
         return mav;
@@ -148,12 +148,6 @@ public class CharacterController {
     public Abilities getAbilities(@PathVariable String characterId){
         Abilities abilities = characterFacade.findAbilities(characterId);
         return abilities;
-    }
-
-    @RequestMapping(value = "/delete-character", method = RequestMethod.GET)
-    public String deleteCharacter(@RequestParam(value = "characterId") String characterId){
-        characterFacade.deleteCharacter(Long.valueOf(characterId));
-        return "deleted";
     }
 
     @ResponseBody
@@ -495,7 +489,7 @@ public class CharacterController {
 
 
     @RequestMapping(value="/level-up", method = RequestMethod.GET)
-    public void levelUp(@ModelAttribute Character character){
+    public void levelUp(@ModelAttribute CharacterModel character){
         characterFacade.levelUp(character);
     }
 

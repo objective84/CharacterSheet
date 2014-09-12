@@ -32,10 +32,16 @@ define("CharacterListView",
             },
 
             onDeleteCharacterClick: function(event){
-                console.log($(event.target).attr('id').split('-')[0])
-                $('#id').val($(event.target).attr('id').split('-')[0]);
-                $('#name').val('delete');
-                $('#characterForm').submit();
+                var id = $(event.target).attr('id').split('-')[0];
+                $.ajax({
+                    url: "character/delete/"+ id + ".json",
+                    type: "DELETE",
+                    success: function(data){
+                            console.log($('#row-'+id))
+                            $('#row-'+id).remove();
+                    }
+
+                })
             }
         });
 

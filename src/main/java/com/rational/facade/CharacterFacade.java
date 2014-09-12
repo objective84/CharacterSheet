@@ -1,6 +1,5 @@
 package com.rational.facade;
 
-import com.rational.forms.Character;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
 import com.rational.model.enums.ProficiencyTypeEnum;
@@ -12,15 +11,13 @@ import java.util.Set;
 
 public interface CharacterFacade {
 
-    CharacterModel save(Character character);
-
     CharacterModel save(CharacterModel character);
 
-    List<Character> findAllCharacters();
+    List<CharacterModel> findAllCharacters();
 
-    Character findCharacter(Long id);
+    CharacterModel findCharacter(Long id);
 
-    Character levelUp(Character character);
+    CharacterModel levelUp(CharacterModel character);
 
     CharacterModel getCharacterModel(Long id);
 
@@ -28,13 +25,13 @@ public interface CharacterFacade {
 
     CharacterModel purchaseGear(Long charId, Set<Long> equipmentIds) throws PurchaseException;
 
-    com.rational.model.entities.ClassModel setCharacterClass(Long characterId, Long classId);
+    ClassModel setCharacterClass(Long characterId, Long classId);
 
-    com.rational.model.entities.RaceModel setCharacterRace(String characterId, String raceId);
+    RaceModel setCharacterRace(String characterId, String raceId);
 
     Set<Proficiency> getProficienciesOfType(Set<Proficiency> proficiencies, ProficiencyTypeEnum type);
 
-    com.rational.model.entities.SubRaceModel setCharacterSubrace(String characterId, String subraceId);
+    SubRaceModel setCharacterSubrace(String characterId, String subraceId);
 
     SubRaceModel getCharacterSubrace(String characterId);
 
