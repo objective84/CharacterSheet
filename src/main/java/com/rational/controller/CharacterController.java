@@ -1,8 +1,6 @@
 package com.rational.controller;
 
-import com.rational.converters.EquipmentConverter;
-import com.rational.facade.AdminFacade;
-import com.rational.facade.CharacterFacade;
+import com.rational.facade.*;
 import com.rational.forms.ProficienciesForm;
 import com.rational.forms.ResponseData;
 import com.rational.model.Proficiency;
@@ -45,21 +43,36 @@ public class CharacterController {
     @Resource(name="defaultCharacterFacade")
     private CharacterFacade characterFacade;
 
-    @Resource
+    @Resource(name = "defaultAdminFacade")
     private AdminFacade adminFacade;
+
+    @Resource(name = "defaultEquipmentFacade")
+    private EquipmentFacade equipmentFacade;
+
+    @Resource(name = "defaultRaceFacade")
+    private RaceFacade raceFacade;
+
+    @Resource(name = "defaultClassFacade")
+    private ClassFacade classFacade;
+
+    @Resource(name = "defaultSpellFacade")
+    private SpellFacade spellFacade;
 
     @Resource(name="defaultCurrencyService")
     private CurrencyService currencyService;
 
-    @Resource
-    private EquipmentConverter equipmentConverter;
+    @Resource(name = "defaultLanguageFacade")
+    private LanguageFacade languageFacade;
+
+    @Resource(name="defaultAbilitiesFacade")
+    private AbilitiesFacade abilitiesFacade;
 
     @RequestMapping(value="/characterlist", method= RequestMethod.GET)
     public ModelAndView getCharacterList(final Model model){
         ModelAndView mav = new ModelAndView(CHARACTER_LIST);
         mav.addObject("characters", characterFacade.findAllCharacters());
-        mav.addObject("classMap", adminFacade.getClassMap());
-        mav.addObject("raceMap", adminFacade.getRaceMap());
+        mav.addObject("classMap", classFacade.getClassMap());
+        mav.addObject("raceMap", raceFacade.getRaceMap());
         return mav;
     }
 
@@ -87,12 +100,12 @@ public class CharacterController {
             character = characterFacade.getCharacterModel(character.getId());
             addProficienciesToModel(mav, character.getProficiencies());
         }
-        mav.addObject("classes", adminFacade.findAllClasses());
-        mav.addObject("spellcasters", adminFacade.findAllSpellcasters());
-        mav.addObject("classMap", adminFacade.getClassMap());
-        mav.addObject("raceMap", adminFacade.getRaceMap());
-        mav.addObject("races", adminFacade.findAllRaces());
-        mav.addObject("languages", adminFacade.findAllLanguages());
+        mav.addObject("classes", classFacade.findAllClasses());
+        mav.addObject("spellcasters", classFacade.findAllSpellcasters());
+        mav.addObject("classMap", classFacade.getClassMap());
+        mav.addObject("raceMap", raceFacade.getRaceMap());
+        mav.addObject("races", raceFacade.findAllRaces());
+        mav.addObject("languages", languageFacade.findAllLanguages());
         mav.addObject("character", character);
         addEquipmentToModel(mav, character);
         mav.addObject("abilityTypes", AbilityTypeEnum.values());
@@ -109,11 +122,11 @@ public class CharacterController {
     }
 
     private void addEquipmentToModel(ModelAndView mav, CharacterModel character) {
-        mav.addObject("inventoryWeapons", adminFacade.getWeaponsFromInventory(character));
-        mav.addObject("inventoryOffHandItems", adminFacade.getOffHandFromInventory(character));
-        mav.addObject("inventoryArmor", adminFacade.getArmorFromInventory(character));
-        mav.addObject("allWeapons", adminFacade.findAllWeaponModels());
-        mav.addObject("allArmor", adminFacade.findAllArmorModels());
+        mav.addObject("inventoryWeapons", equipmentFacade.getWeaponsFromInventory(character));
+        mav.addObject("inventoryOffHandItems", equipmentFacade.getOffHandFromInventory(character));
+        mav.addObject("inventoryArmor", equipmentFacade.getArmorFromInventory(character));
+        mav.addObject("allWeapons", equipmentFacade.findAllWeapons());
+        mav.addObject("allArmor", equipmentFacade.findAllArmor());
     }
 
     @RequestMapping(value="/character-sheet", method= RequestMethod.POST)
@@ -139,7 +152,7 @@ public class CharacterController {
     @ResponseBody
     @RequestMapping(value = "/abilities", method = RequestMethod.POST, consumes = "application/json")
     public Abilities saveAbilities(@RequestBody Abilities abilities){
-        Abilities saved =  adminFacade.saveAbilities(abilities);
+        Abilities saved =  abilitiesFacade.saveAbilities(abilities);
         return saved;
     }
 
@@ -153,7 +166,7 @@ public class CharacterController {
     @ResponseBody
     @RequestMapping(value = "/proficiencies", method = RequestMethod.GET, produces = "application/json")
     public ProficienciesForm getProficiencies(@RequestParam(value = "classId") String classId){
-        return new ProficienciesForm(adminFacade.getClassModel(Long.valueOf(classId)).getProficiencies());
+        return new ProficienciesForm(classFacade.getClassModel(Long.valueOf(classId)).getProficiencies());
     }
 
     @ResponseBody
@@ -173,7 +186,7 @@ public class CharacterController {
     @ResponseBody
     @RequestMapping(value="/race/{raceId}", method = RequestMethod.GET, produces = "application/json")
     public RaceModel fetchRace(@PathVariable String raceId){
-        return adminFacade.getRaceModel(raceId);
+        return raceFacade.getRaceModel(raceId);
     }
 
     @ResponseBody
@@ -206,14 +219,14 @@ public class CharacterController {
 
     @RequestMapping(value="/spell/{spellId}", method =  RequestMethod.GET)
     public SpellModel getSpellText(@PathVariable String spellId){
-        return adminFacade.findSpell(spellId);
+        return spellFacade.findSpell(spellId);
     }
 
     @ResponseBody
     @RequestMapping(value="/availableSpells/{characterId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseData<Map<String, String>> getSpellsForClassLevel(@PathVariable String characterId){
         ResponseData<Map<String, String>> spells = new ResponseData<Map<String, String>>();
-        spells.setData(sortBySchool(new TreeSet<SpellModel>(adminFacade.findSpells(characterId))));
+        spells.setData(sortBySchool(new TreeSet<SpellModel>(spellFacade.findSpells(characterId))));
         return spells;
     }
 
@@ -228,9 +241,9 @@ public class CharacterController {
     public ResponseData<Map<String, String>> getAllSpells(@PathVariable String sortingType){
         ResponseData<Map<String, String>> spells = new ResponseData<Map<String, String>>();
         if(sortingType.equalsIgnoreCase("school")){
-            spells.setData(sortBySchool(new TreeSet<SpellModel>(adminFacade.findAllSpells())));
+            spells.setData(sortBySchool(new TreeSet<SpellModel>(spellFacade.findAllSpells())));
         }else if(sortingType.equalsIgnoreCase("level")){
-            spells.setData(sortByLevel(new TreeSet<SpellModel>(adminFacade.findAllSpells())));
+            spells.setData(sortByLevel(new TreeSet<SpellModel>(spellFacade.findAllSpells())));
         }
         return spells;
     }
@@ -240,9 +253,9 @@ public class CharacterController {
     public ResponseData<Map<String, String>> getClassSpells(@PathVariable String classId, @PathVariable String sortingType){
         ResponseData<Map<String, String>> spells = new ResponseData<Map<String, String>>();
         if(sortingType.equalsIgnoreCase("school")){
-            spells.setData(sortBySchool(new TreeSet<SpellModel>(adminFacade.getClassModel(Long.decode(classId)).getSpells())));
+            spells.setData(sortBySchool(new TreeSet<SpellModel>(classFacade.getClassModel(Long.decode(classId)).getSpells())));
         }else if(sortingType.equalsIgnoreCase("level")){
-            spells.setData(sortByLevel(new TreeSet<SpellModel>(adminFacade.getClassModel(Long.decode(classId)).getSpells())));
+            spells.setData(sortByLevel(new TreeSet<SpellModel>(classFacade.getClassModel(Long.decode(classId)).getSpells())));
         }
         return spells;
     }
@@ -397,7 +410,7 @@ public class CharacterController {
         {
             responseData.setData(characterFacade.filterByProficiency(characterId));
         }else{
-            responseData.setData(adminFacade.getAllEquipmentModels());
+            responseData.setData(equipmentFacade.getAllEquipmentModels());
         }
 
         return responseData;
@@ -437,19 +450,19 @@ public class CharacterController {
     @ResponseBody
     @RequestMapping(value="/main-hand", method = RequestMethod.GET, produces = "application/json")
     public List<WeaponModel> getMainHandWeapons(@RequestParam(value = "characterId") String characterId){
-        return adminFacade.getWeaponsFromInventory(characterFacade.getCharacterModel(Long.decode(characterId)));
+        return equipmentFacade.getWeaponsFromInventory(characterFacade.getCharacterModel(Long.decode(characterId)));
     }
 
     @ResponseBody
     @RequestMapping(value="/off-hand", method = RequestMethod.GET, produces = "application/json")
     public List<EquipmentModel> getOffHand(@RequestParam(value = "characterId") String characterId){
-        return adminFacade.getOffHandFromInventory(characterFacade.getCharacterModel(Long.decode(characterId)));
+        return equipmentFacade.getOffHandFromInventory(characterFacade.getCharacterModel(Long.decode(characterId)));
     }
 
     @ResponseBody
     @RequestMapping(value="/armor", method = RequestMethod.GET, produces = "application/json")
     public List<ArmorModel> getArmor(@RequestParam(value = "characterId") String characterId){
-        return adminFacade.getArmorFromInventory(characterFacade.getCharacterModel(Long.decode(characterId)));
+        return equipmentFacade.getArmorFromInventory(characterFacade.getCharacterModel(Long.decode(characterId)));
     }
 
     @ResponseBody
@@ -457,7 +470,7 @@ public class CharacterController {
     public CharacterModel setMainHandWeapons(@RequestParam(value = "characterId") String characterId,
                                              @RequestParam(value = "itemId") String itemId ){
         CharacterModel character = characterFacade.getCharacterModel(Long.decode(characterId));
-        character.setEquippedMainHand(adminFacade.findWeaponModel(Long.decode(itemId)));
+        character.setEquippedMainHand(equipmentFacade.findWeaponModel(Long.decode(itemId)));
         character = characterFacade.save(character);
 
         return character;
@@ -468,7 +481,7 @@ public class CharacterController {
     public CharacterModel setOffHand(@RequestParam(value = "characterId") String characterId,
                                      @RequestParam(value = "itemId") String itemId){
         CharacterModel character = characterFacade.getCharacterModel(Long.decode(characterId));
-        character.setEquippedOffHand(adminFacade.findEquipment(Long.decode(itemId)));
+        character.setEquippedOffHand(equipmentFacade.findEquipment(Long.decode(itemId)));
         character = characterFacade.save(character);
 
         return character;
@@ -480,7 +493,7 @@ public class CharacterController {
                                    @RequestParam(value = "itemId") String itemId){
         CharacterModel character = characterFacade.getCharacterModel(Long.decode(characterId));
         characterFacade.equipArmor(characterId, itemId);
-        character.setEquippedArmor(adminFacade.getArmorModel(Long.decode(itemId)));
+        character.setEquippedArmor(equipmentFacade.getArmorModel(Long.decode(itemId)));
         character = characterFacade.save(character);
 
         return character;

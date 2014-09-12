@@ -9,6 +9,7 @@ import com.rational.model.exceptions.CurrencyConversionException;
 import com.rational.service.AdminService;
 import com.rational.service.CurrencyService;
 import com.rational.service.DiceService;
+import com.rational.service.EquipmentService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,6 +26,9 @@ public class DefaultCurrencyService implements CurrencyService {
 
     @Resource
     AdminService adminService;
+
+    @Resource
+    private EquipmentService equipmentService;
 
     @Override
     public CoinPurse convertCurrency(Coin from, Coin to, Long amt) throws CurrencyConversionException{
@@ -144,13 +148,13 @@ public class DefaultCurrencyService implements CurrencyService {
         CoinTypeEnum type = CoinTypeEnum.valueOf(coin.getDenomination().toUpperCase());
         switch(type){
             case COPPER:
-                return adminService.findCoinByType(CoinTypeEnum.SILVER);
+                return equipmentService.findCoinByType(CoinTypeEnum.SILVER);
             case SILVER:
-                return adminService.findCoinByType(CoinTypeEnum.ELECTRUM);
+                return equipmentService.findCoinByType(CoinTypeEnum.ELECTRUM);
             case ELECTRUM:
-                return adminService.findCoinByType(CoinTypeEnum.GOLD);
+                return equipmentService.findCoinByType(CoinTypeEnum.GOLD);
             case GOLD:
-                return adminService.findCoinByType(CoinTypeEnum.PLATINUM);
+                return equipmentService.findCoinByType(CoinTypeEnum.PLATINUM);
         }
 
         return null;

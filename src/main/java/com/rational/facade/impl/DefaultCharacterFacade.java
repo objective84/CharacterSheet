@@ -1,7 +1,5 @@
 package com.rational.facade.impl;
 
-import com.rational.converters.EquipmentConverter;
-import com.rational.facade.AdminFacade;
 import com.rational.facade.CharacterFacade;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
@@ -10,10 +8,7 @@ import com.rational.model.equipment.ArmorModel;
 import com.rational.model.equipment.EquipmentModel;
 import com.rational.model.equipment.WeaponModel;
 import com.rational.model.exceptions.PurchaseException;
-import com.rational.service.AdminService;
-import com.rational.service.CharacterService;
-import com.rational.service.CurrencyService;
-import com.rational.service.DiceService;
+import com.rational.service.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -29,22 +24,28 @@ import java.util.Set;
 public class DefaultCharacterFacade implements CharacterFacade {
 
     @Resource
-    AdminFacade adminFacade;
+    private  AdminService adminService;
 
-    @Resource
-    AdminService adminService;
+    @Resource(name = "defaultCharacterService")
+    private CharacterService characterService;
 
-    @Resource
-    CharacterService characterService;
+    @Resource(name = "defaultCurrencyService")
+    private CurrencyService currencyService;
 
-    @Resource
-    EquipmentConverter equipmentConverter;
+    @Resource(name = "defaultDiceService")
+    private DiceService diceService;
 
-    @Resource
-    CurrencyService currencyService;
+    @Resource(name = "defaultEquipmentService")
+    private EquipmentService equipmentService;
 
-    @Resource
-    DiceService diceService;
+    @Resource(name = "defaultRaceService")
+    private RaceService raceService;
+
+    @Resource(name = "defaultClassService")
+    private ClassService classService;
+
+    @Resource(name = "defaultSpellService")
+    private SpellService spellService;
 
     @Override
     public CharacterModel save(CharacterModel character) {
@@ -101,7 +102,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
             throw new PurchaseException(PurchaseException.NO_PURSE);
         }
 
-        List<EquipmentModel> equipmentModels = equipmentConverter.convertToModels(equipmentIds);
+        List<EquipmentModel> equipmentModels = equipmentService.findEquipment(equipmentIds);
 
         BigDecimal totalCost = BigDecimal.ZERO;
         for(EquipmentModel equipmentModel : equipmentModels){
@@ -129,7 +130,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
     @Override
     public ClassModel setCharacterClass(Long characterId, Long classId) {
         CharacterModel character = characterService.findCharacter(characterId);
-        ClassModel classModel = adminService.findClass(classId);
+        ClassModel classModel = classService.findClass(classId);
         character.setClazz(classModel);
         character.setCoinPurse(currencyService.getStartingWealth(classModel.getStartingWealthDie(), classModel.getStartingWealthDieAmount()));
         character.setMaxHealth(classModel.getHitDie().getMaxRoll());
@@ -154,7 +155,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         if(raceId.equals("0")){
             race = null;
         }else {
-            race = adminService.findRace(Long.decode(raceId));
+            race = raceService.findRace(Long.decode(raceId));
         }
         character.setRace(race);
         characterService.save(character);
@@ -178,7 +179,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         if(subraceId.equals("0")){
             character.setSubrace(null);
         }else {
-            SubRaceModel subrace = adminService.findSubrace(Long.decode(subraceId));
+            SubRaceModel subrace = raceService.findSubrace(Long.decode(subraceId));
             character.setSubrace(subrace);
         }
         characterService.save(character);
@@ -234,10 +235,10 @@ public class DefaultCharacterFacade implements CharacterFacade {
         for(EquipmentFilterEnum filter : filterEnums){
             switch (filter){
                 case WEAPONS:
-                    equipmentModels.addAll(adminService.findEquipmentOfType(WeaponModel.class));
+                    equipmentModels.addAll(equipmentService.findEquipmentOfType(WeaponModel.class));
                     break;
                 case ARMOR:
-                    equipmentModels.addAll(adminService.findEquipmentOfType(ArmorModel.class));
+                    equipmentModels.addAll(equipmentService.findEquipmentOfType(ArmorModel.class));
                     break;
                 case BY_PROFICIENCY:
                     continue;
@@ -253,7 +254,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
 
     @Override
     public List<EquipmentModel> filterByProficiency(String characterId){
-        List<EquipmentModel> equipmentModels = adminService.findAllEquipment();
+        List<EquipmentModel> equipmentModels = equipmentService.findAllEquipment();
         List<EquipmentModel> temp = new ArrayList<EquipmentModel>(equipmentModels);
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         setCharacterProficiencies(character);
@@ -273,7 +274,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         if(itemId.equals("0")){
             character.setEquippedArmor(null);
         }else {
-            character.setEquippedArmor(adminFacade.getArmorModel(Long.decode(itemId)));
+            character.setEquippedArmor(equipmentService.findArmor(Long.decode(itemId)));
         }
         characterService.save(character);
     }
@@ -292,7 +293,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
     @Override
     public SpellModel addSpell(String characterId, String spellId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
-        SpellModel spell = adminService.findSpell(Long.decode(spellId));
+        SpellModel spell = spellService.findSpell(Long.decode(spellId));
         character.getSpellsKnown().add(spell);
         characterService.save(character);
         return spell;
