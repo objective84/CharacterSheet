@@ -101,7 +101,7 @@ public class DefaultSpellFacade implements SpellFacade {
         String nine = tableStart;
         String spellString;
         for(SpellModel spell : spells) {
-            spellString = "<tr data-name='" + spell.getName().toLowerCase() + "' class='spell-line'><td>" + spell.getSchool() + "</td><td id='" + spell.getId() + "' class='spell-select'><span>" + spell.getName() + "</span></td></tr>";
+            spellString = "<tr data-name='" + spell.getName().toLowerCase() + "' class='spell-line'><td>" + spell.getSchool().substring(0, 3) + "</td><td id='" + spell.getId() + "' class='spell-select'><span>" + spell.getName() + "</span></td></tr>";
             switch (spell.getLevel()){
                 case 0: cantrip += spellString; break;
                 case 1: one += spellString; break;
