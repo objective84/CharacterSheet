@@ -45,6 +45,29 @@ VALUES ('271', #id
         'Self' #range in feet
 );
 INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('360', #id
+        'Locate Creature', #name
+        '1 action', #castingTime
+        'Describe or name a creature that is familiar to you. You sense the direction to the creature’s location, as long as that creature is within 1,000 feet of you. If the creature is moving, you know the direction of its movement. /nThe spell can locate a specific creature known to you, or the nearest creature of a specific kind (such as a human or a unicorn), so long as you have seen such a creature up close—within 30 feet—at least once. If the creature you described or named is in a different form, such as being under the effects of a polymorph spell, this spell doesn’t locate the creature. /nThis spell can’t locate a creature if running water at least 10 feet w ide blocks a direct path between you and the creature.', #description
+        '4', #level
+        null, #damageDiceAmount
+        null, #damageDice ID
+        null, #damageType ID
+        null, #damageBonus
+        '', #savingThrow
+        '', #condition
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        'a bit of fur from a bloodhound', #materialComponent
+        'Concentration, up to 1 hour', #duration
+        'a creature', #target
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '1', #concentration
+        'Divination', #school
+        'Self' #range in feet
+);
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
 VALUES ('272', #id
         'Magic Circle', #name
         '1 minute', #castingTime
@@ -322,29 +345,6 @@ VALUES ('305', #id
         'Sight' #range in feet
 );
 INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
-VALUES ('306', #id
-        '', #name
-        '', #castingTime
-        '', #description
-        '', #level
-        null, #damageDiceAmount
-        null, #damageDice ID
-        null, #damageType ID
-        null, #damageBonus
-        '', #savingThrow
-        '', #condition
-        '', #requiresVerbalComponent
-        '', #requiresSomaticComponent
-        '', #materialComponent
-        '', #duration
-        '', #target
-        '', #requiresAttackRoll
-        '', #ritual
-        '', #concentration
-        '', #school
-        '' #range in feet
-);
-INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
 VALUES ('307', #id
         'Mislead', #name
         '1 action', #castingTime
@@ -530,9 +530,9 @@ VALUES ('314', #id
 );
 INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
 VALUES ('315', #id
-        'Otilukes''s Freezing Sphere', #name
+        'Otiluke''s Freezing Sphere', #name
         '6', #castingTime
-        'A frigid globe of cold energy streaks from your fingertips to a point of your choice within range, where it explodes in a 60-foot-radius sphere. Each creature within the area must make a Constitution saving throw. On a failed save, a creature takes 10d6 cold damage. On a successful save, it takes half as much damage. /nIf the globe strikes a body of water or a liquid that is principally water (not including water-based creatures), it freezes the liquid to a depth of 6 inches over an area 30 feet square. This ice lasts for 1 minute. Creatures that w ere swimming on the surface of frozen water are trapped in the ice. A trapped creature can use an action to make a Strength check against your spell save DC to break free. /nYou can refrain from firing the globe after completing the spell, if you wish. A small globe about the size of a sling stone, co o l to the touch, appears in your hand. At any time, you or a creature you give the globe to can throw the globe (to a range of 40 feet) or hurl it with a sling (to the sling’s normal range). It shatters on impact, with the same effect as the normal casting of the spell. You can also set the globe down without shattering it. After 1 minute, if the globe hasn’t already shattered, it explodes. /n/bAt Higher Levels./b When you cast this spell using a spell slot of 7th level or higher, the damage increases by 1d6 for each slot level above 6th.', #description
+        'A frigid globe of cold energy streaks from your fingertips to a point of your choice within range, where it explodes in a 60-foot-radius sphere. Each creature within the area must make a Constitution saving throw. On a failed save, a creature takes 10d6 cold damage. On a successful save, it takes half as much damage. /nIf the globe strikes a body of water or a liquid that is principally water (not including water-based creatures), it freezes the liquid to a depth of 6 inches over an area 30 feet square. This ice lasts for 1 minute. Creatures that w ere swimming on the surface of frozen water are trapped in the ice. A trapped creature can use an action to make a Strength check against your spell save DC to break free. /nYou can refrain from firing the globe after completing the spell, if you wish. A small globe about the size of a sling stone, cool to the touch, appears in your hand. At any time, you or a creature you give the globe to can throw the globe (to a range of 40 feet) or hurl it with a sling (to the sling’s normal range). It shatters on impact, with the same effect as the normal casting of the spell. You can also set the globe down without shattering it. After 1 minute, if the globe hasn’t already shattered, it explodes. /n/bAt Higher Levels./b When you cast this spell using a spell slot of 7th level or higher, the damage increases by 1d6 for each slot level above 6th.', #description
         '6', #level
         '10', #damageDiceAmount
         '2', #damageDice ID
@@ -624,7 +624,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
 VALUES ('319', #id
         'Phantasmal Killer', #name
         '4', #castingTime
-        'You tap into the nightmares of a creature you can see within range and create an illusory manifestation of its deepest fears, visible only to that creature. The target must make a Wisdom saving throw. On a failed save, the target becomes frightened for the duration. At the start of each of the target’s turns before the spell ends, the target must succeed on a Wisdom saving throw or take 4d10 psychic damage. On a successful save, the spell ends. /n/bAt Higher Levels./b When you cast this spell using a spell slot of 5th level or higher, the damage increases by 1dlO for each slot level above 4th.', #description
+        'You tap into the nightmares of a creature you can see within range and create an illusory manifestation of its deepest fears, visible only to that creature. The target must make a Wisdom saving throw. On a failed save, the target becomes frightened for the duration. At the start of each of the target’s turns before the spell ends, the target must succeed on a Wisdom saving throw or take 4d10 psychic damage. On a successful save, the spell ends. /n/bAt Higher Levels./b When you cast this spell using a spell slot of 5th level or higher, the damage increases by 1dlofor each slot level above 4th.', #description
         '4', #level
         null, #damageDiceAmount
         null, #damageDice ID
@@ -734,6 +734,29 @@ VALUES ('323', #id
         '1', #concentration
         'Transmutation', #school
         '60' #range in feet
+);
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('306', #id
+        'Plant Growth', #name
+        '1 action', #castingTime
+        'This spell channels vitality into plants within a specific area. There are two possible uses for the spell, granting either immediate or long-term benefits. /nIf you cast this spell using 1 action, choose a point within range. All normal plants in a 100-foot radius centered on that point become thick and overgrown. A creature moving through the area must spend 4 feet of movement for every 1 foot it moves. /nYou can exclude one or more areas of any size within the spell’s area from being affected. /nIf you cast this spell over 8 hours, you enrich the land. All plants in a half-mile radius centered on a point within range become enriched for 1 year. The plants yield twice the normal amount of food when harvested.', #description
+        '3', #level
+        null, #damageDiceAmount
+        null, #damageDice ID
+        null, #damageType ID
+        null, #damageBonus
+        '', #savingThrow
+        '', #condition
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        '', #materialComponent
+        'Instantaneous', #duration
+        '', #target
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '0', #concentration
+        'Transmutation', #school
+        '150' #range in feet
 );
 INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
 VALUES ('324', #id
@@ -1153,7 +1176,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
 VALUES ('342', #id
         'Sequester', #name
         '1 action', #castingTime
-        'By means of this spell, a willing creature or an object can be hidden away, safe from detection for the duration. When you cast the spell and touch the target, it becomes invisible and can’t be targeted by divination spells or perceived through scrying sensors created by divination spells. /nIf the target is a creature, it falls into a state of suspended animation. Time ceases to flow for it, and it doesn’t grow older. /nYou can set a condition for the spell to end early. The condition can be anything you choose, but it must occur or be visible within 1 mile of the target. Examples include “after 1,000 years” or “when the tarrasque awakens.” This spell also ends if the target takes any damage.', #description
+        'By means of this spell, a willing creature or an object can be hidden away, safe from detection for the duration. When you cast the spell and touch the target, it becomes invisible and can’t be targeted by divination spells or perceived through scrying sensors created by divination spells. /nIf the target is a creature, it falls into a state of suspended animation. Time ceases toflow for it, and it doesn’t grow older. /nYou can set a condition for the spell to end early. The condition can be anything you choose, but it must occur or be visible within 1 mile of the target. Examples include “after 1,000 years” or “when the tarrasque awakens.” This spell also ends if the target takes any damage.', #description
         '7', #level
         null, #damageDiceAmount
         null, #damageDice ID
@@ -1314,7 +1337,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
 VALUES ('349', #id
         'Speak with Dead', #name
         '3', #castingTime
-        'You grant the semblance of life and intelligence to a corpse of your choice within range, allowing it to answer the questions you pose. The corpse must still have a mouth and can’t be undead. The spell fails if the corpse was the target of this spell within the last 10 days. /nUntil the spell ends, you can ask the corpse up to five questions. The corpse knows only what it knew in life, including the languages it knew. Answers are usually brief, cryptic, or repetitive, and the corpse is under no compulsion to offer a truthful answer if you are hostile to it or it recognizes you as an enemy. This spell doesn’t return the creature’s soul to its body, only its animating spirit. Thus, the corpse can’t learn new information, doesn’t comprehend anything that has happened since it died, and can’t speculate about future events.', #description
+        'You grant the semblance of life and intelligence to a corpse of your choice within range, allowing it to answer the questions you pose. The corpse must still have a mouth and can’t be undead. The spell fails if the corpse was the target of this spell within the last 10 days. /nUntil the spell ends, you can ask the corpse up tofive questions. The corpse knows only what it knew in life, including the languages it knew. Answers are usually brief, cryptic, or repetitive, and the corpse is under no compulsion to offer a truthful answer if you are hostile to it or it recognizes you as an enemy. This spell doesn’t return the creature’s soul to its body, only its animating spirit. Thus, the corpse can’t learn new information, doesn’t comprehend anything that has happened since it died, and can’t speculate about future events.', #description
         '3', #level
         null, #damageDiceAmount
         null, #damageDice ID
@@ -1520,8 +1543,8 @@ VALUES ('357', #id
 INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
 VALUES ('358', #id
         'Symbol', #name
-        '2 minute', #castingTime
-        'When you cast this spell, you inscribe a harmful glyph either on a surface (such as a section of floor, a wall, or a table) or within an object that can be closed to conceal the glyph (such as a book, a scroll, or a treasure chest). If you choose a surface, the glyph can cover an area of the surface no larger than 10 feet in diameter. If you choose an object, that object must remain in its place; if the object is moved more than 10 feet from where you cast this spell, the glyph is broken, and the spell ends without being triggered. /nThe glyph is nearly invisible, requiring an Intelligence (Investigation) check against your spell save DC to find it. /nYou decide what triggers the glyph when you cast the spell. For glyphs inscribed on a surface, the most typical triggers include touching or stepping on the glyph, removing another object covering it, approaching within a certain distance of it, or manipulating the object that holds it. For glyphs inscribed within an object, the most common triggers are opening the object, approaching within a certain distance of it, or seeing or reading the glyph. /nYou can further refine the trigger so the spell is activated only under certain circumstances or according to a creature’s physical characteristics (such as height or weight), or physical kind (for example, the ward could be set to affect hags or shapechangers). You can also specify creatures that don’t trigger the glyph, such as those who say a certain password. /nWhen you inscribe the glyph, choose one of the options below for its effect. Once triggered, the glyph glows, filling a 60-foot-radius sphere with dim light for 10 minutes, after which time the spell ends. Each creature in the sphere when the glyph activates is targeted by its effect, as is a creature that enters the sphere for the first time on a turn or ends its turn there. /n/bDeath./b Each target must make a Constitution saving throw, taking 10d 10 necrotic damage on a failed save, or half as much damage on a successful save. /n/bDiscord. Each target must make a Constitution saving throw. On a failed save, a target bickers and argues with other creatures for 1 minute. During this time, it is incapable of meaningful communication and has disadvantage on attack rolls and ability checks. /n/bFear./b Each target must make a Wisdom saving throw and becomes frightened for 1 minute on a failed save. While frightened, the target drops whatever it is holding and must move at least 30 feet away from the glyph on each of its turns, if able. /n/bHopelessness./b Each target must make a Charisma saving throw. On a failed save, the target is overwhelmed with despair for 1 minute. During this time, it can’t attack or target any creature with harmful abilities, spells, or other magical effects. /n/bInsanity./b Each target must make an Intelligence saving throw. On a failed save, the target is driven insane for 1 minute. An insane creature can’t take actions, can''t understand what other creatures say, can’t read, and speaks only in gibberish. The DM controls its movement, which is erratic. /n/bPain./b Each target must make a Constitution saving throw and becomes incapacitated with excruciating pain for 1 minute on a failed save. /n/bSleep./b Each target must make a Wisdom saving throw and falls unconscious for 10 minutes on a failed save. A creature awakens if it takes damage or if someone uses an action to shake or slap it awake. /n/bStunning./b Each target must make a Wisdom saving throw and becomes stunned for 1 minute on a failed save.', #description
+        '2 minutes', #castingTime
+        'When you cast this spell, you inscribe a harmful glyph either on a surface (such as a section of floor, a wall, or a table) or within an object that can be closed to conceal the glyph (such as a book, a scroll, or a treasure chest). If you choose a surface, the glyph can cover an area of the surface no larger than 10 feet in diameter. If you choose an object, that object must remain in its place; if the object is moved more than 10 feet from where you cast this spell, the glyph is broken, and the spell ends without being triggered. /nThe glyph is nearly invisible, requiring an Intelligence (Investigation) check against your spell save DC tofind it. /nYou decide what triggers the glyph when you cast the spell. For glyphs inscribed on a surface, the most typical triggers include touching or stepping on the glyph, removing another object covering it, approaching within a certain distance of it, or manipulating the object that holds it. For glyphs inscribed within an object, the most common triggers are opening the object, approaching within a certain distance of it, or seeing or reading the glyph. /nYou can further refine the trigger so the spell is activated only under certain circumstances or according to a creature’s physical characteristics (such as height or weight), or physical kind (for example, the ward could be set to affect hags or shapechangers). You can also specify creatures that don’t trigger the glyph, such as those who say a certain password. /nWhen you inscribe the glyph, choose one of the options below for its effect. Once triggered, the glyph glows, filling a 60-foot-radius sphere with dim light for 10 minutes, after which time the spell ends. Each creature in the sphere when the glyph activates is targeted by its effect, as is a creature that enters the sphere for the first time on a turn or ends its turn there. /n/bDeath./b Each target must make a Constitution saving throw, taking 10d 10 necrotic damage on a failed save, or half as much damage on a successful save. /n/bDiscord. Each target must make a Constitution saving throw. On a failed save, a target bickers and argues with other creatures for 1 minute. During this time, it is incapable of meaningful communication and has disadvantage on attack rolls and ability checks. /n/bFear./b Each target must make a Wisdom saving throw and becomes frightened for 1 minute on a failed save. While frightened, the target drops whatever it is holding and must move at least 30 feet away from the glyph on each of its turns, if able. /n/bHopelessness./b Each target must make a Charisma saving throw. On a failed save, the target is overwhelmed with despair for 1 minute. During this time, it can’t attack or target any creature with harmful abilities, spells, or other magical effects. /n/bInsanity./b Each target must make an Intelligence saving throw. On a failed save, the target is driven insane for 1 minute. An insane creature can’t take actions, can''t understand what other creatures say, can’t read, and speaks only in gibberish. The DM controls its movement, which is erratic. /n/bPain./b Each target must make a Constitution saving throw and becomes incapacitated with excruciating pain for 1 minute on a failed save. /n/bSleep./b Each target must make a Wisdom saving throw and falls unconscious for 10 minutes on a failed save. A creature awakens if it takes damage or if someone uses an action to shake or slap it awake. /n/bStunning./b Each target must make a Wisdom saving throw and becomes stunned for 1 minute on a failed save.', #description
         '7', #level
         null, #damageDiceAmount
         null, #damageDice ID
@@ -1540,3 +1563,119 @@ VALUES ('358', #id
         'Abjuration', #school
         'Touch' #range in feet
 );
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('361', #id
+        'Polymorph', #name
+        '1 action', #castingTime
+        'This spell transforms a creature that you can see within range into a new form. An unwilling creature must make a Wisdom saving throw to avoid the effect. A shapechanger automatically succeeds on this saving throw. /nThe transformation lasts for the duration, or until the target drops to 0 hit points or dies. The new form can be any beast whose challenge rating is equal to or less than the target’s (or the target’s level, if it doesn''t have a challenge rating). The target’s game statistics, including mental ability scores, are replaced by the statistics of the chosen beast. It retains its alignment and personality. /nThe target assumes the hit points of its new form. When it reverts to its normal form, the creature returns to the number of hit points it had before it transformed. If it reverts as a result of dropping to 0 hit points, any excess damage carries over to its normal form. As long as the excess damage doesn’t reduce the creature’s normal form to 0 hit points, it isn’t knocked unconscious. /nThe creature is limited in the actions it can perform by the nature of its new form, and it can’t speak, cast spells, or take any other action that requires hands or speech. /nThe target’s gear melds into the new form. The creature can’t activate, use, wield, or otherwise benefit from any of its equipment.', #description
+        '4', #level
+        null, #damageDiceAmount
+        null, #damageDice ID
+        null, #damageType ID
+        null, #damageBonus
+        'Wisdom', #savingThrow
+        '', #condition
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        'a caterpillar cocoon', #materialComponent
+        'Concentration, up to 1 hour', #duration
+        'a creature', #target
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '1', #concentration
+        'Transmutation', #school
+        '60' #range in feet
+);
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('362', #id
+        'Divination', #name
+        '1 action', #castingTime
+        'Your magic and an offering put you in contact with a god or a god’s servants. You ask a single question concerning a specific goal, event, or activity to occur within 7 days. The DM offers a truthful reply. The reply might be a short phrase, a cryptic rhyme, or an omen. /nThe spell doesn’t take into account any possible circumstances that might change the outcome, such as the casting of additional spells or the loss or gain of a companion. /nIf you cast the spell two or more times before finishing your next long rest, there is a cumulative 25 percent chance for each casting after the first that you get a random reading. The DM makes this roll in secret.', #description
+        '4', #level
+        null, #damageDiceAmount
+        null, #damageDice ID
+        null, #damageType ID
+        null, #damageBonus
+        '', #savingThrow
+        '', #condition
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        'incense and a sacrificial offering appropriate to your religion, together worth at least 25 gp, which the spell consumes', #materialComponent
+        'Instantaneous', #duration
+        '', #target
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '0', #concentration
+        'Divination', #school
+        'Self' #range in feet
+);
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('363', #id
+        'Fire Storm', #name
+        '1 action', #castingTime
+        'A storm made up of sheets of roaring flame appears in a location you choose within range. The area of the storm consists of up to ten 10-foot cubes, which you can arrange as you wish. Each cube must have at least one face adjacent to the face of another cube. Each creature in the area must make a Dexterity saving throw. It takes 7d10 fire damage on a failed save, or half as much damage on a successful one. /nThe fire damages objects in the area and ignites flammable objects that aren''t being worn or carried. If you choose, plant life in the area is unaffected by this spell.', #description
+        '7', #level
+        '7', #damageDiceAmount
+        '4', #damageDice ID
+        '4', #damageType ID
+        null, #damageBonus
+        '', #savingThrow
+        '', #condition
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        '', #materialComponent
+        'Instantaneous', #duration
+        '', #target
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '0', #concentration
+        'Evocation', #school
+        '150' #range in feet
+);
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('364', #id
+        'Staggering Smite', #name
+        '1 bonus action', #castingTime
+        'The next time you hit a creature with a melee weapon attack during this spell’s duration, your w eapon pierces both body and mind, and the attack deals an extra 4d6 psychic damage to the target. The target must make a Wisdom saving throw. On a failed save, it has disadvantage on attack rolls and ability checks, and can''t take reactions, until the end of its next turn.', #description
+        '4', #level
+        '4', #damageDiceAmount
+        '2', #damageDice ID
+        '10', #damageType ID
+        null, #damageBonus
+        '', #savingThrow
+        '', #condition
+        '1', #requiresVerbalComponent
+        '0', #requiresSomaticComponent
+        '', #materialComponent
+        'Concentration, up to 1 minute', #duration
+        '', #target
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '1', #concentration
+        'Evocation', #school
+        'Self' #range in feet
+);
+
+# INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+# VALUES ('364', #id
+#         'Destructive Smite', #name
+#         '1 bonus action', #castingTime
+#         'The next time you hit a creature with a melee weapon attack during this spell’s duration, your w eapon pierces both body and mind, and the attack deals an extra 4d6 psychic damage to the target. The target must make a Wisdom saving throw. On a failed save, it has disadvantage on attack rolls and ability checks, and can''t take reactions, until the end of its next turn.', #description
+#         '4', #level
+#         '4', #damageDiceAmount
+#         '2', #damageDice ID
+#         '10', #damageType ID
+#         null, #damageBonus
+#         '', #savingThrow
+#         '', #condition
+#         '1', #requiresVerbalComponent
+#         '0', #requiresSomaticComponent
+#         '', #materialComponent
+#         'Concentration, up to 1 minute', #duration
+#         '', #target
+#         '0', #requiresAttackRoll
+#         '0', #ritual
+#         '1', #concentration
+#         'Evocation', #school
+#         'Self' #range in feet
+# );

@@ -223,15 +223,15 @@ VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='True Seeing'
 ########## Level 7 ##########
 
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Etheralness'), 2);
+VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Etherealness'), 2);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Forcecage'), 2);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Mirage Arcane'), 2);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Mordenkainen’s Magnificent Mansion'), 2);
+VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Mordenkainen''s Magnificent Mansion'), 2);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Mordenkainen’s Sword'), 2);
+VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Mordenkainen''s Sword'), 2);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Project Image'), 2);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
@@ -477,7 +477,7 @@ VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Conjure Cele
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Divine Word'), 3);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Etheralness'), 3);
+VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Etherealness'), 3);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Fire Storm'), 3);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
@@ -865,7 +865,7 @@ VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Banishing Sm
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Circle of Power'), 7);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Destructive Smite'), 7);
+VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Destructive Wave'), 7);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Dispel Evil and Good'), 7);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
@@ -968,7 +968,7 @@ VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Freedom of M
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Grasping Vine'), 8);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Locate Creater'), 8);
+VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Locate Creature'), 8);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Stoneskin'), 8);
 
@@ -1375,7 +1375,7 @@ VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Remove Curse
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Tongues'), 11);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Vampiric Tongues'), 11);
+VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Vampiric Touch'), 11);
 
 ########## Level 4 ##########
 
@@ -1391,7 +1391,7 @@ VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Hallucinator
 ########## Level 5 ##########
 
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Contact Othe Plane'), 11);
+VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Contact Other Plane'), 11);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Dream'), 11);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
@@ -1680,7 +1680,7 @@ VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Stinking Clo
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Tongues'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Vampiric Tongues'), 12);
+VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Vampiric Touch'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Water Breathing'), 12);
 
@@ -1713,11 +1713,11 @@ VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Hallucinator
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Ice Storm'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Leomunds''s Secret Chest'), 12);
+VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Leomund''s Secret Chest'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Locate Creature'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Mordenkainen''s Faitful Hound'), 12);
+VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Mordenkainen''s Faithful Hound'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Mordenkainen''s Private Sanctum'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
@@ -1729,7 +1729,7 @@ VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Phantasmal K
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Polymorph'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Stoneshape'), 12);
+VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Stone Shape'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Stoneskin'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
@@ -1797,7 +1797,7 @@ VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Contingency'
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Create Undead'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Disintigrate'), 12);
+VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Disintegrate'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Drawmij''s Instant Summons'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
@@ -1888,8 +1888,8 @@ INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmode
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Sunburst'), 12);
 INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
 VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Telepathy'), 12);
-INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
-VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Trap the Soul'), 12);
+# INSERT INTO `charactersheet`.`spellmodel_classmodel`(`spellmodel_id`, `classmodel_id`)
+# VALUES ((SELECT id from `charactersheet`.`spellmodel` WHERE `name`='Trap the Soul'), 12);
 
 ########## Level 9 ##########
 

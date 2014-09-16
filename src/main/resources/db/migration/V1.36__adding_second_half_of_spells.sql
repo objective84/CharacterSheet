@@ -376,7 +376,7 @@ VALUES ('291', #id
             'object that you can see',#target
             '0'#requiresAttackRoll
             ),('282', #id
-            'Leomund''s Secert Chest', #name
+            'Leomund''s Secret Chest', #name
             '4', #level
             'conjuration', #school
             '0', #ritual

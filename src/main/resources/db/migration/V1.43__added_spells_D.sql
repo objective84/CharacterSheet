@@ -356,6 +356,29 @@ VALUES ('102', #id
         '0' #range in feet
 );
 INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
+VALUES ('359', #id
+        'Dispel Magic', #name
+        '1 action', #castingTime
+        'Choose one creature, object, or magical effect within range. Any spell of 3rd level or lower on the target ends. For each spell of 4th level or higher on the target, make an ability check using your spellcasting ability. The DC equals 10 + the spell’s level. On a successful check, the spell ends. /n/bAt Higher Levels./b When you cast this spell using a spell slot of 4th level or higher, you automatically end the effects of a spell on the target if the spell’s level is equal to or less than the level of the spell slot you used.', #description
+        '5', #level
+        null, #damageDiceAmount
+        null, #damageDice ID
+        null, #damageType ID
+        null, #damageBonus
+        '', #savingThrow
+        '', #condition
+        '1', #requiresVerbalComponent
+        '1', #requiresSomaticComponent
+        '', #materialComponent
+        'Instantaneous', #duration
+        'one creature, object, or magical effect', #target
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '0', #concentration
+        'Abjuration', #school
+        '120' #range in feet
+);
+INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
 VALUES ('103', #id
         'Divine Favor', #name
         '1 bonus action', #castingTime
@@ -495,13 +518,13 @@ VALUES ('108', #id
 );
 INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
 VALUES ('109', #id
-        'Dramij’s Instant Summons', #name
+        'Drawmij''s Instant Summons', #name
         '1 minute', #castingTime
         'You touch an object weighing 10 pounds or less whose longest dimension is 6 feet or less. The spell leaves an invisible mark on its surface and invisibly inscribes the name of the item on the sapphire you use as the material component. Each time you cast this spell, you must use a different sapphire. /nAt any time thereafter, you can use your action to speak the item’s name and crush the sapphire. The item instantly appears in your hand regardless of physical or planar distances, and the spell ends. /nIf another creature is holding or carrying the item, crushing the sapphire doesn’t transport the item to you, but instead you learn who the creature possessing the object is and roughly where that creature is located at that moment. /nDispel magic or a similar effect successfully applied to the sapphire ends this spell’s effect.', #description
         '6', #level
         null, #damageDiceAmount
         null, #damageDice ID
-        null, #damageType ID
+        null, #damageType ID`
         null, #damageBonus
         '', #savingThrow
         '', #condition
