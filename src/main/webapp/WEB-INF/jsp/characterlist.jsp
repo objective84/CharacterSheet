@@ -23,7 +23,7 @@
             <table>
                 <c:forEach items="${characters}" var="character">
                     <tr id="row-${character.id}">
-                        <td><a href="#no" onclick="submitCharacter(${character.id})" class='characterLink' id="${character.id}" />
+                        <td><a href="character-sheet/${character.id}"  class='characterLink' />
                                 ${character.name} - ${raceMap[character.race].raceName} ${classMap[character.clazz].name}
                             <a href="#" class="delete-char link-small" id="${character.id}-delete" class="link-small">Delete</a>
                         </td>
@@ -31,7 +31,7 @@
                 </c:forEach>
                 <tr>
                     <td>
-                        <a href="#" id="new-character">Create new character</a>
+                        <a href="character-sheet" >Create new character</a>
                     </td>
                 </tr>
             </table>

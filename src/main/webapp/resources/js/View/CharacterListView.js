@@ -34,10 +34,9 @@ define("CharacterListView",
             onDeleteCharacterClick: function(event){
                 var id = $(event.target).attr('id').split('-')[0];
                 $.ajax({
-                    url: "character/delete/"+ id + ".json",
+                    url: "character/"+ id + "/delete.json",
                     type: "DELETE",
                     success: function(data){
-                            console.log($('#row-'+id))
                             $('#row-'+id).remove();
                     }
 
