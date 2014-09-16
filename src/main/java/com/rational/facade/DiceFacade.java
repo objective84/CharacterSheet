@@ -1,14 +1,12 @@
-package com.rational.service;
+package com.rational.facade;
 
 import com.rational.model.Dice;
 
 import java.util.List;
 
-public interface DiceService {
+public interface DiceFacade {
 
     Dice findDice(Long id);
 
     List<Dice> findAllDice();
-
-    Integer rollDice(Dice die, Integer amt);
 }

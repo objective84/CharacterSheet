@@ -6,7 +6,6 @@ import com.rational.model.entities.CoinPurse;
 import com.rational.model.enums.CoinTypeEnum;
 import com.rational.model.enums.ExchangeRateEnum;
 import com.rational.model.exceptions.CurrencyConversionException;
-import com.rational.service.AdminService;
 import com.rational.service.CurrencyService;
 import com.rational.service.DiceService;
 import com.rational.service.EquipmentService;
@@ -23,9 +22,6 @@ public class DefaultCurrencyService implements CurrencyService {
 
     @Resource
     DiceService diceService;
-
-    @Resource
-    AdminService adminService;
 
     @Resource
     private EquipmentService equipmentService;
@@ -50,8 +46,8 @@ public class DefaultCurrencyService implements CurrencyService {
     @Override
     public CoinPurse convertTotal(BigDecimal total){
         CoinPurse purse = new CoinPurse();
-        Coin coin = new Coin(CoinTypeEnum.PLATINUM); //For unit testing
-//        Coin coin = adminService.findCoinByName(CoinTypeEnum.PLATINUM.getType());
+//        Coin coin = new Coin(CoinTypeEnum.PLATINUM); //For unit testing
+        Coin coin = equipmentService.findCoinByName(CoinTypeEnum.PLATINUM.getType());
         try {
             purse.setCP(convertDown(purse, coin, total).intValue());
         } catch (NoSuchMethodException e) {

@@ -3,9 +3,11 @@ package com.rational.facade;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.Coin;
 import com.rational.model.equipment.*;
+import com.rational.model.exceptions.PurchaseException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 public interface EquipmentFacade {
 
@@ -53,4 +55,9 @@ public interface EquipmentFacade {
     List<EquipmentModel> getAllEquipmentModels();
 
 
+    List<EquipmentModel> filterEquipmentList(List<String> filters, String characterId);
+
+    CharacterModel purchaseGear(Long charId, Set<Long> equipmentIds) throws PurchaseException;
+
+    List<EquipmentModel> filterByProficiency(String characterId);
 }

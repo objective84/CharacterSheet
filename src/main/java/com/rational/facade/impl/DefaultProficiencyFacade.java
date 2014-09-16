@@ -2,13 +2,14 @@ package com.rational.facade.impl;
 
 import com.rational.facade.ProficiencyFacade;
 import com.rational.model.Proficiency;
+import com.rational.model.enums.ProficiencyTypeEnum;
 import com.rational.service.ProficiencyService;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+@Component("defaultProficiencyFacade")
 public class DefaultProficiencyFacade implements ProficiencyFacade {
 
     @Resource(name="defaultProficiencyService")
@@ -37,4 +38,16 @@ public class DefaultProficiencyFacade implements ProficiencyFacade {
         }
         return proficiencyMap;
     }
+
+    @Override
+    public Set<Proficiency> getProficienciesOfType(Set<Proficiency> proficiencies, ProficiencyTypeEnum type){
+        Set<Proficiency> proficiencyList = new HashSet<Proficiency>();
+        for(Proficiency proficiency : proficiencies){
+            if(proficiency.getProficiencyType().equals(type)){
+                proficiencyList.add(proficiency);
+            }
+        }
+        return proficiencyList;
+    }
+
 }

@@ -82,7 +82,7 @@ public class CharacterController {
         if(null == character.getId()){
             character = new CharacterModel();
         }else{
-            character = characterFacade.findCharacter(character.getId());
+            character = characterFacade.findCharacter(character.getId().toString());
         }
         session.setAttribute("character", character);
         mav.addObject("character", character);
@@ -97,7 +97,7 @@ public class CharacterController {
         if(null == character.getId()){
             character = characterFacade.save(new CharacterModel());
         }else{
-            character = characterFacade.getCharacterModel(character.getId());
+            character = characterFacade.findCharacter(character.getId().toString());
             addProficienciesToModel(mav, character.getProficiencies());
         }
         mav.addObject("classes", classFacade.findAllClasses());
@@ -117,7 +117,7 @@ public class CharacterController {
 
     @RequestMapping(value="character/delete/{characterId}", method = RequestMethod.DELETE)
     public String deleteCharacter(@PathVariable String characterId){
-        characterFacade.deleteCharacter(Long.decode(characterId));
+        characterFacade.deleteCharacter(characterId);
         return "deleted";
     }
 
@@ -139,13 +139,13 @@ public class CharacterController {
     @ResponseBody
     @RequestMapping(value = "/character", method = RequestMethod.GET, produces = "application/json")
     public CharacterModel getCharacter(@RequestParam(value = "characterId") String characterId){
-        return characterFacade.getCharacterModel(Long.valueOf(characterId));
+        return characterFacade.findCharacter(characterId);
     }
 
     @ResponseBody
     @RequestMapping(value = "/character/{characterId}", method = RequestMethod.GET, produces = "application/json")
     public CharacterModel characterFetch(@PathVariable final String characterId){
-        CharacterModel character = characterFacade.getCharacterModel(Long.valueOf(characterId));
+        CharacterModel character = characterFacade.findCharacter(characterId);
         return character;
     }
 
@@ -159,7 +159,7 @@ public class CharacterController {
     @ResponseBody
     @RequestMapping(value = "/abilities/{characterId}", method = RequestMethod.GET, produces = "application/json")
     public Abilities getAbilities(@PathVariable String characterId){
-        Abilities abilities = characterFacade.findAbilities(characterId);
+        Abilities abilities = characterFacade.findCharacter(characterId).getAbilities();
         return abilities;
     }
 
@@ -172,7 +172,7 @@ public class CharacterController {
     @ResponseBody
     @RequestMapping(value="/race/{characterId}/{raceId}", method = RequestMethod.GET, produces = "application/json")
     public RaceModel getCharacterRace(@PathVariable String characterId, @PathVariable String raceId){
-        RaceModel raceModel = characterFacade.getCharacterModel(Long.decode(characterId)).getRace();
+        RaceModel raceModel = characterFacade.findCharacter(characterId).getRace();
         return raceModel;
     }
 
@@ -199,21 +199,21 @@ public class CharacterController {
     @ResponseBody
     @RequestMapping(value="/subrace/{characterId}", method = RequestMethod.GET, produces = "application/json")
     public SubRaceModel getCharacterSubRace(@PathVariable String characterId){
-        SubRaceModel subrace = characterFacade.getCharacterSubrace(characterId);
+        SubRaceModel subrace = characterFacade.findCharacter(characterId).getSubrace();
         return subrace;
     }
 
     @ResponseBody
     @RequestMapping(value="/class/{characterId}/{classId}", method = RequestMethod.POST, produces = "application/json")
     public ClassModel setCharacterClass(@PathVariable String characterId, @PathVariable String classId){
-        ClassModel clazz = characterFacade.setCharacterClass(Long.valueOf(characterId), Long.valueOf(classId));
+        ClassModel clazz = characterFacade.setCharacterClass(characterId, classId);
         return clazz;
     }
 
     @ResponseBody
     @RequestMapping(value="/class/{characterId}", method = RequestMethod.GET, produces = "application/json")
     public ClassModel getCharacterClass(@PathVariable String characterId){
-        ClassModel clazz = characterFacade.getCharacterClass(characterId);
+        ClassModel clazz = characterFacade.findCharacter(characterId).getClazz();
         return clazz;
     }
 
@@ -408,7 +408,7 @@ public class CharacterController {
 
         if(filter.equals("true"))
         {
-            responseData.setData(characterFacade.filterByProficiency(characterId));
+            responseData.setData(equipmentFacade.filterByProficiency(characterId));
         }else{
             responseData.setData(equipmentFacade.getAllEquipmentModels());
         }
@@ -436,7 +436,7 @@ public class CharacterController {
         }
 
         try {
-            responseData.setData(characterFacade.purchaseGear(Long.decode(charId), equipmentIds));
+            responseData.setData(equipmentFacade.purchaseGear(Long.decode(charId), equipmentIds));
             responseData.setCode(ResponseData.SUCCESS_CODE);
             responseData.setMessage(PURCHASE_SUCCESS);
         } catch (PurchaseException e) {
@@ -450,26 +450,26 @@ public class CharacterController {
     @ResponseBody
     @RequestMapping(value="/main-hand", method = RequestMethod.GET, produces = "application/json")
     public List<WeaponModel> getMainHandWeapons(@RequestParam(value = "characterId") String characterId){
-        return equipmentFacade.getWeaponsFromInventory(characterFacade.getCharacterModel(Long.decode(characterId)));
+        return equipmentFacade.getWeaponsFromInventory(characterFacade.findCharacter(characterId));
     }
 
     @ResponseBody
     @RequestMapping(value="/off-hand", method = RequestMethod.GET, produces = "application/json")
     public List<EquipmentModel> getOffHand(@RequestParam(value = "characterId") String characterId){
-        return equipmentFacade.getOffHandFromInventory(characterFacade.getCharacterModel(Long.decode(characterId)));
+        return equipmentFacade.getOffHandFromInventory(characterFacade.findCharacter(characterId));
     }
 
     @ResponseBody
     @RequestMapping(value="/armor", method = RequestMethod.GET, produces = "application/json")
     public List<ArmorModel> getArmor(@RequestParam(value = "characterId") String characterId){
-        return equipmentFacade.getArmorFromInventory(characterFacade.getCharacterModel(Long.decode(characterId)));
+        return equipmentFacade.getArmorFromInventory(characterFacade.findCharacter(characterId));
     }
 
     @ResponseBody
     @RequestMapping(value="/equip-main-hand", method = RequestMethod.GET, produces = "application/json")
     public CharacterModel setMainHandWeapons(@RequestParam(value = "characterId") String characterId,
                                              @RequestParam(value = "itemId") String itemId ){
-        CharacterModel character = characterFacade.getCharacterModel(Long.decode(characterId));
+        CharacterModel character = characterFacade.findCharacter(characterId);
         character.setEquippedMainHand(equipmentFacade.findWeaponModel(Long.decode(itemId)));
         character = characterFacade.save(character);
 
@@ -480,7 +480,7 @@ public class CharacterController {
     @RequestMapping(value="/equip-off-hand", method = RequestMethod.GET, produces = "application/json")
     public CharacterModel setOffHand(@RequestParam(value = "characterId") String characterId,
                                      @RequestParam(value = "itemId") String itemId){
-        CharacterModel character = characterFacade.getCharacterModel(Long.decode(characterId));
+        CharacterModel character = characterFacade.findCharacter(characterId);
         character.setEquippedOffHand(equipmentFacade.findEquipment(Long.decode(itemId)));
         character = characterFacade.save(character);
 
@@ -491,7 +491,7 @@ public class CharacterController {
     @RequestMapping(value="/equip-armor", method = RequestMethod.GET, produces = "application/json")
     public CharacterModel setArmor(@RequestParam(value = "characterId") String characterId,
                                    @RequestParam(value = "itemId") String itemId){
-        CharacterModel character = characterFacade.getCharacterModel(Long.decode(characterId));
+        CharacterModel character = characterFacade.findCharacter(characterId);
         characterFacade.equipArmor(characterId, itemId);
         character.setEquippedArmor(equipmentFacade.getArmorModel(Long.decode(itemId)));
         character = characterFacade.save(character);
