@@ -268,7 +268,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
 VALUES ('229', #id
         'Melf\'s Acid Arrow', #name
         '1 action', #castingTime
-        'A shimmering green arrow streaks toward a target within range and bursts in a spray of acid. Make a ranged spell attack against the target. On a hit, the target takes 4d4 acid damage immediately and 2d4 acid damage at the end of its next turn. On a miss, the arrow splashes the target with acid for half as much of the initial damage and no damage at the end of its next turn. /n/bAt Higher Levels. When you cast this spell using a spell slot of 3rd level or higher, the damage (both initial and later) increases by 1d4 for each slot level above 2nd.', #description
+        'A shimmering green arrow streaks toward a target within range and bursts in a spray of acid. Make a ranged spell attack against the target. On a hit, the target takes 4d4 acid damage immediately and 2d4 acid damage at the end of its next turn. On a miss, the arrow splashes the target with acid for half as much of the initial damage and no damage at the end of its next turn. /n/bAt Higher Levels./b When you cast this spell using a spell slot of 3rd level or higher, the damage (both initial and later) increases by 1d4 for each slot level above 2nd.', #description
         '2', #level
         '4', #damageDiceAmount
         '1', #damageDice ID

@@ -39,15 +39,15 @@
         <div class="side-by-side" id="spell-level-tabs">
             <ul id="levels">
                 <li><a id="tab-cantrip" href="#level-cantrip" class="spell-level-tab">Cantrips</a></li>
-                <li><a id="tab-one" href="#level-one" class="spell-level-tab">First Level</a></li>
-                <li><a id="tab-two" href="#level-two" class="spell-level-tab">Second Level</a></li>
-                <li><a id="tab-three" href="#level-three" class="spell-level-tab">Third Level</a></li>
-                <li><a id="tab-four" href="#level-four" class="spell-level-tab">Fourth Level</a></li>
-                <li><a id="tab-five" href="#level-five" class="spell-level-tab">Fifth Level</a></li>
-                <li><a id="tab-six" href="#level-six" class="spell-level-tab">Sixth Level</a></li>
-                <li><a id="tab-seven" href="#level-seven" class="spell-level-tab">Seventh Level</a></li>
-                <li><a id="tab-eight" href="#level-eight" class="spell-level-tab">Eighth Level</a></li>
-                <li><a id="tab-nine" href="#level-nine" class="spell-level-tab">Ninth Level</a></li>
+                <li><a id="tab-one" href="#level-one" class="spell-level-tab">1st Level</a></li>
+                <li><a id="tab-two" href="#level-two" class="spell-level-tab">2nd Level</a></li>
+                <li><a id="tab-three" href="#level-three" class="spell-level-tab">3rd Level</a></li>
+                <li><a id="tab-four" href="#level-four" class="spell-level-tab">4th Level</a></li>
+                <li><a id="tab-five" href="#level-five" class="spell-level-tab">5th Level</a></li>
+                <li><a id="tab-six" href="#level-six" class="spell-level-tab">6th Level</a></li>
+                <li><a id="tab-seven" href="#level-seven" class="spell-level-tab">7th Level</a></li>
+                <li><a id="tab-eight" href="#level-eight" class="spell-level-tab">8th Level</a></li>
+                <li><a id="tab-nine" href="#level-nine" class="spell-level-tab">9th Level</a></li>
             </ul>
             <div id="level-cantrip" class="spell-tab" data-tab="tab-cantrip"></div>
             <div id="level-one" class="spell-tab" data-tab="tab-one"></div>

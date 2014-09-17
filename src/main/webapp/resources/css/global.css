@@ -176,6 +176,7 @@ table.bullet-list td {
 .ui-tabs .ui-tabs-nav li a {
     font-size:8pt !important;
     font-family: "Century Schoolbook",serif !important;
+    color: blue;
 }
 
 tr.spell-line:hover{
@@ -218,4 +219,11 @@ div#spell-preview {
     height: 80%;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+.ui-tabs .ui-tabs-nav .ui-tabs-anchor{
+    padding: 0.5em .65em !important;
+}
+
+#levels{
+    border: none !important;
 }
