@@ -16,6 +16,7 @@ require.config({
         RaceView: 'View/RaceView',
         SubraceView: 'View/SubraceView',
         ClassView: 'View/ClassView',
+        SpellView: 'View/SpellView',
         // Behaviors
         // Other
         main: 'main',

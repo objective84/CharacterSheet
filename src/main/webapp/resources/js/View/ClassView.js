@@ -27,7 +27,6 @@ define("ClassView",
                 this.model.fetchClass({success: _.bind(function(){
                     if(callback)callback();
                 },this), error: function(model, response) {
-                    console.log('request failed' + response);
                 }});
             },
 
@@ -44,7 +43,6 @@ define("ClassView",
                 this.model.save(null, {success: _.bind(function(){
                     this.trigger('classUpdated');
                 }, this), error: function(model, response) {
-                    console.log('request failed' + response);
                 }});
             },
 

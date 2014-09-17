@@ -13,6 +13,7 @@ define("CharacterView",
             raceView: null,
             subraceView: null,
             classView: null,
+            pathContext: $('#pathContext').val(),
 
             ui:{
                 id: '#characterId',
@@ -202,7 +203,7 @@ define("CharacterView",
                     'characterId': this.model.get('id') + '',
                     'subraceId': this.ui.subrace.val() + ''
                 };
-                $.getJSON("subrace.json", data, _.bind(function (data) {
+                $.getJson(this.pathContext+ "/subrace.json", data, _.bind(function (data) {
                     this.model.fetch();
                 }, this));
             },
@@ -399,7 +400,7 @@ define("CharacterView",
                     characterId: this.model.get('id'),
                     filter: filter
                 };
-                $.getJSON("filterEquipmentByProficiency.json", data, _.bind(function(data){
+                $.getJson(this.pathContext+ "/filterEquipmentByProficiency.json", data, _.bind(function(data){
                     $('.store-item-row').remove();
                     console.log(data);
                     $(data.data).each(_.bind(function(key, value){
@@ -573,12 +574,12 @@ define("CharacterView",
                 $('.spell-table').remove();
                 $('#spell-search').off('keyup', _.bind(this.onSearchFieldChange, this));
                 $('#spell-search').on('keyup', _.bind(this.onSearchFieldChange, this));
-                $.getJSON(url, null, _.bind(function(data){
+                $.getJSON(this.pathContext + "/" +url, null, _.bind(function(data){
                     if($('#sort-by').val() === "Level")this.sortByLevel(data.data);
                     if($('#sort-by').val() === "School")this.sortBySchool(data.data);
                     $('.spell-line').on('click', _.bind(this.onSpellLineClick, this));
                     if(callback)callback();
-                    this.modalOpen('spell-select-modal', 'spell-select-modal');
+                    this.modalOpen('spell-book-modal', 'spell-book-modal');
                 },this));
             },
 
@@ -641,7 +642,7 @@ define("CharacterView",
                     $('#tab-divination').show();
                 }
                 if(data.illusion){
-                    $('#illusion').append(illusion);
+                    $('#illusion').append(data.illusion);
                     $('#tab-illusion').show();
                 }
                 if(data.necromancy){
@@ -685,7 +686,7 @@ define("CharacterView",
                 $('.spell-line').removeClass('selected');
                 $(event.currentTarget).addClass('selected');
                 var id = $(event.currentTarget).children('.spell-select').attr('id');
-                $.getJSON('spell/' + id + '.json', _.bind(function(data){
+                $.getJSON(this.pathContext + '/spell/' + id + '.json', _.bind(function(data){
                     $('#spell-text-div').remove();
                     $('#spell-preview').append(data.spellModel.displayText);
                 }, this));},
@@ -716,14 +717,17 @@ define("CharacterView",
                         break;
                     case 'spell-modal':
                         modal_width = '450';
-                        modal_height = 'auto';
+                        modal_height = '98%';
+                        break;
+                    case 'spell-book-modal':
+                        modal_width = 1200;
+                        modal_height = 600;
                         break;
                     default:
-                        modal_width = 1050;
+                        modal_width = '1050';
                         modal_height = 'auto';
                         break;
                 }
-
                 // create base modal dialog window
                 var poundKey = $('#' + key);
                 poundKey.dialog({
@@ -731,6 +735,7 @@ define("CharacterView",
                     autoOpen : false,
                     resizable : false,
                     width : modal_width,
+                    height: modal_height,
                     minHeight : 190,
                     show : 'fade',
                     hide : 'fade',
@@ -761,12 +766,14 @@ define("CharacterView",
                         // do nothing
                     }
                 });
-                poundKey.dialog('open').height(modal_height);
+                poundKey.dialog('open');
+                $('#body').css("overflow", "hidden");
             },
 
             modalClose: function(key) {
                 // close modal dialog window
                 $('#' + key).dialog("close");
+                $('#body').css("overflow","scroll");
 
                 return false;
             }

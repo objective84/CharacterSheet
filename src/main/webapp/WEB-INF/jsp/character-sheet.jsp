@@ -18,7 +18,7 @@
     <title>${character.name}</title>
     <template:javascript/>
 </head>
-<body>
+<body id="body">
     <div id="character-sheet">
         <form:form id="characterForm" commandName="character">
             <input type="hidden" id="pathContext" value="${pageContext.request.contextPath}">
@@ -287,7 +287,7 @@
             <modals:language-modal/>
             <modals:store-modal/>
             <modals:spell-modal/>
-            <modals:spell-select-modal/>
+            <modals:spell-book-modal/>
         </form:form>
     </div>
 </body>

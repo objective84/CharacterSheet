@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -30,6 +31,13 @@ public class SpellController {
 
     @Resource(name = "defaultSpellFacade")
     private SpellFacade spellFacade;
+
+    @RequestMapping(value="/spells", method = RequestMethod.GET)
+    public ModelAndView spells(final ModelAndView mav){
+        mav.setViewName("spells");
+        mav.addObject("spellcasters", classFacade.findAllSpellcasters());
+        return mav;
+    }
 
     @RequestMapping(value="/spell/{spellId}", method =  RequestMethod.GET)
     public SpellModel getSpellText(@PathVariable String spellId){

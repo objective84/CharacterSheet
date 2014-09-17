@@ -89,16 +89,17 @@ public class DefaultSpellFacade implements SpellFacade {
     public Map<String, String> sortByLevel(Set<SpellModel> spells){
         Map<String, String> spellList = new HashMap<String, String>();
         String tableStart = "<table class='spell-table side-by-side'><tr><th>School</th><th>Spell</th></tr>";
-        String cantrip = tableStart;
-        String one = tableStart;
-        String two = tableStart;
-        String three = tableStart;
-        String four = tableStart;
-        String five = tableStart;
-        String six = tableStart;
-        String seven = tableStart;
-        String eight = tableStart;
-        String nine = tableStart;
+        String tableEnd = "</table>";
+        String cantrip = "";
+        String one = "";
+        String two = "";
+        String three = "";
+        String four = "";
+        String five = "";
+        String six = "";
+        String seven = "";
+        String eight = "";
+        String nine = "";
         String spellString;
         for(SpellModel spell : spells) {
             spellString = "<tr data-name='" + spell.getName().toLowerCase() + "' class='spell-line'><td>" + spell.getSchool().substring(0, 3) + "</td><td id='" + spell.getId() + "' class='spell-select'><span>" + spell.getName() + "</span></td></tr>";
@@ -116,16 +117,16 @@ public class DefaultSpellFacade implements SpellFacade {
             }
         }
 
-        cantrip +=  "</table>";
-        one += "</table>";
-        two += "</table>";
-        three += "</table>";
-        four += "</table>";
-        five += "</table>";
-        six += "</table>";
-        seven += "</table>";
-        eight += "</table>";
-        nine += "</table>";
+        cantrip = splitTable(cantrip);
+        one = splitTable(one);
+        two = splitTable(two);
+        three = splitTable(three);
+        four = splitTable(four);
+        five = splitTable(five);
+        six = splitTable(six);
+        seven = splitTable(seven);
+        eight = splitTable(eight);
+        nine = splitTable(nine);
 
         if(cantrip.contains("spell-line"))spellList.put("cantrip", cantrip);
         if(one.contains("spell-line"))spellList.put("one", one);
@@ -145,15 +146,14 @@ public class DefaultSpellFacade implements SpellFacade {
     @Override
     public Map<String, String> sortBySchool(Set<SpellModel> spells){
         String spellString = "";
-        String tableStart = "<table class='spell-table side-by-side'><tr><th>Level</th><th>Spell</th></tr>";
-        String abjuration = tableStart;
-        String conjuration = tableStart;
-        String divination = tableStart;
-        String enchantment = tableStart;
-        String evocation = tableStart;
-        String illusion = tableStart;
-        String necromancy = tableStart;
-        String transmutation = tableStart;
+        String abjuration = "";
+        String conjuration = "";
+        String divination = "";
+        String enchantment = "";
+        String evocation = "";
+        String illusion = "";
+        String necromancy = "";
+        String transmutation = "";
 
         for(SpellModel spell : spells){
             spellString = "<tr data-name='" + spell.getName().toLowerCase() + "' class='spell-line'><td>" + spell.getLevel() + "</td><td id='" +
@@ -167,14 +167,14 @@ public class DefaultSpellFacade implements SpellFacade {
             else if(spell.getSchool().equalsIgnoreCase("necromancy"))necromancy += spellString;
             else if(spell.getSchool().equalsIgnoreCase("transmutation"))transmutation += spellString;
         }
-        abjuration += "</table>";
-        conjuration += "</table>";
-        divination += "</table>";
-        enchantment += "</table>";
-        evocation += "</table>";
-        illusion += "</table>";
-        necromancy += "</table>";
-        transmutation += "</table>";
+        abjuration = splitTable(abjuration);
+        conjuration = splitTable(conjuration);
+        divination = splitTable(divination);
+        enchantment = splitTable(enchantment);
+        evocation = splitTable(evocation);
+        illusion = splitTable(illusion);
+        necromancy = splitTable(necromancy);
+        transmutation = splitTable(transmutation);
 
         Map<String, String> spellList = new HashMap<String, String>();
         if(abjuration.contains("spell-line"))spellList.put("abjuration", abjuration);
@@ -186,5 +186,27 @@ public class DefaultSpellFacade implements SpellFacade {
         if(necromancy.contains("spell-line"))spellList.put("necromancy", necromancy);
         if(transmutation.contains("spell-line"))spellList.put("transmutation", transmutation);
         return spellList;
+    }
+
+    private String splitTable(String table){
+        String tableStart = "<table class='spell-table side-by-side'><tr><th>Level</th><th>Spell</th></tr>";
+        String tableEnd = "</table>";
+        String newTable = tableStart;
+        String[] rows = table.split("</span></td></tr>");
+        int count = 1;
+
+        for(int i=0; i<rows.length; i++){
+            String row = rows[i];
+            row = row.concat("</span></td></tr>");
+            if(count%35 == 0){
+                row = row.concat(tableEnd + tableStart);
+                count = 1;
+            }else{
+                count++;
+            }
+            newTable = newTable.concat(row);
+        }
+            newTable = newTable.concat(tableEnd);
+        return newTable;
     }
 }

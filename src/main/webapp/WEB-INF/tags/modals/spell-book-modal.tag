@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 
-<div id="spell-select-modal">
+<div id="spell-book-modal">
     <span>Sort By: </span><select id="sort-by">
     <option id="by-Level">Level</option>
     <option id="by-school">School</option>

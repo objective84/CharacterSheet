@@ -189,18 +189,33 @@ tr.spell-line.selected{
 
 div#spell-preview {
     border-left: 1px solid black;
-    width: 500px !important;
-    height: 500px !important;
+    width: 39% !important;
+    height: 92% !important;
     float: right !important;
     padding-left: 15px;
+    overflow-y:scroll;
+    overflow-x: hidden;
 }
+
 #spell-school-tabs,
 #spell-level-tabs{
     border: 1px solid black;
-    width: 400px !important;
+    width: 55% !important;
+    height: 92% !important;
 }
 
 .ui-tabs-nav {
     background: transparent !important;
     border-color: #000000 !important;
+}
+
+.spell-table th{
+    text-align: left;
+    padding-right: 25px;
+}
+
+.spell-tab{
+    height: 80%;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
