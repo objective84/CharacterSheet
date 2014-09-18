@@ -2,6 +2,7 @@ package com.rational.facade.impl;
 
 import com.rational.facade.CharacterFacade;
 import com.rational.facade.ProficiencyFacade;
+import com.rational.facade.TraitFacade;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
 import com.rational.model.enums.AbilityTypeEnum;
@@ -41,12 +42,15 @@ public class DefaultCharacterFacade implements CharacterFacade {
     @Resource(name="defaultProficiencyFacade")
     private ProficiencyFacade proficiencyFacade;
 
+    @Resource(name="defaultTraitFacade")
+    private TraitFacade traitFacade;
+
 
     @Override
     public CharacterModel save(CharacterModel character) {
         CharacterModel characterModel = new CharacterModel();
         if(character.getId() == null){
-            characterModel.setAbilities(new Abilities(8, 8, 8, 8, 8, 8));
+            characterModel.setAbilities(new Abilities());
             characterModel.setCharacterAdvancement(new CharacterAdvancement(characterService.findAdvancement(1l)));
         }else{
             characterModel = characterService.findCharacter(character.getId());
@@ -66,7 +70,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         if(id != 0){
             characterModel = characterService.findCharacter(id);
         }else{
-            characterModel.setAbilities(new Abilities(8,8,8,8,8,8));
+            characterModel.setAbilities(new Abilities());
         }
         return assembleCharacter(characterModel);
     }
@@ -101,6 +105,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
             spellSlots.setExpendedOne(0);
             character.setSpellSlots(spellSlots);
         }
+        traitFacade.applyTraits(character, classModel.getClassTraits());
         characterService.save(character);
 
         return classModel;
@@ -117,6 +122,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
             race = raceService.findRace(Long.decode(raceId));
         }
         character.setRace(race);
+        traitFacade.applyTraits(character, race.getTraits());
         characterService.save(character);
         return race;
     }
@@ -129,6 +135,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         }else {
             SubRaceModel subrace = raceService.findSubrace(Long.decode(subraceId));
             character.setSubrace(subrace);
+            traitFacade.applyTraits(character, subrace.getSubRacialTraits());
         }
         characterService.save(character);
         return character.getSubrace();
@@ -162,16 +169,18 @@ public class DefaultCharacterFacade implements CharacterFacade {
     @Override
     public void setCharacterTraits(CharacterModel character){
         Set<TraitModel> traitModels =  new HashSet<TraitModel>();
-        if(null != character.getRace()) {
-            traitModels.addAll(character.getRace().getTraits());
+        if(null != character) {
+            if (null != character.getRace()) {
+                traitModels.addAll(character.getRace().getTraits());
+            }
+            if (null != character.getSubrace()) {
+                traitModels.addAll(character.getSubrace().getSubRacialTraits());
+            }
+            if (null != character.getClazz()) {
+                traitModels.addAll(character.getClazz().getClassTraits());
+            }
+            character.setTraits(traitModels);
         }
-        if(null != character.getSubrace()) {
-            traitModels.addAll(character.getSubrace().getSubRacialTraits());
-        }
-        if(null != character.getClazz()) {
-            traitModels.addAll(character.getClazz().getClassTraits());
-        }
-        character.setTraits(traitModels);
     }
 
     @Override
@@ -249,15 +258,9 @@ public class DefaultCharacterFacade implements CharacterFacade {
         setCharacterLanguages(character);
         setCharacterProficiencies(character);
         setCharacterSpeed(character);
-        processTraits(character);
+        traitFacade.processTraits(character);
         setAC(character);
         return character;
-    }
-
-    private void processTraits(CharacterModel character){
-        for(TraitModel trait : character.getTraits()){
-            trait.processTrait(character);
-        }
     }
 
 }

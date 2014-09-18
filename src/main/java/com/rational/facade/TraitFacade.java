@@ -1,5 +1,6 @@
 package com.rational.facade;
 
+import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.TraitModel;
 
 import java.util.List;
@@ -19,4 +20,8 @@ public interface TraitFacade {
     List<TraitModel> findAllClassTraits();
 
     List<TraitModel> findAllSubClassTraits();
+
+    void applyTraits(CharacterModel character, List<TraitModel> classTraits);
+
+    void processTraits(CharacterModel character);
 }

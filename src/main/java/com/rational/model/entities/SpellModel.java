@@ -273,7 +273,7 @@ public class SpellModel implements Comparable<SpellModel>{
         return components;
     }
 
-    public String parseDescription() {
+    public String formatDescription() {
         String description = this.description;
         if(description.contains("*tab")){
             while(description.contains("*tab")){
@@ -341,6 +341,16 @@ public class SpellModel implements Comparable<SpellModel>{
         }
     }
 
+    public String getClassesHTML(){
+        String classes = "";
+        for(ClassModel clazz : this.classes){
+            classes = classes.concat(clazz.getName() + ", ");
+        }
+
+        classes = classes.substring(0, classes.length()-2);
+        return classes;
+    }
+
     public String getDisplayText(){
         return "<div id='spell-text-div'><table>" +
                 "<tr><td>" + parseName() + "</td></tr>" +
@@ -349,8 +359,10 @@ public class SpellModel implements Comparable<SpellModel>{
                 "<tr><td><span class='spell-header'>Range: </span><span class='spell-line'>" + formatRange() + "</span> </td></tr>" +
                 "<tr><td><span class='spell-header'>Components: </span><span class='spell-line'>" + this.getComponents() + "</span> </td></tr>" +
                 "<tr><td><span class='spell-header'>Duration: </span><span class='spell-line'>" + this.duration + "</span> </td></tr>   " +
-                "<tr><td>" +this.parseDescription() + "</td></tr></div>";
+                "<tr><td>" +this.formatDescription() + "</td></tr></table><br/><span>Castable by: " + this.getClassesHTML() + "</span></div>";
     }
+
+
 
     public Boolean getConcentration() {
         return concentration;

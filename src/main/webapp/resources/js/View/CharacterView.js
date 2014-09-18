@@ -14,6 +14,7 @@ define("CharacterView",
             subraceView: null,
             classView: null,
             pathContext: $('#pathContext').val(),
+            abilitiesConfirmed: false,
 
             ui:{
                 id: '#characterId',
@@ -52,7 +53,8 @@ define("CharacterView",
                 speed: '#speed',
                 testSpell: "#test-spell",
                 addSpellsLink: "#add-spells",
-                allSpells: "#all-spells"
+                allSpells: "#all-spells",
+                abilityConfirm: '#ability-confirm'
             },
 
             bindings:{
@@ -73,7 +75,8 @@ define("CharacterView",
                 'click #fetch-character' : 'refreshCharacter',
                 'click @ui.testSpell' : 'onSpellClick',
                 'click @ui.addSpellsLink': 'onAddSpellLinkClick',
-                'click @ui.allSpells': 'onAllSpellsLinkClick'
+                'click @ui.allSpells': 'onAllSpellsLinkClick',
+                'click @ui.abilityConfirm': 'onAbilityConfirmClick'
             },
 
             onRender: function(){
@@ -109,10 +112,10 @@ define("CharacterView",
                 this.model.fetch({success: _.bind(function(){
                     if(this.model.get('spellSlots') != null) $('#spell-slots').append(this.model.get('spellSlots').tableHtml);
                     this.abilitiesView = new AbilitiesView();
-                    this.abilitiesView.render();
-                    this.abilitiesView.model.characterId = this.model.get('id');
                     this.model.set('abilities', this.abilitiesView.model);
-                    this.abilitiesView.fetchAbilities();
+                    this.abilitiesView.model.characterId = this.model.get('id');
+                    this.abilitiesView.fetchAbilities(true);
+                    this.abilitiesView.render();
                     this.listenTo(this.abilitiesView, 'updateAbilities', _.bind(this.abilitiesView.fetchAbilities, this.abilitiesView));
 
                     this.coinPurseView = new CoinPurseView();
@@ -699,6 +702,13 @@ define("CharacterView",
                     $('#selected-spells').append("<tr><td><span class='selected-spell-line' id='" + id + "'></span>" + text + "</td>" +
                         "<td><a href='#' class='link-small' data-spellid='" + id + "'>Delete</a></td></tr>");
                 }
+            },
+
+            onAbilityConfirmClick: function(){
+                this.abilitiesConfirmed = true;
+                this.abilitiesView.confirmed = true;
+                this.abilitiesView.showHideAbilityChangeButtons();
+                this.ui.abilityConfirm.hide();
             },
 
             modalOpen: function(type, key) {

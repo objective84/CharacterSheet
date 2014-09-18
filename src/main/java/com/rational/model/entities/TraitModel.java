@@ -37,6 +37,8 @@ public abstract class TraitModel {
         this.description = description;
     }
 
-
     public abstract void processTrait(CharacterModel character);
+
+    public abstract void applyTrait(CharacterModel character);
+
 }

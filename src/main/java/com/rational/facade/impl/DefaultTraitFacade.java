@@ -1,6 +1,7 @@
 package com.rational.facade.impl;
 
 import com.rational.facade.TraitFacade;
+import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.TraitModel;
 import com.rational.service.TraitService;
 import org.springframework.stereotype.Component;
@@ -47,5 +48,19 @@ public class DefaultTraitFacade implements TraitFacade {
     @Override
     public List<TraitModel> findAllSubClassTraits() {
         return traitService.findAllTraits();
+    }
+
+    @Override
+    public void applyTraits(CharacterModel character, List<TraitModel> traits) {
+        for(TraitModel trait : traits){
+            trait.applyTrait(character);
+        }
+    }
+
+    @Override
+    public void processTraits(CharacterModel character) {
+        for(TraitModel trait : character.getTraits()){
+            trait.processTrait(character);
+        }
     }
 }

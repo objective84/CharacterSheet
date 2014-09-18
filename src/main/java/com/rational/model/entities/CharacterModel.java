@@ -277,4 +277,5 @@ public class CharacterModel {
     public void setSpellSlots(SpellSlots spellSlots) {
         this.spellSlots = spellSlots;
     }
+
 }

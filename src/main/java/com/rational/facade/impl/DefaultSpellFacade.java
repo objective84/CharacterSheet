@@ -198,7 +198,7 @@ public class DefaultSpellFacade implements SpellFacade {
         for(int i=0; i<rows.length; i++){
             String row = rows[i];
             row = row.concat("</span></td></tr>");
-            if(count%35 == 0){
+            if(count%30 == 0){
                 row = row.concat(tableEnd + tableStart);
                 count = 1;
             }else{

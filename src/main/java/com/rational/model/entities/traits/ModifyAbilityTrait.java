@@ -29,6 +29,9 @@ public class ModifyAbilityTrait extends TraitModel {
         }
     }
 
+    @Override
+    public void applyTrait(CharacterModel character) {}
+
     private Integer getAbilityAmount(CharacterModel character) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Abilities abilities = (Abilities)CharacterModel.class.getMethod("getAbilities").invoke(character);
         return (Integer)abilities.getClass().getMethod("getAbilityScore", AbilityTypeEnum.class).invoke(abilities, AbilityTypeEnum.valueOf(ability));

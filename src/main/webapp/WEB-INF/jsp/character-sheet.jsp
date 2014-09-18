@@ -108,22 +108,15 @@
             </c:if>
             <div class="table_container">
                 <table class="side-by-side header">
-                    <tr>
-                        <td><h3><spring:message code="character.ability" /><a href="#" id="ability-score-reset" class="link-small">Reset</a></h3></td>
-                    </tr>
-                    <tr>
-                        <td><span id="ability-point-label"></span></td>
-                    </tr>
+                    <tr><td><h3><spring:message code="character.ability" /><a href="#" id="ability-score-reset" class="link-small">Reset</a></h3></td></tr>
+                    <tr><td><span id="ability-point-label"></span></td></tr>
+                    <tr><td><input type="button" id="ability-confirm" value="Confirm"></td></tr>
                 </table>
                 <table class="side-by-side currencyheader">
-                    <tr>
-                        <td><h3><spring:message code="character.currency" /></h3></td>
-                    </tr>
+                    <tr><td><h3><spring:message code="character.currency" /></h3></td></tr>
                 </table>
                 <table class="side-by-side header">
-                    <tr>
-                        <td><h3><spring:message code="character.equipped" /></h3></td>
-                    </tr>
+                    <tr><td><h3><spring:message code="character.equipped" /></h3></td></tr>
                 </table>
             </div>
             <div class="clear"/>

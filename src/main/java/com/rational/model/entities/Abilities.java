@@ -2,9 +2,7 @@ package com.rational.model.entities;
 
 import com.rational.model.enums.AbilityTypeEnum;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.lang.reflect.InvocationTargetException;
 
 /**
@@ -13,15 +11,25 @@ import java.lang.reflect.InvocationTargetException;
 @Entity
 public class Abilities {
 
+    @Transient private Integer maxAbilityPoints = 27;
+    @Transient private Integer maxAbilityScore = 15;
+    @Transient private Integer minAbilityScore = 8;
+
     @Id
     @GeneratedValue
     private Long id;
-    private Integer str;
-    private Integer dex;
-    private Integer con;
-    private Integer intel;
-    private Integer wis;
-    private Integer cha;
+    private Integer str = minAbilityScore;
+    private Integer dex = minAbilityScore;
+    private Integer con = minAbilityScore;
+    private Integer intel = minAbilityScore;
+    private Integer wis = minAbilityScore;
+    private Integer cha = minAbilityScore;
+    @Column(name="available_ability_points")
+    private Integer availableAbilityPoints = 27;
+    @Column(name="ability_increase_points")
+    private Integer abilityIncreasePoints = 0;
+
+
 
     public Abilities(){}
 
@@ -90,6 +98,19 @@ public class Abilities {
         return score - 8 + (score - 13 > 0 ? score - 13: 0);
     }
 
+    public Integer getPointsSpent(){
+        Integer pointsSpent = 0;
+
+        pointsSpent = pointsSpent + getScoreCost(str);
+        pointsSpent = pointsSpent + getScoreCost(dex);
+        pointsSpent = pointsSpent + getScoreCost(con);
+        pointsSpent = pointsSpent + getScoreCost(intel);
+        pointsSpent = pointsSpent + getScoreCost(wis);
+        pointsSpent = pointsSpent + getScoreCost(cha);
+
+        return pointsSpent;
+    }
+
     public Long getId() {
         return id;
     }
@@ -144,5 +165,44 @@ public class Abilities {
 
     public void setCha(Integer cha) {
         this.cha = cha;
+    }
+
+    public Integer getAvailableAbilityPoints() {
+        return availableAbilityPoints;
+    }
+
+    public void setAvailableAbilityPoints(Integer availableAbilityPoints) {
+        this.availableAbilityPoints = availableAbilityPoints;
+    }
+
+    public Integer getMaxAbilityPoints() {
+        return maxAbilityPoints;
+    }
+
+    public Integer getMaxAbilityScore() {
+        return maxAbilityScore;
+    }
+
+    public Integer getMinAbilityScore() {
+        return minAbilityScore;
+    }
+
+    public void setMaxAbilityPoints(Integer maxAbilityPoints) {
+    }
+
+    public void setMaxAbilityScore(Integer maxAbilityScore) {
+    }
+
+    public void setMinAbilityScore(Integer minAbilityScore) {
+    }
+
+    public void setPointsSpent(Integer pointsSpent){}
+
+    public Integer getAbilityIncreasePoints() {
+        return abilityIncreasePoints;
+    }
+
+    public void setAbilityIncreasePoints(Integer abilityIncreasePoints) {
+        this.abilityIncreasePoints = abilityIncreasePoints;
     }
 }

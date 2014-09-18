@@ -18,7 +18,8 @@ define("SpellView",
             events:{
                 "change @ui.sortBy": 'onSelectSortMethodChange',
                 'change @ui.classes': 'onSelectSpellClassChange',
-                'click .spell-line': 'onSpellLineClick'
+                'click .spell-line': 'onSpellLineClick',
+                'keyup @ui.textSearch': 'onSearchFieldChange'
             },
 
             onRender: function(){
@@ -66,9 +67,9 @@ define("SpellView",
 
             hideTabsWithNoSpells:function(text){
                 var index = null;
-                var $tabs = this.ui.sortBy.val() === 'Level' ? $('#levels') : $('#schools');
-                $tabs.tabs({'active': 5});
-                $('.spell-tab').each(function(key, value){
+                var $tabs = this.ui.sortBy.val() === 'Level' ? this.ui.levelTabs : this.ui.schoolTabs;
+                $tabs.tabs();
+                $('#' + $tabs.attr('id') + ' .spell-tab').each(_.bind(function(key, value){
                     var $tab = $('#' + $(value).data('tab'));
                     if($('#' + $(value).prop('id') + ' .spell-line.visible').size() === 0){
                         $tab.hide();
@@ -76,10 +77,10 @@ define("SpellView",
                         $tab.show();
                         if(index === null) {
                             index = $tab.parent().index();
-                            this.ui.levelTabs.tabs('option', 'select', 5);
+                            $tabs.tabs("option", "active", index);
                         }
                     }
-                });
+                },this));
             },
 
             sortBySchool: function(data){

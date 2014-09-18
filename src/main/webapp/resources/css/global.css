@@ -190,7 +190,7 @@ tr.spell-line.selected{
 
 div#spell-preview {
     border-left: 1px solid black;
-    width: 39% !important;
+    width: 34% !important;
     height: 92% !important;
     float: right !important;
     padding-left: 15px;
@@ -201,7 +201,7 @@ div#spell-preview {
 #spell-school-tabs,
 #spell-level-tabs{
     border: 1px solid black;
-    width: 55% !important;
+    width: 60% !important;
     height: 92% !important;
 }
 
@@ -226,4 +226,9 @@ div#spell-preview {
 
 #levels{
     border: none !important;
+}
+
+#ability-confirm,
+.ability-change{
+    display: none;
 }
