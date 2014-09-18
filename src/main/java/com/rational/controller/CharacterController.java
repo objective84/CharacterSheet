@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -75,29 +76,20 @@ public class CharacterController {
     }
 
     @RequestMapping(value="/character-sheet", method= RequestMethod.GET)
-    public ModelAndView character(final ModelAndView mav, HttpSession session) {
-        mav.setViewName(CHARACTER);
-        mav.addObject("create", true);
+    public RedirectView character(final ModelAndView mav, HttpSession session) {
         CharacterModel character = characterFacade.save(new CharacterModel());
-        mav.addObject("classes", classFacade.findAllClasses());
-        mav.addObject("spellcasters", classFacade.findAllSpellcasters());
-        mav.addObject("classMap", classFacade.getClassMap());
-        mav.addObject("raceMap", raceFacade.getRaceMap());
-        mav.addObject("races", raceFacade.findAllRaces());
-        mav.addObject("languages", languageFacade.findAllLanguages());
-        mav.addObject("character", character);
-        addEquipmentToModel(mav, character);
-        mav.addObject("abilityTypes", AbilityTypeEnum.values());
-        mav.addObject("weaponFilters", EquipmentFilterEnum.getWeaponFilters());
-        mav.addObject("armorFilters", EquipmentFilterEnum.getArmorFilters());
-        mav.addObject("filterByProficiency", EquipmentFilterEnum.BY_PROFICIENCY.toString());
-        return mav;
+        return new RedirectView(CHARACTER + "/" + character.getId());
     }
 
     @RequestMapping(value="/character-sheet/{characterId}", method= RequestMethod.GET)
     public ModelAndView character(@PathVariable String characterId, final ModelAndView mav, HttpSession session) {
         mav.setViewName(CHARACTER);
         mav.addObject("create", true);
+        mav.addObject("classes", classFacade.findAllClasses());
+        mav.addObject("classMap", classFacade.getClassMap());
+        mav.addObject("raceMap", raceFacade.getRaceMap());
+        mav.addObject("races", raceFacade.findAllRaces());
+        mav.addObject("languages", languageFacade.findAllLanguages());
         CharacterModel character = characterFacade.findCharacter(characterId);
         addProficienciesToModel(mav, character.getProficiencies());
         mav.addObject("spellcasters", classFacade.findAllSpellcasters());
