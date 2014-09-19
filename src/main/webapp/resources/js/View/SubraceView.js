@@ -25,6 +25,7 @@ define("SubraceView",
 
             fetch: function(callback){
                 this.model.fetchSubrace({success: _.bind(function(){
+                    this.ui.subrace.val(this.model.get('id'));
                     if(callback)callback();
                 },this)});
             },

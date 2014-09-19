@@ -88,7 +88,8 @@ define("CharacterView",
                 'click @ui.testSpell' : 'onSpellClick',
                 'click @ui.addSpellsLink': 'onAddSpellLinkClick',
                 'click @ui.allSpells': 'onAllSpellsLinkClick',
-                'click @ui.abilityConfirm': 'onAbilityConfirmClick'
+                'click @ui.abilityConfirm': 'onAbilityConfirmClick',
+                'change .proficiency.skill': 'onSkillProficiencySelected'
             },
 
             onRender: function(){
@@ -200,6 +201,16 @@ define("CharacterView",
                         this.ui.addSpellsLink.show();
                     }
                 }, this)})
+            },
+
+            onSkillProficiencySelected: function(event){
+                var url;
+                  if($(event.target).prop('checked') === true){
+                      url = 'character/addSkill/'+this.model.get('id') + '/' + $(event.target).val() + '.json';
+                  }else{
+                      url = 'character/addSkill/'+this.model.get('id') + '/' + $(event.target).val() + '.json';
+                  }
+                $.getJSON(url);
             },
 
             setAC: function(){

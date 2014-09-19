@@ -141,6 +141,16 @@ public class CharacterController {
         return character;
     }
 
+    @RequestMapping(value="character-sheet/character/addSkill/{characterId}/{skillId}")
+    public void addSkill(@PathVariable String characterId, @PathVariable String skillId){
+        characterFacade.addSkill(characterId, skillId);
+    }
+
+    @RequestMapping(value="character-sheet/character/removeSkill/{characterId}/{skillId}")
+    public void removeSkill(@PathVariable String characterId, @PathVariable String skillId){
+        characterFacade.removeSkill(characterId, skillId);
+    }
+
     @ResponseBody
     @RequestMapping(value = "/abilities", method = RequestMethod.POST, consumes = "application/json")
     public Abilities saveAbilities(@RequestBody Abilities abilities){
@@ -213,12 +223,12 @@ public class CharacterController {
                     saves.add(proficiency);
                     break;
             }
-
-            mav.addObject("skillProficiencies", skills);
-            mav.addObject("toolProficiencies", tools);
-            mav.addObject("weaponProficiencies", weapons);
-            mav.addObject("armorProficiencies", armor);
-            mav.addObject("savingThrowProficiencies", saves);
         }
+
+        mav.addObject("skillProficiencies", skills);
+        mav.addObject("toolProficiencies", tools);
+        mav.addObject("weaponProficiencies", weapons);
+        mav.addObject("armorProficiencies", armor);
+        mav.addObject("savingThrowProficiencies", saves);
     }
 }

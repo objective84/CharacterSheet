@@ -26,6 +26,7 @@ define("ClassView",
             fetch: function(callback){
                 this.model.fetchClass({success: _.bind(function(){
                     if(callback)callback();
+                    this.ui.clazz.val(this.model.get('id'));
                 },this), error: function(model, response) {
                 }});
             },

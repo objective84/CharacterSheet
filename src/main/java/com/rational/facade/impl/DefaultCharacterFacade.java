@@ -153,7 +153,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
 
     @Override
     public void setCharacterProficiencies(CharacterModel character){
-        Set<Proficiency> proficiencies =  new HashSet<Proficiency>();
+        Set<Proficiency> proficiencies =  character.getProficiencies();
         if(null != character.getRace()) {
             proficiencies.addAll(character.getRace().getProficiencies());
         }
@@ -161,8 +161,9 @@ public class DefaultCharacterFacade implements CharacterFacade {
             proficiencies.addAll(character.getSubrace().getProficiencies());
         }
         if(null != character.getClazz()) {
-            proficiencies.addAll(character.getClazz().getProficiencies());
-            proficiencies.removeAll(proficiencyFacade.getProficienciesOfType(proficiencies, ProficiencyTypeEnum.SKILL));
+            Set<Proficiency> classProficiencies =  new HashSet<Proficiency>(character.getClazz().getProficiencies());
+            classProficiencies.removeAll(proficiencyFacade.getProficienciesOfType(classProficiencies, ProficiencyTypeEnum.SKILL));
+            proficiencies.addAll(classProficiencies);
         }
         character.setProficiencies(proficiencies);
     }
@@ -223,6 +224,20 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setArmorClass(ac);
     }
 
+    @Override
+    public void addSkill(String characterId, String skillId) {
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        character.getProficiencies().add(proficiencyFacade.findProficiency(Long.decode(skillId)));
+        save(character);
+    }
+
+    @Override
+    public void removeSkill(String characterId, String skillId) {
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        character.getProficiencies().remove(proficiencyFacade.findProficiency(Long.decode(skillId)));
+        save(character);
+    }
+
     private void setInventoryWeight(CharacterModel character){
 
         Long weight = 0L;
@@ -263,5 +278,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         setAC(character);
         return character;
     }
+
+
 
 }

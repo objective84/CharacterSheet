@@ -36,4 +36,7 @@ public interface CharacterFacade {
 
     CharacterModel assembleCharacter(CharacterModel character);
 
+    void addSkill(String characterId, String skillId);
+
+    void removeSkill(String characterId, String skillId);
 }
