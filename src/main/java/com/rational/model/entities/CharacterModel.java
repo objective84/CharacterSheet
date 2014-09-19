@@ -18,7 +18,7 @@ import java.util.Set;
 public class CharacterModel {
 
     @Id @GeneratedValue private Long id;
-    private String name;
+
     private boolean encumbered;
     private Integer speed = 0;
     private int maxHealth;
@@ -27,12 +27,13 @@ public class CharacterModel {
     private Integer armorClass;
 
     @JsonManagedReference @OneToOne(cascade = CascadeType.ALL) private CoinPurse coinPurse;
+    @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name="character_description") private CharacterDescription characterDescription;
+    @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name="abilities_id") private Abilities abilities;
     @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name="spell_slots_id") private SpellSlots spellSlots;
     @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name = "character_advancement_id") private CharacterAdvancement characterAdvancement;
     @ManyToOne private RaceModel race;
     @ManyToOne private SubRaceModel subrace;
     @ManyToOne private ClassModel clazz;
-    @ManyToOne(cascade = CascadeType.ALL) private Abilities abilities;
     @JsonManagedReference @ManyToOne private ArmorModel equippedArmor;
     @JsonManagedReference @ManyToOne private WeaponModel equippedMainHand;
     @JsonManagedReference @ManyToOne private EquipmentModel equippedOffHand;
@@ -83,13 +84,6 @@ public class CharacterModel {
 
     public void addClazz(ClassModel clazz){
         getMultiClassList().add(clazz);
-    }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getMaxHealth() {
@@ -278,4 +272,11 @@ public class CharacterModel {
         this.spellSlots = spellSlots;
     }
 
+    public CharacterDescription getCharacterDescription() {
+        return characterDescription;
+    }
+
+    public void setCharacterDescription(CharacterDescription characterDescription) {
+        this.characterDescription = characterDescription;
+    }
 }

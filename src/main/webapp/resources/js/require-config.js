@@ -17,6 +17,7 @@ require.config({
         SubraceView: 'View/SubraceView',
         ClassView: 'View/ClassView',
         SpellView: 'View/SpellView',
+        CharacterDescriptionView: 'View/CharacterDescriptionView',
         // Behaviors
         // Other
         main: 'main',
@@ -29,6 +30,7 @@ require.config({
         RaceModel: 'Model/RaceModel',
         ClassModel: 'Model/ClassModel',
         SubraceModel: 'Model/SubraceModel',
+        CharacterDescriptionModel: 'Model/CharacterDescriptionModel',
         //Libs
         jquery: 'lib/jquery',
         jqueryUi: 'lib/jquery-ui',

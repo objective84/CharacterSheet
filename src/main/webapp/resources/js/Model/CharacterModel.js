@@ -6,9 +6,9 @@ define("CharacterModel",
     function($, _, backbone, epoxy){
         var model = backbone.Model.extend({
                 idAttribute: '_id',
+                urlRoot: 'character.json',
                 defaults:{
                     id: "",
-                    name: "",
                     encumbered: false,
                     speed: 0,
                     maxHealth: 0,
@@ -24,6 +24,7 @@ define("CharacterModel",
                     equippedMainHand: null,
                     equippedOffHand: null,
                     coinPurse: null,
+                    characterDescription: null,
                     characterAdvancement: null,
                     multiClassList: null,
                     languages: null,
@@ -34,8 +35,16 @@ define("CharacterModel",
                     spellSlots: null
                 },
 
-                url: function() {
-                   return $('#pathContext').val() + '/character/' + this.id;
+                fetch: function(options) {
+                    options = options || {};
+                    options.url = $('#pathContext').val() + '/character/' + this.id + '.json';
+                    return Backbone.Model.prototype.fetch.call(this, options);
+                },
+
+                save:function(options){
+                    options = options || {};
+                    options.url = 'character.json';
+                    return Backbone.Model.prototype.save.call(this, this.attributes, options);
                 }
             }
         );

@@ -1,6 +1,17 @@
+//var success =  _.bind(function(data){
+//    console.log(data);
+//}, this);
+//
+//var error = function(xhr, textStatus, errorThrown) {
+//    console.log('request failed' + errorThrown);
+//}
+
+
+
+
 define("CharacterView",
-    ["jquery", "underscore", "marionette", "CharacterModel", 'jqueryUi', 'epoxy', 'AbilitiesView', 'CoinPurseView', 'RaceView', 'SubraceView', 'ClassView'],
-    function($, _, marionette, CharacterModel, jqueryUi, epoxy, AbilitiesView, CoinPurseView, RaceView, SubraceView, ClassView){
+    ["jquery", "underscore", "marionette", "CharacterModel", 'jqueryUi', 'epoxy', 'AbilitiesView', 'CoinPurseView', 'RaceView', 'SubraceView', 'ClassView', 'CharacterDescriptionView'],
+    function($, _, marionette, CharacterModel, jqueryUi, epoxy, AbilitiesView, CoinPurseView, RaceView, SubraceView, ClassView, CharacterDescriptionView){
         var view = marionette.ItemView.extend({
             el: '#character-sheet',
             model: null,
@@ -13,6 +24,7 @@ define("CharacterView",
             raceView: null,
             subraceView: null,
             classView: null,
+            descriptionView: null,
             pathContext: $('#pathContext').val(),
             abilitiesConfirmed: false,
 
@@ -81,6 +93,9 @@ define("CharacterView",
 
             onRender: function(){
                 this.setCharacter();
+                $('#character-sheet').on('classUpdated', function(){
+                    alert("class changed");
+                })
             },
 
             refreshCharacter: function(){
@@ -117,6 +132,11 @@ define("CharacterView",
                     this.abilitiesView.fetchAbilities(true);
                     this.abilitiesView.render();
                     this.listenTo(this.abilitiesView, 'updateAbilities', _.bind(this.abilitiesView.fetchAbilities, this.abilitiesView));
+
+                    this.descriptionView = new CharacterDescriptionView();
+                    this.model.set('description', this.descriptionView.model);
+                    this.descriptionView.render();
+                    this.descriptionView.setCharacterId(this.model.get('id'));
 
                     this.coinPurseView = new CoinPurseView();
                     this.coinPurseView.onRender(this.model.get('coinPurse'));
@@ -171,6 +191,7 @@ define("CharacterView",
 
             onClassUpdated: function(){
                 this.model.fetch({success: _.bind(function(){
+                    console.log(1);
                     this.skillsAllowed = 0;
                     this.setSkillProficienciesOptions();
                     this.setProficiencies();
@@ -794,14 +815,3 @@ define("CharacterView",
         return view;
     })
 ;
-
-
-
-
-//var success =  _.bind(function(data){
-//    console.log(data);
-//}, this);
-//
-//var error = function(xhr, textStatus, errorThrown) {
-//    console.log('request failed' + errorThrown);
-//}

@@ -3,6 +3,8 @@ package com.rational.model.entities;
 import org.codehaus.jackson.annotate.JsonBackReference;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Andy on 8/19/2014.
@@ -44,6 +46,10 @@ public class Level {
     @JsonBackReference
     @ManyToOne
     private ClassModel clazz;
+
+    @ManyToMany
+    @JoinTable(name= "level_trait", joinColumns = @JoinColumn(name="level_id"), inverseJoinColumns = @JoinColumn(name="trait_id"))
+    private List<TraitModel> traits = new ArrayList<TraitModel>();
 
     public int getLevelNumber() {
         return levelNumber;
@@ -155,5 +161,13 @@ public class Level {
 
     public void setClazz(ClassModel clazz) {
         this.clazz = clazz;
+    }
+
+    public List<TraitModel> getTraits() {
+        return traits;
+    }
+
+    public void setTraits(List<TraitModel> traits) {
+        this.traits = traits;
     }
 }

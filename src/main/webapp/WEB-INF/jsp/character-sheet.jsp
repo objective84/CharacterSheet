@@ -15,7 +15,7 @@
 
 <html>
 <head>
-    <title>${character.name}</title>
+    <title>${character.characterDescription.name}</title>
     <template:javascript/>
 </head>
 <body id="body">
@@ -34,7 +34,7 @@
             <table>
                 <tr>
                     <td><spring:message code="character.name"/></td>
-                    <td><form:input id="name" path="name" /></td>
+                    <td><input id="name" /></td>
 
                     <td><spring:message code="character.race"/></td>
                     <c:choose>

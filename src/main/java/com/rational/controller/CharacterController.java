@@ -4,10 +4,12 @@ import com.rational.facade.*;
 import com.rational.forms.ProficienciesForm;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.Abilities;
+import com.rational.model.entities.CharacterDescription;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.CoinPurse;
 import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.enums.EquipmentFilterEnum;
+import com.rational.service.DescriptionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +54,9 @@ public class CharacterController {
 
     @Resource(name="defaultAbilitiesFacade")
     private AbilitiesFacade abilitiesFacade;
+
+    @Resource(name="defaultDescriptionService")
+    private DescriptionService descriptionService;
 
     @RequestMapping(value="/characterlist", method= RequestMethod.GET)
     public ModelAndView getCharacterList(final Model model){
@@ -124,6 +129,12 @@ public class CharacterController {
     }
 
     @ResponseBody
+    @RequestMapping(value="/character-sheet/character", method = RequestMethod.POST, consumes = "application/json")
+    public CharacterModel saveCharacter(@RequestBody CharacterModel character){
+        return characterFacade.save(character);
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/character/{characterId}", method = RequestMethod.GET, produces = "application/json")
     public CharacterModel characterFetch(@PathVariable final String characterId){
         CharacterModel character = characterFacade.findCharacter(characterId);
@@ -142,6 +153,20 @@ public class CharacterController {
     public Abilities getAbilities(@PathVariable String characterId){
         Abilities abilities = characterFacade.findCharacter(characterId).getAbilities();
         return abilities;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/description", method = RequestMethod.POST, consumes = "application/json")
+    public CharacterDescription saveDescription(@RequestBody CharacterDescription description){
+        CharacterDescription saved =  descriptionService.save(description);
+        return saved;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/description/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public CharacterDescription getDescription(@PathVariable String characterId){
+        CharacterDescription description = characterFacade.findCharacter(characterId).getCharacterDescription();
+        return description;
     }
 
     @ResponseBody

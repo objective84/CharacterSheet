@@ -52,6 +52,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         if(character.getId() == null){
             characterModel.setAbilities(new Abilities());
             characterModel.setCharacterAdvancement(new CharacterAdvancement(characterService.findAdvancement(1l)));
+            characterModel.setCharacterDescription(new CharacterDescription());
         }else{
             characterModel = characterService.findCharacter(character.getId());
         }

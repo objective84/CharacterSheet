@@ -2,6 +2,7 @@ package com.rational.model.entities;
 
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -35,7 +36,8 @@ public class ClassModel {
     private List<SubClassModel> subClasses = new ArrayList<SubClassModel>();
 
     @JoinTable(name="spellmodel_classmodel", joinColumns = @JoinColumn(name="classmodel_id"), inverseJoinColumns = @JoinColumn(name="spellmodel_id"))
-    @JsonManagedReference @ManyToMany private List<SpellModel> spells = new ArrayList<SpellModel>();
+    @JsonIgnore
+    @ManyToMany private List<SpellModel> spells = new ArrayList<SpellModel>();
 
     @JsonManagedReference @OneToMany(mappedBy = "clazz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Level> levels = new ArrayList<Level>();
@@ -140,5 +142,12 @@ public class ClassModel {
             if(level.getLevelNumber() == num) return level;
         }
         return null;
+    }
+    public List<Long> getSpellIds(){
+        List<Long> spellIds = new ArrayList<Long>();
+        for(SpellModel spell :spells){
+            spellIds.add(spell.getId());
+        }
+        return spellIds;
     }
 }

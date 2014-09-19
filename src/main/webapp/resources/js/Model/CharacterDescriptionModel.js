@@ -1,8 +1,7 @@
 /**
- * Created by PVarnerHowland on 8/21/2014.
+ * Created by PVarnerHowland on 9/19/2014.
  */
-
-define("AbilitiesModel",
+define("CharacterDescriptionModel",
     ["jquery", "underscore", "backbone", "epoxy"],
     function($, _, backbone, epoxy){
         var model = backbone.Model.extend({
@@ -10,22 +9,22 @@ define("AbilitiesModel",
             characterId: '0',
             defaults:{
                 id: '',
-                str: '0',
-                dex: '0',
-                con: '0',
-                intel: '0',
-                wis: '0',
-                cha: '0'
+                name: '',
+                height: '',
+                weight: '',
+                gender: '',
+                eyes: '',
+                hair: ''
             },
 
-            fetchAbilities: function(options){
+            fetchDescription: function(options){
                 options = options || {};
-                options.url = $('#pathContext').val() + '/abilities/' + this.characterId + '.json';
+                options.url = $('#pathContext').val() + '/description/' + this.characterId + '.json';
                 return Backbone.Model.prototype.fetch.call(this, options);
             },
 
             url: function(){
-                return $('#pathContext').val() + '/abilities.json';
+                return $('#pathContext').val() + '/description.json';
             }
 
         });
