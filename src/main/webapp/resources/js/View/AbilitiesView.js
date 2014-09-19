@@ -37,17 +37,14 @@ define("AbilitiesView",
             },
             events: {
                 'click .ability-change': 'onAbilityChangeButtonClick',
+                'click .ability-change': 'onAbilityIncreaseChange',
                 'click @ui.abilityScoreReset': 'onAbilityScoreResetClick'
             },
 
             fetchAbilities: function(create){
                 this.model.fetchAbilities({success: _.bind(function(data){
                     this.confirmed = create ? this.model.get('availableAbilityPoints') === 0: true;
-                    if(this.model.get('abilityIncreasePoints')> 0){
-                        $('.ability-change').off('click', this.onAbilityChangeButtonClick);
-                        $('.ability-change').on('click', _.bind(this.onAbilityIncreaseChange, this));
-                        this.abilityIncrease = true;
-                    }
+                    this.abilityIncrease = this.model.get('abilityIncreasePoints')> 0;
                     this.showHideAbilityChangeButtons();
                     this.setAbilityMods();
                     this.setAbilityPointLabel();
@@ -70,6 +67,7 @@ define("AbilitiesView",
             },
 
             onAbilityIncreaseChange: function(event){
+                if(!this.abilityIncrease)return;
                 var ability = $(event.target).prop('id').substr(0,3);
                 var $element = $('#' + ability);
                 var score = parseInt($element.val());
@@ -82,10 +80,12 @@ define("AbilitiesView",
                     this.abilityIncrease = false;
                 }
                 this.model.save();
+                console.log(this.model);
                 this.showHideAbilityChangeButtons();
             },
 
             onAbilityChangeButtonClick: function(event){
+                if(this.abilityIncrease)return;
                 var ability = $(event.target).prop('id').substr(0,3);
                 var $element = $('#' + ability);
                 var score = parseInt($element.val());
@@ -140,10 +140,14 @@ define("AbilitiesView",
                             minus.hide();
                         }
                     }
-                    if (plus.css('display') === 'none' || minus.css('display') === 'none') {
-                        placeholder.addClass('show');
-                    } else {
-                        placeholder.removeClass('show');
+                    if(this.confirmed){
+                        placeholder.removeClass('show')
+                    }else {
+                        if (plus.css('display') === 'none' || minus.css('display') === 'none') {
+                            placeholder.addClass('show');
+                        } else {
+                            placeholder.removeClass('show');
+                        }
                     }
                 }, this))
             },
