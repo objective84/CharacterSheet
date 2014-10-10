@@ -40,30 +40,30 @@ function modalOpen (type, key) {
     var modal_width = 540;
     var modal_height = 'auto';
     var additionalModalOpenFn;
-
     switch (type) {
         case 'language-modal':
             modal_width = 200;
             modal_height = 'auto';
             break;
         case 'store-modal':
-            modal_width = 'auto';
-            modal_height = 'auto';
+            modal_width = '800';
+            modal_height = '600';
             break;
         case 'spell-modal':
             modal_width = '450';
-            modal_height = '98%';
+            modal_height = 'auto';
             break;
         case 'spell-book-modal':
             modal_width = 1200;
             modal_height = 600;
             break;
-        case 'description-modal':
-            modal_width = 600;
-            modal_height = 800;
+        case 'level-options-modal':
+            console.log(1)
+            modal_width = 'auto';
+            modal_height = 'auto';
             break;
         default:
-            modal_width = '1050';
+            modal_width = 'auto';
             modal_height = 'auto';
             break;
     }

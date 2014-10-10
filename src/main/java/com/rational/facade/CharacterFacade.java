@@ -12,9 +12,9 @@ public interface CharacterFacade {
 
     void deleteCharacter(String id);
 
-    CharacterModel levelUp(CharacterModel character);
-
     CharacterModel findCharacter(String idString);
+
+    com.rational.forms.LevelUpReportData levelUp(String characterId, String classId);
 
     ClassModel setCharacterClass(String characterId, String classId);
 

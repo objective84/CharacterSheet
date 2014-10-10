@@ -39,7 +39,7 @@ public class CharacterAdvancement {
         this.id = id;
     }
 
-    public int getTotalLevel() {
+    public int getCombinedLevel() {
         return levels.size();
     }
 

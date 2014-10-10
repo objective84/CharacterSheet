@@ -61,7 +61,8 @@ define("CharacterView",
                 addSpellsLink: "#add-spells",
                 allSpells: "#all-spells",
                 abilityConfirm: '#ability-confirm',
-                levelCharacterL: "#level-character"
+                levelCharacter: "#level-character",
+                newSpellsNotifier: "#new-spells-notifier"
             },
 
             bindings:{
@@ -156,11 +157,136 @@ define("CharacterView",
                     this.listenTo(this.classView, 'classUpdated', _.bind(this.onClassUpdated, this));
 
                     this.displaySpellsKnown();
+//                    if(this.model.get('clazz') != null) this.ui.level.val(this.model.get('combinedLevel'));
                 }, this)});
             },
 
-            onLevelCharacterBtnClock: function(){
-              modalOpen('level-options', 'level-options');
+            onLevelCharacterBtnClick: function(){
+
+              modalOpen('level-options-modal', 'level-options-modal');
+                $('.class-btn').off();
+                $('.class-btn').on('click', _.bind(this.levelUp, this));
+            },
+
+            levelUp: function(event){
+                var id = $(event.currentTarget).data('id');
+                var url = "level-up/"+this.model.get('id')+"/"+id;
+                var success = _.bind(function(data){
+                    alert(this.getLevelReport(data));
+                    window.location.reload();
+                }, this);
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    success: success
+                })
+            },
+
+            getLevelReport:function(report){
+                debugger;
+                var healthGained ="\n    \u2022Your health has increased by " + report.healthGained + " points";
+                var proficiencyBonus = "";
+                if(report.proficiencyBonusIncrease > 0) {
+                    var proficiencyBonus = "\n    \u2022Your Proficiency Bonus has increased to " + report.proficiencyBonusIncrease;
+                }
+                var traits = "";
+                if(report.traitsGained != null){
+                    traits = "\n    \u2022You have gained the following traits: ";
+                    for(var trait in report.traitsGained){
+                        traits += "\n        \u2022"+ trait;
+                    }
+                }
+                var cantripsGained = "";
+                var spellsGained = "";
+                var spellSlotsGained = "";
+                if(report.cantripsGained > 0) {
+                    cantripsGained = "\n    \u2022You may choose " + report.cantripsGained + " additional " + report.className + " cantrip";
+                    if (report.cantripsGained > 1) cantripsGained += "s";
+                }
+                if(report.spellsGained > 0){
+                    spellsGained = "\n    \u2022You may choose " + report.spellsGained + " " + report.className +
+                        (report.spellsGained > 1 ? " spells " : " spell ") + " up to level " + this.model.get('highestSpellSlot');
+                }
+                debugger;
+                if(this.getHighestSpellsAvailable(report) !== null){
+                    spellSlotsGained = this.getSpellSlotsGained(report);
+                }
+
+                return "Congratulations! You are now a level " + report.levelNum + " " + report.className + "! " +
+                    "\nYour new level has granted you the following benefits:" + healthGained + proficiencyBonus + traits + cantripsGained +
+                    spellsGained + spellSlotsGained;
+            },
+
+            getSpellSlotsGained: function(report){
+                var spellReport = "\n    \u2022You have gained:";
+                if(report.levelOneSpellSlotsGained > 0){
+                    spellReport += "\n        \u2023" + report.levelOneSpellSlotsGained + " level 1 spell slot";
+                    if(report.levelOneSpellSlotsGained > 1) spellReport += "s";
+                }
+                if(report.levelTwoSpellSlotsGained > 0){
+                    spellReport += "\n        \u2023" + report.levelTwoSpellSlotsGained + " level 2 spell slot";
+                    if(report.levelTwoSpellSlotsGained > 1) spellReport += "s";
+                }
+                if(report.levelThreeSpellSlotsGained > 0){
+                    spellReport += "\n        \u2023" + report.levelThreeSpellSlotsGained + " level 3 spell slot";
+                    if(report.levelThreeSpellSlotsGained > 1) spellReport += "s";
+                }
+                if(report.levelFourSpellSlotsGained > 0){
+                    spellReport += "\n        \u2023" + report.levelFourSpellSlotsGained + " level 4 spell slot";
+                    if(report.levelFourSpellSlotsGained > 1) spellReport += "s";
+                }
+                if(report.levelFiveSpellSlotsGained > 0){
+                    spellReport += "\n        \u2023" + report.levelFiveSpellSlotsGained + " level 5 spell slot";
+                    if(report.levelFiveSpellSlotsGained > 1) spellReport += "s";
+                }
+                if(report.levelSixSpellSlotsGained > 0) {
+                    spellReport += "\n        \u2023" + report.levelSixSpellSlotsGained + " level 6 spell slot";
+                    if(report.levelSixSpellSlotsGained > 1) spellReport += "s";
+                }
+                if(report.levelSevenSpellSlotsGained > 0){
+                    spellReport += "\n        \u2023" + report.levelSevenSpellSlotsGained + " level 7 spell slot";
+                    if(report.levelSevenSpellSlotsGained > 1) spellReport += "s";
+                }
+                if(report.levelEightSpellSlotsGained > 0){
+                    spellReport += "\n        \u2023" + report.levelEightSpellSlotsGained + " level 8 spell slot";
+                    if(report.levelEightSpellSlotsGained > 1) spellReport += "s";
+                }
+                if(report.levelNineSpellSlotsGained > 0){
+                    spellReport += "\n        \u2023" + report.levelNineSpellSlotsGained + " level 9 spell slot";
+                    if(report.levelNineSpellSlotsGained > 1) spellReport += "s";
+                }
+                return spellReport;
+            },
+
+            getHighestSpellsAvailable: function(report){
+                if(report.levelNineSpellSlotsGained > 0){
+                    return 9;
+                }
+                if(report.levelEightSpellSlotsGained > 0){
+                    return 8;
+                }
+                if(report.levelSevenSpellSlotsGained > 0){
+                    return 7;
+                }
+                if(report.levelSixSpellSlotsGained > 0){
+                    return 6;
+                }
+                if(report.levelFiveSpellSlotsGained > 0){
+                    return 5;
+                }
+                if(report.levelFourSpellSlotsGained > 0){
+                    return 4;
+                }
+                if(report.levelThreeSpellSlotsGained > 0){
+                    return 3;
+                }
+                if(report.levelTwoSpellSlotsGained > 0){
+                    return 2;
+                }
+                if(report.levelOneSpellSlotsGained > 0){
+                    return 1;
+                }
+                return null;
             },
 
             displaySpellsKnown: function(){
@@ -180,6 +306,11 @@ define("CharacterView",
                     }
                 },this));
                 $('.known-spell, .prepared-spell').on('click', _.bind(this.onSpellClick,this));
+                if(this.model.get('numSpellsAllowed') > 0){
+                    this.ui.newSpellsNotifier.show();
+                }else{
+                    this.ui.newSpellsNotifier.hide();
+                }
             },
 
             onRaceUpdated: function(){
@@ -847,7 +978,6 @@ define("CharacterView",
                 var modal_width = 540;
                 var modal_height = 'auto';
                 var additionalModalOpenFn;
-
                 switch (type) {
                     case 'language-modal':
                         modal_width = 200;
@@ -865,8 +995,12 @@ define("CharacterView",
                         modal_width = 1200;
                         modal_height = 600;
                         break;
+                    case 'level-options-modal':
+                        modal_width = '375';
+                        modal_height = '384';
+                        break;
                     default:
-                        modal_width = '1050';
+                        modal_width = 'auto';
                         modal_height = 'auto';
                         break;
                 }

@@ -238,7 +238,6 @@ public class CharacterModel {
         this.abilities = abilities;
     }
 
-
     public ClassModel getClazz() {
         return clazz;
     }
@@ -287,6 +286,15 @@ public class CharacterModel {
 
     public Integer getNumCantripsAllowed(){ return this.characterAdvancement.getNumCantripsAllowed() - getNumCantripsKnown();}
 
+    public Integer getCombinedLevel(){
+
+        return this.characterAdvancement.getCombinedLevel();
+    }
+
+    public Integer getHighestSpellSlot(){
+        return this.spellSlots != null ? this.spellSlots.getHighestAvailable() : null;
+    }
+
     public Integer getNumCantripsKnown(){
         int amt = 0;
 
@@ -323,7 +331,7 @@ public class CharacterModel {
         int num = 0;
         if(null != this.clazz && null != this.clazz.getMagicAbility() ) {
             num += this.abilities.getAbilityModifier(AbilityTypeEnum.valueOf(this.clazz.getMagicAbility()));
-            num += this.characterAdvancement.getTotalLevel();
+            num += this.characterAdvancement.getCombinedLevel();
         }
         return num;
     }

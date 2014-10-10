@@ -1,6 +1,7 @@
 package com.rational.controller;
 
 import com.rational.facade.*;
+import com.rational.forms.LevelUpReportData;
 import com.rational.forms.ProficienciesForm;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.Abilities;
@@ -192,9 +193,10 @@ public class CharacterController {
         return new ProficienciesForm(classFacade.getClassModel(Long.valueOf(classId)).getProficiencies());
     }
 
-    @RequestMapping(value="/level-up", method = RequestMethod.GET)
-    public void levelUp(@ModelAttribute CharacterModel character){
-        characterFacade.levelUp(character);
+    @ResponseBody
+    @RequestMapping(value="/character-sheet/level-up/{characterId}/{classId}", method = RequestMethod.POST, produces="application/json")
+    public LevelUpReportData levelUp(@PathVariable String characterId, @PathVariable String classId){
+       return characterFacade.levelUp(characterId, classId);
     }
 
     @ResponseBody

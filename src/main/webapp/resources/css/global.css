@@ -266,3 +266,31 @@ div#spell-preview {
 #prepare-spell-btn{
     float:right;
 }
+
+
+/***********End Spells****************/
+
+
+.class-image{
+    width: 150px;
+    height: 150px;
+    border: 1px solid black;
+}
+#level-options-modal input{
+    width: 72px;
+}
+#level-options-modal{
+    display: none;
+}
+#level-options-modal td{
+    text-align: center;
+    vertical-align: middle;
+}
+
+#level-options-modal h3{
+    margin-top: 5px;
+}
+
+#new-spells-notifier{
+    display: none;
+}

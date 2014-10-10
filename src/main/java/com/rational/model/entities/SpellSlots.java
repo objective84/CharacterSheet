@@ -276,4 +276,35 @@ public class SpellSlots {
     private String getLine(Integer num){
         return "<td><input value='" + num + "' id='slots-2' class='input-box-small' readonly='true'/></td>";
     }
+
+    public Integer getHighestAvailable() {
+        if(this.perDayNine > 0){
+            return 9;
+        }
+        if(this.expendedEight > 0){
+            return 8;
+        }
+        if(this.perDaySeven > 0){
+            return 7;
+        }
+        if(this.perDaySix > 0){
+            return 6;
+        }
+        if(this.perDayFive > 0){
+            return 5;
+        }
+        if(this.perDayFour > 0){
+            return 4;
+        }
+        if(this.perDayThree > 0){
+            return 3;
+        }
+        if(this.perDayTwo > 0){
+            return 2;
+        }
+        if(this.perDayOne > 0){
+            return 1;
+        }
+        else return 0;
+    }
 }

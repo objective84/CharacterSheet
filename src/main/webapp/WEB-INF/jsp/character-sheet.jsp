@@ -265,6 +265,7 @@
             <br/>
 
             <h4>Spells Known</h4>
+            <span id="new-spells-notifier" class="link-small">**You can learn ${character.numSpellsAllowed} more spells!**</span>
             <div id="spells-known" class="table_container">
                 <table id="level-0-spells" class="side-by-side spells-known-table">
                     <tr><th>Cantrips</th></tr>
@@ -312,6 +313,7 @@
             <modals:spell-modal/>
             <modals:description-modal/>
             <modals:spell-book-modal/>
+            <modals:level-options-modal/>
         </form:form>
     </div>
 </body>
