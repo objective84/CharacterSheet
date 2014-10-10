@@ -60,11 +60,16 @@
             <div id="level-eight" class="spell-tab" data-tab="tab-eight"></div>
             <div id="level-nine" class="spell-tab" data-tab="tab-nine"></div>
         </div>
+        <div class="side-by-side selected-spells-container">
+            <input type="hidden" id="cantrips-selected" value="0"/>
+            <div class="selected-spells-table">
+                <table id="selected-spells-table">
+                </table>
+            </div>
+            <input type="button" id="learn-spells" value="Learn">
+        </div>
         <div id='spell-preview' class="side-by-side">
             <div id="spell-preview-text"></div>
         </div>
-        <table id="selected-spells">
-
-        </table>
     </div>
 </div>

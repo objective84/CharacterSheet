@@ -53,7 +53,7 @@ public class Abilities {
 
     public void setAbilityScore(AbilityTypeEnum ability, Integer score){
         try {
-            this.getClass().getMethod("set" + ability.toString(), Integer.class).invoke(this, score);
+            this.getClass().getMethod("set" + ability.name(), Integer.class).invoke(this, score);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -65,7 +65,7 @@ public class Abilities {
 
     public Integer getAbilityScore(AbilityTypeEnum ability){
         try {
-            return (Integer)this.getClass().getMethod("get" + ability.getType()).invoke(this);
+            return (Integer)this.getClass().getMethod("get" + ability.name()).invoke(this);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -79,7 +79,7 @@ public class Abilities {
     public Integer getAbilityModifier(AbilityTypeEnum ability){
         Integer score = 0;
         try {
-            score = (Integer)Abilities.class.getMethod("get" + ability.toString()).invoke(this);
+            score = (Integer)Abilities.class.getMethod("get" + ability.name()).invoke(this);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

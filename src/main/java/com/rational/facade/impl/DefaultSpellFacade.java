@@ -102,7 +102,7 @@ public class DefaultSpellFacade implements SpellFacade {
         String nine = "";
         String spellString;
         for(SpellModel spell : spells) {
-            spellString = "<tr data-name='" + spell.getName().toLowerCase() + "' class='spell-line'><td>" + spell.getSchool().substring(0, 3) + "</td><td id='" + spell.getId() + "' class='spell-select'><span>" + spell.getName() + "</span></td></tr>";
+            spellString = "<tr data-name='" + spell.getName().toLowerCase() + "' class='spell-line visible'><td>" + spell.getSchool().substring(0, 3) + "</td><td id='" + spell.getId() + "' class='spell-select'><span>" + spell.getName() + "</span></td></tr>";
             switch (spell.getLevel()){
                 case 0: cantrip += spellString; break;
                 case 1: one += spellString; break;
@@ -156,7 +156,7 @@ public class DefaultSpellFacade implements SpellFacade {
         String transmutation = "";
 
         for(SpellModel spell : spells){
-            spellString = "<tr data-name='" + spell.getName().toLowerCase() + "' class='spell-line'><td>" + spell.getLevel() + "</td><td id='" +
+            spellString = "<tr data-name='" + spell.getName().toLowerCase() + "' class='spell-line visible'><td>" + spell.getLevel() + "</td><td id='" +
                     spell.getId() + "' class='spell-select'><span>" + spell.getName() + "</span></td></tr>";
             if(spell.getSchool().equalsIgnoreCase("abjuration"))abjuration += spellString;
             else if(spell.getSchool().equalsIgnoreCase("conjuration"))conjuration += spellString;
@@ -187,6 +187,32 @@ public class DefaultSpellFacade implements SpellFacade {
         if(transmutation.contains("spell-line"))spellList.put("transmutation", transmutation);
         return spellList;
     }
+
+    @Override
+    public void learnSpells(String characterId, String[] spellIds) {
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        for(String spell : spellIds){
+            character.getSpellsKnown().add(spellService.findSpell(Long.decode(spell)));
+        }
+        characterService.save(character);
+    }
+
+    @Override
+    public SpellModel prepareSpell(String characterId, String spellId) {
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        SpellModel spell = spellService.findSpell(Long.decode(spellId));
+        character.getPreparedSpellList().add(spell);
+        characterService.save(character);
+        return spell;
+    }
+
+    @Override
+    public SpellModel unPrepareSpell(String characterId, String spellId) {
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        SpellModel spell = spellService.findSpell(Long.decode(spellId));
+        character.getPreparedSpellList().remove(spell);
+        characterService.save(character);
+        return spell;    }
 
     private String splitTable(String table){
         String tableStart = "<table class='spell-table side-by-side'><tr><th>Level</th><th>Spell</th></tr>";

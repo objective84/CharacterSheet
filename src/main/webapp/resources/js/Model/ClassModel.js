@@ -11,6 +11,7 @@ define("ClassModel",
                 defaults:{
                     id: '0',
                     name: '',
+                    description: '',
                     hitDie: null,
                     proficiencies: null,
                     classTraits: null,

@@ -100,7 +100,7 @@ public class CharacterController {
         mav.addObject("spellcasters", classFacade.findAllSpellcasters());
         mav.addObject("character", character);
         addEquipmentToModel(mav, character);
-        mav.addObject("abilityTypes", AbilityTypeEnum.values());
+        mav.addObject("abilityTypes", AbilityTypeEnum.getValues());
         mav.addObject("weaponFilters", EquipmentFilterEnum.getWeaponFilters());
         mav.addObject("armorFilters", EquipmentFilterEnum.getArmorFilters());
         mav.addObject("filterByProficiency", EquipmentFilterEnum.BY_PROFICIENCY.toString());
@@ -163,6 +163,13 @@ public class CharacterController {
     public Abilities getAbilities(@PathVariable String characterId){
         Abilities abilities = characterFacade.findCharacter(characterId).getAbilities();
         return abilities;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/purse/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public CoinPurse getCoinPurse(@PathVariable String characterId){
+        CoinPurse coinPurse = characterFacade.findCharacter(characterId).getCoinPurse();
+        return coinPurse;
     }
 
     @ResponseBody
@@ -231,4 +238,11 @@ public class CharacterController {
         mav.addObject("armorProficiencies", armor);
         mav.addObject("savingThrowProficiencies", saves);
     }
+
+    @RequestMapping(value="/light-puzzle")
+    public ModelAndView lightPuzzle(ModelAndView mav){
+        mav.setViewName("light-puzzle");
+        return mav;
+    }
 }
+

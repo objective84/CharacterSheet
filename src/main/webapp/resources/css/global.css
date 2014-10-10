@@ -126,7 +126,7 @@ th.spell{
 
 /****Spells****/
 
-#add-spells{
+#spell-book-modal{
     display: none;
 }
 
@@ -201,8 +201,8 @@ div#spell-preview {
 #spell-school-tabs,
 #spell-level-tabs{
     border: 1px solid black;
-    width: 60% !important;
-    height: 92% !important;
+    width: 60%;
+    height: 92%;
 }
 
 .ui-tabs-nav {
@@ -231,4 +231,38 @@ div#spell-preview {
 #ability-confirm,
 .ability-change{
     display: none;
+}
+
+#description-modal{
+    height: 80%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.selected-spells-container{
+    display: none;
+    width: 19% !important;
+    height: 93% !important;
+    border: 1px solid black;
+}
+
+.selected-spells-table{
+    height: 94%;
+}
+
+#learn-spells{
+    clear: both;
+    float:right;
+}
+
+.spells-known-table{
+    margin-bottom: 15px;
+}
+
+.spells-known-table th{
+    text-align: left;
+}
+
+#prepare-spell-btn{
+    float:right;
 }

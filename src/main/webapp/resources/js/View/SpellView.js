@@ -26,7 +26,7 @@ define("SpellView",
                 this.addSpellsToModal("allSpells/"+ this.ui.sortBy.val() + ".json");
             },
 
-//            onAddSpellLinkClick:function(){
+//            onLearnSpellsLinkClick:function(){
 //                $('.spell-table').remove();
 //                this.addSpellsToModal("availableSpells/"+this.model.get('id')+".json", _.bind(function(){
 //                    $('.spell-line').on('dblclick', _.bind(this.onSpellLineDblClick, this));

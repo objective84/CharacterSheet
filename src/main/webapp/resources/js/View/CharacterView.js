@@ -46,12 +46,6 @@ define("CharacterView",
                 skillSelectLabel: '#skill-select-label',
                 languageModal: '#language-modal',
                 languageSubmit: '#language-submit',
-                startingWealthLabel: '#starting-wealth-label',
-                copperInput: '#money-copper',
-                silverInput: '#money-silver',
-                electrumInput: '#money-electrum',
-                goldInput: '#money-gold',
-                platinumInput: '#money-platinum',
                 storeLink: '#store-link',
                 storeSubmit: '#store-submit',
                 clearInventory: '#clear-inventory',
@@ -66,7 +60,8 @@ define("CharacterView",
                 testSpell: "#test-spell",
                 addSpellsLink: "#add-spells",
                 allSpells: "#all-spells",
-                abilityConfirm: '#ability-confirm'
+                abilityConfirm: '#ability-confirm',
+                levelCharacterL: "#level-character"
             },
 
             bindings:{
@@ -83,13 +78,13 @@ define("CharacterView",
                 'change @ui.equipMain': 'onEquipMainChange',
                 'change @ui.equipOff': 'onEquipOffChange',
                 'change @ui.equipArmor': 'onEquipArmorChange',
-                'click @ui.storeSubmit': 'onStoreSubmitClick',
-                'click #fetch-character' : 'refreshCharacter',
+                'click #fetch-character' : 'fetchModel',
                 'click @ui.testSpell' : 'onSpellClick',
-                'click @ui.addSpellsLink': 'onAddSpellLinkClick',
+                'click @ui.addSpellsLink': 'onLearnSpellsLinkClick',
                 'click @ui.allSpells': 'onAllSpellsLinkClick',
                 'click @ui.abilityConfirm': 'onAbilityConfirmClick',
-                'change .proficiency.skill': 'onSkillProficiencySelected'
+                'change .proficiency.skill': 'onSkillProficiencySelected',
+                'click @ui.levelCharacter': 'onLevelCharacterBtnClick'
             },
 
             onRender: function(){
@@ -99,25 +94,9 @@ define("CharacterView",
                 })
             },
 
-            refreshCharacter: function(){
+            fetchModel: function(callback){
                 this.model.fetch({success: _.bind(function(){
-                    this.abilitiesView.fetchAbilities();
-                    this.languagesAllowed = setLanguagesAllowed(this.model);
-                    this.setLanguageTable();
-                    this.setLanguageSelectionLink();
-                    this.setProficiencies();
-                    this.setSkillProficienciesOptions();
-                    this.setMainHandOptions();
-                    this.setOffHandOptions();
-                    this.setArmorOptions();
-                    this.setInventory();
-                    this.setTraits();
-                }, this)});
-            },
-
-            fetchModel: function(){
-                this.model.fetch({success: _.bind(function(){
-                    console.log(this.model);
+                    if(callback) callback();
                 }, this)});
             },
 
@@ -126,7 +105,9 @@ define("CharacterView",
                 this.applyBindings();
 
                 this.model.fetch({success: _.bind(function(){
-                    if(this.model.get('spellSlots') != null) $('#spell-slots').append(this.model.get('spellSlots').tableHtml);
+                    if(this.model.get('spellSlots') != null){
+                        $('#spell-slots').append(this.model.get('spellSlots').tableHtml);
+                    }
                     this.abilitiesView = new AbilitiesView();
                     this.model.set('abilities', this.abilitiesView.model);
                     this.abilitiesView.model.characterId = this.model.get('id');
@@ -136,17 +117,20 @@ define("CharacterView",
 
                     this.descriptionView = new CharacterDescriptionView();
                     this.model.set('description', this.descriptionView.model);
-                    this.descriptionView.render();
                     this.descriptionView.setCharacterId(this.model.get('id'));
+                    this.descriptionView.render();
 
                     this.coinPurseView = new CoinPurseView();
-                    this.coinPurseView.onRender(this.model.get('coinPurse'));
-
+                    this.model.set('coinPurse', this.coinPurseView);
+                    this.coinPurseView.setCharacterId(this.model.get('id'));
+                    this.coinPurseView.render();
 
                     this.raceView = new RaceView();
                     this.raceView.render();
                     this.raceView.setCharacterId(this.model.get('id'));
-                    if(this.model.get('race'))this.raceView.model.set('id', this.model.get('race').id);
+                    if(this.model.get('race')){
+                        this.raceView.model.set('id', this.model.get('race').id);
+                    }
                     this.raceView.fetch(_.bind(function(){
                         this.model.race = this.raceView.model;
                     },this));
@@ -170,7 +154,32 @@ define("CharacterView",
                         this.model.clazz = this.classView.model;
                     },this));
                     this.listenTo(this.classView, 'classUpdated', _.bind(this.onClassUpdated, this));
+
+                    this.displaySpellsKnown();
                 }, this)});
+            },
+
+            onLevelCharacterBtnClock: function(){
+              modalOpen('level-options', 'level-options');
+            },
+
+            displaySpellsKnown: function(){
+                $('.spells-known-table').each(function(key, value){
+                    $(value).find('tr:gt(0)').remove();
+                })
+                $('#spells-prepared tr').remove();
+                $(this.model.get('spellsKnown')).each(_.bind(function(key, spell){
+                    var $table = $('#level-' + spell.level +'-spells');
+                    var spellLink = '<tr><td><a class="known-spell" id="known-spell-'+ spell.id + '" href="javascript:void(0);" data-spellid="' +
+                        spell.id + '">' + spell.name + '</a></td></tr>';
+                    $table.append(spellLink);
+                    if(this.model.get('preparedSpells').indexOf(spell.id) !== -1){
+                        spellLink = '<tr id="prepared-spell-'+ spell.id + '"><td><a class="prepared-spell"  href="javascript:void(0);" data-spellid="' +
+                            spell.id + '">' + spell.name + '</a></td></tr>';
+                        $('#spells-prepared').append(spellLink);
+                    }
+                },this));
+                $('.known-spell, .prepared-spell').on('click', _.bind(this.onSpellClick,this));
             },
 
             onRaceUpdated: function(){
@@ -187,15 +196,14 @@ define("CharacterView",
                     this.abilitiesView.fetchAbilities();
                     this.setProficiencies();
                 }, this)});
-
             },
 
             onClassUpdated: function(){
                 this.model.fetch({success: _.bind(function(){
-                    console.log(1);
                     this.skillsAllowed = 0;
                     this.setSkillProficienciesOptions();
                     this.setProficiencies();
+                    this.coinPurseView.fetchModel();
                     if(this.model.get('clazz').magicAbility != null) {
                         $('#spell-slots').append(this.model.get('spellSlots').tableHtml);
                         this.ui.addSpellsLink.show();
@@ -205,11 +213,11 @@ define("CharacterView",
 
             onSkillProficiencySelected: function(event){
                 var url;
-                  if($(event.target).prop('checked') === true){
-                      url = 'character/addSkill/'+this.model.get('id') + '/' + $(event.target).val() + '.json';
-                  }else{
-                      url = 'character/addSkill/'+this.model.get('id') + '/' + $(event.target).val() + '.json';
-                  }
+                if($(event.target).prop('checked') === true){
+                    url = 'character/addSkill/'+this.model.get('id') + '/' + $(event.target).val() + '.json';
+                }else{
+                    url = 'character/addSkill/'+this.model.get('id') + '/' + $(event.target).val() + '.json';
+                }
                 $.getJSON(url);
             },
 
@@ -427,6 +435,8 @@ define("CharacterView",
             onStoreLinkClick: function(){
                 this.modalOpen('store-modal', 'store-modal');
                 $('.filter').on('change', _.bind(this.onStoreFilterSelected, this));
+                $('#store-submit').off();
+                $('#store-submit').on('click', _.bind(this.onStoreSubmitClick, this));
             },
 
             onStoreFilterSelected: function(event){
@@ -472,16 +482,14 @@ define("CharacterView",
                         items.push($(value).val());
                     }
                 }, this));
-
-                var data = {charId: this.model.get('id'),
-                    equipmentIds: items};
-
-                $.getJSON('equipment.json', "ids=" + JSON.stringify(data), _.bind(function(data){
+                var data = {equipmentIds: items};
+                var url = '/CharacterSheet/equipment/'+ this.model.get('id') +'.json';
+                $.getJSON(url, "ids=" + JSON.stringify(data), _.bind(function(data){
                     if(data.code === 1) {
-                        this.character = data.data;
-                        this.refreshCharacter();
-                        this.modalClose('store-modal');
+                        this.fetchModel(_.bind(this.setInventory, this));
+                        this.coinPurseView.fetchModel();
                         alert(data.message);
+                        this.modalClose('store-modal');
                     }else if(data.code === 0){
                         alert(data.errorMessage);
                     }
@@ -494,7 +502,7 @@ define("CharacterView",
                     var item = this.findItemInInventory(value.id);
                     var $element;
                     if(item.maxWeaponRange !== undefined) {
-                        $element = this.ui.weaponTable;
+                        $element = this.ui.storeWeaponTable;
                     }else if(item.armorClass !== undefined){
                         $element = this.ui.storeArmorTable;
                     }
@@ -517,7 +525,7 @@ define("CharacterView",
 
             setMainHandOptions: function(){
                 $('.main-hand-option').remove();
-                $.getJSON('main-hand.json', "characterId=" + this.model.get('id'), _.bind(function(data){
+                $.getJSON('/CharacterSheet/main-hand/'+ this.model.get('id') +'.json', _.bind(function(data){
                     $(data).each(_.bind(function(key, value){
                         this.ui.equipMain.append('<option class="main-hand-option" value="' + value.id + '">' + value.name + '</option>')
                     }, this));
@@ -526,7 +534,7 @@ define("CharacterView",
 
             setOffHandOptions: function(){
                 $('.off-hand-option').remove();
-                $.getJSON('off-hand.json', "characterId=" + this.model.get('id'), _.bind(function(data){
+                $.getJSON('/CharacterSheet/off-hand/'+ this.model.get('id') +'.json', "characterId=" + this.model.get('id'), _.bind(function(data){
                     $(data).each(_.bind(function(key, value){
                         this.ui.equipOff.append('<option class="off-hand-option" value="' + value.id + '">' + value.name + '</option>')
                     }, this));
@@ -535,7 +543,7 @@ define("CharacterView",
 
             setArmorOptions: function(){
                 $('.armor-option').remove();
-                $.getJSON('armor.json', "characterId=" + this.model.get('id'), _.bind(function(data){
+                $.getJSON('/CharacterSheet/armor/'+ this.model.get('id') +'.json', _.bind(function(data){
                     $(data).each(_.bind(function(key, value){
                         this.ui.equipArmor.append('<option class="armor-option" value="' + value.id + '">' + value.name + '</option>')
                     }, this));
@@ -552,48 +560,87 @@ define("CharacterView",
             },
 
             onEquipMainChange: function(){
-                var data = {
-                    "characterId": this.model.get('id'),
-                    "itemId": this.ui.equipMain.val()
-                };
-                $.getJSON('equip-main-hand.json', data, _.bind(function(data){
+                $.getJSON('/CharacterSheet/equip-main-hand/'+ this.model.get('id') +'/'+ this.ui.equipMain.val() +'.json', _.bind(function(data){
                     this.fetchModel();
                 }, this));
             },
 
             onEquipOffChange: function(){
-                var data = {
-                    "characterId": this.model.get('id'),
-                    "itemId": this.ui.equipOff.val()
-                };
-                $.getJSON('equip-off-hand.json', data, _.bind(function(data){
+                $.getJSON('/CharacterSheet/equip-off-hand/'+ this.model.get('id') +'/'+ this.ui.equipOff.val() +'.json', _.bind(function(data){
                     this.fetchModel();
                 }, this));
             },
 
             onEquipArmorChange: function(){
-                var data = {
-                    "characterId": this.model.get('id'),
-                    "itemId": this.ui.equipArmor.val()
-                };
-                $.getJSON('equip-armor.json', data, _.bind(function(){
+                $.getJSON('/CharacterSheet/equip-armor/'+ this.model.get('id') +'/'+ this.ui.equipArmor.val() +'.json', _.bind(function(){
                     this.fetchModel();
                 }, this));
             },
 
-            onSpellClick: function(){
-                $.getJSON('spell/29.json', _.bind(function(data){
+            onSpellClick: function(event){
+                $.getJSON('spell/' + $(event.currentTarget).data('spellid') + '.json', _.bind(function(data) {
                     $('#spell-text-div').remove();
                     $('#spell-text').append(data.spellModel.displayText);
                     this.modalOpen('spell-modal', 'spell-modal');
+                    $('#spell-id').val($(event.currentTarget).data('spellid'));
+                    $('#prepare-spell-btn').off();
+                    var isPrepared = false;
+                    $('.prepared-spell').each(function (key, value) {
+                        if (($(value).data('spellid') === data.spellModel.id)) {
+                            isPrepared = true;
+                            return;
+                        }
+                    });
+                    if (data.spellModel.level === 0) {
+                        $('#prepare-spell-btn').hide();
+                    } else {
+                        $('#prepare-spell-btn').show();
+                        if (isPrepared) {
+                            $('#prepare-spell-btn').on('click', _.bind(this.onUnPrepareSpellClick, this));
+                            $('#prepare-spell-btn').val('Un-Prepare');
+                        } else {
+                            $('#prepare-spell-btn').on('click', _.bind(this.onPrepareSpellClick, this));
+                            $('#prepare-spell-btn').val('Prepare');
+                        }
+                    }
                 }, this));
             },
 
-            onAddSpellLinkClick:function(){
+            onUnPrepareSpellClick: function(){
+                var spellId = parseInt($('#spell-id').val());
+                var charId = this.model.get('id') + "";
+                var url = "unprepare-spell/" + charId + "/" + spellId + ".json";
+                $.ajax({type:"POST", url: url, success: _.bind(function(spell){
+                    this.fetchModel(_.bind(this.displaySpellsKnown, this));
+                    this.modalClose('spell-modal','spell-modal');
+                }, this)});
+            },
+
+            onPrepareSpellClick: function(){
+                console.log($('.prepared-spell').length )
+                console.log(this.model.get('numberSpellsPreparedAllowed'))
+                if($('.prepared-spell').length === this.model.get('numberSpellsPreparedAllowed')){
+                    alert('You cannot prepare any more spells')
+                    return;
+                }
+                var spellId = parseInt($('#spell-id').val());
+                var charId = this.model.get('id') + "";
+                var url = "prepare-spell/" + charId + "/" + spellId + ".json";
+                $.ajax({type:"POST", url: url, success: _.bind(function(spell){
+                    this.fetchModel(_.bind(this.displaySpellsKnown, this));
+                    this.modalClose('spell-modal','spell-modal');
+                }, this)});
+            },
+
+            onLearnSpellsLinkClick:function(){
                 $('.spell-table').remove();
-                this.addSpellsToModal("availableSpells/"+this.model.get('id')+".json", _.bind(function(){
+                $('#selected-spells-table tr').remove();
+                this.addSpellsToModal("availableSpells/"+this.model.get('id')+"/" + $('#sort-by').val() + ".json", _.bind(function(){
                     $('.spell-line').on('dblclick', _.bind(this.onSpellLineDblClick, this));
                 }, this));
+                $('#spell-level-tabs').css('width', '40.5%');
+                $('.selected-spells-container').show();
+                $('#learn-spells').on('click', _.bind(this.onLearnSpellLinkClick,this));
             },
 
             onAllSpellsLinkClick: function(){
@@ -603,6 +650,8 @@ define("CharacterView",
                     $('#spell-class-select').on('change', _.bind(this.onSelectSpellClassChange, this));
                     $('.spell-line').off('dblclick', _.bind(this.onSpellLineDblClick, this));
                 }, this));
+                $('#spell-level-tabs').css('width', '60%');
+                $('.selected-spells-container').hide();
             },
 
             addSpellsToModal: function(url, callback){
@@ -615,6 +664,7 @@ define("CharacterView",
                     $('.spell-line').on('click', _.bind(this.onSpellLineClick, this));
                     if(callback)callback();
                     this.modalOpen('spell-book-modal', 'spell-book-modal');
+                    this.hideTabsWithNoSpells();
                 },this));
             },
 
@@ -645,7 +695,6 @@ define("CharacterView",
                         $tab.show();
                         if(index === null) {
                             index = $tab.parent().index();
-                            console.log($('#spell-level-tabs').tabs('option', 'select'));
                             $('#spell-level-tabs').tabs('option', 'select', 5);
                         }
                     }
@@ -721,19 +770,70 @@ define("CharacterView",
                 $('.spell-line').removeClass('selected');
                 $(event.currentTarget).addClass('selected');
                 var id = $(event.currentTarget).children('.spell-select').attr('id');
-                $.getJSON(this.pathContext + '/spell/' + id + '.json', _.bind(function(data){
+                $.getJSON('spell/' + id + '.json', _.bind(function(data){
                     $('#spell-text-div').remove();
                     $('#spell-preview').append(data.spellModel.displayText);
                 }, this));},
 
-            onSpellLineDblClick: function(){
-                $(event.currentTarget).addClass('selected');
+            onSpellLineDblClick: function(event){
                 var id = $(event.currentTarget).children('.spell-select').attr('id');
-                var text = $(event.currentTarget).children('.spell-select').text();
-                if($(".selected-spell-line#"+id) !== undefined) {
-                    $('#selected-spells').append("<tr><td><span class='selected-spell-line' id='" + id + "'></span>" + text + "</td>" +
-                        "<td><a href='#' class='link-small' data-spellid='" + id + "'>Delete</a></td></tr>");
+
+                var spellClass = "selected-";
+                if($('#spell-level-tabs').tabs("option", "active") === 0){
+                    if(this.model.get('numCantripsAllowed') - $('.selected-cantrip').size() <= 0){
+                        alert("You cannot learn any more cantrips");
+                        return;
+                    }
+                    spellClass += "cantrip"
+                }else{
+                    if(this.model.get('numSpellsAllowed') - $('.selected-spell').size() <= 0){
+                        alert("You cannot learn any more spells.");
+                        return;
+                    }
+                    spellClass += "spell";
                 }
+                if($('#spell-delete-'+id).prop('id') !== undefined){
+                    return;
+                }
+                if($('#known-spell-'+id).prop('id') !== undefined){
+                    alert('You already know this spell');
+                    return;
+                }
+                $(event.currentTarget).addClass('selected');
+
+                var text = $(event.currentTarget).children('.spell-select').text();
+                var linkId = "spell-delete-" + id;
+                if($(".selected-spell-line#"+id) !== undefined) {
+                    $('#selected-spells-table').append("<tr id='selected-" + id + "'><td><span class='" + spellClass + "' data-spellid='"
+                        + id + "'>" + text + "</span></td>" + "<td><a href='javascript:void(0);' id= '"+ linkId +
+                        "' class='link-small' data-spellid='" + id + "'>Delete</a></td></tr>");
+                }
+                $("#"+linkId).on('click', _.bind(this.onSpellDeleteLinkClick, this));
+            },
+
+            onSpellDeleteLinkClick: function(event){
+                var id = $(event.currentTarget).data('spellid');
+                $("#selected-" + id).remove();
+            },
+
+            onLearnSpellLinkClick: function(event){
+                var spells = [];
+                $('.selected-spell, .selected-cantrip').each(_.bind(function(key, value){
+                    spells.push($(value).data('spellid'));
+                },this));
+
+                var data = {"spellIds": spells};
+                var success = function(data){
+                    this.fetchModel(_.bind(this.displaySpellsKnown,this));
+                    this.modalClose('spell-book-modal', 'spell-book-modal');
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/CharacterSheet/learn-spells/"+ this.model.get('id') +".json",
+                    data: "spellIds=" + spells,
+                    success: _.bind(success,this)
+                })
             },
 
             onAbilityConfirmClick: function(){
@@ -754,12 +854,12 @@ define("CharacterView",
                         modal_height = 'auto';
                         break;
                     case 'store-modal':
-                        modal_width = 'auto';
-                        modal_height = 'auto';
+                        modal_width = '800';
+                        modal_height = '600';
                         break;
                     case 'spell-modal':
                         modal_width = '450';
-                        modal_height = '98%';
+                        modal_height = 'auto';
                         break;
                     case 'spell-book-modal':
                         modal_width = 1200;

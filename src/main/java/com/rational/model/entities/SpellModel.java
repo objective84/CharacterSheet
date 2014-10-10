@@ -2,6 +2,7 @@ package com.rational.model.entities;
 
 
 import com.rational.model.Dice;
+import com.rational.utils.Formatter;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonManagedReference;
@@ -50,6 +51,7 @@ public class SpellModel implements Comparable<SpellModel>{
     private Integer damageDiceAmount;
     private String castingTime;
     private String range;
+
 
     @ManyToOne
     @JsonManagedReference
@@ -226,16 +228,6 @@ public class SpellModel implements Comparable<SpellModel>{
         this.range = range;
     }
 
-    public String parseName(){
-        String name = "";
-        String[] split = this.name.toUpperCase().split(" ");
-        for(String word : split){
-            name = name + "<span class=spell-name-head>" + word.substring(0, 1) + "</span>" +
-                    "<span class=spell-name-tail>"+ word.substring(1, word.length()) + "</span> ";
-        }
-        return name;
-    }
-
     public String getLevelSchool(){
         String levelSchool = "";
         switch(this.level){
@@ -254,7 +246,8 @@ public class SpellModel implements Comparable<SpellModel>{
                 levelSchool = level+"th";
                 break;
         }
-        levelSchool = levelSchool + ("-level " + school.toLowerCase());
+        String ritual = this.isRitual() ? "(ritual)" : "";
+        levelSchool = levelSchool + "-level " + school.toLowerCase() + " " + ritual;
         return levelSchool;
     }
 
@@ -271,66 +264,6 @@ public class SpellModel implements Comparable<SpellModel>{
             components = "M("+ materialComponent + ")";
         }
         return components;
-    }
-
-    public String formatDescription() {
-        String description = this.description;
-        if(description.contains("*tab")){
-            while(description.contains("*tab")){
-                int startIndex = description.indexOf("*tab")+4;
-                int endIndex = description.indexOf("*", startIndex + 1);
-                String padding = description.substring(startIndex, endIndex);
-                description = description.replace("*tab"+padding+"*", "<span style='padding: "+ padding + "px;'/>");
-            }
-        }
-        if(description.contains("/bullets")){
-            while (description.contains("/bullets")) {
-                int startIndex = description.indexOf("/bullets")+ 8;
-                int endIndex = description.indexOf("/bullets", startIndex+8);
-                endIndex = endIndex == -1 ? description.length() : endIndex;
-                String text = description.substring(startIndex, endIndex);
-                description = description.replaceFirst("/bullets", "<table class='bullet-list'>");
-                description = description.replaceFirst("/bullets", "</table>");
-                description = description.replace(text, formatBulletList(text));
-            }
-        }
-        if(description.contains("/b")) {
-            while (description.contains("/b")) {
-                int startIndex = description.indexOf("/b");
-                int endIndex = description.indexOf("/b", startIndex + 2) + 2;
-                String text = description.substring(startIndex, endIndex);
-                description = description.replaceFirst(text, boldText(text));
-            }
-        }
-        if(description.contains("/n")) {
-            while (description.contains("/n")) {
-                int startIndex = description.indexOf("/n");
-                int endIndex = description.indexOf("/n", startIndex + 2);
-                endIndex = endIndex == -1 ? description.length() : endIndex;
-                String text = description.substring(startIndex, endIndex);
-                description = description.replace(text, newLine(text));
-            }
-        }
-        return description;
-    }
-
-    private String newLine(String text){
-        text = text.replace("/n", "<span class='indent'/>");
-        return  "<tr><td><span class='spell-line'>   " + text + "</span></td></tr>";
-    }
-
-    private String formatBulletList(String list){
-        String[] bullets = list.split("/bt");
-        list = list.replace("/bt", "");
-        for(String bullet: bullets){
-            list = list.replace(bullet, "<tr><td>" + bullet + "</td></tr>");
-        }
-        return list;
-    }
-
-    private String boldText(String text){
-        text = text.replace("/b", "");
-        return "<span class='text-bold'>"+ text + "</span>";
     }
 
     private String formatRange(){
@@ -353,16 +286,14 @@ public class SpellModel implements Comparable<SpellModel>{
 
     public String getDisplayText(){
         return "<div id='spell-text-div'><table>" +
-                "<tr><td>" + parseName() + "</td></tr>" +
+                "<tr><td>" + Formatter.parseSubtitle(this.name) + "</td></tr>" +
                 "<tr><td><span class='spell-level-school'>" + this.getLevelSchool() + "</span> </td></tr>" +
                 "<tr><td><span class='spell-header'>Casting Time: </span><span class='spell-line'>" + this.castingTime + "</span> </td></tr>" +
                 "<tr><td><span class='spell-header'>Range: </span><span class='spell-line'>" + formatRange() + "</span> </td></tr>" +
                 "<tr><td><span class='spell-header'>Components: </span><span class='spell-line'>" + this.getComponents() + "</span> </td></tr>" +
                 "<tr><td><span class='spell-header'>Duration: </span><span class='spell-line'>" + this.duration + "</span> </td></tr>   " +
-                "<tr><td>" +this.formatDescription() + "</td></tr></table><br/><span>Castable by: " + this.getClassesHTML() + "</span></div>";
+                "<tr><td>" + Formatter.formatParagraph(this.description) + "</td></tr></table><br/><span>Castable by: " + this.getClassesHTML() + "</span></div>";
     }
-
-
 
     public Boolean getConcentration() {
         return concentration;

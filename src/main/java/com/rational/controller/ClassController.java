@@ -1,7 +1,6 @@
 package com.rational.controller;
 
 import com.rational.facade.CharacterFacade;
-import com.rational.facade.ClassFacade;
 import com.rational.model.entities.ClassModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +27,7 @@ public class ClassController {
     @RequestMapping(value="/class/{characterId}", method = RequestMethod.GET, produces = "application/json")
     public ClassModel getCharacterClass(@PathVariable String characterId){
         ClassModel clazz = characterFacade.findCharacter(characterId).getClazz();
+//        if(clazz != null)clazz.setDescription(clazz.getDescription());
         return clazz;
     }
 }

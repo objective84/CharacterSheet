@@ -19,7 +19,7 @@ define("AbilitiesView",
                 str: '#Str',
                 dex: '#Dex',
                 con: '#Con',
-                int: '#Int',
+                int: '#Intel',
                 wis: '#Wis',
                 cha: '#Cha',
                 abilityPointLabel: '#ability-point-label',
@@ -37,7 +37,6 @@ define("AbilitiesView",
             },
             events: {
                 'click .ability-change': 'onAbilityChangeButtonClick',
-                'click .ability-change': 'onAbilityIncreaseChange',
                 'click @ui.abilityScoreReset': 'onAbilityScoreResetClick'
             },
 
@@ -52,6 +51,7 @@ define("AbilitiesView",
             },
 
             onRender: function(){
+                $('.ability-change').on('click', _.bind(this.onAbilityIncreaseChange, this));
                 this.applyBindings();
             },
 
@@ -70,6 +70,9 @@ define("AbilitiesView",
                 if(!this.abilityIncrease)return;
                 var ability = $(event.target).prop('id').substr(0,3);
                 var $element = $('#' + ability);
+                if(ability === "Int"){
+                    ability = "Intel";
+                }
                 var score = parseInt($element.val());
                 var newScore = score + 1;
                 var availablePoints = this.model.get('abilityIncreasePoints');
@@ -80,7 +83,6 @@ define("AbilitiesView",
                     this.abilityIncrease = false;
                 }
                 this.model.save();
-                console.log(this.model);
                 this.showHideAbilityChangeButtons();
             },
 
@@ -88,6 +90,9 @@ define("AbilitiesView",
                 if(this.abilityIncrease)return;
                 var ability = $(event.target).prop('id').substr(0,3);
                 var $element = $('#' + ability);
+                if(ability === "Int"){
+                    ability = "Intel";
+                }
                 var score = parseInt($element.val());
                 var newPointsVal;
                 var newScore;

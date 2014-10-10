@@ -11,7 +11,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 <%@ taglib prefix="modals" tagdir="/WEB-INF/tags/modals" %>
-<link href="resources/css/global.css" rel="stylesheet">
+<link href="/CharacterSheet/resources/css/global.css" rel="stylesheet">
 
 <html>
 <head>
@@ -77,7 +77,7 @@
                             <td>${characterModel.clazz.name}</td>
                         </c:otherwise>
                     </c:choose>
-                    <td><input type="button" id="fetch-character" value="Fetch Character"></td>
+                    <td><input type="button" id="level-character" value="Level Up"></td>
                 </tr>
                 <tr >
                     <td><spring:message code="character.level"/></td>
@@ -108,7 +108,7 @@
             </c:if>
             <div class="table_container">
                 <table class="side-by-side header">
-                    <tr><td><h3><spring:message code="character.ability" /><a href="#" id="ability-score-reset" class="link-small">Reset</a></h3></td></tr>
+                    <tr><td><h3><spring:message code="character.ability" /><a href="javascript:void(0);" id="ability-score-reset" class="link-small">Reset</a></h3></td></tr>
                     <tr><td><span id="ability-point-label"></span></td></tr>
                     <tr><td><input type="button" id="ability-confirm" value="Confirm"></td></tr>
                 </table>
@@ -119,7 +119,7 @@
                     <tr><td><h3><spring:message code="character.equipped" /></h3></td></tr>
                 </table>
             </div>
-            <div class="clear"/>
+            <div class="clear"></div>
             <div class="table_container">
                 <table class="side-by-side ability-row" id="abilties">
                     <c:forEach items="${abilityTypes}" var="ability">
@@ -142,19 +142,19 @@
                 </table>
                 <table class="side-by-side ability-row">
                     <tr>
-                        <td>Copper:</td><td> <input class="input-box-small" id="money-copper" /></td>
+                        <td>Copper:</td><td> <input class="input-box-small" id="money-copper" value="${character.coinPurse.CP}"/></td>
                     </tr>
                     <tr>
-                        <td>Silver:</td><td> <input class="input-box-small" id="money-silver" /></td>
+                        <td>Silver:</td><td> <input class="input-box-small" id="money-silver" value="${character.coinPurse.SP}"/></td>
                     </tr>
                     <tr>
-                        <td>Electrum:</td><td> <input class="input-box-small" id="money-electrum" /></td>
+                        <td>Electrum:</td><td> <input class="input-box-small" id="money-electrum" value="${character.coinPurse.EP}"/></td>
                     </tr>
                     <tr>
-                        <td>Gold:</td><td> <input class="input-box-small" id="money-gold" /></td>
+                        <td>Gold:</td><td> <input class="input-box-small" id="money-gold" value="${character.coinPurse.GP}"/></td>
                     </tr>
                     <tr>
-                        <td>Platinum:</td><td> <input class="input-box-small" id="money-platinum" /></td>
+                        <td>Platinum:</td><td> <input class="input-box-small" id="money-platinum" value="${character.coinPurse.PP}"/></td>
                     </tr>
                 </table>
                 <table class="side-by-side ability-row">
@@ -187,7 +187,7 @@
                     </tr>
                 </table>
             </div>
-            <div class="clear"/>
+            <div class="clear"></div>
             <h3><spring:message code="character.inventory"/></h3>
             <span id="encumbered-label"><spring:message code="character.encumbered"/></span>
             <div class="table_container">
@@ -208,9 +208,9 @@
                     </c:forEach>
                 </table>
             </div>
-            <div class="clear"/>
+            <div class="clear"></div>
             <br/>
-            <a href="#" id="store-link">Store</a> <a href="#" id="clear-inventory" class="link-small">Clear</a>
+            <a href="javascript:void(0);" id="store-link">Store</a> <a href="javascript:void(0);" id="clear-inventory" class="link-small">Clear</a>
             <br/>
             <h3><spring:message code="character.proficiencies"/></h3>
             <span class="skill-select-label" id="skill-select-label"></span>
@@ -256,19 +256,49 @@
             </table>
             <br/>
 
-            <h3>Spells <a href="#" class="link-small" id="all-spells">View All</a></h3><br/>
+            <h3>Spells <a href="javascript:void(0);" class="link-small" id="all-spells">View All</a></h3>
             <div id="spell-slots"></div><br/>
 
+            <h3>Prepared Spells</h3>
             <table id="spells-prepared">
-                <tr><th>Prepared Spells</th></tr>
             </table>
             <br/>
 
-            <table id="spells-known">
-                <tr><th>Spells Known</th></tr>
-            </table>
-            <br/>
-            <a href="#" id="add-spells">Choose Spells</a>
+            <h4>Spells Known</h4>
+            <div id="spells-known" class="table_container">
+                <table id="level-0-spells" class="side-by-side spells-known-table">
+                    <tr><th>Cantrips</th></tr>
+                </table>
+                <table id="level-1-spells" class="side-by-side spells-known-table">
+                    <tr><th>Level One</th></tr>
+                </table>
+                <table id="level-2-spells" class="side-by-side spells-known-table">
+                    <tr><th>Level Two</th></tr>
+                </table>
+                <table id="level-3-spells" class="side-by-side spells-known-table">
+                    <tr><th>Level Three</th></tr>
+                </table>
+                <table id="level-4-spells" class="side-by-side spells-known-table">
+                    <tr><th>Level Four</th></tr>
+                </table>
+                <table id="level-5-spells" class="side-by-side spells-known-table">
+                    <tr><th>Level Five</th></tr>
+                </table>
+                <table id="level-6-spells" class="side-by-side spells-known-table">
+                    <tr><th>Level Six</th></tr>
+                </table>
+                <table id="level-7-spells" class="side-by-side spells-known-table">
+                    <tr><th>Level Seven</th></tr>
+                </table>
+                <table id="level-8-spells" class="side-by-side spells-known-table">
+                    <tr><th>Level Eight</th></tr>
+                </table>
+                <table id="level-9-spells" class="side-by-side spells-known-table">
+                    <tr><th>Level Nine</th></tr>
+                </table>
+            </div>
+            <div class="clear"/>
+            <a href="javascript:void(0);" id="add-spells">Learn Spells</a>
             <br/>
             <br/>
             <br/>
@@ -280,6 +310,7 @@
             <modals:language-modal/>
             <modals:store-modal/>
             <modals:spell-modal/>
+            <modals:description-modal/>
             <modals:spell-book-modal/>
         </form:form>
     </div>

@@ -84,4 +84,13 @@ public class CharacterAdvancement {
         }
         return amt;
     }
+
+    public int getNumCantripsAllowed(){
+        int amt=0;
+        for(Level level : levels){
+            amt += level.getCantripsKnown();
+        }
+
+        return amt;
+    }
 }

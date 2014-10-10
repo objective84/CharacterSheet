@@ -6,10 +6,7 @@ import com.rational.facade.SpellFacade;
 import com.rational.forms.ResponseData;
 import com.rational.model.entities.SpellModel;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -39,22 +36,47 @@ public class SpellController {
         return mav;
     }
 
-    @RequestMapping(value="/spell/{spellId}", method =  RequestMethod.GET)
+    @RequestMapping(value="/character-sheet/spell/{spellId}", method =  RequestMethod.GET)
     public SpellModel getSpellText(@PathVariable String spellId){
         return spellFacade.findSpell(spellId);
     }
 
     @ResponseBody
-    @RequestMapping(value="/availableSpells/{characterId}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseData<Map<String, String>> getSpellsForClassLevel(@PathVariable String characterId){
+    @RequestMapping(value="/availableSpells/{characterId}/{sortingType}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseData<Map<String, String>> getSpellsForClassLevel(@PathVariable String characterId, @PathVariable String sortingType){
         ResponseData<Map<String, String>> spells = new ResponseData<Map<String, String>>();
-        spells.setData(spellFacade.sortBySchool(new TreeSet<SpellModel>(spellFacade.findSpells(characterId))));
+        if(sortingType.equalsIgnoreCase("school")){
+            spells.setData(spellFacade.sortBySchool(new TreeSet<SpellModel>(spellFacade.findSpells(characterId))));
+        }else if(sortingType.equalsIgnoreCase("level")){
+            spells.setData(spellFacade.sortByLevel(new TreeSet<SpellModel>(spellFacade.findSpells(characterId))));
+        }
         return spells;
     }
 
     @RequestMapping(value="/add-spell/{characterId}/{spellId}", method = RequestMethod.POST)
     public SpellModel addSpell(@PathVariable String characterId,  @PathVariable String spellId){
         return characterFacade.addSpell(characterId, spellId);
+    }
+
+    @RequestMapping(value="/learn-spells/{characterId}", method = RequestMethod.POST)
+    public String learnSpells(@PathVariable String characterId, @RequestParam(value="spellIds") String[] spellIds){
+        spellFacade.learnSpells(characterId, spellIds);
+
+        return "success";
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/character-sheet/prepare-spell/{characterId}/{spellId}", method = RequestMethod.POST)
+    public SpellModel prepareSpell(@PathVariable String characterId, @PathVariable String spellId){
+        SpellModel spell = spellFacade.prepareSpell(characterId, spellId);
+        return spell;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/character-sheet/unprepare-spell/{characterId}/{spellId}", method = RequestMethod.POST)
+    public SpellModel unPrepareSpells(@PathVariable String characterId, @PathVariable String spellId){
+        SpellModel spell = spellFacade.unPrepareSpell(characterId, spellId);
+        return spell;
     }
 
 
@@ -71,7 +93,7 @@ public class SpellController {
     }
 
     @ResponseBody
-    @RequestMapping(value="/classSpells/{classId}/{sortingType}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value="/character-sheet/classSpells/{classId}/{sortingType}", method = RequestMethod.GET, produces = "application/json")
     public ResponseData<Map<String, String>> getClassSpells(@PathVariable String classId, @PathVariable String sortingType){
         ResponseData<Map<String, String>> spells = new ResponseData<Map<String, String>>();
         if(sortingType.equalsIgnoreCase("school")){

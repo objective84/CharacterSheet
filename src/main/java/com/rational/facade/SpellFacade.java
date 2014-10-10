@@ -17,4 +17,10 @@ public interface SpellFacade {
     Map<String, String> sortByLevel(Set<SpellModel> spells);
 
     Map<String, String> sortBySchool(Set<SpellModel> spells);
+
+    void learnSpells(String characterId, String[] spellIds);
+
+    SpellModel prepareSpell(String characterId, String spellId);
+
+    SpellModel unPrepareSpell(String characterId, String spellId);
 }

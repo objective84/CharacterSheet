@@ -23,7 +23,6 @@ define("CharacterDescriptionView",
             },
 
             onRender: function(){
-                this.model = new CharacterDescriptionModel();
                 this.applyBindings();
             },
 
@@ -45,6 +44,7 @@ define("CharacterDescriptionView",
             },
 
             initialize: function(){
+                this.model = new CharacterDescriptionModel();
             }
         });
         epoxy.View.mixin(view.prototype);

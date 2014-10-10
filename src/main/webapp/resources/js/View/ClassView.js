@@ -12,11 +12,13 @@ define("ClassView",
             characterId: '',
 
             ui: {
-                clazz: '#class-select'
+                clazz: '#class-select',
+                description: '#class-description'
             },
 
             events: {
-                'change @ui.clazz' : 'onClassChange'
+                'change @ui.clazz' : 'onClassChange',
+                'click @ui.description': 'onDescriptionLinkClick'
             },
 
             onRender: function(){
@@ -45,6 +47,11 @@ define("ClassView",
                     this.trigger('classUpdated');
                 }, this), error: function(model, response) {
                 }});
+            },
+
+            onDescriptionLinkClick: function(){
+                modalOpen('description-modal', 'description-modal');
+                $('#description-text').append(this.model.get('description'));
             },
 
             initialize: function(){

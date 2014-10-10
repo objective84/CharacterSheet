@@ -56,6 +56,9 @@ public class CharacterModel {
     @JoinTable(name="charactermodel_spellmodel", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="spellmodel_id"))
     @ManyToMany private List<SpellModel> spellsKnown = new ArrayList<SpellModel>();
 
+    @JoinTable(name="charactermodel_preparedspells", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="spellmodel_id"))
+    @ManyToMany private List<SpellModel> preparedSpells = new ArrayList<SpellModel>();
+
     public CharacterModel(){}
 
     public Long getId() {
@@ -261,7 +264,7 @@ public class CharacterModel {
     }
 
     public Integer getNumSpellsAllowed(){
-        return this.characterAdvancement.getNumSpellsAllowed();
+        return this.characterAdvancement.getNumSpellsAllowed() - getNumSpellsKnown();
     }
 
     public SpellSlots getSpellSlots() {
@@ -278,5 +281,54 @@ public class CharacterModel {
 
     public void setCharacterDescription(CharacterDescription characterDescription) {
         this.characterDescription = characterDescription;
+    }
+
+    public List<SpellModel> getPreparedSpellList(){return this.preparedSpells;}
+
+    public Integer getNumCantripsAllowed(){ return this.characterAdvancement.getNumCantripsAllowed() - getNumCantripsKnown();}
+
+    public Integer getNumCantripsKnown(){
+        int amt = 0;
+
+        for(SpellModel spell: spellsKnown){
+            if(spell.getLevel() == 0){
+                amt++;
+            }
+        }
+
+        return amt;
+    }
+
+    public Integer getNumSpellsKnown(){
+        int amt = 0;
+
+        for(SpellModel spell: spellsKnown){
+            if(spell.getLevel() != 0){
+                amt++;
+            }
+        }
+
+        return amt;
+    }
+
+    public List<Integer> getPreparedSpells() {
+        List<Integer> spells = new ArrayList<Integer>();
+        for(SpellModel spell : this.preparedSpells){
+            spells.add(spell.getId().intValue());
+        }
+        return spells;
+    }
+
+    public Integer getNumberSpellsPreparedAllowed(){
+        int num = 0;
+        if(null != this.clazz && null != this.clazz.getMagicAbility() ) {
+            num += this.abilities.getAbilityModifier(AbilityTypeEnum.valueOf(this.clazz.getMagicAbility()));
+            num += this.characterAdvancement.getTotalLevel();
+        }
+        return num;
+    }
+
+    public void setPreparedSpells(List<SpellModel> preparedSpells) {
+        this.preparedSpells = preparedSpells;
     }
 }

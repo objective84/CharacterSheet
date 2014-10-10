@@ -2,6 +2,7 @@ package com.rational.model.entities;
 
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
+import com.rational.utils.Formatter;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
@@ -17,6 +18,7 @@ public class ClassModel {
 
     @Id @GeneratedValue private Long id;
     private String name;
+    private String description;
     private Integer startingWealthDieAmount;
     @Column(name="skills_at_creation") private Integer skillsAtCreation;
     @Column(name="magic_ability") private String magicAbility;
@@ -149,5 +151,13 @@ public class ClassModel {
             spellIds.add(spell.getId());
         }
         return spellIds;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = "<table><tr><td><span>" + Formatter.formatParagraph(description) + "</span></td></tr></table>";
     }
 }

@@ -46,8 +46,8 @@ public class DefaultCurrencyService implements CurrencyService {
     @Override
     public CoinPurse convertTotal(BigDecimal total){
         CoinPurse purse = new CoinPurse();
-//        Coin coin = new Coin(CoinTypeEnum.PLATINUM); //For unit testing
-        Coin coin = equipmentService.findCoinByName(CoinTypeEnum.PLATINUM.getType());
+        Coin coin = new Coin(CoinTypeEnum.PLATINUM); //For unit testing
+//        Coin coin = equipmentService.findCoinByName(CoinTypeEnum.PLATINUM.getType());
         try {
             purse.setCP(convertDown(purse, coin, total).intValue());
         } catch (NoSuchMethodException e) {
