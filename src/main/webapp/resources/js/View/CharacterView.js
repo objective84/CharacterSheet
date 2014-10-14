@@ -157,19 +157,26 @@ define("CharacterView",
                     this.listenTo(this.classView, 'classUpdated', _.bind(this.onClassUpdated, this));
 
                     this.displaySpellsKnown();
-//                    if(this.model.get('clazz') != null) this.ui.level.val(this.model.get('combinedLevel'));
+                    $(document).tooltip();
+                    if(this.model.get('chooseSubclass')){
+                        this.classView.displayChooseSubclassLink();
+                    }
+                    this.ui.level.val(this.model.get('combinedLevel'));
                 }, this)});
             },
 
             onLevelCharacterBtnClick: function(){
-
               modalOpen('level-options-modal', 'level-options-modal');
                 $('.class-btn').off();
-                $('.class-btn').on('click', _.bind(this.levelUp, this));
+                $('.class-btn').on('click', _.bind(this.onClassSelectionButtonClick, this));
             },
 
-            levelUp: function(event){
+            onClassSelectionButtonClick: function(event){
                 var id = $(event.currentTarget).data('id');
+                this.levelUp(id);
+            },
+
+            levelUp: function(id){
                 var url = "level-up/"+this.model.get('id')+"/"+id;
                 var success = _.bind(function(data){
                     alert(this.getLevelReport(data));
@@ -183,8 +190,7 @@ define("CharacterView",
             },
 
             getLevelReport:function(report){
-                debugger;
-                var healthGained ="\n    \u2022Your health has increased by " + report.healthGained + " points";
+                var healthGained ="\n    \u2022Your maximum health is now " + this.model.get('maxHealth') + " points";
                 var proficiencyBonus = "";
                 if(report.proficiencyBonusIncrease > 0) {
                     var proficiencyBonus = "\n    \u2022Your Proficiency Bonus has increased to " + report.proficiencyBonusIncrease;
@@ -200,14 +206,14 @@ define("CharacterView",
                 var spellsGained = "";
                 var spellSlotsGained = "";
                 if(report.cantripsGained > 0) {
-                    cantripsGained = "\n    \u2022You may choose " + report.cantripsGained + " additional " + report.className + " cantrip";
+                    cantripsGained = "\n    \u2022You may choose " + report.cantripsGained + " " + report.className + " cantrip";
                     if (report.cantripsGained > 1) cantripsGained += "s";
                 }
                 if(report.spellsGained > 0){
                     spellsGained = "\n    \u2022You may choose " + report.spellsGained + " " + report.className +
-                        (report.spellsGained > 1 ? " spells " : " spell ") + " up to level " + this.model.get('highestSpellSlot');
+                        (report.spellsGained > 1 ? " spells " : " spell ") + " up to level " +
+                        (this.model.get('highestSpellSlot')>0 ? this.model.get('highestSpellSlot'): "1");
                 }
-                debugger;
                 if(this.getHighestSpellsAvailable(report) !== null){
                     spellSlotsGained = this.getSpellSlotsGained(report);
                 }
@@ -335,6 +341,7 @@ define("CharacterView",
                     this.setSkillProficienciesOptions();
                     this.setProficiencies();
                     this.coinPurseView.fetchModel();
+                    this.levelUp(this.model.get('clazz').id);
                     if(this.model.get('clazz').magicAbility != null) {
                         $('#spell-slots').append(this.model.get('spellSlots').tableHtml);
                         this.ui.addSpellsLink.show();

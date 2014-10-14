@@ -116,3 +116,16 @@ function modalClose (key) {
 
     return false;
 }
+
+function getElementMiddlePosition(element){
+    debugger;
+    var position = element.position();
+    var elementWidth = getWidthHeightAsFloat(element.css('width'));
+
+    return elementWidth/2;
+}
+
+function getWidthHeightAsFloat(css){
+    css = css.substring(0, css.length-2);
+    return parseFloat(css);
+}

@@ -17,11 +17,7 @@ public interface TraitFacade {
 
     List<TraitModel> findAllSubRacialTraits();
 
-    List<TraitModel> findAllClassTraits();
-
-    List<TraitModel> findAllSubClassTraits();
-
-    void applyTraits(CharacterModel character, List<TraitModel> classTraits);
+    void applyTraits(CharacterModel character, List<TraitModel> traits);
 
     void processTraits(CharacterModel character);
 }

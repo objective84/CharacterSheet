@@ -6,6 +6,7 @@ import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.equipment.ArmorModel;
 import com.rational.model.equipment.EquipmentModel;
 import com.rational.model.equipment.WeaponModel;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -23,8 +24,10 @@ public class CharacterModel {
     private Integer speed = 0;
     private int maxHealth;
     private int currentHealth;
+    @Column(name="max_health_reduction")private int maxHealthReduction;
     private Long inventoryWeight;
     private Integer armorClass;
+    @Transient private Boolean chooseSubclass;
 
     @JsonManagedReference @OneToOne(cascade = CascadeType.ALL) private CoinPurse coinPurse;
     @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name="character_description") private CharacterDescription characterDescription;
@@ -34,6 +37,8 @@ public class CharacterModel {
     @ManyToOne private RaceModel race;
     @ManyToOne private SubRaceModel subrace;
     @ManyToOne private ClassModel clazz;
+
+    @JsonIgnore @ManyToOne private SubClassModel subclass;
     @JsonManagedReference @ManyToOne private ArmorModel equippedArmor;
     @JsonManagedReference @ManyToOne private WeaponModel equippedMainHand;
     @JsonManagedReference @ManyToOne private EquipmentModel equippedOffHand;
@@ -90,12 +95,13 @@ public class CharacterModel {
     }
 
     public int getMaxHealth() {
-        return maxHealth;
+        return maxHealth - this.maxHealthReduction;
     }
 
     public void setMaxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
     }
+
 
     public int getCurrentHealth() {
         return currentHealth;
@@ -338,5 +344,29 @@ public class CharacterModel {
 
     public void setPreparedSpells(List<SpellModel> preparedSpells) {
         this.preparedSpells = preparedSpells;
+    }
+
+    public int getMaxHealthReduction() {
+        return maxHealthReduction;
+    }
+
+    public void setMaxHealthReduction(int maxHealthReduction) {
+        this.maxHealthReduction = maxHealthReduction;
+    }
+
+    public SubClassModel getSubclass() {
+        return subclass;
+    }
+
+    public void setSubclass(SubClassModel subclass) {
+        this.subclass = subclass;
+    }
+
+    public Boolean getChooseSubclass() {
+        return chooseSubclass;
+    }
+
+    public void setChooseSubclass(Boolean chooseSubclass) {
+        this.chooseSubclass = chooseSubclass;
     }
 }

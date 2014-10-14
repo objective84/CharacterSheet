@@ -1,5 +1,6 @@
 package com.rational.model.entities.traits;
 
+import com.rational.model.playing.Event;
 import com.rational.model.entities.CharacterModel;
 import com.rational.model.entities.TraitModel;
 
@@ -22,6 +23,11 @@ public class AbilityPointIncreaseTrait extends TraitModel {
     @Override
     public void applyTrait(CharacterModel character) {
         character.getAbilities().setAbilityIncreasePoints(character.getAbilities().getAbilityIncreasePoints() + numAbilityPoints);
+    }
+
+    @Override
+    public void traitInterrupt(CharacterModel character, Event event) {
+
     }
 
     public Integer getNumAbilityPoints(){

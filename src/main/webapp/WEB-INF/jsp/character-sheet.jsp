@@ -86,9 +86,9 @@
                         <spring:message code="character.ac"/>
                         <input class="input-box-small" id="armor-class" readonly="true"/>
                     </td>
-
                 </tr>
             </table>
+            <a href="javascript:void(0);" class="link-small" id="choose-subclass">Select a Sub-Class</a>
             <table>
                 <tr>
                     <td>
@@ -213,7 +213,10 @@
             <a href="javascript:void(0);" id="store-link">Store</a> <a href="javascript:void(0);" id="clear-inventory" class="link-small">Clear</a>
             <br/>
             <h3><spring:message code="character.proficiencies"/></h3>
+            <span>Proficiency Bonus: </span>
+            <input class="input-box-small" id="proficiency-bonus" readonly="true" value="${character.characterAdvancement.proficiencyBonus}"/>
             <span class="skill-select-label" id="skill-select-label"></span>
+
             <div class="table_container">
                 <table class="side-by-side proficiencies" id="skillProfs">
                     <tr><th>Skills</th></tr>
@@ -255,6 +258,15 @@
                 </c:forEach>
             </table>
             <br/>
+
+            <h3>Traits</h3>
+            <div class="traits">
+                <table>
+                    <c:forEach items="${character.traits}" var="trait">
+                        <tr><td><a href="javascript:void(0);" id="trait-${trait.id}" title="${trait.description}">${trait.name}</span></td></tr>
+                    </c:forEach>
+                </table>
+            </div>
 
             <h3>Spells <a href="javascript:void(0);" class="link-small" id="all-spells">View All</a></h3>
             <div id="spell-slots"></div><br/>
@@ -314,6 +326,7 @@
             <modals:description-modal/>
             <modals:spell-book-modal/>
             <modals:level-options-modal/>
+            <modals:empty-modal/>
         </form:form>
     </div>
 </body>

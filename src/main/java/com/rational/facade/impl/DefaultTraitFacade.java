@@ -41,16 +41,6 @@ public class DefaultTraitFacade implements TraitFacade {
     }
 
     @Override
-    public List<TraitModel> findAllClassTraits() {
-        return traitService.findAllTraits();
-    }
-
-    @Override
-    public List<TraitModel> findAllSubClassTraits() {
-        return traitService.findAllTraits();
-    }
-
-    @Override
     public void applyTraits(CharacterModel character, List<TraitModel> traits) {
         for(TraitModel trait : traits){
             trait.applyTrait(character);

@@ -82,22 +82,45 @@ public class DefaultCharacterFacade implements CharacterFacade {
         characterService.deleteCharacter(Long.decode(id));
     }
 
+
     @Override
-    public LevelUpReportData levelUp(String characterId, String classId)
-    {
-        LevelUpReportData report = new LevelUpReportData();
+    public LevelUpReportData levelUp(String characterId, String classId){
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         ClassModel clazz = classService.findClass(Long.decode(classId));
+        return levelUp(character, clazz);
+    }
 
-        increaseHealth(character, clazz, report);
+    @Override
+    public LevelUpReportData levelUp(CharacterModel character, ClassModel clazz)
+    {
+        LevelUpReportData report = new LevelUpReportData();
+
         addClassLevel(character, clazz, report);
+        increaseHealth(character, clazz, report);
         adjustProficiencyBonus(character, report);
+        if(null != character.getSubclass()){
+            checkForSubclassLevel(character, clazz, report);
+        }
         characterService.save(character);
 
         return report;
     }
 
+    private void checkForSubclassLevel(CharacterModel character, ClassModel clazz, LevelUpReportData report) {
+        int numClassLevels = character.getCharacterAdvancement().getLevelsOfClass(clazz);
+        Level level = character.getSubclass().getLevelOfNum(numClassLevels);
+        if(level != null){
+            character.getCharacterAdvancement().getLevels().add(level);
+            if(null != level.getSpells()){
+                character.getSpellsKnown().addAll(level.getSpells());
+            }
+        }
+    }
+
     private void increaseHealth(CharacterModel character, ClassModel clazz, LevelUpReportData report){
+        if (character.getCharacterAdvancement().getCombinedLevel() == 1){
+            return;
+        }
         Integer currentHealth = character.getMaxHealth();
         Integer maxHealth = currentHealth + clazz.getHitDie().getAverageRoll();
         maxHealth += character.getAbilities().getAbilityModifier(AbilityTypeEnum.Con);
@@ -116,12 +139,16 @@ public class DefaultCharacterFacade implements CharacterFacade {
         if(null != clazz.getMagicAbility()){
             addSpells(character, newLevel, report);
         }
+        traitFacade.applyTraits(character, newLevel.getTraits());
     }
 
     private void addSpells(CharacterModel character, Level newLevel, LevelUpReportData report) {
         SpellSlots slots = character.getSpellSlots();
         if(newLevel.getSpellsKnown() > 0){
             report.setSpellsGained(newLevel.getSpellsKnown());
+        }
+        if(newLevel.getCantripsKnown() > 0){
+            report.setCantripsGained(newLevel.getCantripsKnown());
         }
         if(newLevel.getFirstLevelSpellSlots()>0){
             slots.setPerDayOne(slots.getPerDayOne() + newLevel.getFirstLevelSpellSlots());
@@ -187,17 +214,14 @@ public class DefaultCharacterFacade implements CharacterFacade {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         ClassModel classModel = classService.findClass(Long.decode(classId));
         character.setClazz(classModel);
+        assembleCharacter(character);
         character.setCoinPurse(currencyService.getStartingWealth(classModel.getStartingWealthDie(), classModel.getStartingWealthDieAmount()));
-        character.setMaxHealth(classModel.getHitDie().getMaxRoll());
+        character.setMaxHealth(classModel.getHitDie().getMaxRoll() + character.getAbilities().getAbilityModifier(AbilityTypeEnum.Con));
         character.setCurrentHealth(character.getMaxHealth());
-        character.getCharacterAdvancement().getLevels().add(classModel.getLevel(1));
         if(StringUtils.isNotEmpty(classModel.getMagicAbility())){
             SpellSlots spellSlots = new SpellSlots();
-            spellSlots.setPerDayOne(classModel.getLevel(1).getFirstLevelSpellSlots());
-            spellSlots.setExpendedOne(0);
             character.setSpellSlots(spellSlots);
         }
-        traitFacade.applyTraits(character, classModel.getClassTraits());
         characterService.save(character);
 
         return classModel;
@@ -262,6 +286,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
     @Override
     public void setCharacterTraits(CharacterModel character){
         Set<TraitModel> traitModels =  new HashSet<TraitModel>();
+        character.getTraits().clear();
         if(null != character) {
             if (null != character.getRace()) {
                 traitModels.addAll(character.getRace().getTraits());
@@ -269,8 +294,15 @@ public class DefaultCharacterFacade implements CharacterFacade {
             if (null != character.getSubrace()) {
                 traitModels.addAll(character.getSubrace().getSubRacialTraits());
             }
-            if (null != character.getClazz()) {
-                traitModels.addAll(character.getClazz().getClassTraits());
+            if (null != character.getCharacterAdvancement()) {
+                for(Level level : character.getCharacterAdvancement().getLevels()){
+                    traitModels.addAll(level.getTraits());
+                    if(null == character.getSubclass()) {
+                        if (level.getChooseSubclass()) {
+                            character.setChooseSubclass(level.getChooseSubclass());
+                        }
+                    }
+                }
             }
             character.setTraits(traitModels);
         }
@@ -329,8 +361,20 @@ public class DefaultCharacterFacade implements CharacterFacade {
         save(character);
     }
 
-    private void setInventoryWeight(CharacterModel character){
+    @Override
+    public SubClassModel setCharacterSubClass(String characterId, String subclassId) {
+        SubClassModel subClass = classService.findSubClass(Long.decode(subclassId));
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        character.setSubclass(subClass);
+        Level level = subClass.getLevelOfNum(character.getCharacterAdvancement().getLevelsOfClass(subClass.getBaseClass()));
+        character.getCharacterAdvancement().getLevels().add(level);
+        character.getSpellsKnown().addAll(level.getSpells());
+        traitFacade.applyTraits(character, level.getTraits());
+        characterService.save(character);
+        return subClass;
+    }
 
+    private void setInventoryWeight(CharacterModel character){
         Long weight = 0L;
         for(EquipmentModel equipmentModel : character.getInventory()) {
             weight += equipmentModel.getItemWeight();
@@ -360,13 +404,13 @@ public class DefaultCharacterFacade implements CharacterFacade {
 
     @Override
     public CharacterModel assembleCharacter(CharacterModel character){
-
         setCharacterTraits(character);
         setCharacterLanguages(character);
         setCharacterProficiencies(character);
         setCharacterSpeed(character);
         traitFacade.processTraits(character);
         setAC(character);
+        characterService.save(character);
         return character;
     }
 

@@ -70,12 +70,11 @@ public class SpellModel implements Comparable<SpellModel>{
     private Boolean concentration;
     private String school;
 
-    @JsonBackReference
-    @ManyToMany
-    @JoinTable(name="spellmodel_classmodel",
-            joinColumns = @JoinColumn(name="spellmodel_id"),
-            inverseJoinColumns = @JoinColumn(name="classmodel_id"))
-    private List<ClassModel> classes = new ArrayList<ClassModel>();
+    @JoinTable(name="spellmodel_classmodel", joinColumns = @JoinColumn(name="spellmodel_id"), inverseJoinColumns = @JoinColumn(name="classmodel_id"))
+    @JsonBackReference @ManyToMany private List<ClassModel> classes = new ArrayList<ClassModel>();
+
+    @JoinTable(name="level_spell", joinColumns = @JoinColumn(name="level_id"), inverseJoinColumns = @JoinColumn(name="spell_id"))
+    @JsonBackReference @ManyToMany private List<Level> levels = new ArrayList<Level>();
 
     public Long getId() {
         return id;
@@ -315,5 +314,13 @@ public class SpellModel implements Comparable<SpellModel>{
     public int compareTo(SpellModel o) {
         if(this.getLevel().compareTo(o.getLevel()) != 0) return this.getLevel().compareTo(o.getLevel());
         return this.getName().compareTo(o.getName());
+    }
+
+    public List<Level> getLevels() {
+        return levels;
+    }
+
+    public void setLevels(List<Level> levels) {
+        this.levels = levels;
     }
 }

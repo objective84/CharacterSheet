@@ -20,6 +20,7 @@ public class ClassModel {
     private String name;
     private String description;
     private Integer startingWealthDieAmount;
+    @Column(name="sub_class_name")private String subclassName;
     @Column(name="skills_at_creation") private Integer skillsAtCreation;
     @Column(name="magic_ability") private String magicAbility;
 
@@ -30,11 +31,8 @@ public class ClassModel {
     @JoinTable(name="classmodel_proficiency", joinColumns = @JoinColumn(name="classes_id"), inverseJoinColumns = @JoinColumn(name="proficiencies_id"))
     private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
-    @ManyToMany
-    @JoinTable(name="classmodel_traitmodel", joinColumns = @JoinColumn(name="traitmodel_id"), inverseJoinColumns = @JoinColumn(name="classmodel_id"))
-    private List<TraitModel> classTraits = new ArrayList<TraitModel>();
-
-    @JsonManagedReference @OneToMany(mappedBy = "baseClass", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore @OneToMany
+    @JoinTable(name="class_subclass", joinColumns = @JoinColumn(name="class_id"), inverseJoinColumns = @JoinColumn(name = "subclass_id"))
     private List<SubClassModel> subClasses = new ArrayList<SubClassModel>();
 
     @JoinTable(name="spellmodel_classmodel", joinColumns = @JoinColumn(name="classmodel_id"), inverseJoinColumns = @JoinColumn(name="spellmodel_id"))
@@ -74,14 +72,6 @@ public class ClassModel {
 
     public void setProficiencies(List<Proficiency> proficiencies) {
         this.proficiencies = proficiencies;
-    }
-
-    public List<TraitModel> getClassTraits() {
-        return classTraits;
-    }
-
-    public void setClassTraits(List<TraitModel> classTraits) {
-        this.classTraits = classTraits;
     }
 
     public List<SubClassModel> getSubClasses() {
@@ -159,5 +149,13 @@ public class ClassModel {
 
     public void setDescription(String description) {
         this.description = "<table><tr><td><span>" + Formatter.formatParagraph(description) + "</span></td></tr></table>";
+    }
+
+    public String getSubclassName() {
+        return subclassName;
+    }
+
+    public void setSubclassName(String subclassName) {
+        this.subclassName = subclassName;
     }
 }

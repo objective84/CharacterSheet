@@ -2,6 +2,7 @@ package com.rational.facade.impl;
 
 import com.rational.facade.ClassFacade;
 import com.rational.model.entities.ClassModel;
+import com.rational.model.entities.SubClassModel;
 import com.rational.service.ClassService;
 import org.springframework.stereotype.Component;
 
@@ -57,5 +58,24 @@ public class DefaultClassFacade implements ClassFacade {
             if(null == classes.get(i).getSpells() || classes.get(i).getSpells().isEmpty()) classes.remove(i);
         }
         return classes;
+    }
+
+    @Override
+    public String getSubclassChoiceHtml(String classId) {
+        ClassModel clazz = classService.findClass(Long.decode(classId));
+        String html = "<table><tr><th colspan='2'>Choose one of the following " + clazz.getSubclassName() + "</th></tr><tr>";
+        int index = 0;
+        String buttons = "<tr>";
+        for(SubClassModel subClass : clazz.getSubClasses()){
+            if(index %3 == 0){
+                html = html.concat("</tr>" + buttons + "</tr><tr>");
+                buttons = "<tr>";
+            }
+            html = html.concat("<td><div class='subclass-image'></td>");
+            buttons = buttons.concat("<td><input type='button' class='subclass-selection-btn' value='"+ subClass.getName() +"' data-subclass-id='" + subClass.getId() + "'></td>");
+            index++;
+        }
+        html = html.concat("</tr>" + buttons + "</tr></table>");
+        return html;
     }
 }

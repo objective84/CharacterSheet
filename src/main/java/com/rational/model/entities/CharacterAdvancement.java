@@ -40,7 +40,13 @@ public class CharacterAdvancement {
     }
 
     public int getCombinedLevel() {
-        return levels.size();
+        int size = 0;
+        for(Level level : this.levels){
+            if(null != level.getClazz()){
+                size++;
+            }
+        }
+        return size;
     }
 
     public int getProficiencyBonus() {
@@ -70,8 +76,10 @@ public class CharacterAdvancement {
     public int getLevelsOfClass(ClassModel clazz) {
         int total = 0;
         for(Level level : this.levels){
-            if(level.getClazz().getId() == clazz.getId()){
-                total++;
+            if(null != level.getClazz()){
+                if(level.getClazz().getId() == clazz.getId()){
+                    total++;
+                }
             }
         }
         return total;
@@ -80,15 +88,20 @@ public class CharacterAdvancement {
     public int getNumSpellsAllowed(){
         int amt = 0;
         for(Level level: levels){
-            amt += level.getSpellsKnown();
+            if(null != level.getSpellsKnown()){
+                amt += level.getSpellsKnown();
+            }
         }
         return amt;
     }
 
     public int getNumCantripsAllowed(){
         int amt=0;
+
         for(Level level : levels){
-            amt += level.getCantripsKnown();
+            if(null != level.getCantripsKnown()){
+                amt += level.getCantripsKnown();
+            }
         }
 
         return amt;

@@ -89,7 +89,6 @@ th.spell{
     font-size: 12;
 }
 
-
 /*Admin pages*/
 
 .weapon-range{
@@ -122,6 +121,15 @@ th.spell{
 .filter-text{
     margin-left: 5px;
     font-size: 10;
+}
+
+#choose-subclass{
+    position: absolute;
+    display: none;
+}
+
+.subclass-selection-btn{
+    width: 169px !important;
 }
 
 /****Spells****/

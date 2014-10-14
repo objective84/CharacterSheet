@@ -27,6 +27,8 @@ public class SpellSlots {
     @Column(name="expended_eight") private Integer expendedEight = 0;
     @Column(name="expended_nine") private Integer expendedNine = 0;
 
+    @Transient private int numSpellLevelsRecoverable;
+
     public Long getId() {
         return id;
     }
@@ -306,5 +308,13 @@ public class SpellSlots {
             return 1;
         }
         else return 0;
+    }
+
+    public int getNumSpellLevelsRecoverable() {
+        return numSpellLevelsRecoverable;
+    }
+
+    public void setNumSpellLevelsRecoverable(int numSpellLevelsRecoverable) {
+        this.numSpellLevelsRecoverable = numSpellLevelsRecoverable;
     }
 }

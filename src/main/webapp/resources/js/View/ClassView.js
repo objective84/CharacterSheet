@@ -13,7 +13,8 @@ define("ClassView",
 
             ui: {
                 clazz: '#class-select',
-                description: '#class-description'
+                description: '#class-description',
+                chooseSubclassLink: "#choose-subclass"
             },
 
             events: {
@@ -52,6 +53,37 @@ define("ClassView",
             onDescriptionLinkClick: function(){
                 modalOpen('description-modal', 'description-modal');
                 $('#description-text').append(this.model.get('description'));
+            },
+
+
+            displayChooseSubclassLink: function(){
+                this.ui.chooseSubclassLink.show();
+                var inputMiddle = getWidthHeightAsFloat(this.ui.clazz.css('width'))/2;
+                var linkMiddle = getWidthHeightAsFloat(this.ui.chooseSubclassLink.css('width'))/2;
+                this.ui.chooseSubclassLink.css('left', this.ui.clazz.position().left + (inputMiddle - linkMiddle));
+                this.ui.chooseSubclassLink.css('top', getWidthHeightAsFloat(this.ui.clazz.css('height')) + 17);
+                this.ui.chooseSubclassLink.on('click', _.bind(this.onSubclassSelectLinkClick, this));
+            },
+
+            onSubclassSelectLinkClick: function(event){
+                modalOpen('empty-modal', 'empty-modal');
+                $.getJSON('/CharacterSheet/subclass/select/'+ this.model.get('id') + ".json", null, _.bind(function(data){
+                    $('#empty-modal').append(data.data);
+                    $('.subclass-selection-btn').on('click', _.bind(this.onSubclassSelectedBtnClick, this));
+                }, this));
+            },
+
+            onSubclassSelectedBtnClick: function(event){
+                var url = "/CharacterSheet/subclass/"+ $("#characterId").val() + "/" + $(event.target).data('subclass-id') + ".json";
+                var success = _.bind(function(data){
+                    window.location.reload();
+                }, this);
+
+                $.ajax({
+                    type:"POST",
+                    url: url,
+                    success: success
+                })
             },
 
             initialize: function(){

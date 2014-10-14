@@ -1,6 +1,7 @@
 package com.rational.model.entities;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,9 +18,6 @@ public class Level {
     private Long id_level;
     @Column(name = "level_number")
     private int levelNumber;
-//    @ManyToMany
-//    @JoinTable(name="level_traitmodel", joinColumns = @JoinColumn(name="level_id"), inverseJoinColumns = @JoinColumn(name="traitmodel_id"))
-//    private List<TraitModel> traits;
     @Column(name = "cantrips_known")
     private Integer cantripsKnown;
     @Column(name = "spells_known")
@@ -43,9 +41,20 @@ public class Level {
     @Column(name = "ninth_level_spell_slots")
     private Integer ninthLevelSpellSlots;
 
+
+    @Column(name="choose_sub_class") private Boolean chooseSubclass;
+
+
+    @JoinTable(name="level_spell", joinColumns = @JoinColumn(name="level_id"), inverseJoinColumns = @JoinColumn(name="spell_id"))
+    @JsonManagedReference
+    @ManyToMany private List<SpellModel> spells = new ArrayList<SpellModel>();
+
     @JsonBackReference
     @ManyToOne
     private ClassModel clazz;
+
+    @JoinTable(name="sub_class_level", joinColumns = @JoinColumn(name="level_id"), inverseJoinColumns = @JoinColumn(name="sub_class_id"))
+    @JsonBackReference @ManyToOne private SubClassModel subClass;
 
     @ManyToMany
     @JoinTable(name= "level_trait", joinColumns = @JoinColumn(name="level_id"), inverseJoinColumns = @JoinColumn(name="trait_id"))
@@ -58,14 +67,6 @@ public class Level {
     public void setLevelNumber(int levelNumber) {
         this.levelNumber = levelNumber;
     }
-
-//    public List<TraitModel> getTraits() {
-//        return traits;
-//    }
-//
-//    public void setTraits(List<TraitModel> traits) {
-//        this.traits = traits;
-//    }
 
     public Integer getCantripsKnown() {
         return cantripsKnown;
@@ -169,5 +170,37 @@ public class Level {
 
     public void setTraits(List<TraitModel> traits) {
         this.traits = traits;
+    }
+
+    public SubClassModel getSubClass() {
+        return subClass;
+    }
+
+    public void setSubClass(SubClassModel subClass) {
+        this.subClass = subClass;
+    }
+
+    public List<SpellModel> getSpells() {
+        return spells;
+    }
+
+    public void setSpells(List<SpellModel> spells) {
+        this.spells = spells;
+    }
+
+    public Boolean getChooseSubclass() {
+        return chooseSubclass;
+    }
+
+    public void setChooseSubclass(Boolean chooseSubclass) {
+        this.chooseSubclass = chooseSubclass;
+    }
+
+    public Long getId_level() {
+        return id_level;
+    }
+
+    public void setId_level(Long id_level) {
+        this.id_level = id_level;
     }
 }
