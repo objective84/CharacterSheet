@@ -40,13 +40,13 @@ define("AbilitiesView",
                 'click @ui.abilityScoreReset': 'onAbilityScoreResetClick'
             },
 
-            fetchAbilities: function(create){
+            fetchAbilities: function(callback){
                 this.model.fetchAbilities({success: _.bind(function(data){
-                    this.confirmed = create ? this.model.get('availableAbilityPoints') === 0: true;
                     this.abilityIncrease = this.model.get('abilityIncreasePoints')> 0;
                     this.showHideAbilityChangeButtons();
                     this.setAbilityMods();
                     this.setAbilityPointLabel();
+                    if(callback !== undefined)callback();
                 }, this)});
             },
 
@@ -133,19 +133,19 @@ define("AbilitiesView",
                             minus.hide();
                         }
                     }else {
-                        if (this.canChangeAbility($(value), true) && !this.confirmed) {
+                        if (this.canChangeAbility($(value), true) && !this.model.get('locked')) {
                             plus.show();
                         } else {
                             plus.hide();
                         }
 
-                        if (this.canChangeAbility($(value), false) && !this.confirmed) {
+                        if (this.canChangeAbility($(value), false) && !this.model.get('locked')) {
                             minus.show();
                         } else {
                             minus.hide();
                         }
                     }
-                    if(this.confirmed){
+                    if(this.model.get('locked')){
                         placeholder.removeClass('show')
                     }else {
                         if (plus.css('display') === 'none' || minus.css('display') === 'none') {
@@ -210,7 +210,6 @@ define("AbilitiesView",
 
             initialize: function(){
                 this.model = new AbilitiesModel();
-                this.confirmed = true;
             }
         });
         epoxy.View.mixin(view.prototype);

@@ -39,8 +39,8 @@
                     <td><spring:message code="character.race"/></td>
                     <c:choose>
                         <c:when test="${create}">
-                            <td><select id="race">
-                                <option value="0">Select a race</option>
+                            <td><select id="race" disabled="true">
+                                <option value="0" >Select a race</option>
                                 <c:forEach items="${races}" var="race">
                                     <option value="${race.id}">${race.raceName}</option>
                                 </c:forEach>
@@ -51,10 +51,10 @@
                         </c:otherwise>
                     </c:choose>
                     <td class="subraces">
-                    <td><spring:message code="character.subrace"/></td>
+                    <td id="subrace-label"><spring:message code="character.subrace"/></td>
                     <c:choose>
                         <c:when test="${create}">
-                            <td><select id="subrace" class="subraces">
+                            <td><select id="subrace" class="subraces" disabled="true">
                                 <option value="0">Select a sub-race</option>
                             </select></td>
                         </c:when>
@@ -66,7 +66,7 @@
                     <td><spring:message code="character.class"/></td>
                     <c:choose>
                         <c:when test="${create}">
-                            <td><form:select id="class-select" path="clazz">
+                            <td><form:select id="class-select" path="clazz" disabled="true">
                                 <form:option value="0" label="Select a class"/>
                                 <c:forEach items="${classes}" var="clazz">
                                     <form:option value="${clazz.id}" label="${clazz.name}"/>
@@ -92,12 +92,12 @@
             <table>
                 <tr>
                     <td>
-                        <spring:message code="character.maxHeath"/>
-                        <form:input cssClass="input-box-small" id="maxHealth" path="maxHealth" value="${character.maxHealth}" readonly="true"/>
                         <spring:message code="character.currentHealth"/>
                         <form:input cssClass="input-box-small" id="currentHealth" path="currentHealth" />
+                        <spring:message code="character.maxHeath"/>
+                        <form:input cssClass="input-box-small" id="maxHealth" path="maxHealth" value="${character.maxHealth}" readonly="true"/>
                         <spring:message code="character.speed"/>
-                        <form:input cssClass="input-box-small" id="speed" path="speed" />
+                        <form:input cssClass="input-box-small" id="speed" path="speed" readonly="true"/>
                     </td>
                 </tr>
             </table>
@@ -253,7 +253,7 @@
             <br/>
             <h3><spring:message code="character.languages"/></h3>
             <table id="languages">
-                <c:forEach items="${character.race.languages}" var="language">
+                <c:forEach items="${character.languages}" var="language">
                     <tr class="language-row"><td>${language.name}</td></tr>
                 </c:forEach>
             </table>

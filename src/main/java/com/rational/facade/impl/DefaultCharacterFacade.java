@@ -46,6 +46,8 @@ public class DefaultCharacterFacade implements CharacterFacade {
     @Resource(name="defaultTraitFacade")
     private TraitFacade traitFacade;
 
+    @Resource(name="defaultLanguageService")
+    LanguageService languageService;
 
     @Override
     public CharacterModel save(CharacterModel character) {
@@ -57,7 +59,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         }else{
             characterModel = characterService.findCharacter(character.getId());
         }
-        return assembleCharacter(characterService.save(characterModel));
+        return assembleCharacter(characterModel);
     }
 
     @Override
@@ -212,6 +214,20 @@ public class DefaultCharacterFacade implements CharacterFacade {
     @Override
     public ClassModel setCharacterClass(String characterId, String classId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        if(null != character.getCoinPurse()) character.getCoinPurse().clear();
+        character.getCharacterAdvancement().getLevels().clear();
+        if(null != character.getSpellSlots())character.getSpellSlots().clear();
+        character.getSpellsKnown().clear();
+        character.getInventory().clear();
+        character.setEquippedMainHand(null);
+        character.setEquippedOffHand(null);
+        character.setEquippedArmor(null);
+        character.getPreparedSpellList().clear();
+        if(null == classId || "0".equals(classId)){
+            character.setClazz(null);
+
+            return new ClassModel();
+        }
         ClassModel classModel = classService.findClass(Long.decode(classId));
         character.setClazz(classModel);
         assembleCharacter(character);
@@ -232,14 +248,17 @@ public class DefaultCharacterFacade implements CharacterFacade {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         character.setSubrace(null);
         RaceModel race;
+        character.getAbilities().clearBonuses();
+        character.getLearnedLanguages().clear();
         if(raceId.equals("0")){
-            race = null;
+            race = new RaceModel();
+            character.setRace(null);
         }else {
             race = raceService.findRace(Long.decode(raceId));
+            traitFacade.applyTraits(character, race != null ? race.getTraits() : null);
+            character.setRace(race);
         }
-        character.setRace(race);
-        traitFacade.applyTraits(character, race.getTraits());
-        characterService.save(character);
+        assembleCharacter(character);
         return race;
     }
 
@@ -263,12 +282,14 @@ public class DefaultCharacterFacade implements CharacterFacade {
         if(null != character.getRace()) {
             languages.addAll(character.getRace().getLanguages());
         }
+        languages.addAll(character.getLearnedLanguages());
         character.setLanguages(languages);
     }
 
     @Override
     public void setCharacterProficiencies(CharacterModel character){
         Set<Proficiency> proficiencies =  character.getProficiencies();
+        character.getProficiencies().clear();
         if(null != character.getRace()) {
             proficiencies.addAll(character.getRace().getProficiencies());
         }
@@ -374,6 +395,24 @@ public class DefaultCharacterFacade implements CharacterFacade {
         return subClass;
     }
 
+    @Override
+    public LanguageModel addLanguage(String characterId, String languageId) {
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        LanguageModel language = languageService.findLanguage(Long.decode(languageId));
+        character.getLearnedLanguages().add(language);
+        characterService.save(character);
+        return language;
+    }
+
+    @Override
+    public LanguageModel removeLanguage(String characterId, String languageId) {
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        LanguageModel language = languageService.findLanguage(Long.decode(languageId));
+        character.getLearnedLanguages().remove(language);
+        characterService.save(character);
+        return language;
+    }
+
     private void setInventoryWeight(CharacterModel character){
         Long weight = 0L;
         for(EquipmentModel equipmentModel : character.getInventory()) {
@@ -413,7 +452,5 @@ public class DefaultCharacterFacade implements CharacterFacade {
         characterService.save(character);
         return character;
     }
-
-
 
 }

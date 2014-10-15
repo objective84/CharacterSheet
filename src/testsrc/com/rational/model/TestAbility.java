@@ -4,7 +4,8 @@ import com.rational.model.entities.Abilities;
 import com.rational.model.enums.AbilityTypeEnum;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
+
 
 /**
  * Created by Andy on 8/18/2014.

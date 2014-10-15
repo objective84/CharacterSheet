@@ -26,7 +26,6 @@ define("CharacterView",
             classView: null,
             descriptionView: null,
             pathContext: $('#pathContext').val(),
-            abilitiesConfirmed: false,
 
             ui:{
                 id: '#characterId',
@@ -35,6 +34,7 @@ define("CharacterView",
                 clazz: '#class-select',
                 level: '#level',
                 ac: '#armor-class',
+                intMod: '#IntMod',
                 maxHealth: '#maxHealth',
                 currentHealth: '#currentHealth',
                 skillProficiencies: '#skillProfs',
@@ -73,7 +73,6 @@ define("CharacterView",
 
             events:{
                 'change @ui.race' : 'onRaceChange',
-                'click @ui.languageSubmit' : 'onLanguageSubmitClick',
                 'click @ui.storeLink': 'onStoreLinkClick',
                 'click @ui.clearInventory': 'onClearLinkClick',
                 'change @ui.equipMain': 'onEquipMainChange',
@@ -85,7 +84,8 @@ define("CharacterView",
                 'click @ui.allSpells': 'onAllSpellsLinkClick',
                 'click @ui.abilityConfirm': 'onAbilityConfirmClick',
                 'change .proficiency.skill': 'onSkillProficiencySelected',
-                'click @ui.levelCharacter': 'onLevelCharacterBtnClick'
+                'click @ui.levelCharacter': 'onLevelCharacterBtnClick',
+                'change @ui.intMod': 'onIntModChange'
             },
 
             onRender: function(){
@@ -97,6 +97,7 @@ define("CharacterView",
 
             fetchModel: function(callback){
                 this.model.fetch({success: _.bind(function(){
+                    console.log(this.model);
                     if(callback) callback();
                 }, this)});
             },
@@ -106,13 +107,27 @@ define("CharacterView",
                 this.applyBindings();
 
                 this.model.fetch({success: _.bind(function(){
+                    if(this.model.get('abilities').locked){
+                        this.ui.race.prop('disabled', '');
+                    }
+                    if(this.model.get('race') !== null) {
+                        this.ui.subrace.prop('disabled', '');
+                        if(this.model.get('subrace') !== null){
+                            this.ui.clazz.prop('disabled', '');
+                        }else if (this.model.get('race').availableSubraces.length === 0) {
+                            $('#subrace-label').hide();
+                            this.ui.subrace.hide();
+                            this.ui.clazz.prop('disabled', '');
+                        }
+                    }
+
                     if(this.model.get('spellSlots') != null){
                         $('#spell-slots').append(this.model.get('spellSlots').tableHtml);
                     }
                     this.abilitiesView = new AbilitiesView();
                     this.model.set('abilities', this.abilitiesView.model);
                     this.abilitiesView.model.characterId = this.model.get('id');
-                    this.abilitiesView.fetchAbilities(true);
+                    this.abilitiesView.fetchAbilities(_.bind(this.setLanguageSelectionLinks, this));
                     this.abilitiesView.render();
                     this.listenTo(this.abilitiesView, 'updateAbilities', _.bind(this.abilitiesView.fetchAbilities, this.abilitiesView));
 
@@ -162,6 +177,7 @@ define("CharacterView",
                         this.classView.displayChooseSubclassLink();
                     }
                     this.ui.level.val(this.model.get('combinedLevel'));
+
                 }, this)});
             },
 
@@ -180,7 +196,13 @@ define("CharacterView",
                 var url = "level-up/"+this.model.get('id')+"/"+id;
                 var success = _.bind(function(data){
                     alert(this.getLevelReport(data));
-                    window.location.reload();
+                    this.fetchModel(_.bind(function(){
+                        if(this.model.get('spellSlots') != null){
+                            $('#spell-slots').append(this.model.get('spellSlots').tableHtml);
+                            this.ui.addSpellsLink.show();
+                            this.displaySpellsKnown();
+                        }
+                    }, this));
                 }, this);
                 $.ajax({
                     type: "post",
@@ -298,7 +320,7 @@ define("CharacterView",
             displaySpellsKnown: function(){
                 $('.spells-known-table').each(function(key, value){
                     $(value).find('tr:gt(0)').remove();
-                })
+                });
                 $('#spells-prepared tr').remove();
                 $(this.model.get('spellsKnown')).each(_.bind(function(key, spell){
                     var $table = $('#level-' + spell.level +'-spells');
@@ -320,20 +342,36 @@ define("CharacterView",
             },
 
             onRaceUpdated: function(){
-                this.model.fetch({success: _.bind(function(){
+                this.model.fetch({success: _.bind(function(data){
+                    console.log(data);
+                    if(data.get('id') == null){
+                        window.location.reload();
+                    }
                     this.abilitiesView.fetchAbilities();
                     this.setProficiencies();
-                    this.setLanguageTable();
-                    this.setLanguageSelectionLink();
+                    this.displayLanguages();
+                    this.ui.subrace.prop('disabled', '');
+                    if(this.model.get('race').availableSubraces.length === 0){
+                        this.ui.clazz.prop('disabled', '');
+                        $('#subrace-label').hide();
+                        this.ui.subrace.hide();
+                    }else{
+                        $('#subrace-label').show();
+                        this.ui.subrace.show();
+                    }
+                    this.setLanguageSelectionLinks();
                 }, this)});
             },
 
             onSubraceUpdated: function(){
                 this.model.fetch({success: _.bind(function(){
-                    this.abilitiesView.fetchAbilities();
+                    this.abilitiesView.fetchAbilities(_.bind(this.setLanguageSelectionLinks, this));
                     this.setProficiencies();
+                    this.ui.clazz.prop('disabled', '');
                 }, this)});
             },
+
+
 
             onClassUpdated: function(){
                 this.model.fetch({success: _.bind(function(){
@@ -341,10 +379,10 @@ define("CharacterView",
                     this.setSkillProficienciesOptions();
                     this.setProficiencies();
                     this.coinPurseView.fetchModel();
-                    this.levelUp(this.model.get('clazz').id);
-                    if(this.model.get('clazz').magicAbility != null) {
-                        $('#spell-slots').append(this.model.get('spellSlots').tableHtml);
-                        this.ui.addSpellsLink.show();
+                    if(this.model.get('clazz') != null) {
+                        this.levelUp(this.model.get('clazz').id);
+                    }else{
+                        window.location.reload();
                     }
                 }, this)})
             },
@@ -530,31 +568,46 @@ define("CharacterView",
 //                }
 //            },
 
-            setLanguageTable: function(){
+            onIntModChange: function(){
+                if(!this.abilitiesView.model.get('locked')){
+                    this.setLanguageSelectionLinks();
+                }
+            },
+
+            addLanguageSelectLink: function(id){
+                $('#languages').append('<tr class="language-select-row"><td><a href="javascript:void(0);" ' +
+                    'class="language-select" id="language-select_' + id + '">Select a language</a></td></tr>');
+                $('#language-select_'+ id).on('click', _.bind(this.onLanguageSelectClick, this));
+            },
+
+            displayLanguages: function(){
                 $('.language-row').remove();
                 $(this.model.get('languages')).each(_.bind(function(key, value){
-                    $('#languages').append('<tr class="language-row"><td><input name="languages" type="hidden" value="' + value.id + '">' + value.name + '</input></td>')
+                    $('#languages').append('<tr class="language-row"><td><input name="languages" type="hidden" value="' + value.id + '">' +
+                        value.name + '</input></td>')
                 }, this));
             },
 
-            setLanguageSelectionLink: function(){
+            setLanguageSelectionLinks: function(){
+                if(this.model.get('playing')){return;}
                 $('.language-select-row').remove();
-                this.languagesAllowed = setLanguagesAllowed(this.model);
-                for(var i=0; i<this.languagesAllowed; i++){
-                    $('#languages').append('<tr class="language-select-row"><td><a href="#" ' +
-                        'class="language-select" id="language-select_"' + i + '>Select a language</a></td></tr>');
+                var languagesSelected = $('.language-row').length;
+                var int = this.abilitiesView.model.get('intel');
+                var mod = Math.floor( (int - 10) / 2);
+                for(var i=0; i< this.model.get('languagesAllowed') - languagesSelected; i++){
+                    this.addLanguageSelectLink(i);
                 }
-                $('.language-select').on('click', _.bind(this.onLanguageSelectClick, this));
             },
 
             removeLanguage: function(event){
                 $('#language-row-' + $(event.target).prop('id')).remove();
                 this.languagesAllowed = setLanguagesAllowed(this.model);
-                this.setLanguageSelectionLink();
+                this.setLanguageSelectionLinks();
             },
 
             onLanguageSelectClick: function(){
                 this.modalOpen('language-modal', 'language-modal');
+                $('#language-submit').on('click', _.bind(this.onLanguageSubmitClick, this));
             },
 
             onLanguageSubmitClick: function(event){
@@ -562,10 +615,17 @@ define("CharacterView",
                 this.modalClose('language-modal');
                 $('#languages').append(
                         '<tr id="language-row-' + language + '" class="language-row"><td><input name="languages"  type="hidden" value="'
-                        + language.id + '">' + language + '</input>' + '<a class="minus-sign link-small" id="'
-                        + language + '" href="#">Remove</a></td></tr>');
-                this.setLanguageSelectionLink();
+                        + language.id + '">' + language + '</input>' + '<a class="minus-sign link-small language-delete" id="'
+                        + language + '" href="javascript:void(0);">Remove</a></td></tr>');
+                this.setLanguageSelectionLinks();
                 $('#' + language).on('click', _.bind(this.removeLanguage, this));
+                var url = '/CharacterSheet/language/add/'+this.model.get('id') + '/' + $("input[name=language-option]:checked").data('id') + '.json';
+                var success = _.bind(function(data){this.fetchModel();}, this);
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    success: success
+                })
             },
 
             /// ** Inventory and Store *** ///
@@ -975,10 +1035,12 @@ define("CharacterView",
             },
 
             onAbilityConfirmClick: function(){
-                this.abilitiesConfirmed = true;
-                this.abilitiesView.confirmed = true;
+                this.model.get('abilities').set('locked', true);
+                this.abilitiesView.model.save();
                 this.abilitiesView.showHideAbilityChangeButtons();
                 this.ui.abilityConfirm.hide();
+                this.ui.race.prop('disabled', '');
+                this.setLanguageSelectionLinks();
             },
 
             modalOpen: function(type, key) {

@@ -224,7 +224,6 @@ public class DefaultEquipmentFacade implements EquipmentFacade {
 
         characterModel.setCoinPurse(currencyService.convertTotal(change));
         characterModel.setInventory(equipmentModels);
-        characterModel = characterService.save(characterModel);
         return characterFacade.assembleCharacter(characterModel);
     }
 

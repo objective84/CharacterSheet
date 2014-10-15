@@ -63,4 +63,12 @@ public class CoinPurse {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public void clear(){
+        cp=0;
+        sp=0;
+        ep=0;
+        gp=0;
+        pp=0;
+    }
 }

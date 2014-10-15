@@ -44,7 +44,7 @@ define("ClassView",
 
             onClassChange : function(){
                 this.model.set('id', this.ui.clazz.val());
-                this.model.save(null, {success: _.bind(function(){
+                this.model.save(null, {success: _.bind(function(data){
                     this.trigger('classUpdated');
                 }, this), error: function(model, response) {
                 }});

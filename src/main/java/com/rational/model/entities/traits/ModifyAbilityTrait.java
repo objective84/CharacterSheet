@@ -22,8 +22,9 @@ public class ModifyAbilityTrait extends TraitModel {
     @Override
     public void applyTrait(CharacterModel character) {
         try {
-            Abilities abilities = (Abilities)CharacterModel.class.getMethod("getAbilities").invoke(character);
-            abilities.getClass().getMethod("setAbilityScore", AbilityTypeEnum.class, Integer.class).invoke(
+            Abilities abilities = character.getAbilities();
+//            Abilities abilities = (Abilities)CharacterModel.class.getMethod("getAbilities").invoke(character);
+            abilities.getClass().getMethod("setAbilityScoreBonus", AbilityTypeEnum.class, Integer.class).invoke(
                     abilities, AbilityTypeEnum.valueOf(ability), getAbilityAmount(character) + modAmount);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -39,8 +40,9 @@ public class ModifyAbilityTrait extends TraitModel {
     }
 
     private Integer getAbilityAmount(CharacterModel character) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Abilities abilities = (Abilities)CharacterModel.class.getMethod("getAbilities").invoke(character);
-        return (Integer)abilities.getClass().getMethod("getAbilityScore", AbilityTypeEnum.class).invoke(abilities, AbilityTypeEnum.valueOf(ability));
+        Abilities abilities = character.getAbilities();
+//        Abilities abilities = (Abilities)CharacterModel.class.getMethod("getAbilities").invoke(character);
+        return (Integer)abilities.getClass().getMethod("getAbilityScoreBonus", AbilityTypeEnum.class).invoke(abilities, AbilityTypeEnum.valueOf(ability));
     }
 
     public Integer getModAmount() {

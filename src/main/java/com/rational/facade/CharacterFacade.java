@@ -37,6 +37,8 @@ public interface CharacterFacade {
 
     void setAC(CharacterModel character);
 
+    LanguageModel removeLanguage(String characterId, String languageId);
+
     CharacterModel assembleCharacter(CharacterModel character);
 
     void addSkill(String characterId, String skillId);
@@ -44,4 +46,6 @@ public interface CharacterFacade {
     void removeSkill(String characterId, String skillId);
 
     SubClassModel setCharacterSubClass(String characterId, String subclassId);
+
+    LanguageModel addLanguage(String characterId, String languageId);
 }

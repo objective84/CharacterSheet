@@ -28,7 +28,7 @@ public class CharacterModel {
     private Long inventoryWeight;
     private Integer armorClass;
     @Transient private Boolean chooseSubclass;
-
+    private Boolean playing;
     @JsonManagedReference @OneToOne(cascade = CascadeType.ALL) private CoinPurse coinPurse;
     @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name="character_description") private CharacterDescription characterDescription;
     @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name="abilities_id") private Abilities abilities;
@@ -48,6 +48,9 @@ public class CharacterModel {
 
     @JoinTable(name="character_language", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="language_id"))
     @ManyToMany private Set<LanguageModel> languages = new HashSet<LanguageModel>();
+
+    @JoinTable(name="character_learned_language", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="learned_language_id"))
+    @ManyToMany private Set<LanguageModel> learnedLanguages = new HashSet<LanguageModel>();
 
     @JoinTable(name="character_proficiency", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="proficiency_id"))
     @ManyToMany private Set<Proficiency> proficiencies = new HashSet<Proficiency>();
@@ -368,5 +371,25 @@ public class CharacterModel {
 
     public void setChooseSubclass(Boolean chooseSubclass) {
         this.chooseSubclass = chooseSubclass;
+    }
+
+    public Boolean getPlaying() {
+        return playing;
+    }
+
+    public void setPlaying(Boolean playing) {
+        this.playing = playing;
+    }
+
+    public Set<LanguageModel> getLearnedLanguages() {
+        return learnedLanguages;
+    }
+
+    public void setLearnedLanguages(Set<LanguageModel> learnedLanguages) {
+        this.learnedLanguages = learnedLanguages;
+    }
+
+    public int getLanguagesAllowed(){
+        return this.abilities.getAbilityModifier(AbilityTypeEnum.Intel) + (null != this.race ? this.race.getLanguages().size(): 0);
     }
 }

@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Set;
 
-@Service("defaultEquipmentService")
+@Service
 public interface EquipmentService {
 
     @Transactional

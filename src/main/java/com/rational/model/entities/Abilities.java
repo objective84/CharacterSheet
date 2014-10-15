@@ -5,9 +5,6 @@ import com.rational.model.enums.AbilityTypeEnum;
 import javax.persistence.*;
 import java.lang.reflect.InvocationTargetException;
 
-/**
- * Created by Andy on 8/18/2014.
- */
 @Entity
 public class Abilities {
 
@@ -24,10 +21,17 @@ public class Abilities {
     private Integer intel = minAbilityScore;
     private Integer wis = minAbilityScore;
     private Integer cha = minAbilityScore;
+    @Column(name="str_bonus") private Integer strBonus= 0;
+    @Column(name="dex_bonus")private Integer dexBonus= 0;
+    @Column(name="con_bonus")private Integer conBonus= 0;
+    @Column(name="intel_bonus")private Integer intelBonus= 0;
+    @Column(name="wis_bonus")private Integer wisBonus= 0;
+    @Column(name="cha_bonus")private Integer chaBonus= 0;
     @Column(name="available_ability_points")
     private Integer availableAbilityPoints = 27;
     @Column(name="ability_increase_points")
     private Integer abilityIncreasePoints = 0;
+    private Boolean locked = false;
 
 
 
@@ -63,9 +67,34 @@ public class Abilities {
         }
     }
 
+    public void setAbilityScoreBonus(AbilityTypeEnum ability, Integer score){
+        try {
+            this.getClass().getMethod("set" + ability.name() + "Bonus", Integer.class).invoke(this, score);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Integer getAbilityScore(AbilityTypeEnum ability){
         try {
             return (Integer)this.getClass().getMethod("get" + ability.name()).invoke(this);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Integer getAbilityScoreBonus(AbilityTypeEnum ability){
+        try {
+            return (Integer)this.getClass().getMethod("get" + ability.name() + "Bonus").invoke(this);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -120,7 +149,7 @@ public class Abilities {
     }
 
     public Integer getStr() {
-        return str;
+        return str + strBonus;
     }
 
     public void setStr(Integer str) {
@@ -128,7 +157,7 @@ public class Abilities {
     }
 
     public Integer getDex() {
-        return dex;
+        return dex + dexBonus;
     }
 
     public void setDex(Integer dex) {
@@ -136,7 +165,7 @@ public class Abilities {
     }
 
     public Integer getCon() {
-        return con;
+        return con + conBonus;
     }
 
     public void setCon(Integer con) {
@@ -144,7 +173,7 @@ public class Abilities {
     }
 
     public Integer getIntel() {
-        return intel;
+        return intel + intelBonus;
     }
 
     public void setIntel(Integer intel) {
@@ -152,7 +181,7 @@ public class Abilities {
     }
 
     public Integer getWis() {
-        return wis;
+        return wis + wisBonus;
     }
 
     public void setWis(Integer wis) {
@@ -160,7 +189,7 @@ public class Abilities {
     }
 
     public Integer getCha() {
-        return cha;
+        return cha + chaBonus;
     }
 
     public void setCha(Integer cha) {
@@ -204,5 +233,70 @@ public class Abilities {
 
     public void setAbilityIncreasePoints(Integer abilityIncreasePoints) {
         this.abilityIncreasePoints = abilityIncreasePoints;
+    }
+
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
+    }
+
+    public Integer getStrBonus() {
+        return strBonus;
+    }
+
+    public void setStrBonus(Integer strBonus) {
+        this.strBonus = strBonus;
+    }
+
+    public Integer getDexBonus() {
+        return dexBonus;
+    }
+
+    public void setDexBonus(Integer dexBonus) {
+        this.dexBonus = dexBonus;
+    }
+
+    public Integer getConBonus() {
+        return conBonus;
+    }
+
+    public void setConBonus(Integer conBonus) {
+        this.conBonus = conBonus;
+    }
+
+    public Integer getIntelBonus() {
+        return intelBonus;
+    }
+
+    public void setIntelBonus(Integer intelBonus) {
+        this.intelBonus = intelBonus;
+    }
+
+    public Integer getWisBonus() {
+        return wisBonus;
+    }
+
+    public void setWisBonus(Integer wisBonus) {
+        this.wisBonus = wisBonus;
+    }
+
+    public Integer getChaBonus() {
+        return chaBonus;
+    }
+
+    public void setChaBonus(Integer chaBonus) {
+        this.chaBonus = chaBonus;
+    }
+
+    public void clearBonuses(){
+        strBonus = 0;
+        dexBonus = 0;
+        conBonus = 0;
+        intelBonus = 0;
+        wisBonus = 0;
+        chaBonus = 0;
     }
 }

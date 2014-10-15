@@ -217,6 +217,28 @@ public class SpellSlots {
         return perDayNine - expendedNine;
     }
 
+    public void clear(){
+        perDayOne = 0;
+        perDayTwo = 0;
+        perDayThree = 0;
+        perDayFour = 0;
+        perDayFive = 0;
+        perDaySix = 0;
+        perDaySeven = 0;
+        perDayEight = 0;
+        perDayNine = 0;
+
+        expendedOne = 0;
+        expendedTwo = 0;
+        expendedThree = 0;
+        expendedFour = 0;
+        expendedFive = 0;
+        expendedSix = 0;
+        expendedSeven = 0;
+        expendedEight = 0;
+        expendedNine = 0;
+    }
+
     public String getTableHtml(){
         if(perDayOne <= 0)return "";
         String html = "<table>";

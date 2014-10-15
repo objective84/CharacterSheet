@@ -3,11 +3,9 @@ package com.rational.controller;
 import com.rational.facade.*;
 import com.rational.forms.LevelUpReportData;
 import com.rational.forms.ProficienciesForm;
+import com.rational.forms.ResponseData;
 import com.rational.model.Proficiency;
-import com.rational.model.entities.Abilities;
-import com.rational.model.entities.CharacterDescription;
-import com.rational.model.entities.CharacterModel;
-import com.rational.model.entities.CoinPurse;
+import com.rational.model.entities.*;
 import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.enums.EquipmentFilterEnum;
 import com.rational.service.DescriptionService;
@@ -197,6 +195,24 @@ public class CharacterController {
     @RequestMapping(value="/character-sheet/level-up/{characterId}/{classId}", method = RequestMethod.POST, produces="application/json")
     public LevelUpReportData levelUp(@PathVariable String characterId, @PathVariable String classId){
        return characterFacade.levelUp(characterId, classId);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/language/add/{characterId}/{languageId}", method = RequestMethod.POST, produces="application/json")
+    public ResponseData<LanguageModel> addLanguage(@PathVariable String characterId, @PathVariable String languageId){
+        ResponseData<LanguageModel> responseData = new ResponseData<LanguageModel>();
+        LanguageModel language = characterFacade.addLanguage(characterId, languageId);
+        responseData.setData(language);
+        return responseData;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/language/remove/{characterId}/{languageId}", method = RequestMethod.POST, produces="application/json")
+    public ResponseData<LanguageModel> removeLanguage(@PathVariable String characterId, @PathVariable String languageId){
+        ResponseData<LanguageModel> responseData = new ResponseData<LanguageModel>();
+        LanguageModel language = characterFacade.removeLanguage(characterId, languageId);
+        responseData.setData(language);
+        return responseData;
     }
 
     @ResponseBody
