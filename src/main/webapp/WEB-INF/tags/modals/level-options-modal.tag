@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 
-<div id="level-options-modal">
+<div class="modal" id="level-options-modal">
     <h3>Choose a class to level in:</h3>
     <table>
         <tr>

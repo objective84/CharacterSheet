@@ -4,19 +4,20 @@ import com.rational.facade.CharacterFacade;
 import com.rational.facade.ProficiencyFacade;
 import com.rational.facade.TraitFacade;
 import com.rational.forms.LevelUpReportData;
+import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
 import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.enums.ProficiencyTypeEnum;
 import com.rational.model.equipment.EquipmentModel;
+import com.rational.model.playing.Event;
+import com.rational.model.playing.Events.ShortRest;
 import com.rational.service.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component(value = "defaultCharacterFacade")
 public class DefaultCharacterFacade implements CharacterFacade {
@@ -48,6 +49,9 @@ public class DefaultCharacterFacade implements CharacterFacade {
 
     @Resource(name="defaultLanguageService")
     LanguageService languageService;
+
+    @Resource(name = "defaultDiceService")
+    private DiceService diceService;
 
     @Override
     public CharacterModel save(CharacterModel character) {
@@ -120,6 +124,8 @@ public class DefaultCharacterFacade implements CharacterFacade {
     }
 
     private void increaseHealth(CharacterModel character, ClassModel clazz, LevelUpReportData report){
+        Dice dice = clazz.getHitDie();
+        character.getHitDice().add(dice);
         if (character.getCharacterAdvancement().getCombinedLevel() == 1){
             return;
         }
@@ -249,7 +255,6 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setSubrace(null);
         RaceModel race;
         character.getAbilities().clearBonuses();
-        character.getLearnedLanguages().clear();
         if(raceId.equals("0")){
             race = new RaceModel();
             character.setRace(null);
@@ -282,7 +287,6 @@ public class DefaultCharacterFacade implements CharacterFacade {
         if(null != character.getRace()) {
             languages.addAll(character.getRace().getLanguages());
         }
-        languages.addAll(character.getLearnedLanguages());
         character.setLanguages(languages);
     }
 
@@ -396,22 +400,35 @@ public class DefaultCharacterFacade implements CharacterFacade {
     }
 
     @Override
-    public LanguageModel addLanguage(String characterId, String languageId) {
+    public String getAllAvailableFeats(String characterId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
-        LanguageModel language = languageService.findLanguage(Long.decode(languageId));
-        character.getLearnedLanguages().add(language);
-        characterService.save(character);
-        return language;
+        List<Feat> allFeats = characterService.findAllFeats();
+        List<Feat> availableFeats = new ArrayList<Feat>();
+        for(Feat feat : allFeats){
+            if(feat.getPrerequisite().hasPrerequisites(character)){
+                availableFeats.add(feat);
+            }
+        }
+        return writeFeatTables(availableFeats);
     }
 
-    @Override
-    public LanguageModel removeLanguage(String characterId, String languageId) {
-        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
-        LanguageModel language = languageService.findLanguage(Long.decode(languageId));
-        character.getLearnedLanguages().remove(language);
-        characterService.save(character);
-        return language;
-    }
+//    @Override
+//    public LanguageModel addLanguage(String characterId, String languageId) {
+//        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+//        LanguageModel language = languageService.findLanguage(Long.decode(languageId));
+//        character.getLearnedLanguages().add(language);
+//        characterService.save(character);
+//        return language;
+//    }
+//
+//    @Override
+//    public LanguageModel removeLanguage(String characterId, String languageId) {
+//        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+//        LanguageModel language = languageService.findLanguage(Long.decode(languageId));
+//        character.getLearnedLanguages().remove(language);
+//        characterService.save(character);
+//        return language;
+//    }
 
     private void setInventoryWeight(CharacterModel character){
         Long weight = 0L;
@@ -440,6 +457,79 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setSpeed(speed);
     }
 
+    @Override
+    public CharacterModel shortRest(String characterId, String[] hitDice){
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        rollHitDice(character, hitDice);
+        refreshTraits(character);
+        return characterService.save(character);
+    }
+
+    private void refreshTraits(CharacterModel character){
+        Event event = new ShortRest();
+        List<TraitModel> traitsToRefresh = new ArrayList<TraitModel>();
+        for(TraitModel trait : character.getExpendedTraits()){
+            if(trait.getRefreshOnShortRest()){
+                traitsToRefresh.add(trait);
+            }
+        }
+
+        for(TraitModel trait : character.getTraits()){
+            trait.traitInterrupt(character, event);
+        }
+        character.getExpendedTraits().removeAll(traitsToRefresh);
+    }
+
+    private void refreshHitDice(CharacterModel character){
+        int maxRefresh = character.getCombinedLevel() / 2;
+
+        for(int i = 0; i < maxRefresh; i++){
+            if(character.getUsedHitDice().size() == 0) {
+                break;
+            }
+            Dice highest = character.getUsedHitDice().get(0);
+            for(Dice dice : character.getUsedHitDice()){
+                if(dice.getMaxRoll() > highest.getMaxRoll()){
+                    highest = dice;
+                }
+            }
+            character.getUsedHitDice().remove(highest);
+            character.getHitDice().add(highest);
+        }
+    }
+
+    private void rollHitDice(CharacterModel character, String[] hitDice){
+        int diceRoll = 0;
+        int conMod = character.getAbilities().getAbilityModifier(AbilityTypeEnum.Con);
+        Map<String, Dice> allDice = diceService.getAllDice();
+
+        for(String dice: hitDice){
+            Dice rolling = allDice.get(dice);
+            diceRoll += diceService.rollDice(allDice.get(dice), 1) + conMod;
+            character.getHitDice().remove(rolling);
+            character.getUsedHitDice().add(rolling);
+        }
+        int maxHealth = character.getMaxHealth();
+        int currentHealth = character.getCurrentHealth();
+        currentHealth += diceRoll;
+        currentHealth = currentHealth > maxHealth ? maxHealth : currentHealth;
+        character.setCurrentHealth(currentHealth);
+    }
+
+    @Override
+    public Feat findFeat(String featId){
+       return characterService.findFeat(Long.decode(featId));
+    }
+
+    @Override
+    public CharacterModel longRest(String characterId){
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        character.setCurrentHealth(character.getMaxHealth());
+        character.getSpellSlots().longRest();
+        character.getExpendedTraits().clear();
+        refreshHitDice(character);
+        return assembleCharacter(character);
+    }
 
     @Override
     public CharacterModel assembleCharacter(CharacterModel character){
@@ -451,6 +541,16 @@ public class DefaultCharacterFacade implements CharacterFacade {
         setAC(character);
         characterService.save(character);
         return character;
+    }
+
+    private String writeFeatTables(List<Feat> feats){
+        String table = "<table>";
+        for(Feat feat : feats){
+            table = table.concat("<tr class='feat-row' data-id='" + feat.getId() + "'><td>" +
+                    "<span class='feat-select' data-id='" + feat.getId() + "'>" + feat.getName() + "</span></td></tr>");
+        }
+        table = table.concat("</table>");
+        return table;
     }
 
 }

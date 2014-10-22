@@ -35,6 +35,13 @@ public class Dice {
 
     public Dice(){}
 
+    public Dice(Dice dice){
+        this.name = dice.getName();
+        this.minRoll = dice.getMinRoll();
+        this.maxRoll = dice.getMaxRoll();
+        this.averageRoll = dice.getAverageRoll();
+    }
+
     @Id @GeneratedValue
     public Long getId() {
         return id;

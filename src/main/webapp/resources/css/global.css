@@ -42,18 +42,15 @@ table th {
     margin-right: 5px;
 }
 
-#table_container{
-    border: 1px solid black;
-    float: left;
-    width: auto;
-    height: auto;
-    margin: 0 auto;
+.table-container {
+
 }
 
 .side-by-side.currencyheader{
     margin-right: 68px !important;
     margin-left: 22px;
 }
+
 div.side-by-side,
 table.side-by-side{
     margin-right: 15px;
@@ -75,7 +72,8 @@ th.spell{
     float: left;
 }
 
-.modal{
+.modal,
+.hide{
     display: none;
 }
 
@@ -87,6 +85,14 @@ th.spell{
 .link-small {
     margin-left: 5px;
     font-size: 12;
+}
+
+.float-right{
+    float: right;
+}
+
+.hide{
+    display: none;
 }
 
 /*Admin pages*/
@@ -134,10 +140,6 @@ th.spell{
 
 /****Spells****/
 
-#spell-book-modal{
-    display: none;
-}
-
 #spell-text-div table{
     line-height: 15px;
 }
@@ -177,33 +179,33 @@ table.bullet-list td {
     text-indent: -.8em;
 }
 
-.spell-school-tab{
-    display: none;
-}
-
 .ui-tabs .ui-tabs-nav li a {
     font-size:8pt !important;
     font-family: "Century Schoolbook",serif !important;
     color: blue;
 }
 
-tr.spell-line:hover{
+tr.spell-line:hover,
+.feat-row:hover{
     background-color: lightgrey;
 }
 
-tr.spell-line.selected{
+tr.spell-line.selected,
+.feat-row.selected{
     background-color: slategrey;
     color: white;
 }
 
-div#spell-preview {
+div#spell-preview,
+#feat-preview{
     border-left: 1px solid black;
-    width: 34% !important;
-    height: 92% !important;
-    float: right !important;
+    width: 34% ;
+    height: 92% ;
+    float: right ;
     padding-left: 15px;
     overflow-y:scroll;
     overflow-x: hidden;
+    font-family: "Century Schoolbook" !important;
 }
 
 #spell-school-tabs,
@@ -236,11 +238,6 @@ div#spell-preview {
     border: none !important;
 }
 
-#ability-confirm,
-.ability-change{
-    display: none;
-}
-
 #description-modal{
     height: 80%;
     overflow-y: scroll;
@@ -248,7 +245,6 @@ div#spell-preview {
 }
 
 .selected-spells-container{
-    display: none;
     width: 19% !important;
     height: 93% !important;
     border: 1px solid black;
@@ -258,7 +254,8 @@ div#spell-preview {
     height: 94%;
 }
 
-#learn-spells{
+#learn-spells,
+#feat-choose-btn{
     clear: both;
     float:right;
 }
@@ -275,6 +272,13 @@ div#spell-preview {
     float:right;
 }
 
+.saving-throw-text{
+    font-weight: bold;
+    color: red;
+}
+
+
+
 
 /***********End Spells****************/
 
@@ -287,9 +291,6 @@ div#spell-preview {
 #level-options-modal input{
     width: 72px;
 }
-#level-options-modal{
-    display: none;
-}
 #level-options-modal td{
     text-align: center;
     vertical-align: middle;
@@ -299,6 +300,25 @@ div#spell-preview {
     margin-top: 5px;
 }
 
-#new-spells-notifier{
-    display: none;
+.hit-dice-spinner{
+    vertical-align: middle;
+    width: 25px;
+}
+
+#feat-preview{
+    border-left: 1px solid black;
+    width: 40% ;
+    height: 92% ;
+    float: right ;
+    padding-left: 15px;
+    overflow-y:scroll;
+    overflow-x: hidden;
+    font-family: "Century Schoolbook" !important;
+    font-size: 14px;
+}
+
+#feat-list{
+    border: 1px solid black;
+    width: 53%;
+    height: 92%;
 }

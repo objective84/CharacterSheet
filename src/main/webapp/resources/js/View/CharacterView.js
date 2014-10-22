@@ -62,7 +62,11 @@ define("CharacterView",
                 allSpells: "#all-spells",
                 abilityConfirm: '#ability-confirm',
                 levelCharacter: "#level-character",
-                newSpellsNotifier: "#new-spells-notifier"
+                newSpellsNotifier: "#new-spells-notifier",
+                shortRestBtn: "#short-rest-btn",
+                longRestBtn: "#long-rest-btn",
+                hitDiceTable: "#hit-dice-table",
+                buyFeatBtn: "#buy-feat-btn"
             },
 
             bindings:{
@@ -85,7 +89,10 @@ define("CharacterView",
                 'click @ui.abilityConfirm': 'onAbilityConfirmClick',
                 'change .proficiency.skill': 'onSkillProficiencySelected',
                 'click @ui.levelCharacter': 'onLevelCharacterBtnClick',
-                'change @ui.intMod': 'onIntModChange'
+                'click @ui.shortRestBtn': 'onShortRestBtnClick',
+                'click @ui.longRestBtn' : 'onLongRestBtnClick',
+                'blur @ui.currentHealth': 'onCurrentHealthChange',
+                'click @ui.buyFeatBtn': 'onBuyFeatBtnClick'
             },
 
             onRender: function(){
@@ -127,14 +134,20 @@ define("CharacterView",
                     this.abilitiesView = new AbilitiesView();
                     this.model.set('abilities', this.abilitiesView.model);
                     this.abilitiesView.model.characterId = this.model.get('id');
-                    this.abilitiesView.fetchAbilities(_.bind(this.setLanguageSelectionLinks, this));
+//                    this.abilitiesView.fetchAbilities(_.bind(this.setLanguageSelectionLinks, this));
+                    this.abilitiesView.fetchAbilities(_.bind(function(){
+                        if(this.abilitiesView.model.get('abilityIncreasePoints') > 0 && this.model.get('combinedLevel') >= 4){
+                            this.ui.buyFeatBtn.show();
+                        }
+                    }, this));
                     this.abilitiesView.render();
                     this.listenTo(this.abilitiesView, 'updateAbilities', _.bind(this.abilitiesView.fetchAbilities, this.abilitiesView));
 
-                    this.descriptionView = new CharacterDescriptionView();
-                    this.model.set('description', this.descriptionView.model);
-                    this.descriptionView.setCharacterId(this.model.get('id'));
-                    this.descriptionView.render();
+
+//                    this.descriptionView = new CharacterDescriptionView();
+//                    this.model.set('description', this.descriptionView.model);
+//                    this.descriptionView.setCharacterId(this.model.get('id'));
+//                    this.descriptionView.render();
 
                     this.coinPurseView = new CoinPurseView();
                     this.model.set('coinPurse', this.coinPurseView);
@@ -177,8 +190,29 @@ define("CharacterView",
                         this.classView.displayChooseSubclassLink();
                     }
                     this.ui.level.val(this.model.get('combinedLevel'));
-
+                    if(this.model.get('numSpellsToChoose') > 0){
+                        this.addSpellsToChooseToModal();
+                    }
                 }, this)});
+            },
+
+            onBuyFeatBtnClick: function(){
+                $('.feat-row').remove();
+                $.getJSON("/CharacterSheet/feat/all-available/"+this.model.get('id')+".json", _.bind(function(data){
+                    $('#feat-list').append(data.data);
+                    $('.feat-select').on('click', _.bind(this.onFeatLineClick, this))
+                    modalOpen('feat-selection-modal', 'feat-selection-modal');
+                }, this))
+            },
+
+            onFeatLineClick: function(event){
+                $('.feat-row').removeClass('selected');
+                $(event.currentTarget).addClass('selected');
+                var id = $(event.currentTarget).data('id');
+                $.getJSON('/CharacterSheet/feat/' + id + '.json', _.bind(function(feat){
+                    $('#feat-text-div').remove();
+                    $('#feat-preview').append("<div id='feat-text-div'>" +  feat.formattedDescription + "</div");
+                }, this));
             },
 
             onLevelCharacterBtnClick: function(){
@@ -201,6 +235,7 @@ define("CharacterView",
                             $('#spell-slots').append(this.model.get('spellSlots').tableHtml);
                             this.ui.addSpellsLink.show();
                             this.displaySpellsKnown();
+                            this.displayHitDice();
                         }
                     }, this));
                 }, this);
@@ -359,19 +394,38 @@ define("CharacterView",
                         $('#subrace-label').show();
                         this.ui.subrace.show();
                     }
-                    this.setLanguageSelectionLinks();
+//                    this.setLanguageSelectionLinks();
                 }, this)});
             },
 
             onSubraceUpdated: function(){
                 this.model.fetch({success: _.bind(function(){
-                    this.abilitiesView.fetchAbilities(_.bind(this.setLanguageSelectionLinks, this));
+//                    this.abilitiesView.fetchAbilities(_.bind(this.setLanguageSelectionLinks, this));
+                    this.abilitiesView.fetchAbilities();
                     this.setProficiencies();
                     this.ui.clazz.prop('disabled', '');
                 }, this)});
             },
 
-
+            displayHitDice: function(){
+                var d6 = 0;
+                var d8 = 0;
+                var d10 = 0;
+                var d12 = 0;
+                if(this.model.get('hitDiceD6')>0){
+                    this.ui.hitDiceTable.find('tr').append('<td>d6: <input id="hit-dice-d6" class="input-box-small" readonly="true" value="' + this.model.get('hitDiceD6') + '"></td>')
+                }
+                if(this.model.get('hitDiceD8')>0){
+                    this.ui.hitDiceTable.find('tr').append('<td>d8: <input id="hit-dice-d8" class="input-box-small" readonly="true" value="' + this.model.get('hitDiceD8') + '"></td>')
+                }
+                if(this.model.get('hitDiceD10')>0){
+                    this.ui.hitDiceTable.find('tr').append('<td>d6: <input id="hit-dice-d10" class="input-box-small" readonly="true" value="' + this.model.get('hitDiceD12') + '"></td>')
+                }
+                if(this.model.get('hitDiceD12')>0){
+                    this.ui.hitDiceTable.find('tr').append('<td>d12: <input id="hit-dice-d12" class="input-box-small" readonly="true" value="' + this.model.get('hitDiceD12') + '"></td>')
+                }
+                //<td>d6: <input id="hit-dice-d6" class="input-box-small" readonly="true" value = ${character.hitDiceD6}></td>
+            },
 
             onClassUpdated: function(){
                 this.model.fetch({success: _.bind(function(){
@@ -568,12 +622,6 @@ define("CharacterView",
 //                }
 //            },
 
-            onIntModChange: function(){
-                if(!this.abilitiesView.model.get('locked')){
-                    this.setLanguageSelectionLinks();
-                }
-            },
-
             addLanguageSelectLink: function(id){
                 $('#languages').append('<tr class="language-select-row"><td><a href="javascript:void(0);" ' +
                     'class="language-select" id="language-select_' + id + '">Select a language</a></td></tr>');
@@ -588,36 +636,36 @@ define("CharacterView",
                 }, this));
             },
 
-            setLanguageSelectionLinks: function(){
-                if(this.model.get('playing')){return;}
-                $('.language-select-row').remove();
-                var languagesSelected = $('.language-row').length;
-                var int = this.abilitiesView.model.get('intel');
-                var mod = Math.floor( (int - 10) / 2);
-                for(var i=0; i< this.model.get('languagesAllowed') - languagesSelected; i++){
-                    this.addLanguageSelectLink(i);
-                }
-            },
+//            setLanguageSelectionLinks: function(){
+//                if(this.model.get('playing')){return;}
+//                $('.language-select-row').remove();
+//                var languagesSelected = $('.language-row').length;
+//                var int = this.abilitiesView.model.get('intel');
+//                var mod = Math.floor( (int - 10) / 2);
+//                for(var i=0; i< this.model.get('languagesAllowed') - languagesSelected; i++){
+//                    this.addLanguageSelectLink(i);
+//                }
+//            },
 
             removeLanguage: function(event){
                 $('#language-row-' + $(event.target).prop('id')).remove();
                 this.languagesAllowed = setLanguagesAllowed(this.model);
-                this.setLanguageSelectionLinks();
+//                this.setLanguageSelectionLinks();
             },
 
             onLanguageSelectClick: function(){
-                this.modalOpen('language-modal', 'language-modal');
+                modalOpen('language-modal', 'language-modal');
                 $('#language-submit').on('click', _.bind(this.onLanguageSubmitClick, this));
             },
 
             onLanguageSubmitClick: function(event){
                 var language = $("input[name=language-option]:checked").val();
-                this.modalClose('language-modal');
+                modalClose('language-modal');
                 $('#languages').append(
                         '<tr id="language-row-' + language + '" class="language-row"><td><input name="languages"  type="hidden" value="'
                         + language.id + '">' + language + '</input>' + '<a class="minus-sign link-small language-delete" id="'
                         + language + '" href="javascript:void(0);">Remove</a></td></tr>');
-                this.setLanguageSelectionLinks();
+//                this.setLanguageSelectionLinks();
                 $('#' + language).on('click', _.bind(this.removeLanguage, this));
                 var url = '/CharacterSheet/language/add/'+this.model.get('id') + '/' + $("input[name=language-option]:checked").data('id') + '.json';
                 var success = _.bind(function(data){this.fetchModel();}, this);
@@ -631,7 +679,7 @@ define("CharacterView",
             /// ** Inventory and Store *** ///
 
             onStoreLinkClick: function(){
-                this.modalOpen('store-modal', 'store-modal');
+                modalOpen('store-modal', 'store-modal');
                 $('.filter').on('change', _.bind(this.onStoreFilterSelected, this));
                 $('#store-submit').off();
                 $('#store-submit').on('click', _.bind(this.onStoreSubmitClick, this));
@@ -687,7 +735,7 @@ define("CharacterView",
                         this.fetchModel(_.bind(this.setInventory, this));
                         this.coinPurseView.fetchModel();
                         alert(data.message);
-                        this.modalClose('store-modal');
+                        modalClose('store-modal');
                     }else if(data.code === 0){
                         alert(data.errorMessage);
                     }
@@ -779,7 +827,7 @@ define("CharacterView",
                 $.getJSON('spell/' + $(event.currentTarget).data('spellid') + '.json', _.bind(function(data) {
                     $('#spell-text-div').remove();
                     $('#spell-text').append(data.spellModel.displayText);
-                    this.modalOpen('spell-modal', 'spell-modal');
+                    modalOpen('spell-modal', 'spell-modal');
                     $('#spell-id').val($(event.currentTarget).data('spellid'));
                     $('#prepare-spell-btn').off();
                     var isPrepared = false;
@@ -801,6 +849,8 @@ define("CharacterView",
                             $('#prepare-spell-btn').val('Prepare');
                         }
                     }
+                    $('#spell-cast-btn').off();
+                    $('#spell-cast-btn').on('click', _.bind(this.onSpellCastButtonClick, this));
                 }, this));
             },
 
@@ -810,7 +860,7 @@ define("CharacterView",
                 var url = "unprepare-spell/" + charId + "/" + spellId + ".json";
                 $.ajax({type:"POST", url: url, success: _.bind(function(spell){
                     this.fetchModel(_.bind(this.displaySpellsKnown, this));
-                    this.modalClose('spell-modal','spell-modal');
+                    modalClose('spell-modal','spell-modal');
                 }, this)});
             },
 
@@ -826,7 +876,7 @@ define("CharacterView",
                 var url = "prepare-spell/" + charId + "/" + spellId + ".json";
                 $.ajax({type:"POST", url: url, success: _.bind(function(spell){
                     this.fetchModel(_.bind(this.displaySpellsKnown, this));
-                    this.modalClose('spell-modal','spell-modal');
+                    modalClose('spell-modal','spell-modal');
                 }, this)});
             },
 
@@ -861,9 +911,20 @@ define("CharacterView",
                     if($('#sort-by').val() === "School")this.sortBySchool(data.data);
                     $('.spell-line').on('click', _.bind(this.onSpellLineClick, this));
                     if(callback)callback();
-                    this.modalOpen('spell-book-modal', 'spell-book-modal');
+                    modalOpen('spell-book-modal', 'spell-book-modal');
                     this.hideTabsWithNoSpells();
                 },this));
+            },
+
+            addSpellsToChooseToModal: function(){
+                $('.spell-table').remove();
+                $('#spell-search').off('keyup', _.bind(this.onSearchFieldChange, this));
+                $('#spell-search').on('keyup', _.bind(this.onSearchFieldChange, this));
+                this.sortByLevel(this.model.get('spellsToChoose'));
+                $('.spell-line').on('click', _.bind(this.onSpellLineClick, this));
+                modalOpen('spell-book-modal', 'spell-book-modal');
+                $('#choose-before-close').val("true");
+                this.hideTabsWithNoSpells();
             },
 
             onSearchFieldChange: function(){
@@ -1020,108 +1081,157 @@ define("CharacterView",
                     spells.push($(value).data('spellid'));
                 },this));
 
-                var data = {"spellIds": spells};
                 var success = function(data){
                     this.fetchModel(_.bind(this.displaySpellsKnown,this));
-                    this.modalClose('spell-book-modal', 'spell-book-modal');
+                    modalClose('spell-book-modal', 'spell-book-modal');
                 };
 
                 $.ajax({
                     type: "POST",
-                    url: "/CharacterSheet/learn-spells/"+ this.model.get('id') +".json",
+                    url: "/CharacterSheet/learn-spells/"+ this.model.get('id') + ".json",
                     data: "spellIds=" + spells,
-                    success: _.bind(success,this)
+                    success: _.bind(success, this)
                 })
             },
 
             onAbilityConfirmClick: function(){
-                this.model.get('abilities').set('locked', true);
+              this.model.get('abilities').set('locked', true);
                 this.abilitiesView.model.save();
                 this.abilitiesView.showHideAbilityChangeButtons();
                 this.ui.abilityConfirm.hide();
                 this.ui.race.prop('disabled', '');
-                this.setLanguageSelectionLinks();
             },
 
-            modalOpen: function(type, key) {
-                var modal_width = 540;
-                var modal_height = 'auto';
-                var additionalModalOpenFn;
-                switch (type) {
-                    case 'language-modal':
-                        modal_width = 200;
-                        modal_height = 'auto';
-                        break;
-                    case 'store-modal':
-                        modal_width = '800';
-                        modal_height = '600';
-                        break;
-                    case 'spell-modal':
-                        modal_width = '450';
-                        modal_height = 'auto';
-                        break;
-                    case 'spell-book-modal':
-                        modal_width = 1200;
-                        modal_height = 600;
-                        break;
-                    case 'level-options-modal':
-                        modal_width = '375';
-                        modal_height = '384';
-                        break;
-                    default:
-                        modal_width = 'auto';
-                        modal_height = 'auto';
-                        break;
-                }
-                // create base modal dialog window
-                var poundKey = $('#' + key);
-                poundKey.dialog({
-                    bgiframe : true,
-                    autoOpen : false,
-                    resizable : false,
-                    width : modal_width,
-                    height: modal_height,
-                    minHeight : 190,
-                    show : 'fade',
-                    hide : 'fade',
-                    zIndex : 2000,
-                    position : {
-                        my : 'top',
-                        at : 'top',
-                        offset : '0 52'
-                    },
-                    modal : true,
-                    stack : false,
-                    closeOnEscape : false,
-                    open : _.bind(function(e, ui) {
-                        if (additionalModalOpenFn)
-                            additionalModalOpenFn($(this));
+            onSpellCastButtonClick: function(event){
+                var url = "/CharacterSheet/spell/cast/" + this.model.get('id') + "/" + $('#spell-id').val() + ".json";
+                console.log(url);
+                var success = function(data){
+                    if(data.code === 0){
+                        alert(data.errorMessage);
+                    }else if(data.code === 1) {
+                        var spellReport = data.data;
+                        console.log(spellReport);
+                        console.log(data);
+                        var attackType;
+                        if (spellReport.toHitRolls) {
+                            attackType = "";
+                            for (var i=0; i< spellReport.toHitRolls.length; i++) {
+                                var rollTotal = (spellReport.toHitRolls[i] + spellReport.magicAbilityMod + spellReport.proficiencyBonus);
+                                attackType += "Attack Roll: " + rollTotal;
+                                attackType += "\n    + " + spellReport.magicAbilityMod + " (for " + spellReport.magicAbility + " modifier)";
+                                attackType += "\n    + " + spellReport.proficiencyBonus + " (for Proficiency Bonus)";
+                                attackType += "\nRoll: " + spellReport.toHitRolls[i] + "\n";
+                            }
+                        } else if (spellReport.saveType) {
+                            attackType = "Target(s) must make a " + spellReport.saveType + " saving throw\n    " +
+                                "DC: " + spellReport.saveDC + "\n";
+                        }
+                        var damageRolls = spellReport.damageDie + " rolls:";
+                        for (var j = 0; j < spellReport.damage.length; j++){
+                            damageRolls += "\n    " + spellReport.damage[j];
+                        }
+                        damageRolls += "\nTotal: " + spellReport.totalDamage;
 
-                        window.setTimeout(function() {
-                            jQuery(document).unbind('mousedown.dialog-overlay').unbind('mouseup.dialog-overlay');
-                        }, 100);
-                        $(".ui-dialog-titlebar").hide();
-                        $(".ui-dialog-titlebar-close").hide();
+                        var damage = "\n\nDamage:" + "\n" + damageRolls + "\n Damage Type: " + spellReport.damageType;
 
-                        $('.ui-widget-overlay').click(function() {
-                            $('#' + key).dialog("close");
-                        });
-                    }, this),
-                    close : function() {
-                        // do nothing
+                        alert("Casting " + spellReport.spellName +
+                            "\n" + attackType + damage);
+                        this.fetchModel(_.bind(function(){
+                            $('#spell-slots-table').remove();
+                            $('#spell-slots').append(this.model.get('spellSlots').tableHtml);
+                        }, this))
                     }
-                });
-                poundKey.dialog('open');
-                $('#body').css("overflow", "hidden");
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    success: success
+                })
             },
 
-            modalClose: function(key) {
-                // close modal dialog window
-                $('#' + key).dialog("close");
-                $('#body').css("overflow","scroll");
+            onLongRestBtnClick: function(){
+                var url = "/CharacterSheet/character/rest/long/"+ this.model.get('id') + ".json";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    success: _.bind(function(){
+                        window.location.reload();
+                    }, this)
+                })
+            },
 
-                return false;
+            onShortRestBtnClick: function(){
+                $('.hit-dice-spinner, .dice-image').hide();
+                modalOpen('hit-dice-modal', 'hit-dice-modal');
+                if(this.model.get('hitDiceD6') > 0){
+                    $('#d6-spinner').show();
+                    $('#dice-d6').show();
+                    $('#d6-spinner').spinner({min: 0, max: this.model.get('hitDiceD6')});
+                }
+                if(this.model.get('hitDiceD8')){
+                    $('#d8-spinner').show();
+                    $('#dice-d8').show();
+                    $('#d8-spinner').spinner({min: 0, max: this.model.get('hitDiceD8')});
+                }
+                if(this.model.get('hitDiceD10')){
+                    $('#d10-spinner').show();
+                    $('#dice-d10').show();
+                    $('#d10-spinner').spinner({min: 0, max: this.model.get('hitDiceD10')});
+                }
+                if(this.model.get('hitDiceD12')){
+                    $('#d12-spinner').show();
+                    $('#dice-d12').show();
+                    $('#d12-spinner').spinner({min: 0, max: this.model.get('hitDiceD12')});
+                }
+                $('#hit-dice-submit-btn').on('click', _.bind(this.onHitDiceSubmitClick , this))
+            },
+
+            onHitDiceSubmitClick: function(){
+                var hitDice = [];
+                hitDice = this.getHitDiceString(hitDice, $('#d6-spinner').val(), "d6");
+                hitDice = this.getHitDiceString(hitDice, $('#d8-spinner').val(), "d8");
+                hitDice = this.getHitDiceString(hitDice, $('#d10-spinner').val(), "d10");
+                hitDice = this.getHitDiceString(hitDice, $('#d12-spinner').val(), "d12");
+                var success = _.bind(function(data){
+                    this.fetchModel(_.bind(function(){
+                        this.ui.currentHealth.val(this.model.get('currentHealth'));
+                        $('#hit-dice-d6').val(this.model.get('hitDiceD6'));
+                        $('#hit-dice-d8').val(this.model.get('hitDiceD8'));
+                        $('#hit-dice-d10').val(this.model.get('hitDiceD10'));
+                        $('#hit-dice-d12').val(this.model.get('hitDiceD12'));
+                    },this));
+                }, this);
+                var url = "/CharacterSheet/character/rest/short/"+this.model.get('id') + ".json";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: "hitDice=" + hitDice,
+                    success: success
+                });
+
+                modalClose('hit-dice-modal', 'hit-dice-modal');
+
+            },
+
+            getHitDiceString:function(data, amt, name){
+                for(var i = 0; i < amt; i++){
+                    data.push(name);
+                }
+                return data;
+            },
+
+            onCurrentHealthChange: function(){
+                this.model.set('currentHealth', this.ui.currentHealth.val());
+                $.ajax({
+                    type: "POST",
+                    url: "/CharacterSheet/character/current-health/"+this.model.get('id') + "/" + this.ui.currentHealth.val() + ".json",
+                    success: _.bind(function(){
+                        this.fetchModel();
+                    }, this)
+                });
             }
+
 
 
         });

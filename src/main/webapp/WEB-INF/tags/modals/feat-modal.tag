@@ -3,4 +3,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 
-<div class="modal" id="empty-modal"></div>
+<div class="modal" id="feat-modal"></div>

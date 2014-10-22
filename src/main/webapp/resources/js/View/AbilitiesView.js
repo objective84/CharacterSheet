@@ -126,6 +126,13 @@ define("AbilitiesView",
                     var plus = $('#' + ability + '-plus');
                     var minus = $('#' + ability + '-minus');
                     var points = $(value).val();
+                    var canIncrease = ability.toLowerCase();
+                    if(canIncrease === "int"){
+                        canIncrease = "intel";
+                    }
+                    if(!this.model.get(canIncrease + 'CanIncrease')){
+                        return;
+                    }
                     if(this.abilityIncrease){
                         points + 1 <= 20
                         {

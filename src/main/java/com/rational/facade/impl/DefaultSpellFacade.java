@@ -1,10 +1,20 @@
 package com.rational.facade.impl;
 
 import com.rational.facade.SpellFacade;
-import com.rational.model.entities.*;
+import com.rational.forms.SpellCastData;
+import com.rational.model.Dice;
+import com.rational.model.entities.CharacterModel;
+import com.rational.model.entities.ClassModel;
+import com.rational.model.entities.SpellModel;
+import com.rational.model.entities.SpellSlots;
+import com.rational.model.enums.AbilityTypeEnum;
+import com.rational.model.enums.DieTypeEnum;
+import com.rational.model.exceptions.SpellCastException;
 import com.rational.service.CharacterService;
 import com.rational.service.ClassService;
+import com.rational.service.DiceService;
 import com.rational.service.SpellService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -21,6 +31,9 @@ public class DefaultSpellFacade implements SpellFacade {
 
     @Resource(name = "defaultClassService")
     private ClassService classService;
+
+    @Resource(name = "defaultDiceService")
+    private DiceService diceService;
 
     @Override
     public SpellModel findSpell(String spellId) {
@@ -210,6 +223,46 @@ public class DefaultSpellFacade implements SpellFacade {
         character.getPreparedSpellList().remove(spell);
         characterService.save(character);
         return spell;    }
+
+    @Override
+    public SpellCastData castSpell(String characterId, String spellId) throws SpellCastException {
+        SpellCastData data = new SpellCastData();
+        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
+        SpellModel spell = spellService.findSpell(Long.decode(spellId));
+        if(spell.getLevel() != 0 && character.getSpellSlots().getSpellSlotRemaining(spell.getLevel()) <= 0){
+            throw new SpellCastException("You do not have the required spell slot to cast this spell.");
+        }
+        data.setSpellName(spell.getName());
+
+        if(spell.isRequiresAttackRoll()){
+            Dice d20 = diceService.findDice(DieTypeEnum.d20.getId());
+            int[] dieResults = diceService.rollSeparateDice(d20, (spell.getNumAttacks() != 0 ? spell.getNumAttacks() : 1 ));
+            data.setMagicAbilityMod(character.getAbilities().getAbilityModifier(AbilityTypeEnum.valueOf(character.getClazz().getMagicAbility())));
+            data.setMagicAbility(character.getClazz().getMagicAbility());
+            data.setProficiencyBonus(character.getCharacterAdvancement().getProficiencyBonus());
+            data.setToHitRolls(dieResults);
+        }else if(StringUtils.isNotEmpty(spell.getSavingThrow())){
+            data.setSaveType(spell.getSavingThrow());
+            data.setSaveDC(character.getSaveDC());
+        }
+
+        if(null != spell.getDamageDice()){
+            data.setDamage(diceService.rollSeparateDice(spell.getDamageDice(), spell.getDamageDiceAmount()));
+            int total = 0;
+            for(int roll : data.getDamage()){
+                total += roll;
+            }
+            data.setTotalDamage(total);
+            data.setDamageDie(spell.getDamageDice().getName());
+        }
+
+        if(null != spell.getDamageType()){
+            data.setDamageType(spell.getDamageType().getName());
+        }
+        character.getSpellSlots().setSpellSlotExpended(spell.getLevel(), character.getSpellSlots().getSpellSlotExpended(spell.getLevel())+1);
+        characterService.save(character);
+        return data;
+    }
 
     private String splitTable(String table){
         String tableStart = "<table class='spell-table side-by-side'><tr><th>Level</th><th>Spell</th></tr>";

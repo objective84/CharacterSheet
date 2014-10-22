@@ -23,6 +23,8 @@ public abstract class TraitModel {
     @JoinTable(name="trait_subtrait", joinColumns = @JoinColumn(name = "trait_id"), inverseJoinColumns = @JoinColumn(name = "subtrait_id"))
     List<TraitModel> subTraits = new ArrayList<TraitModel>();
 
+    private Boolean refreshOnShortRest;
+
     public TraitModel(){}
 
     public Long getId() {
@@ -64,4 +66,11 @@ public abstract class TraitModel {
     }
 
 
+    public Boolean getRefreshOnShortRest() {
+        return refreshOnShortRest;
+    }
+
+    public void setRefreshOnShortRest(Boolean refreshOnShortRest) {
+        this.refreshOnShortRest = refreshOnShortRest;
+    }
 }

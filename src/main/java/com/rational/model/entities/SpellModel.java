@@ -51,6 +51,7 @@ public class SpellModel implements Comparable<SpellModel>{
     private Integer damageDiceAmount;
     private String castingTime;
     private String range;
+    private int numAttacks = 0;
 
 
     @ManyToOne
@@ -291,7 +292,7 @@ public class SpellModel implements Comparable<SpellModel>{
                 "<tr><td><span class='spell-header'>Range: </span><span class='spell-line'>" + formatRange() + "</span> </td></tr>" +
                 "<tr><td><span class='spell-header'>Components: </span><span class='spell-line'>" + this.getComponents() + "</span> </td></tr>" +
                 "<tr><td><span class='spell-header'>Duration: </span><span class='spell-line'>" + this.duration + "</span> </td></tr>   " +
-                "<tr><td>" + Formatter.formatParagraph(this.description) + "</td></tr></table><br/><span>Castable by: " + this.getClassesHTML() + "</span></div>";
+                "<tr><td>" + boldSavingThrowText(Formatter.formatParagraph(this.description)) + "</td></tr></table><br/><span>Castable by: " + this.getClassesHTML() + "</span></div>";
     }
 
     public Boolean getConcentration() {
@@ -322,5 +323,24 @@ public class SpellModel implements Comparable<SpellModel>{
 
     public void setLevels(List<Level> levels) {
         this.levels = levels;
+    }
+
+    public String boldSavingThrowText(String description){
+        description = description.replaceAll("Strength saving throw", "<span class='saving-throw-text'>Strength saving throw</span>");
+        description = description.replaceAll("Dexterity saving throw", "<span class='saving-throw-text'>Dexterity saving throw</span>");
+        description = description.replaceAll("Constitution saving throw", "<span class='saving-throw-text'>Constitution saving throw</span>");
+        description = description.replaceAll("Intelligence saving throw", "<span class='saving-throw-text'>Intelligence saving throw</span>");
+        description = description.replaceAll("Wisdom saving throw", "<span class='saving-throw-text'>Wisdom saving throw</span>");
+        description = description.replaceAll("Charisma saving throw", "<span class='saving-throw-text'>Charisma saving throw</span>");
+
+        return description;
+    }
+
+    public int getNumAttacks() {
+        return numAttacks;
+    }
+
+    public void setNumAttacks(int numAttacks) {
+        this.numAttacks = numAttacks;
     }
 }

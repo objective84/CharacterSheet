@@ -43,9 +43,17 @@ define("CharacterModel",
                 },
 
                 save:function(options){
+                    console.log(1);
                     options = options || {};
                     options.url = 'character.json';
                     return Backbone.Model.prototype.save.call(this, this.attributes, options);
+                },
+
+                shortRest: function(hitDice){
+                    var options =
+                        {hitDice: hitDice,
+                         url: "/CharacterSheet/character/rest/short/"+this.id + ".json"}
+                    return Backbone.Model.prototype.fetch.call(this, options);
                 }
             }
         );

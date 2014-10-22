@@ -58,9 +58,12 @@ function modalOpen (type, key) {
             modal_height = 600;
             break;
         case 'level-options-modal':
-            console.log(1)
             modal_width = 'auto';
             modal_height = 'auto';
+            break;
+        case 'feat-selection-modal':
+            modal_width = '800';
+            modal_height = '500';
             break;
         default:
             modal_width = 'auto';
@@ -111,6 +114,9 @@ function modalOpen (type, key) {
 
 function modalClose (key) {
     // close modal dialog window
+    if(key === 'spell-book-modal' && $('#choose-before-close').val() === "true"){
+        alert('Please select your spells before continuing.');
+    }
     $('#' + key).dialog("close");
     $('#body').css("overflow", "scroll");
 

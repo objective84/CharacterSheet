@@ -33,6 +33,9 @@ public class SpellRecoveryTrait extends TraitModel{
 
     @Override
     public void traitInterrupt(CharacterModel character, Event event) {
+        if(character.getExpendedTraits().contains(this)){
+            return;
+        }
         if(event instanceof ShortRest) {
             int numClassLevels = character.getCharacterAdvancement().getLevelsOfClass(clazz);
             int recoverable = new BigDecimal(numClassLevels).divide(new BigDecimal(2), BigDecimal.ROUND_UP).intValue();

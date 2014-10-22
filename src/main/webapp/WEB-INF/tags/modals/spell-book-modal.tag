@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 
-<div id="spell-book-modal">
+<div class="modal" id="spell-book-modal">
+    <input type="hidden" id="choose-before-close" value="false">
     <span>Sort By: </span><select id="sort-by">
     <option id="by-Level">Level</option>
     <option id="by-school">School</option>
@@ -15,8 +16,8 @@
         </c:forEach>
     </select>
     <input id="spell-search">
-    <div class="table_container">
-        <div class = "side-by-side" id="spell-school-tabs">
+    <div class="table-container">
+        <div class = "side-by-side hide selection-layout" id="spell-school-tabs">
             <ul id="schools">
                 <li><a id="tab-abjuration" href="#abjuration" class="spell-school-tab">Abjuration</a></li>
                 <li><a id="tab-conjuration" href="#conjuration" class="spell-school-tab">Conjuration</a></li>
@@ -36,7 +37,7 @@
             <div id="necromancy" class="spell-tab" data-tab="tab-necromancy"></div>
             <div id="transmutation" class="spell-tab" data-tab="tab-transmutation"></div>
         </div>
-        <div class="side-by-side" id="spell-level-tabs">
+        <div class="side-by-side selection-layout" id="spell-level-tabs">
             <ul id="levels">
                 <li><a id="tab-cantrip" href="#level-cantrip" class="spell-level-tab">Cantrips</a></li>
                 <li><a id="tab-one" href="#level-one" class="spell-level-tab">1st Level</a></li>
@@ -60,7 +61,7 @@
             <div id="level-eight" class="spell-tab" data-tab="tab-eight"></div>
             <div id="level-nine" class="spell-tab" data-tab="tab-nine"></div>
         </div>
-        <div class="side-by-side selected-spells-container">
+        <div class="side-by-side selected-spells-container hide">
             <input type="hidden" id="cantrips-selected" value="0"/>
             <div class="selected-spells-table">
                 <table id="selected-spells-table">

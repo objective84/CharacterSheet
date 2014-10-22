@@ -6,7 +6,7 @@
 <div class="modal" id="store-modal">
     <input type="checkbox" class="filter" value="${filterByProficiency}"><span class="link-small">${filterByProficiency}</span>
     <div class="clear"></div>
-    <div class="table_container">
+    <div class="table-container">
         <table class="side-by-side" id="weapon-table">
             <tr>
                 <th>Name</th><th>Damage</th><th>Price</th><th>Weight</th>

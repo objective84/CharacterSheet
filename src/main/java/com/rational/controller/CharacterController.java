@@ -9,6 +9,7 @@ import com.rational.model.entities.*;
 import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.enums.EquipmentFilterEnum;
 import com.rational.service.DescriptionService;
+import com.rational.service.DiceService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +58,9 @@ public class CharacterController {
     @Resource(name="defaultDescriptionService")
     private DescriptionService descriptionService;
 
+    @Resource(name = "defaultDiceService")
+    private DiceService diceService;
+
     @RequestMapping(value="/characterlist", method= RequestMethod.GET)
     public ModelAndView getCharacterList(final Model model){
         ModelAndView mav = new ModelAndView(CHARACTER_LIST);
@@ -83,6 +87,13 @@ public class CharacterController {
     public RedirectView character(final ModelAndView mav, HttpSession session) {
         CharacterModel character = characterFacade.save(new CharacterModel());
         return new RedirectView(CHARACTER + "/" + character.getId());
+    }
+
+    @RequestMapping(value="/character/current-health/{characterId}/{health}", method = RequestMethod.POST)
+    public void updateHealth(@PathVariable String characterId,@PathVariable int health){
+        CharacterModel character = characterFacade.findCharacter(characterId);
+        character.setCurrentHealth(health);
+        characterFacade.save(character);
     }
 
     @RequestMapping(value="/character-sheet/{characterId}", method= RequestMethod.GET)
@@ -197,23 +208,23 @@ public class CharacterController {
        return characterFacade.levelUp(characterId, classId);
     }
 
-    @ResponseBody
-    @RequestMapping(value="/language/add/{characterId}/{languageId}", method = RequestMethod.POST, produces="application/json")
-    public ResponseData<LanguageModel> addLanguage(@PathVariable String characterId, @PathVariable String languageId){
-        ResponseData<LanguageModel> responseData = new ResponseData<LanguageModel>();
-        LanguageModel language = characterFacade.addLanguage(characterId, languageId);
-        responseData.setData(language);
-        return responseData;
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/language/remove/{characterId}/{languageId}", method = RequestMethod.POST, produces="application/json")
-    public ResponseData<LanguageModel> removeLanguage(@PathVariable String characterId, @PathVariable String languageId){
-        ResponseData<LanguageModel> responseData = new ResponseData<LanguageModel>();
-        LanguageModel language = characterFacade.removeLanguage(characterId, languageId);
-        responseData.setData(language);
-        return responseData;
-    }
+//    @ResponseBody
+//    @RequestMapping(value="/language/add/{characterId}/{languageId}", method = RequestMethod.POST, produces="application/json")
+//    public ResponseData<LanguageModel> addLanguage(@PathVariable String characterId, @PathVariable String languageId){
+//        ResponseData<LanguageModel> responseData = new ResponseData<LanguageModel>();
+//        LanguageModel language = characterFacade.addLanguage(characterId, languageId);
+//        responseData.setData(language);
+//        return responseData;
+//    }
+//
+//    @ResponseBody
+//    @RequestMapping(value="/language/remove/{characterId}/{languageId}", method = RequestMethod.POST, produces="application/json")
+//    public ResponseData<LanguageModel> removeLanguage(@PathVariable String characterId, @PathVariable String languageId){
+//        ResponseData<LanguageModel> responseData = new ResponseData<LanguageModel>();
+//        LanguageModel language = characterFacade.removeLanguage(characterId, languageId);
+//        responseData.setData(language);
+//        return responseData;
+//    }
 
     @ResponseBody
     public CoinPurse convertCurrency(@RequestParam(value="from") String from,
@@ -222,6 +233,31 @@ public class CharacterController {
         return new CoinPurse();
     }
 
+    @ResponseBody
+    @RequestMapping(value="/character/rest/short/{characterId}", method = RequestMethod.POST, produces = "application/json")
+    public CharacterModel takeShortRest(@PathVariable String characterId, @RequestParam(value="hitDice") String[] hitDice){
+        return characterFacade.shortRest(characterId, hitDice);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/character/rest/long/{characterId}", method = RequestMethod.POST, produces = "application/json")
+    public CharacterModel takeLongRest(@PathVariable String characterId){
+        return characterFacade.longRest(characterId);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/feat/all-available/{characterId}")
+    public ResponseData<String> getAllAvailableFeats(@PathVariable String characterId){
+        ResponseData<String> data = new ResponseData<String>();
+        data.setData(characterFacade.getAllAvailableFeats(characterId));
+        return data;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/feat/{featId}")
+    public Feat getFeat(@PathVariable String featId){
+        return characterFacade.findFeat(featId);
+    }
 
     private void addProficienciesToModel(ModelAndView mav, Set<Proficiency> proficiencies){
         List<Proficiency> skills = new ArrayList<Proficiency>();

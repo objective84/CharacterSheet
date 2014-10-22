@@ -241,7 +241,7 @@ public class SpellSlots {
 
     public String getTableHtml(){
         if(perDayOne <= 0)return "";
-        String html = "<table>";
+        String html = "<table id='spell-slots-table'>";
         String headers = "<tr><th>Spell Slots</th>";
         String perDay = "<tr><td><span>Per Day</span></td>";
         String remaining = "<tr><td><span>Remaining</span></td>";
@@ -330,6 +330,118 @@ public class SpellSlots {
             return 1;
         }
         else return 0;
+    }
+
+    public int getSpellSlotExpended(int num){
+        int slot = 0;
+        switch(num){
+            case 1:
+                slot = this.getExpendedOne();
+                break;
+            case 2:
+                slot = this.getExpendedTwo();
+                break;
+            case 3:
+                slot = this.getExpendedThree();
+                break;
+            case 4:
+                slot = this.getExpendedFour();
+                break;
+            case 5:
+                slot = this.getExpendedFive();
+                break;
+            case 6:
+                slot = this.getExpendedSix();
+                break;
+            case 7:
+                slot = this.getExpendedSeven();
+                break;
+            case 8:
+                slot = this.getExpendedEight();
+                break;
+            case 9:
+                slot = this.getExpendedNine();
+                break;
+        }
+        return slot;
+    }
+
+    public int getSpellSlotRemaining(int num){
+        int slot = 0;
+        switch(num){
+            case 1:
+                slot = this.getRemainingOne();
+                break;
+            case 2:
+                slot = this.getRemainingTwo();
+                break;
+            case 3:
+                slot = this.getRemainingThree();
+                break;
+            case 4:
+                slot = this.getRemainingFour();
+                break;
+            case 5:
+                slot = this.getRemainingFive();
+                break;
+            case 6:
+                slot = this.getRemainingSix();
+                break;
+            case 7:
+                slot = this.getRemainingSeven();
+                break;
+            case 8:
+                slot = this.getRemainingEight();
+                break;
+            case 9:
+                slot = this.getRemainingNine();
+                break;
+        }
+        return slot;
+    }
+
+    public void setSpellSlotExpended(int num, int amt){
+        switch(num){
+            case 1:
+                this.setExpendedOne(amt);
+                break;
+            case 2:
+                this.setExpendedTwo(amt);
+                break;
+            case 3:
+                this.setExpendedThree(amt);
+                break;
+            case 4:
+                this.setExpendedFour(amt);
+                break;
+            case 5:
+                this.setExpendedFive(amt);
+                break;
+            case 6:
+                this.setExpendedSix(amt);
+                break;
+            case 7:
+                this.setExpendedSeven(amt);
+                break;
+            case 8:
+                this.setExpendedEight(amt);
+                break;
+            case 9:
+                this.setExpendedNine(amt);
+                break;
+        }
+    }
+
+    public void longRest(){
+        this.setExpendedOne(0);
+        this.setExpendedTwo(0);
+        this.setExpendedThree(0);
+        this.setExpendedFour(0);
+        this.setExpendedFive(0);
+        this.setExpendedSix(0);
+        this.setExpendedSeven(0);
+        this.setExpendedEight(0);
+        this.setExpendedNine(0);
     }
 
     public int getNumSpellLevelsRecoverable() {

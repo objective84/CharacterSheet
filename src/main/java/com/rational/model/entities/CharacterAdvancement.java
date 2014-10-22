@@ -1,8 +1,11 @@
 package com.rational.model.entities;
 
+import com.rational.model.Dice;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Andy on 8/19/2014.

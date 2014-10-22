@@ -288,22 +288,6 @@ ADD COLUMN `locked` TINYINT(1) NULL DEFAULT 0 AFTER `ability_increase_points`;
 ALTER TABLE `charactersheet`.`charactermodel`
 ADD COLUMN `playing` TINYINT(1) NULL DEFAULT 0 AFTER `character_description`;
 
-CREATE TABLE `charactersheet`.`character_learned_language` (
-  `character_id` BIGINT(20) NULL,
-  `learned_language_id` BIGINT(20) NULL,
-  INDEX `character_learn_language_character_id_fk_idx` (`character_id` ASC),
-  INDEX `character_learn_language_language_id_fk_idx` (`learned_language_id` ASC),
-  CONSTRAINT `character_learned_language_character_id_fk`
-  FOREIGN KEY (`character_id`)
-  REFERENCES `charactersheet`.`charactermodel` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `character_learned_language_language_id_fk`
-  FOREIGN KEY (`learned_language_id`)
-  REFERENCES `charactersheet`.`languagemodel` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
-
 ALTER TABLE `charactersheet`.`abilities`
 ADD COLUMN `str_bonus` INT(11) NULL DEFAULT 0 AFTER `locked`,
 ADD COLUMN `dex_bonus` INT(11) NULL DEFAULT 0 AFTER `str_bonus`,

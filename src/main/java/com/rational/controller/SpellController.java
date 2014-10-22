@@ -4,7 +4,9 @@ import com.rational.facade.CharacterFacade;
 import com.rational.facade.ClassFacade;
 import com.rational.facade.SpellFacade;
 import com.rational.forms.ResponseData;
+import com.rational.forms.SpellCastData;
 import com.rational.model.entities.SpellModel;
+import com.rational.model.exceptions.SpellCastException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -102,5 +104,21 @@ public class SpellController {
             spells.setData(spellFacade.sortByLevel(new TreeSet<SpellModel>(classFacade.getClassModel(Long.decode(classId)).getSpells())));
         }
         return spells;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/spell/cast/{characterId}/{spellId}", method=RequestMethod.POST, produces = "application/json")
+    public ResponseData<SpellCastData> castSpell(@PathVariable String characterId,@PathVariable String spellId){
+        ResponseData<SpellCastData> responseData = new ResponseData<SpellCastData>();
+
+        try {
+            responseData.setData(spellFacade.castSpell(characterId, spellId));
+            responseData.setCode(ResponseData.SUCCESS_CODE);
+        } catch (SpellCastException e) {
+            responseData.setErrorMessage(e.getMessage());
+            responseData.setCode(ResponseData.FAILURE_CODE);
+        }
+
+        return responseData;
     }
 }

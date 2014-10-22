@@ -1,6 +1,7 @@
 package com.rational.facade;
 
 import com.rational.model.entities.SpellModel;
+import com.rational.model.exceptions.SpellCastException;
 
 import java.util.List;
 import java.util.Map;
@@ -23,4 +24,6 @@ public interface SpellFacade {
     SpellModel prepareSpell(String characterId, String spellId);
 
     SpellModel unPrepareSpell(String characterId, String spellId);
+
+    com.rational.forms.SpellCastData castSpell(String characterId, String spellId) throws SpellCastException;
 }

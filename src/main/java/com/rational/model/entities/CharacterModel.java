@@ -1,6 +1,7 @@
 package com.rational.model.entities;
 
 
+import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.equipment.ArmorModel;
@@ -10,10 +11,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class CharacterModel {
@@ -29,6 +27,8 @@ public class CharacterModel {
     private Integer armorClass;
     @Transient private Boolean chooseSubclass;
     private Boolean playing;
+    @Transient private Map<String, String> spellsToChoose = new HashMap<String, String>();
+    @Transient private int numSpellsToChoose;
     @JsonManagedReference @OneToOne(cascade = CascadeType.ALL) private CoinPurse coinPurse;
     @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name="character_description") private CharacterDescription characterDescription;
     @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name="abilities_id") private Abilities abilities;
@@ -49,9 +49,6 @@ public class CharacterModel {
     @JoinTable(name="character_language", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="language_id"))
     @ManyToMany private Set<LanguageModel> languages = new HashSet<LanguageModel>();
 
-    @JoinTable(name="character_learned_language", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="learned_language_id"))
-    @ManyToMany private Set<LanguageModel> learnedLanguages = new HashSet<LanguageModel>();
-
     @JoinTable(name="character_proficiency", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="proficiency_id"))
     @ManyToMany private Set<Proficiency> proficiencies = new HashSet<Proficiency>();
 
@@ -66,6 +63,19 @@ public class CharacterModel {
 
     @JoinTable(name="charactermodel_preparedspells", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="spellmodel_id"))
     @ManyToMany private List<SpellModel> preparedSpells = new ArrayList<SpellModel>();
+
+    @JoinTable(name="character_model_used_traits", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="trait_id"))
+    @ManyToMany private List<TraitModel> expendedTraits = new ArrayList<TraitModel>();
+
+    @JoinTable(name="character_hit_dice", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="dice_id"))
+    @ManyToMany private List<Dice> hitDice = new ArrayList<Dice>();
+
+    @JoinTable(name="character_used_hit_dice", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="dice_id"))
+    @ManyToMany private List<Dice> usedHitDice = new ArrayList<Dice>();
+
+    @JoinTable(name="character_feats", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="feat_id"))
+    @ManyToMany
+    private List<Feat> feats = new ArrayList<Feat>();
 
     public CharacterModel(){}
 
@@ -198,8 +208,9 @@ public class CharacterModel {
 
     public Integer getSaveDC() {
         if (getClazz() != null && getClazz().getMagicAbility() != null) {
-            //TODO add prof Modifier to the save DC
-            return 8 + abilities.getAbilityScore(AbilityTypeEnum.getValueOf(getClazz().getMagicAbility()));
+            int saveDc = 8 + this.characterAdvancement.getProficiencyBonus();
+            saveDc += abilities.getAbilityModifier(AbilityTypeEnum.getValueOf(getClazz().getMagicAbility()));
+            return saveDc;
         }
         return null;
     }
@@ -345,6 +356,46 @@ public class CharacterModel {
         return num;
     }
 
+    public Integer getHitDiceD6(){
+        int amt = 0;
+        for(Dice dice : hitDice){
+            if (dice.getName().equalsIgnoreCase("d6")){
+                amt++;
+            }
+        }
+        return amt;
+    }
+
+    public Integer getHitDiceD8(){
+        int amt = 0;
+        for(Dice dice : hitDice){
+            if (dice.getName().equalsIgnoreCase("d8")){
+                amt++;
+            }
+        }
+        return amt;
+    }
+
+    public Integer getHitDiceD10(){
+        int amt = 0;
+        for(Dice dice : hitDice){
+            if (dice.getName().equalsIgnoreCase("d10")){
+                amt++;
+            }
+        }
+        return amt;
+    }
+
+    public Integer getHitDiceD12(){
+        int amt = 0;
+        for(Dice dice : hitDice){
+            if (dice.getName().equalsIgnoreCase("d12")){
+                amt++;
+            }
+        }
+        return amt;
+    }
+
     public void setPreparedSpells(List<SpellModel> preparedSpells) {
         this.preparedSpells = preparedSpells;
     }
@@ -381,15 +432,51 @@ public class CharacterModel {
         this.playing = playing;
     }
 
-    public Set<LanguageModel> getLearnedLanguages() {
-        return learnedLanguages;
+    public List<TraitModel> getExpendedTraits() {
+        return expendedTraits;
     }
 
-    public void setLearnedLanguages(Set<LanguageModel> learnedLanguages) {
-        this.learnedLanguages = learnedLanguages;
+    public void setExpendedTraits(List<TraitModel> expendedTraits) {
+        this.expendedTraits = expendedTraits;
     }
 
-    public int getLanguagesAllowed(){
-        return this.abilities.getAbilityModifier(AbilityTypeEnum.Intel) + (null != this.race ? this.race.getLanguages().size(): 0);
+    public List<Dice> getHitDice() {
+        return hitDice;
+    }
+
+    public void setHitDice(List<Dice> hitDice) {
+        this.hitDice = hitDice;
+    }
+
+    public List<Dice> getUsedHitDice() {
+        return usedHitDice;
+    }
+
+    public void setUsedHitDice(List<Dice> usedHitDice) {
+        this.usedHitDice = usedHitDice;
+    }
+
+    public Map<String, String> getSpellsToChoose() {
+        return spellsToChoose;
+    }
+
+    public void setSpellsToChoose(Map<String, String> spellsToChoose) {
+        this.spellsToChoose = spellsToChoose;
+    }
+
+    public int getNumSpellsToChoose() {
+        return numSpellsToChoose;
+    }
+
+    public void setNumSpellsToChoose(int numSpellsToChoose) {
+        this.numSpellsToChoose = numSpellsToChoose;
+    }
+
+    public List<Feat> getFeats() {
+        return feats;
+    }
+
+    public void setFeats(List<Feat> feats) {
+        this.feats = feats;
     }
 }

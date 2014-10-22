@@ -77,7 +77,11 @@
                             <td>${characterModel.clazz.name}</td>
                         </c:otherwise>
                     </c:choose>
-                    <td><input type="button" id="level-character" value="Level Up"></td>
+                <table class="float-right">
+                    <tr><td><input type="button" class="float-right" id="level-character" value="Level Up"></td></tr>
+                    <tr><td><input type="button" class="float-right" id="long-rest-btn" value="Long Rest"></td></tr>
+                    <tr><td><input type="button" class="float-right" id="short-rest-btn" value="Short Rest"></td></tr>
+                </table>
                 </tr>
                 <tr >
                     <td><spring:message code="character.level"/></td>
@@ -101,16 +105,26 @@
                     </td>
                 </tr>
             </table>
+            <table id="hit-dice-table">
+                <tr>
+                    <td>Hit Dice:</td>
+                    <c:if test="${character.hitDiceD6 > 0}"><td>d6: <input id="hit-dice-d6" class="input-box-small" readonly="true" value = ${character.hitDiceD6}></td></c:if>
+                    <c:if test="${character.hitDiceD8 > 0}"><td>d8: <input id="hit-dice-d8" class="input-box-small" readonly="true" value = ${character.hitDiceD8}></td></c:if>
+                    <c:if test="${character.hitDiceD10 > 0}"><td>d10: <input id="hit-dice-d10" class="input-box-small" readonly="true" value = ${character.hitDiceD10}></td></c:if>
+                    <c:if test="${character.hitDiceD12 > 0}"><td>d12: <input id="hit-dice-d12" class="input-box-small" readonly="true" value = ${character.hitDiceD12}></td></c:if>
+                </tr>
+            </table>
             <br/>
             <c:if test="${create}">
                 <c:set var="placeholderShow" value='show'/>
                 <c:set var="minusHide" value="style='display: none;'"/>
             </c:if>
-            <div class="table_container">
+            <div class="table-container">
                 <table class="side-by-side header">
                     <tr><td><h3><spring:message code="character.ability" /><a href="javascript:void(0);" id="ability-score-reset" class="link-small">Reset</a></h3></td></tr>
                     <tr><td><span id="ability-point-label"></span></td></tr>
-                    <tr><td><input type="button" id="ability-confirm" value="Confirm"></td></tr>
+                    <tr><td><input type="button" id="ability-confirm" class="hide" value="Confirm"></td></tr>
+                    <tr><td><input type="button" id="buy-feat-btn" class="hide" value="Buy Feat"></td></tr>
                 </table>
                 <table class="side-by-side currencyheader">
                     <tr><td><h3><spring:message code="character.currency" /></h3></td></tr>
@@ -120,7 +134,7 @@
                 </table>
             </div>
             <div class="clear"></div>
-            <div class="table_container">
+            <div class="table-container">
                 <table class="side-by-side ability-row" id="abilties">
                     <c:forEach items="${abilityTypes}" var="ability">
                         <tr>
@@ -131,9 +145,9 @@
                                        readonly="true"/>
                                 <a class="modLabel" id="${ability}Mod" value=""></a>
                                 <c:if test="${create}">
-                                    <input type="button" id="${ability}-minus" class="ability-change" value="-" ${minusHide}>
-                                    <div class="placeholder ${placeholderShow}" id="${ability}-placeholder"></div>
-                                    <input type="button" id="${ability}-plus" class="ability-change" value="+">
+                                    <input type="button" id="${ability}-minus" class="ability-change hide" value="-" ${minusHide}>
+                                    <div class="placeholder ${placeholderShow} hide" id="${ability}-placeholder"></div>
+                                    <input type="button" id="${ability}-plus" class="ability-change  hide" value="+">
                                 </c:if>
                             </td>
 
@@ -189,8 +203,8 @@
             </div>
             <div class="clear"></div>
             <h3><spring:message code="character.inventory"/></h3>
-            <span id="encumbered-label"><spring:message code="character.encumbered"/></span>
-            <div class="table_container">
+            <span class="hide" id="encumbered-label"><spring:message code="character.encumbered"/></span>
+            <div class="table-container">
                 <table class="side-by-side" id="weapon-inventory-table">
                     <tr><th>Weapons</th></tr>
                     <c:forEach items="${inventoryWeapons}" var="weapon">
@@ -217,7 +231,7 @@
             <input class="input-box-small" id="proficiency-bonus" readonly="true" value="${character.characterAdvancement.proficiencyBonus}"/>
             <span class="skill-select-label" id="skill-select-label"></span>
 
-            <div class="table_container">
+            <div class="table-container">
                 <table class="side-by-side proficiencies" id="skillProfs">
                     <tr><th>Skills</th></tr>
                     <c:forEach items="${skillProficiencies}" var="skill">
@@ -259,11 +273,19 @@
             </table>
             <br/>
 
+            <h3>Feats</h3>
+            <div class="feats">
+                <table>
+                    <c:forEach items="${character.feats}" var="feat">
+                        <tr class="feat-row"><td><a href="javascript:void(0);" id="feat-${feat.id} title=${feat.description}">${feat.name}</a></td></tr>
+                    </c:forEach>
+                </table>
+            </div>
             <h3>Traits</h3>
             <div class="traits">
                 <table>
                     <c:forEach items="${character.traits}" var="trait">
-                        <tr><td><a href="javascript:void(0);" id="trait-${trait.id}" title="${trait.description}">${trait.name}</span></td></tr>
+                        <tr><td><a href="javascript:void(0);" id="trait-${trait.id}" title="${trait.description}">${trait.name}</a></td></tr>
                     </c:forEach>
                 </table>
             </div>
@@ -277,8 +299,8 @@
             <br/>
 
             <h4>Spells Known</h4>
-            <span id="new-spells-notifier" class="link-small">**You can learn ${character.numSpellsAllowed} more spells!**</span>
-            <div id="spells-known" class="table_container">
+            <span id="new-spells-notifier" class="link-small hide">**You can learn ${character.numSpellsAllowed} more spells!**</span>
+            <div id="spells-known" class="table-container">
                 <table id="level-0-spells" class="side-by-side spells-known-table">
                     <tr><th>Cantrips</th></tr>
                 </table>
@@ -320,13 +342,15 @@
                     <input type="submit" value="Save"/>
                 </td>
             </tr>
-            <modals:language-modal/>
+            <modals:language-modal />
             <modals:store-modal/>
             <modals:spell-modal/>
             <modals:description-modal/>
             <modals:spell-book-modal/>
             <modals:level-options-modal/>
             <modals:empty-modal/>
+            <modals:hit-dice-modal/>
+            <modals:feat-selection-modal/>
         </form:form>
     </div>
 </body>

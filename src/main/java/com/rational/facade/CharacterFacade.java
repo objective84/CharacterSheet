@@ -37,7 +37,13 @@ public interface CharacterFacade {
 
     void setAC(CharacterModel character);
 
-    LanguageModel removeLanguage(String characterId, String languageId);
+//    LanguageModel removeLanguage(String characterId, String languageId);
+
+    CharacterModel shortRest(String characterId, String[] hitDice);
+
+    Feat findFeat(String featId);
+
+    CharacterModel longRest(String characterId);
 
     CharacterModel assembleCharacter(CharacterModel character);
 
@@ -47,5 +53,7 @@ public interface CharacterFacade {
 
     SubClassModel setCharacterSubClass(String characterId, String subclassId);
 
-    LanguageModel addLanguage(String characterId, String languageId);
+    String getAllAvailableFeats(String characterId);
+
+//    LanguageModel addLanguage(String characterId, String languageId);
 }

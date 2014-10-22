@@ -32,8 +32,12 @@ public class Abilities {
     @Column(name="ability_increase_points")
     private Integer abilityIncreasePoints = 0;
     private Boolean locked = false;
-
-
+    private Boolean strCanIncrease = true;
+    private Boolean dexCanIncrease = true;
+    private Boolean conCanIncrease = true;
+    private Boolean intelCanIncrease = true;
+    private Boolean wisCanIncrease = true;
+    private Boolean chaCanIncrease = true;
 
     public Abilities(){}
 
@@ -298,5 +302,53 @@ public class Abilities {
         intelBonus = 0;
         wisBonus = 0;
         chaBonus = 0;
+    }
+
+    public Boolean getStrCanIncrease() {
+        return strCanIncrease;
+    }
+
+    public void setStrCanIncrease(Boolean strCanIncrease) {
+        this.strCanIncrease = strCanIncrease;
+    }
+
+    public Boolean getDexCanIncrease() {
+        return dexCanIncrease;
+    }
+
+    public void setDexCanIncrease(Boolean dexCanIncrease) {
+        this.dexCanIncrease = dexCanIncrease;
+    }
+
+    public Boolean getConCanIncrease() {
+        return conCanIncrease;
+    }
+
+    public void setConCanIncrease(Boolean conCanIncrease) {
+        this.conCanIncrease = conCanIncrease;
+    }
+
+    public Boolean getIntelCanIncrease() {
+        return intelCanIncrease;
+    }
+
+    public void setIntelCanIncrease(Boolean intelCanIncrease) {
+        this.intelCanIncrease = intelCanIncrease;
+    }
+
+    public Boolean getWisCanIncrease() {
+        return wisCanIncrease;
+    }
+
+    public void setWisCanIncrease(Boolean wisCanIncrease) {
+        this.wisCanIncrease = wisCanIncrease;
+    }
+
+    public Boolean getChaCanIncrease() {
+        return chaCanIncrease;
+    }
+
+    public void setChaCanIncrease(Boolean chaCanIncrease) {
+        this.chaCanIncrease = chaCanIncrease;
     }
 }
