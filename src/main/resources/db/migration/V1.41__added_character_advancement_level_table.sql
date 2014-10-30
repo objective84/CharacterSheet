@@ -27,7 +27,7 @@
 INSERT INTO `charactersheet`.`level` (`id_level`, `level_number`, `cantrips_known`, `spells_known`, `first_level_spell_slots`, `second_level_spell_slots`, `third_level_spell_slots`, `fourth_level_spell_slots`, `fifth_level_spell_slots`, `sixth_level_spell_slots`, `seventh_level_spell_slots`, `eighth_level_spell_slots`, `ninth_level_spell_slots`, `clazz_id`)
 VALUES ('2', #id
         '2', #level_number
-        '0', #cantrips_known
+        '3', #cantrips_known
         '2', #spells_known
         '1', #first_level_spell_slots
         '0', #second_level_spell_slots

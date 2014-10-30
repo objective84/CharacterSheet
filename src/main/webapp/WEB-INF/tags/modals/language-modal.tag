@@ -9,7 +9,8 @@
         <c:forEach items="${languages}" var="language">
            <tr>
                <td>
-                   <input type="radio" name="language-option" class='language-option' id="language_${language.id}" value="${language.name}"> ${language.name}
+                   <input type="radio" name="language-option" class='language-option' id="language_${language.id}" value="${language.name}"
+                          data-id="${language.id}"> ${language.name}
                </td>
            </tr>
         </c:forEach>

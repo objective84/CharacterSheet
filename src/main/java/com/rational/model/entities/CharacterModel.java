@@ -1,38 +1,44 @@
 package com.rational.model.entities;
 
 
+import com.rational.model.Dice;
 import com.rational.model.Proficiency;
 import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.equipment.ArmorModel;
 import com.rational.model.equipment.EquipmentModel;
 import com.rational.model.equipment.WeaponModel;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class CharacterModel {
 
     @Id @GeneratedValue private Long id;
-    private String name;
+
     private boolean encumbered;
     private Integer speed = 0;
     private int maxHealth;
     private int currentHealth;
+    @Column(name="max_health_reduction")private int maxHealthReduction;
     private Long inventoryWeight;
     private Integer armorClass;
-
+    @Transient private Boolean chooseSubclass;
+    private Boolean playing;
+    @Transient private Map<String, String> spellsToChoose = new HashMap<String, String>();
+    @Transient private int numSpellsToChoose;
     @JsonManagedReference @OneToOne(cascade = CascadeType.ALL) private CoinPurse coinPurse;
+    @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name="character_description") private CharacterDescription characterDescription;
+    @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name="abilities_id") private Abilities abilities;
     @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name="spell_slots_id") private SpellSlots spellSlots;
     @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name = "character_advancement_id") private CharacterAdvancement characterAdvancement;
     @ManyToOne private RaceModel race;
     @ManyToOne private SubRaceModel subrace;
     @ManyToOne private ClassModel clazz;
-    @ManyToOne(cascade = CascadeType.ALL) private Abilities abilities;
+
+    @JsonIgnore @ManyToOne private SubClassModel subclass;
     @JsonManagedReference @ManyToOne private ArmorModel equippedArmor;
     @JsonManagedReference @ManyToOne private WeaponModel equippedMainHand;
     @JsonManagedReference @ManyToOne private EquipmentModel equippedOffHand;
@@ -54,6 +60,22 @@ public class CharacterModel {
 
     @JoinTable(name="charactermodel_spellmodel", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="spellmodel_id"))
     @ManyToMany private List<SpellModel> spellsKnown = new ArrayList<SpellModel>();
+
+    @JoinTable(name="charactermodel_preparedspells", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="spellmodel_id"))
+    @ManyToMany private List<SpellModel> preparedSpells = new ArrayList<SpellModel>();
+
+    @JoinTable(name="character_model_used_traits", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="trait_id"))
+    @ManyToMany private List<TraitModel> expendedTraits = new ArrayList<TraitModel>();
+
+    @JoinTable(name="character_hit_dice", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="dice_id"))
+    @ManyToMany private List<Dice> hitDice = new ArrayList<Dice>();
+
+    @JoinTable(name="character_used_hit_dice", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="dice_id"))
+    @ManyToMany private List<Dice> usedHitDice = new ArrayList<Dice>();
+
+    @JoinTable(name="character_feats", joinColumns = @JoinColumn(name="character_id"), inverseJoinColumns = @JoinColumn(name="feat_id"))
+    @ManyToMany
+    private List<Feat> feats = new ArrayList<Feat>();
 
     public CharacterModel(){}
 
@@ -84,21 +106,15 @@ public class CharacterModel {
     public void addClazz(ClassModel clazz){
         getMultiClassList().add(clazz);
     }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public int getMaxHealth() {
-        return maxHealth;
+        return maxHealth - this.maxHealthReduction;
     }
 
     public void setMaxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
     }
+
 
     public int getCurrentHealth() {
         return currentHealth;
@@ -192,8 +208,9 @@ public class CharacterModel {
 
     public Integer getSaveDC() {
         if (getClazz() != null && getClazz().getMagicAbility() != null) {
-            //TODO add prof Modifier to the save DC
-            return 8 + abilities.getAbilityScore(AbilityTypeEnum.getValueOf(getClazz().getMagicAbility()));
+            int saveDc = 8 + this.characterAdvancement.getProficiencyBonus();
+            saveDc += abilities.getAbilityModifier(AbilityTypeEnum.getValueOf(getClazz().getMagicAbility()));
+            return saveDc;
         }
         return null;
     }
@@ -241,7 +258,6 @@ public class CharacterModel {
         this.abilities = abilities;
     }
 
-
     public ClassModel getClazz() {
         return clazz;
     }
@@ -267,7 +283,7 @@ public class CharacterModel {
     }
 
     public Integer getNumSpellsAllowed(){
-        return this.characterAdvancement.getNumSpellsAllowed();
+        return this.characterAdvancement.getNumSpellsAllowed() - getNumSpellsKnown();
     }
 
     public SpellSlots getSpellSlots() {
@@ -276,5 +292,191 @@ public class CharacterModel {
 
     public void setSpellSlots(SpellSlots spellSlots) {
         this.spellSlots = spellSlots;
+    }
+
+    public CharacterDescription getCharacterDescription() {
+        return characterDescription;
+    }
+
+    public void setCharacterDescription(CharacterDescription characterDescription) {
+        this.characterDescription = characterDescription;
+    }
+
+    public List<SpellModel> getPreparedSpellList(){return this.preparedSpells;}
+
+    public Integer getNumCantripsAllowed(){ return this.characterAdvancement.getNumCantripsAllowed() - getNumCantripsKnown();}
+
+    public Integer getCombinedLevel(){
+
+        return this.characterAdvancement.getCombinedLevel();
+    }
+
+    public Integer getHighestSpellSlot(){
+        return this.spellSlots != null ? this.spellSlots.getHighestAvailable() : null;
+    }
+
+    public Integer getNumCantripsKnown(){
+        int amt = 0;
+
+        for(SpellModel spell: spellsKnown){
+            if(spell.getLevel() == 0){
+                amt++;
+            }
+        }
+
+        return amt;
+    }
+
+    public Integer getNumSpellsKnown(){
+        int amt = 0;
+
+        for(SpellModel spell: spellsKnown){
+            if(spell.getLevel() != 0){
+                amt++;
+            }
+        }
+
+        return amt;
+    }
+
+    public List<Integer> getPreparedSpells() {
+        List<Integer> spells = new ArrayList<Integer>();
+        for(SpellModel spell : this.preparedSpells){
+            spells.add(spell.getId().intValue());
+        }
+        return spells;
+    }
+
+    public Integer getNumberSpellsPreparedAllowed(){
+        int num = 0;
+        if(null != this.clazz && null != this.clazz.getMagicAbility() ) {
+            num += this.abilities.getAbilityModifier(AbilityTypeEnum.valueOf(this.clazz.getMagicAbility()));
+            num += this.characterAdvancement.getCombinedLevel();
+        }
+        return num;
+    }
+
+    public Integer getHitDiceD6(){
+        int amt = 0;
+        for(Dice dice : hitDice){
+            if (dice.getName().equalsIgnoreCase("d6")){
+                amt++;
+            }
+        }
+        return amt;
+    }
+
+    public Integer getHitDiceD8(){
+        int amt = 0;
+        for(Dice dice : hitDice){
+            if (dice.getName().equalsIgnoreCase("d8")){
+                amt++;
+            }
+        }
+        return amt;
+    }
+
+    public Integer getHitDiceD10(){
+        int amt = 0;
+        for(Dice dice : hitDice){
+            if (dice.getName().equalsIgnoreCase("d10")){
+                amt++;
+            }
+        }
+        return amt;
+    }
+
+    public Integer getHitDiceD12(){
+        int amt = 0;
+        for(Dice dice : hitDice){
+            if (dice.getName().equalsIgnoreCase("d12")){
+                amt++;
+            }
+        }
+        return amt;
+    }
+
+    public void setPreparedSpells(List<SpellModel> preparedSpells) {
+        this.preparedSpells = preparedSpells;
+    }
+
+    public int getMaxHealthReduction() {
+        return maxHealthReduction;
+    }
+
+    public void setMaxHealthReduction(int maxHealthReduction) {
+        this.maxHealthReduction = maxHealthReduction;
+    }
+
+    public SubClassModel getSubclass() {
+        return subclass;
+    }
+
+    public void setSubclass(SubClassModel subclass) {
+        this.subclass = subclass;
+    }
+
+    public Boolean getChooseSubclass() {
+        return chooseSubclass;
+    }
+
+    public void setChooseSubclass(Boolean chooseSubclass) {
+        this.chooseSubclass = chooseSubclass;
+    }
+
+    public Boolean getPlaying() {
+        return playing;
+    }
+
+    public void setPlaying(Boolean playing) {
+        this.playing = playing;
+    }
+
+    public List<TraitModel> getExpendedTraits() {
+        return expendedTraits;
+    }
+
+    public void setExpendedTraits(List<TraitModel> expendedTraits) {
+        this.expendedTraits = expendedTraits;
+    }
+
+    public List<Dice> getHitDice() {
+        return hitDice;
+    }
+
+    public void setHitDice(List<Dice> hitDice) {
+        this.hitDice = hitDice;
+    }
+
+    public List<Dice> getUsedHitDice() {
+        return usedHitDice;
+    }
+
+    public void setUsedHitDice(List<Dice> usedHitDice) {
+        this.usedHitDice = usedHitDice;
+    }
+
+    public Map<String, String> getSpellsToChoose() {
+        return spellsToChoose;
+    }
+
+    public void setSpellsToChoose(Map<String, String> spellsToChoose) {
+        this.spellsToChoose = spellsToChoose;
+    }
+
+    public int getNumSpellsToChoose() {
+        return numSpellsToChoose;
+    }
+
+    public void setNumSpellsToChoose(int numSpellsToChoose) {
+        this.numSpellsToChoose = numSpellsToChoose;
+    }
+
+    public List<Feat> getFeats() {
+        return feats;
+    }
+
+    public void setFeats(List<Feat> feats) {
+        this.feats = feats;
     }
 }

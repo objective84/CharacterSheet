@@ -6,9 +6,9 @@ import com.rational.model.entities.CoinPurse;
 import com.rational.model.enums.CoinTypeEnum;
 import com.rational.model.enums.ExchangeRateEnum;
 import com.rational.model.exceptions.CurrencyConversionException;
-import com.rational.service.AdminService;
 import com.rational.service.CurrencyService;
 import com.rational.service.DiceService;
+import com.rational.service.EquipmentService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,7 +24,7 @@ public class DefaultCurrencyService implements CurrencyService {
     DiceService diceService;
 
     @Resource
-    AdminService adminService;
+    private EquipmentService equipmentService;
 
     @Override
     public CoinPurse convertCurrency(Coin from, Coin to, Long amt) throws CurrencyConversionException{
@@ -47,7 +47,7 @@ public class DefaultCurrencyService implements CurrencyService {
     public CoinPurse convertTotal(BigDecimal total){
         CoinPurse purse = new CoinPurse();
         Coin coin = new Coin(CoinTypeEnum.PLATINUM); //For unit testing
-//        Coin coin = adminService.findCoinByName(CoinTypeEnum.PLATINUM.getType());
+//        Coin coin = equipmentService.findCoinByName(CoinTypeEnum.PLATINUM.getType());
         try {
             purse.setCP(convertDown(purse, coin, total).intValue());
         } catch (NoSuchMethodException e) {
@@ -144,13 +144,13 @@ public class DefaultCurrencyService implements CurrencyService {
         CoinTypeEnum type = CoinTypeEnum.valueOf(coin.getDenomination().toUpperCase());
         switch(type){
             case COPPER:
-                return adminService.findCoinByType(CoinTypeEnum.SILVER);
+                return equipmentService.findCoinByType(CoinTypeEnum.SILVER);
             case SILVER:
-                return adminService.findCoinByType(CoinTypeEnum.ELECTRUM);
+                return equipmentService.findCoinByType(CoinTypeEnum.ELECTRUM);
             case ELECTRUM:
-                return adminService.findCoinByType(CoinTypeEnum.GOLD);
+                return equipmentService.findCoinByType(CoinTypeEnum.GOLD);
             case GOLD:
-                return adminService.findCoinByType(CoinTypeEnum.PLATINUM);
+                return equipmentService.findCoinByType(CoinTypeEnum.PLATINUM);
         }
 
         return null;

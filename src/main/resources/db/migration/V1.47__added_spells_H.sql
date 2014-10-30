@@ -153,11 +153,11 @@ VALUES ('174', #id
         '', #materialComponent
         'Instantaneous', #duration
         'a creature', #target
-        '', #requiresAttackRoll
-        '', #ritual
-        '', #concentration
-        '', #school
-        '' #range in feet
+        '0', #requiresAttackRoll
+        '0', #ritual
+        '0', #concentration
+        'Evocation', #school
+        '30' #range in feet
 );
 INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
 VALUES ('175', #id

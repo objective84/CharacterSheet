@@ -1,9 +1,14 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <body>
-    <a href="characterlist.html">Character List</a>
+    <spring:url value="/characterlist.html" var="characterlist"/>
+    <spring:url value="/spells.html" var="spells"/>
+    <spring:url value="/light-puzzle.html" var="puzzle"/>
+
+    <a href="${characterlist}">Character List</a>
     <br/>
-    <spring:url value="/admin.html" var="admin"/>
-        <a href="${admin}">Admin</a>
+    <a href="${spells}">Spell Book</a>
+    <br/>
+    <a href="${puzzle}">Light Puzzle</a>
 </body>
 </html>

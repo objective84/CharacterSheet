@@ -45,7 +45,7 @@
     <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
         <!--<property name="driverClassName" value="com.mysql.jdbc.Driver" />-->
         <!--<property name="url" value="jdbc:mysql://localhost:3306/CharacterSheet?autoReconnect=true" />-->
-        <!--<property name="username" value="b7a39885fb377f" />-->
-        <!--<property name="password" value="8c1086e7" />-->
+        <!--<property name="username" value="root" />-->
+        <!--<property name="password" value="ILdCGwRlt4aN" />-->
     <!--</bean>-->
 </beans>

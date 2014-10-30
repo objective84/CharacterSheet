@@ -6,24 +6,25 @@ define("AbilitiesView",
     ["jquery", "underscore", "marionette", "AbilitiesModel", 'jqueryUi', 'epoxy', 'AbilitiesModel'],
     function($, _, marionette, CharacterModel, jqueryUi, epoxy, AbilitiesModel) {
         var view = marionette.ItemView.extend({
-            el: '#abilties',
+            el: '#character-sheet',
             model: null,
-
             maxAbilityPoints: 27,
             maxAbilityScore: 15,
             minAbilityScore: 8,
-            abilityPoints: 27,
             abilityScoreText: 'Ability Points: ',
+            confirmed: true,
+            abilityIncrease: false,
 
             ui: {
                 str: '#Str',
                 dex: '#Dex',
                 con: '#Con',
-                int: '#Int',
+                int: '#Intel',
                 wis: '#Wis',
                 cha: '#Cha',
                 abilityPointLabel: '#ability-point-label',
-                abilityScoreReset: '#ability-score-reset'
+                abilityScoreReset: '#ability-score-reset',
+                abilityConfirm: '#ability-confirm'
             },
 
             bindings: {
@@ -35,45 +36,86 @@ define("AbilitiesView",
                 '#Cha': 'value:cha'
             },
             events: {
-                    'click .ability-change': 'onAbilityChangeButtonClick',
-                    'click @ui.abilityScoreReset': 'onAbilityScoreResetClick'
+                'click .ability-change': 'onAbilityChangeButtonClick',
+                'click @ui.abilityScoreReset': 'onAbilityScoreResetClick'
             },
 
-            fetchAbilities: function(){
-                this.model.fetchAbilities({success: _.bind(function(){
+            fetchAbilities: function(callback){
+                this.model.fetchAbilities({success: _.bind(function(data){
+                    this.abilityIncrease = this.model.get('abilityIncreasePoints')> 0;
                     this.showHideAbilityChangeButtons();
                     this.setAbilityMods();
-                }, this)})
+                    this.setAbilityPointLabel();
+                    if(callback !== undefined)callback();
+                }, this)});
             },
 
             onRender: function(){
-                this.model = new AbilitiesModel();
+                $('.ability-change').on('click', _.bind(this.onAbilityIncreaseChange, this));
                 this.applyBindings();
             },
 
-            onAbilityChangeButtonClick: function(event){
+            setAbilityPointLabel:function(){
+                if(this.model.get('availableAbilityPoints') === 0){
+                    this.ui.abilityPointLabel.text('');
+                    if(this.model.get('abilityIncreasePoints' > 0)){
+                        this.ui.abilityPointLabel.text(this.abilityScoreText + this.model.get('abilityIncreasePoints'));
+                    }
+                }else {
+                    this.ui.abilityPointLabel.text(this.abilityScoreText + this.model.get('availableAbilityPoints'));
+                }
+            },
+
+            onAbilityIncreaseChange: function(event){
+                if(!this.abilityIncrease)return;
                 var ability = $(event.target).prop('id').substr(0,3);
                 var $element = $('#' + ability);
+                if(ability === "Int"){
+                    ability = "Intel";
+                }
                 var score = parseInt($element.val());
+                var newScore = score + 1;
+                var availablePoints = this.model.get('abilityIncreasePoints');
+                this.model.set(ability.toLowerCase(), newScore);
+                availablePoints--;
+                this.model.set('abilityIncreasePoints', availablePoints);
+                if(this.model.get('abilityIncreasePoints') === 0){
+                    this.abilityIncrease = false;
+                }
+                this.model.save();
+                this.showHideAbilityChangeButtons();
+            },
+
+            onAbilityChangeButtonClick: function(event){
+                if(this.abilityIncrease)return;
+                var ability = $(event.target).prop('id').substr(0,3);
+                var $element = $('#' + ability);
+                if(ability === "Int"){
+                    ability = "Intel";
+                }
+                var score = parseInt($element.val());
+                var newPointsVal;
+                var newScore;
                 if($(event.target).prop('id').indexOf('minus') === -1){
-                    var newScore = score + 1;
-                    var newPointsVal = this.abilityPoints - this.getAbilityPointCost(newScore);
+                    newScore = score + 1;
+                    newPointsVal = this.model.get('availableAbilityPoints') - this.getNewScoreCost(score, newScore);
                     if(newPointsVal < 0 ) return;
                     $element.val(newScore);
                     this.model.set(ability.toLowerCase(), newScore);
                 }else{
-                    var newScore = score - 1;
-                    var newPointsVal = this.abilityPoints + this.getAbilityPointCost(newScore, true);
+                    newScore = score - 1;
+                    newPointsVal = this.model.get('availableAbilityPoints') + this.getNewScoreCost(score, newScore);
                     this.model.set(ability.toLowerCase(), newScore);
                 }
-                this.abilityPoints = newPointsVal;
-                if(this.abilityPoints === 0){
-                    this.ui.abilityPointLabel.text('');
-                }else {
-                    this.ui.abilityPointLabel.text(this.abilityScoreText + this.abilityPoints);
-                }
+                this.model.set('availableAbilityPoints', newPointsVal);
+                this.setAbilityPointLabel();
                 this.showHideAbilityChangeButtons();
                 this.setAbilityMods(ability, newScore);
+                if(newPointsVal === 0){
+                    this.ui.abilityConfirm.show();
+                }else{
+                    this.ui.abilityConfirm.hide();
+                }
                 this.model.save();
             },
 
@@ -84,52 +126,79 @@ define("AbilitiesView",
                     var plus = $('#' + ability + '-plus');
                     var minus = $('#' + ability + '-minus');
                     var points = $(value).val();
-
-                    if(this.canChangeAbility($(value), true)){
-                        plus.show();
-                    }else{
-                        plus.hide();
+                    var canIncrease = ability.toLowerCase();
+                    if(canIncrease === "int"){
+                        canIncrease = "intel";
                     }
-
-                    if(this.canChangeAbility($(value), false)){
-                        minus.show();
-                    }else{
-                        minus.hide();
+                    if(!this.model.get(canIncrease + 'CanIncrease')){
+                        return;
                     }
-                    if(plus.css('display') === 'none' || minus.css('display') === 'none'){
-                        placeholder.addClass('show');
-                    }else{
-                        placeholder.removeClass('show');
+                    if(this.abilityIncrease){
+                        points + 1 <= 20
+                        {
+                            plus.show();
+                            minus.hide();
+                        }
+                    }else {
+                        if (this.canChangeAbility($(value), true) && !this.model.get('locked')) {
+                            plus.show();
+                        } else {
+                            plus.hide();
+                        }
+
+                        if (this.canChangeAbility($(value), false) && !this.model.get('locked')) {
+                            minus.show();
+                        } else {
+                            minus.hide();
+                        }
+                    }
+                    if(this.model.get('locked')){
+                        placeholder.removeClass('show')
+                    }else {
+                        if (plus.css('display') === 'none' || minus.css('display') === 'none') {
+                            placeholder.addClass('show');
+                        } else {
+                            placeholder.removeClass('show');
+                        }
                     }
                 }, this))
             },
 
             canChangeAbility: function(ability, increase){
-                var score = increase ? parseInt(ability.val()) + 1 : parseInt(ability.val()) - 1;
-                var cost = this.getAbilityPointCost(score, false);
+                var pointsSpent = this.model.get('pointsSpent');
+                var newScore = increase ? parseInt(ability.val()) + 1 : parseInt(ability.val()) - 1;
+                if((!increase &&newScore < this.model.get('minAbilityScore')) ||
+                    (increase && newScore > this.model.get('maxAbilityScore'))) {
+                    return false;
+                }
+
+                var cost = this.getNewScoreCost($(ability).val(), newScore);
                 if(increase){
-                    return cost <= this.abilityPoints && score <= this.maxAbilityScore;
+                    return cost <= this.model.get('availableAbilityPoints');
                 }else{
-                    return cost + this.abilityPoints <= this.maxAbilityPoints && score >= this.minAbilityScore;
+                    return this.model.get('availableAbilityPoints') - cost <= this.model.get('maxAbilityPoints');
                 }
             },
 
-            getAbilityPointCost: function(val, neg){
-                if(val === 13 && neg){
-                    return 2;
-                }
-                if(val < 14){
-                    return 1;
-                }
-                if(val <= 16){
-                    return 2;
-                }
+            getNewScoreCost:function(currentScore, newScore){
+                var increase = newScore > currentScore;
+                var cost = this.getAbilityScoreCost(newScore) - this.getAbilityScoreCost(parseInt(currentScore));
+                cost = increase ? cost : 0 - cost;
+                return cost;
+            },
 
+            getAbilityScoreCost: function(val, increase){
+                var cost;
+                cost = val - this.model.get('minAbilityScore');
+                if(val-13 > 0){
+                    cost = cost + val-13;
+                }
+                return cost;
             },
 
             onAbilityScoreResetClick: function(){
                 this.showHideAbilityChangeButtons();
-                this.ui.abilityPointLabel.text(this.abilityScoreText + this.maxAbilityPoints);
+                this.ui.abilityPointLabel.text(this.abilityScoreText + this.model.get('maxAbilityPoints'));
             },
 
             setAbilities: function(abilities){
@@ -147,6 +216,7 @@ define("AbilitiesView",
             },
 
             initialize: function(){
+                this.model = new AbilitiesModel();
             }
         });
         epoxy.View.mixin(view.prototype);

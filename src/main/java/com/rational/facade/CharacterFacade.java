@@ -1,54 +1,59 @@
 package com.rational.facade;
 
-import com.rational.forms.Character;
-import com.rational.model.Proficiency;
+import com.rational.forms.LevelUpReportData;
 import com.rational.model.entities.*;
-import com.rational.model.enums.ProficiencyTypeEnum;
-import com.rational.model.equipment.EquipmentModel;
-import com.rational.model.exceptions.PurchaseException;
 
 import java.util.List;
-import java.util.Set;
 
 public interface CharacterFacade {
 
-    CharacterModel save(Character character);
-
     CharacterModel save(CharacterModel character);
 
-    List<Character> findAllCharacters();
+    List<CharacterModel> findAllCharacters();
 
-    Character findCharacter(Long id);
+    void deleteCharacter(String id);
 
-    Character levelUp(Character character);
+    CharacterModel findCharacter(String idString);
 
-    CharacterModel getCharacterModel(Long id);
+    com.rational.forms.LevelUpReportData levelUp(String characterId, String classId);
 
-    void deleteCharacter(Long aLong);
+    LevelUpReportData levelUp(CharacterModel character, ClassModel clazz);
 
-    CharacterModel purchaseGear(Long charId, Set<Long> equipmentIds) throws PurchaseException;
+    ClassModel setCharacterClass(String characterId, String classId);
 
-    com.rational.model.entities.ClassModel setCharacterClass(Long characterId, Long classId);
+    RaceModel setCharacterRace(String characterId, String raceId);
 
-    com.rational.model.entities.RaceModel setCharacterRace(String characterId, String raceId);
+    SubRaceModel setCharacterSubrace(String characterId, String subraceId);
 
-    Set<Proficiency> getProficienciesOfType(Set<Proficiency> proficiencies, ProficiencyTypeEnum type);
+    void setCharacterLanguages(CharacterModel character);
 
-    com.rational.model.entities.SubRaceModel setCharacterSubrace(String characterId, String subraceId);
+    void setCharacterProficiencies(CharacterModel character);
 
-    SubRaceModel getCharacterSubrace(String characterId);
-
-    List<EquipmentModel> filterEquipmentList(List<String> filters, String characterId);
-
-    List<EquipmentModel> filterByProficiency(String characterId);
-
-//    Abilities increaseDecreaseAbilityScore(String characterId, String type, Boolean positive);
+    void setCharacterTraits(CharacterModel character);
 
     void equipArmor(String characterId, String itemId);
 
-    Abilities findAbilities(String characterId);
-
-    ClassModel getCharacterClass(String characterId);
-
     SpellModel addSpell(String characterId, String spellId);
+
+    void setAC(CharacterModel character);
+
+//    LanguageModel removeLanguage(String characterId, String languageId);
+
+    CharacterModel shortRest(String characterId, String[] hitDice);
+
+    Feat findFeat(String featId);
+
+    CharacterModel longRest(String characterId);
+
+    CharacterModel assembleCharacter(CharacterModel character);
+
+    void addSkill(String characterId, String skillId);
+
+    void removeSkill(String characterId, String skillId);
+
+    SubClassModel setCharacterSubClass(String characterId, String subclassId);
+
+    String getAllAvailableFeats(String characterId);
+
+//    LanguageModel addLanguage(String characterId, String languageId);
 }

@@ -123,7 +123,7 @@ public class DefaultCurrencyServiceTest {
 
     @Test
     public void testConvertTotal_pass() throws Exception {
-        BigDecimal total = new BigDecimal(1.34);
+        BigDecimal total = new BigDecimal(40.957);
         CoinPurse purse = currencyService.convertTotal(total);
 
         assertTrue(purse.getPP() == 1);

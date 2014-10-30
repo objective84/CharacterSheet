@@ -1,31 +1,26 @@
 package com.rational.controller;
 
-import com.rational.converters.EquipmentConverter;
-import com.rational.facade.AdminFacade;
-import com.rational.facade.CharacterFacade;
-import com.rational.forms.Character;
+import com.rational.facade.*;
+import com.rational.forms.LevelUpReportData;
 import com.rational.forms.ProficienciesForm;
 import com.rational.forms.ResponseData;
 import com.rational.model.Proficiency;
 import com.rational.model.entities.*;
 import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.enums.EquipmentFilterEnum;
-import com.rational.model.equipment.ArmorModel;
-import com.rational.model.equipment.EquipmentModel;
-import com.rational.model.equipment.WeaponModel;
-import com.rational.model.exceptions.PurchaseException;
-import com.rational.service.CurrencyService;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.rational.service.DescriptionService;
+import com.rational.service.DiceService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class CharacterController {
@@ -39,42 +34,49 @@ public class CharacterController {
     private static final String REDIRECT_CHARACTER_LIST = REDIRECT_PREFIX + CHARACTER_LIST + REDIRECT_SUFFIX;
     private static final String REDIRECT_CHARACTER = REDIRECT_PREFIX + CHARACTER + REDIRECT_SUFFIX;
 
-    private static final String PURCHASE_SUCCESS = "Your purchase was successful!";
 
 
 
     @Resource(name="defaultCharacterFacade")
     private CharacterFacade characterFacade;
 
-    @Resource
-    private AdminFacade adminFacade;
+    @Resource(name = "defaultEquipmentFacade")
+    private EquipmentFacade equipmentFacade;
 
-    @Resource(name="defaultCurrencyService")
-    private CurrencyService currencyService;
+    @Resource(name = "defaultRaceFacade")
+    private RaceFacade raceFacade;
 
-    @Resource
-    private EquipmentConverter equipmentConverter;
+    @Resource(name = "defaultClassFacade")
+    private ClassFacade classFacade;
+
+    @Resource(name = "defaultLanguageFacade")
+    private LanguageFacade languageFacade;
+
+    @Resource(name="defaultAbilitiesFacade")
+    private AbilitiesFacade abilitiesFacade;
+
+    @Resource(name="defaultDescriptionService")
+    private DescriptionService descriptionService;
+
+    @Resource(name = "defaultDiceService")
+    private DiceService diceService;
 
     @RequestMapping(value="/characterlist", method= RequestMethod.GET)
     public ModelAndView getCharacterList(final Model model){
         ModelAndView mav = new ModelAndView(CHARACTER_LIST);
         mav.addObject("characters", characterFacade.findAllCharacters());
-        mav.addObject("classMap", adminFacade.getClassMap());
-        mav.addObject("raceMap", adminFacade.getRaceMap());
+        mav.addObject("classMap", classFacade.getClassMap());
+        mav.addObject("raceMap", raceFacade.getRaceMap());
         return mav;
     }
 
     @RequestMapping(value="/characterlist", method= RequestMethod.POST)
-    public ModelAndView getCharacterList(@ModelAttribute Character character, final Model model, HttpSession session){
-        ModelAndView mav = new ModelAndView(REDIRECT_CHARACTER);
-        if("delete".equals(character.getName())){
-            characterFacade.deleteCharacter(character.getId());
-            mav.setViewName(REDIRECT_CHARACTER_LIST);
-            character = new Character();
-        }else if(null == character.getId()){
-            character = new Character();
+    public ModelAndView getCharacterList(@ModelAttribute CharacterModel character, final ModelAndView mav, HttpSession session){
+        mav.setViewName(REDIRECT_CHARACTER);
+        if(null == character.getId()){
+            character = new CharacterModel();
         }else{
-            character = characterFacade.findCharacter(character.getId());
+            character = characterFacade.findCharacter(character.getId().toString());
         }
         session.setAttribute("character", character);
         mav.addObject("character", character);
@@ -82,380 +84,147 @@ public class CharacterController {
     }
 
     @RequestMapping(value="/character-sheet", method= RequestMethod.GET)
-    public ModelAndView character(final Model model, HttpSession session) {
-        ModelAndView mav = new ModelAndView(CHARACTER);
-        Character character = (Character)session.getAttribute("character");
-        CharacterModel characterModel;
+    public RedirectView character(final ModelAndView mav, HttpSession session) {
+        CharacterModel character = characterFacade.save(new CharacterModel());
+        return new RedirectView(CHARACTER + "/" + character.getId());
+    }
+
+    @RequestMapping(value="/character/current-health/{characterId}/{health}", method = RequestMethod.POST)
+    public void updateHealth(@PathVariable String characterId,@PathVariable int health){
+        CharacterModel character = characterFacade.findCharacter(characterId);
+        character.setCurrentHealth(health);
+        characterFacade.save(character);
+    }
+
+    @RequestMapping(value="/character-sheet/{characterId}", method= RequestMethod.GET)
+    public ModelAndView character(@PathVariable String characterId, final ModelAndView mav, HttpSession session) {
+        mav.setViewName(CHARACTER);
         mav.addObject("create", true);
-        if(null == character.getId()){
-            characterModel = characterFacade.save(new Character());
-        }else{
-            characterModel = characterFacade.getCharacterModel(character.getId());
-            addProficienciesToModel(mav, characterModel.getProficiencies());
-        }
-        mav.addObject("classes", adminFacade.findAllClasses());
-        mav.addObject("classMap", adminFacade.getClassMap());
-        mav.addObject("raceMap", adminFacade.getRaceMap());
-        mav.addObject("races", adminFacade.findAllRaces());
-        mav.addObject("languages", adminFacade.findAllLanguages());
-        mav.addObject("character", characterModel);
-        addEquipmentToModel(mav, characterModel);
-        mav.addObject("abilityTypes", AbilityTypeEnum.values());
+        mav.addObject("classes", classFacade.findAllClasses());
+        mav.addObject("classMap", classFacade.getClassMap());
+        mav.addObject("raceMap", raceFacade.getRaceMap());
+        mav.addObject("races", raceFacade.findAllRaces());
+        mav.addObject("languages", languageFacade.findAllLanguages());
+        CharacterModel character = characterFacade.findCharacter(characterId);
+        addProficienciesToModel(mav, character.getProficiencies());
+        mav.addObject("spellcasters", classFacade.findAllSpellcasters());
+        mav.addObject("character", character);
+        addEquipmentToModel(mav, character);
+        mav.addObject("abilityTypes", AbilityTypeEnum.getValues());
         mav.addObject("weaponFilters", EquipmentFilterEnum.getWeaponFilters());
         mav.addObject("armorFilters", EquipmentFilterEnum.getArmorFilters());
         mav.addObject("filterByProficiency", EquipmentFilterEnum.BY_PROFICIENCY.toString());
         return mav;
     }
 
+    @RequestMapping(value="character/{characterId}/delete", method = RequestMethod.DELETE)
+    public String deleteCharacter(@PathVariable String characterId){
+        characterFacade.deleteCharacter(characterId);
+        return "deleted";
+    }
+
     private void addEquipmentToModel(ModelAndView mav, CharacterModel character) {
-        mav.addObject("inventoryWeapons", adminFacade.getWeaponsFromInventory(character));
-        mav.addObject("inventoryOffHandItems", adminFacade.getOffHandFromInventory(character));
-        mav.addObject("inventoryArmor", adminFacade.getArmorFromInventory(character));
-        mav.addObject("allWeapons", adminFacade.findAllWeaponModels());
-        mav.addObject("allArmor", adminFacade.findAllArmorModels());
+        mav.addObject("inventoryWeapons", equipmentFacade.getWeaponsFromInventory(character));
+        mav.addObject("inventoryOffHandItems", equipmentFacade.getOffHandFromInventory(character));
+        mav.addObject("inventoryArmor", equipmentFacade.getArmorFromInventory(character));
+        mav.addObject("allWeapons", equipmentFacade.findAllWeapons());
+        mav.addObject("allArmor", equipmentFacade.findAllArmor());
     }
 
     @RequestMapping(value="/character-sheet", method= RequestMethod.POST)
-    public ModelAndView saveCharacter(@ModelAttribute Character character, Model model){
+    public ModelAndView saveCharacter(@ModelAttribute CharacterModel character, Model model){
         ModelAndView mav = new ModelAndView(REDIRECT_CHARACTER_LIST);
         characterFacade.save(character);
         return mav;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/character", method = RequestMethod.GET, produces = "application/json")
-    public CharacterModel getCharacter(@RequestParam(value = "characterId") String characterId){
-        return characterFacade.getCharacterModel(Long.valueOf(characterId));
+    @RequestMapping(value="/character-sheet/character", method = RequestMethod.POST, consumes = "application/json")
+    public CharacterModel saveCharacter(@RequestBody CharacterModel character){
+        return characterFacade.save(character);
     }
 
     @ResponseBody
     @RequestMapping(value = "/character/{characterId}", method = RequestMethod.GET, produces = "application/json")
     public CharacterModel characterFetch(@PathVariable final String characterId){
-        CharacterModel character = characterFacade.getCharacterModel(Long.valueOf(characterId));
+        CharacterModel character = characterFacade.findCharacter(characterId);
         return character;
+    }
+
+    @RequestMapping(value="character-sheet/character/addSkill/{characterId}/{skillId}")
+    public void addSkill(@PathVariable String characterId, @PathVariable String skillId){
+        characterFacade.addSkill(characterId, skillId);
+    }
+
+    @RequestMapping(value="character-sheet/character/removeSkill/{characterId}/{skillId}")
+    public void removeSkill(@PathVariable String characterId, @PathVariable String skillId){
+        characterFacade.removeSkill(characterId, skillId);
     }
 
     @ResponseBody
     @RequestMapping(value = "/abilities", method = RequestMethod.POST, consumes = "application/json")
     public Abilities saveAbilities(@RequestBody Abilities abilities){
-        Abilities saved =  adminFacade.saveAbilities(abilities);
+        Abilities saved =  abilitiesFacade.saveAbilities(abilities);
         return saved;
     }
 
     @ResponseBody
     @RequestMapping(value = "/abilities/{characterId}", method = RequestMethod.GET, produces = "application/json")
     public Abilities getAbilities(@PathVariable String characterId){
-        Abilities abilities = characterFacade.findAbilities(characterId);
+        Abilities abilities = characterFacade.findCharacter(characterId).getAbilities();
         return abilities;
     }
 
-    @RequestMapping(value = "/delete-character", method = RequestMethod.GET)
-    public String deleteCharacter(@RequestParam(value = "characterId") String characterId){
-        characterFacade.deleteCharacter(Long.valueOf(characterId));
-        return "deleted";
+    @ResponseBody
+    @RequestMapping(value = "/purse/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public CoinPurse getCoinPurse(@PathVariable String characterId){
+        CoinPurse coinPurse = characterFacade.findCharacter(characterId).getCoinPurse();
+        return coinPurse;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/description", method = RequestMethod.POST, consumes = "application/json")
+    public CharacterDescription saveDescription(@RequestBody CharacterDescription description){
+        CharacterDescription saved =  descriptionService.save(description);
+        return saved;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/description/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public CharacterDescription getDescription(@PathVariable String characterId){
+        CharacterDescription description = characterFacade.findCharacter(characterId).getCharacterDescription();
+        return description;
     }
 
     @ResponseBody
     @RequestMapping(value = "/proficiencies", method = RequestMethod.GET, produces = "application/json")
     public ProficienciesForm getProficiencies(@RequestParam(value = "classId") String classId){
-        return new ProficienciesForm(adminFacade.getClassModel(Long.valueOf(classId)).getProficiencies());
+        return new ProficienciesForm(classFacade.getClassModel(Long.valueOf(classId)).getProficiencies());
     }
 
     @ResponseBody
-    @RequestMapping(value="/race/{characterId}/{raceId}", method = RequestMethod.GET, produces = "application/json")
-    public RaceModel getCharacterRace(@PathVariable String characterId, @PathVariable String raceId){
-        RaceModel raceModel = characterFacade.getCharacterModel(Long.decode(characterId)).getRace();
-        return raceModel;
+    @RequestMapping(value="/character-sheet/level-up/{characterId}/{classId}", method = RequestMethod.POST, produces="application/json")
+    public LevelUpReportData levelUp(@PathVariable String characterId, @PathVariable String classId){
+       return characterFacade.levelUp(characterId, classId);
     }
 
-    @ResponseBody
-    @RequestMapping(value="/race/{characterId}/{raceId}", method = RequestMethod.POST)
-    public RaceModel setCharacterRace(@PathVariable String characterId, @PathVariable String raceId){
-        RaceModel race = characterFacade.setCharacterRace(characterId, raceId);
-        return race;
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/race/{raceId}", method = RequestMethod.GET, produces = "application/json")
-    public RaceModel fetchRace(@PathVariable String raceId){
-        return adminFacade.getRaceModel(raceId);
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/subrace/{characterId}/{subraceId}", method = RequestMethod.POST, produces = "application/json")
-    public SubRaceModel setCharacterSubRace(@PathVariable String characterId, @PathVariable String subraceId){
-        SubRaceModel subrace = characterFacade.setCharacterSubrace(characterId, subraceId);;
-        return subrace;
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/subrace/{characterId}", method = RequestMethod.GET, produces = "application/json")
-    public SubRaceModel getCharacterSubRace(@PathVariable String characterId){
-        SubRaceModel subrace = characterFacade.getCharacterSubrace(characterId);
-        return subrace;
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/class/{characterId}/{classId}", method = RequestMethod.POST, produces = "application/json")
-    public ClassModel setCharacterClass(@PathVariable String characterId, @PathVariable String classId){
-        ClassModel clazz = characterFacade.setCharacterClass(Long.valueOf(characterId), Long.valueOf(classId));
-        return clazz;
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/class/{characterId}", method = RequestMethod.GET, produces = "application/json")
-    public ClassModel getCharacterClass(@PathVariable String characterId){
-        ClassModel clazz = characterFacade.getCharacterClass(characterId);
-        return clazz;
-    }
-
-    @RequestMapping(value="/spell/{spellId}", method =  RequestMethod.GET)
-    public SpellModel getSpellText(@PathVariable String spellId){
-        return adminFacade.findSpell(spellId);
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/availableSpells/{characterId}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseData<Map<String, String>> getSpellsForClassLevel(@PathVariable String characterId){
-        ResponseData<Map<String, String>> spells = new ResponseData<Map<String, String>>();
-        spells.setData(buildJspStrings(new TreeSet<SpellModel>(adminFacade.findSpells(characterId))));
-        return spells;
-    }
-
-    @RequestMapping(value="/add-spell/{characterId}/{spellId}", method = RequestMethod.POST)
-    public SpellModel addSpell(@PathVariable String characterId,  @PathVariable String spellId){
-        return characterFacade.addSpell(characterId, spellId);
-    }
-
-
-    @ResponseBody
-    @RequestMapping(value="/allSpells", method = RequestMethod.GET, produces = "application/json")
-    public ResponseData<Map<String, String>> getAllSpells(){
-        ResponseData<Map<String, String>> spells = new ResponseData<Map<String, String>>();
-        spells.setData(buildJspStrings(new TreeSet<SpellModel>(adminFacade.findAllSpells())));
-        return spells;
-    }
-
-    private Map<String, String> buildJspStrings(Set<SpellModel> spells){
-        String spellString = "";
-        String tableStart = "<table class='spell-table side-by-side'><tr><th>Level</th><th>Spell</th></tr>";
-        String abjuration = tableStart;
-        String conjuration = tableStart;
-        String divination = tableStart;
-        String enchantment = tableStart;
-        String evocation = tableStart;
-        String illusion = tableStart;
-        String necromancy = tableStart;
-        String transmutation = tableStart;
-        boolean hasAbj = false;
-        boolean hasConj = false;
-        boolean hasDiv = false;
-        boolean hasEnc = false;
-        boolean hasEvo = false;
-        boolean hasIll = false;
-        boolean hasNec = false;
-        boolean hasTra = false;
-
-        for(SpellModel spell : spells){
-            spellString = "<tr class='spell-line'><td>" + spell.getLevel() + "</td><td id='" + spell.getId() + "' class='spell-select'><span>" + spell.getName() + "</span></td></tr>";
-            if(spell.getSchool().equalsIgnoreCase("abjuration")){
-                hasAbj = true;
-                abjuration = abjuration + spellString;
-            }
-            else if(spell.getSchool().equalsIgnoreCase("conjuration")){
-                hasConj = true;
-                conjuration = conjuration + spellString;
-            }
-            else if(spell.getSchool().equalsIgnoreCase("divination")){
-                hasDiv = true;
-                divination = divination + spellString;
-            }
-            else if(spell.getSchool().equalsIgnoreCase("enchantment")){
-                hasEnc = true;
-                enchantment = enchantment + spellString;
-            }
-            else if(spell.getSchool().equalsIgnoreCase("evocation")){
-                hasEvo = true;
-                evocation = evocation + spellString;
-            }
-            else if(spell.getSchool().equalsIgnoreCase("illusion")){
-                hasIll = true;
-                illusion = illusion + spellString;
-            }
-            else if(spell.getSchool().equalsIgnoreCase("necromancy")){
-                hasNec = true;
-                necromancy = necromancy + spellString;
-            }
-            else if(spell.getSchool().equalsIgnoreCase("transmutation")){
-                hasTra = true;
-                transmutation = transmutation + spellString;
-            }
-        }
-        abjuration = abjuration + "</table>";
-        conjuration = conjuration + "</table>";
-        divination = divination + "</table>";
-        enchantment = enchantment + "</table>";
-        evocation = evocation + "</table>";
-        illusion = illusion + "</table>";
-        necromancy = necromancy + "</table>";
-        transmutation = transmutation + "</table>";
-
-        Map<String, String> spellList = new HashMap<String, String>();
-        if(hasAbj)spellList.put("abjuration", abjuration);
-        if(hasConj)spellList.put("conjuration", conjuration);
-        if(hasDiv)spellList.put("divination", divination);
-        if(hasEnc)spellList.put("enchantment", enchantment);
-        if(hasEvo)spellList.put("evocation", evocation);
-        if(hasIll)spellList.put("illusion", illusion);
-        if(hasNec)spellList.put("necromancy", necromancy);
-        if(hasTra)spellList.put("transmutation", transmutation);
-        return spellList;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @ResponseBody
-    @RequestMapping(value="/filterEquipmentByProficiency", method = RequestMethod.GET, produces = "application/json")
-    public ResponseData<List<EquipmentModel>> filterEquipment(@RequestParam(value = "characterId") String characterId,
-                                                              @RequestParam(value= "filter") String filter){
-        ResponseData<List<EquipmentModel>> responseData = new ResponseData<List<EquipmentModel>>();
-
-        if(filter.equals("true"))
-        {
-            responseData.setData(characterFacade.filterByProficiency(characterId));
-        }else{
-            responseData.setData(adminFacade.getAllEquipmentModels());
-        }
-
-        return responseData;
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/equipment", method = RequestMethod.GET, produces = "application/json")
-    public ResponseData<CharacterModel> saveInventory(@RequestParam(value = "ids") String ids){
-        ResponseData<CharacterModel> responseData = new ResponseData<CharacterModel>();
-        Set<Long> equipmentIds = new HashSet<Long>();
-        String charId = "";
-        try {
-            JSONObject obj = new JSONObject(ids);
-            charId = obj.getString("charId");
-            JSONArray array = obj.getJSONArray("equipmentIds");
-
-            for(int i=0; i< array.length(); i++){
-                equipmentIds.add(Long.decode(array.getString(i)));
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            responseData.setData(characterFacade.purchaseGear(Long.decode(charId), equipmentIds));
-            responseData.setCode(ResponseData.SUCCESS_CODE);
-            responseData.setMessage(PURCHASE_SUCCESS);
-        } catch (PurchaseException e) {
-            responseData.setCode(ResponseData.FAILURE_CODE);
-            responseData.setErrorMessage(e.getMessage());
-        }
-
-        return responseData;
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/main-hand", method = RequestMethod.GET, produces = "application/json")
-    public List<WeaponModel> getMainHandWeapons(@RequestParam(value = "characterId") String characterId){
-        return adminFacade.getWeaponsFromInventory(characterFacade.getCharacterModel(Long.decode(characterId)));
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/off-hand", method = RequestMethod.GET, produces = "application/json")
-    public List<EquipmentModel> getOffHand(@RequestParam(value = "characterId") String characterId){
-        return adminFacade.getOffHandFromInventory(characterFacade.getCharacterModel(Long.decode(characterId)));
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/armor", method = RequestMethod.GET, produces = "application/json")
-    public List<ArmorModel> getArmor(@RequestParam(value = "characterId") String characterId){
-        return adminFacade.getArmorFromInventory(characterFacade.getCharacterModel(Long.decode(characterId)));
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/equip-main-hand", method = RequestMethod.GET, produces = "application/json")
-    public CharacterModel setMainHandWeapons(@RequestParam(value = "characterId") String characterId,
-                                             @RequestParam(value = "itemId") String itemId ){
-        CharacterModel character = characterFacade.getCharacterModel(Long.decode(characterId));
-        character.setEquippedMainHand(adminFacade.findWeaponModel(Long.decode(itemId)));
-        character = characterFacade.save(character);
-
-        return character;
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/equip-off-hand", method = RequestMethod.GET, produces = "application/json")
-    public CharacterModel setOffHand(@RequestParam(value = "characterId") String characterId,
-                                     @RequestParam(value = "itemId") String itemId){
-        CharacterModel character = characterFacade.getCharacterModel(Long.decode(characterId));
-        character.setEquippedOffHand(adminFacade.findEquipment(Long.decode(itemId)));
-        character = characterFacade.save(character);
-
-        return character;
-    }
-
-    @ResponseBody
-    @RequestMapping(value="/equip-armor", method = RequestMethod.GET, produces = "application/json")
-    public CharacterModel setArmor(@RequestParam(value = "characterId") String characterId,
-                                   @RequestParam(value = "itemId") String itemId){
-        CharacterModel character = characterFacade.getCharacterModel(Long.decode(characterId));
-        characterFacade.equipArmor(characterId, itemId);
-        character.setEquippedArmor(adminFacade.getArmorModel(Long.decode(itemId)));
-        character = characterFacade.save(character);
-
-        return character;
-    }
-
-
-
-    @RequestMapping(value="/level-up", method = RequestMethod.GET)
-    public void levelUp(@ModelAttribute Character character){
-        characterFacade.levelUp(character);
-    }
+//    @ResponseBody
+//    @RequestMapping(value="/language/add/{characterId}/{languageId}", method = RequestMethod.POST, produces="application/json")
+//    public ResponseData<LanguageModel> addLanguage(@PathVariable String characterId, @PathVariable String languageId){
+//        ResponseData<LanguageModel> responseData = new ResponseData<LanguageModel>();
+//        LanguageModel language = characterFacade.addLanguage(characterId, languageId);
+//        responseData.setData(language);
+//        return responseData;
+//    }
+//
+//    @ResponseBody
+//    @RequestMapping(value="/language/remove/{characterId}/{languageId}", method = RequestMethod.POST, produces="application/json")
+//    public ResponseData<LanguageModel> removeLanguage(@PathVariable String characterId, @PathVariable String languageId){
+//        ResponseData<LanguageModel> responseData = new ResponseData<LanguageModel>();
+//        LanguageModel language = characterFacade.removeLanguage(characterId, languageId);
+//        responseData.setData(language);
+//        return responseData;
+//    }
 
     @ResponseBody
     public CoinPurse convertCurrency(@RequestParam(value="from") String from,
@@ -464,6 +233,31 @@ public class CharacterController {
         return new CoinPurse();
     }
 
+    @ResponseBody
+    @RequestMapping(value="/character/rest/short/{characterId}", method = RequestMethod.POST, produces = "application/json")
+    public CharacterModel takeShortRest(@PathVariable String characterId, @RequestParam(value="hitDice") String[] hitDice){
+        return characterFacade.shortRest(characterId, hitDice);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/character/rest/long/{characterId}", method = RequestMethod.POST, produces = "application/json")
+    public CharacterModel takeLongRest(@PathVariable String characterId){
+        return characterFacade.longRest(characterId);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/feat/all-available/{characterId}")
+    public ResponseData<String> getAllAvailableFeats(@PathVariable String characterId){
+        ResponseData<String> data = new ResponseData<String>();
+        data.setData(characterFacade.getAllAvailableFeats(characterId));
+        return data;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/feat/{featId}")
+    public Feat getFeat(@PathVariable String featId){
+        return characterFacade.findFeat(featId);
+    }
 
     private void addProficienciesToModel(ModelAndView mav, Set<Proficiency> proficiencies){
         List<Proficiency> skills = new ArrayList<Proficiency>();
@@ -490,12 +284,19 @@ public class CharacterController {
                     saves.add(proficiency);
                     break;
             }
-
-            mav.addObject("skillProficiencies", skills);
-            mav.addObject("toolProficiencies", tools);
-            mav.addObject("weaponProficiencies", weapons);
-            mav.addObject("armorProficiencies", armor);
-            mav.addObject("savingThrowProficiencies", saves);
         }
+
+        mav.addObject("skillProficiencies", skills);
+        mav.addObject("toolProficiencies", tools);
+        mav.addObject("weaponProficiencies", weapons);
+        mav.addObject("armorProficiencies", armor);
+        mav.addObject("savingThrowProficiencies", saves);
+    }
+
+    @RequestMapping(value="/light-puzzle")
+    public ModelAndView lightPuzzle(ModelAndView mav){
+        mav.setViewName("light-puzzle");
+        return mav;
     }
 }
+

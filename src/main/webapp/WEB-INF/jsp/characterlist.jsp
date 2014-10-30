@@ -17,21 +17,21 @@
 </head>
 <body>
     <div id="character-list">
-        <form:form id="characterForm" commandname="character">
-            <input type="hidden" id="id" name="id" value="0"/>
-            <input type="hidden" id="name" name="name" value=""/>
+        <input type="hidden" id="id" name="id" value="0"/>
+        <input type="hidden" id="name" name="name" value=""/>
+        <form:form commandName="character" id="characterForm">
             <table>
                 <c:forEach items="${characters}" var="character">
-                    <tr>
-                        <td><a href="#no" onclick="submitCharacter(${character.id})" class='characterLink' id="${character.id}" />
-                            ${character.name} - ${raceMap[character.race].raceName} ${classMap[character.clazz].name}
+                    <tr id="row-${character.id}">
+                        <td><a href="character-sheet/${character.id}"  class='characterLink' />
+                                ${character.characterDescription.name} - ${raceMap[character.race].raceName} ${classMap[character.clazz].name}
                             <a href="#" class="delete-char link-small" id="${character.id}-delete" class="link-small">Delete</a>
                         </td>
                     </tr>
                 </c:forEach>
                 <tr>
                     <td>
-                        <a href="#" id="new-character" id="${character.id}" onclick="javascript:newCharacter()">Create new character</a>
+                        <a href="character-sheet" >Create new character</a>
                     </td>
                 </tr>
             </table>

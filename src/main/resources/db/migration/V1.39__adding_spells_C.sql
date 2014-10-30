@@ -574,7 +574,7 @@ VALUES ('67', #id
 );
 INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
 VALUES ('68', #id
-        'Conjure Minor Elemental', #name
+        'Conjure Minor Elementals', #name
         '1 minute', #castingTime
         'You summon elementals that appear in unoccupied spaces that you can see within range. You choose one the following options for what appears: /bullets• One elemental of challenge rating 2 or lower /bt• Two elementals of challenge rating 1 or lower /bt• Four elementals of challenge rating 1/2 or lower /bt• Eight elementals of challenge rating 1/4 or lower./bullets An elemental summoned by this spell disappears when it drops to 0 hit points or when the spell ends. /nThe summoned creatures are friendly to you and your companions. Roll initiative for the summoned creatures as a group, which has its own turns. They obey any verbal commands that you issue to them (no action required by you). If you don’t issue any commands to them, they defend themselves from hostile creatures, but otherwise take no actions. /nThe DM has the creatures'' statistics. /n/bAt Higher Levels./b When you cast this spell using certain higher-level spell slots, you choose one of the summoning options above, and more creatures appear: twice as many with a 6th-level slot and three times as many with an 8th-level slot.', #description
         '4', #level

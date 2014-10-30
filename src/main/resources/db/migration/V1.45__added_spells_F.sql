@@ -324,16 +324,7 @@ INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`descript
 VALUES ('138', #id
         'Fire Shield', #name
         '1 action', #castingTime
-        'Thin and wispy flames wreathe your body for the
-duration, shedding bright light in a 10-foot radius and
-dim light for an additional 10 feet. You can end the spell
-early by using an action to dismiss it.
-/nThe flames provide you with a warm shield. The shield grants you
-resistance to cold damage.
-/nIn addition, whenever a creature within 5 feet of you
-hits you with a melee attack, the shield erupts with
-flame. The attacker takes 2d8 fire damage from a warm
-shield.', #description
+        'Thin and wispy flames wreathe your body for the duration, shedding bright light in a 10-foot radius and dim light for an additional 10 feet. You can end the spell early by using an action to dismiss it. /nThe flames provide you with a warm shield. The shield grants you resistance to cold damage. /nIn addition, whenever a creature within 5 feet of you hits you with a melee attack, the shield erupts with flame. The attacker takes 2d8 fire damage from a warm shield.', #description
         '4', #level
         '2', #damageDiceAmount
         '3', #damageDice ID
@@ -353,7 +344,7 @@ shield.', #description
         '0' #range in feet
 );
 INSERT INTO `charactersheet`.`spellmodel` (`id`, `name`, `castingTime`,`description`, `level`, `damageDiceAmount`,`damageDice_id`, `damageType_id`, `damageBonus`, `savingThrow`, `condition`,`requiresVerbalComponent`,`requiresSomaticComponent`,`materialComponent`, `duration`, `target`,`requiresAttackRoll`,`ritual`,`concentration`,`school`, `range`)
-VALUES ('138', #id
+VALUES ('259', #id
         'Chill Shield', #name
         '1 action', #castingTime
         'A chill wind wreathe your body for the duration. You can end the spell early by using an action to dismiss it. /nThe chill shield grants you resistance to fire damage. /nIn addition, whenever a creature within 5 feet of you hits you with a melee attack, the winds envelop the attacker, who takes 2d8 cold damage.', #description

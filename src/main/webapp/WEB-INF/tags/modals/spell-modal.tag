@@ -4,5 +4,9 @@
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 
 <div class="modal" id="spell-modal">
-        <div id="spell-text"></div>
+    <input type="hidden" id="spell-id" value>
+    <div id="spell-text"></div>
+    <br/>
+    <input type="button" id="spell-cast-btn" value="Cast"/>
+    <input type="button" id="prepare-spell-btn" value="Prepare"/>
 </div>

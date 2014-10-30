@@ -20,11 +20,11 @@ public class Dice {
     @Column(name="name")
     private String name;
 
-    @Column(name="maxRoll")
     private int maxRoll;
 
-    @Column(name="minRoll")
     private int minRoll = 1;
+
+    private Integer averageRoll;
 
     private List<ClassModel> classes = new ArrayList<ClassModel>();
     private List<WeaponModel> weapons = new ArrayList<WeaponModel>();
@@ -34,6 +34,13 @@ public class Dice {
     private List<SpellModel> spells = new ArrayList<SpellModel>();
 
     public Dice(){}
+
+    public Dice(Dice dice){
+        this.name = dice.getName();
+        this.minRoll = dice.getMinRoll();
+        this.maxRoll = dice.getMaxRoll();
+        this.averageRoll = dice.getAverageRoll();
+    }
 
     @Id @GeneratedValue
     public Long getId() {
@@ -52,6 +59,7 @@ public class Dice {
         this.name = name;
     }
 
+    @Column(name="max_roll")
     public Integer getMaxRoll() {
         return maxRoll;
     }
@@ -60,6 +68,7 @@ public class Dice {
         this.maxRoll = minimumValue;
     }
 
+    @Column(name="min_roll")
     public Integer getMinRoll() {
         return minRoll;
     }
@@ -105,5 +114,14 @@ public class Dice {
 
     public void setSpells(List<SpellModel> spells) {
         this.spells = spells;
+    }
+
+    @Column(name="average_roll")
+    public Integer getAverageRoll() {
+        return averageRoll;
+    }
+
+    public void setAverageRoll(Integer averageRoll) {
+        this.averageRoll = averageRoll;
     }
 }
