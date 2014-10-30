@@ -1,32 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Charactersheet by phowland1</title>
+    <meta name="description" content="Charactersheet : ">
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <title>Charactersheet</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header class="without-description">
-        <h1>Charactersheet</h1>
-        <p></p>
-        <p class="view"><a href="https://github.com/phowland1/CharacterSheet">View the Project on GitHub <small>phowland1/CharacterSheet</small></a></p>
-        <ul>
-          <li><a href="https://github.com/phowland1/CharacterSheet/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/phowland1/CharacterSheet/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/phowland1/CharacterSheet">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/phowland1/CharacterSheet">View on GitHub</a>
+
+          <h1 id="project_title">Charactersheet</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/phowland1/CharacterSheet/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/phowland1/CharacterSheet/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h3>
 <a name="dd-5th-edition-dynamic-character-sheet" class="anchor" href="#dd-5th-edition-dynamic-character-sheet"><span class="octicon octicon-link"></span></a>D&amp;D 5th Edition Dynamic Character Sheet</h3>
 
@@ -37,29 +41,33 @@
 <h3>
 <a name="design" class="anchor" href="#design"><span class="octicon octicon-link"></span></a>Design</h3>
 
-<p>The server-side code was designed using the 4-layer and MVC design patterns, and leverages a large number of Spring annotations for Dependency injection. There is very little XML configuration.
-The client-side character sheet functions as a 1-page webapp relying primarily on AJAX requests to handle client-server interactions. The JavaScript further extends the MVC pattern by using JS(marionette) models and views. Views detect user interaction and update the models which then sync with the Spring controllers which stores the change as well as any other related changes. The model is returned to the client and the view updated.
+<p>The server-side code was designed using the 4-layer and MVC design patterns, and leverages a large number of Spring annotations for Dependency injection. There is very little XML configuration.<br>
+The client-side character sheet functions as a 1-page webapp relying primarily on AJAX requests to handle client-server interactions. The JavaScript further extends the MVC pattern by using JS(marionette) models and views. Views detect user interaction and update the models which then sync with the Spring controllers which stores the change as well as any other related changes. The model is returned to the client and the view updated.<br>
 A large amount of data is required to be pre-loaded into the database prior to use. This was accomplished using <a href="http://flywaydb.org/">Flyway</a>, a large number of sql files, and endless hours of tedious data-entry (There are 362 spells in the Player's Handbook...trust me). </p>
 
 <h3>
 <a name="languages-frameworks-and-libraries" class="anchor" href="#languages-frameworks-and-libraries"><span class="octicon octicon-link"></span></a>Languages, Frameworks and Libraries</h3>
 
-<p>This project brings together a wide variety of technologies including:
-Server-side: Java, Spring MVC, Java Persistence API (JPA), Hibernate, Flyway, and MySQL
-Client-side: JSP, JavaScript, JQuery, require.js, Backbone/Marionette, Epoxy, AJAX</p>
+<p>This project brings together a wide variety of technologies including:<br>
+Server-side: Java, Spring MVC, Java Persistence API (JPA), Hibernate, Flyway, and MySQL<br>
+Client-side: JSP, JavaScript, JQuery, require.js, Backbone/Marionette, Epoxy, AJAX<br></p>
 
 <h3>
 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>Peter Varner-Howland (<a href="mailto:pvarnerhowland@gmail.com">pvarnerhowland@gmail.com</a>), 
+<p>Peter Varner-Howland (<a href="mailto:pvarnerhowland@gmail.com">pvarnerhowland@gmail.com</a>)<br> 
 Andrew West</p>
       </section>
     </div>
-    <footer>
-      <p>Project maintained by <a href="https://github.com/phowland1">phowland1</a></p>
-      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
-    </footer>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Charactersheet maintained by <a href="https://github.com/phowland1">phowland1</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -70,6 +78,7 @@ Andrew West</p>
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
+
 
   </body>
 </html>
