@@ -32,28 +32,33 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h3>
-<a name="dd-5th-edition-dynamic-character-sheet" class="anchor" href="#dd-5th-edition-dynamic-character-sheet"><span class="octicon octicon-link"></span></a>D&amp;D 5th Edition Dynamic Character Sheet</h3>
+<a id="dd-5th-edition-dynamic-character-sheet" class="anchor" href="#dd-5th-edition-dynamic-character-sheet" aria-hidden="true"><span class="octicon octicon-link"></span></a>D&amp;D 5th Edition Dynamic Character Sheet</h3>
 
 <p>This is a web app designed to streamline and simplify many of the more complex aspects of managing one's character sheet during a D&amp;D session. The intent is to allow players to easily track their character's activities and access information on races, classes, spells, etc quickly and easily. The ultimate end-goal is to have both a player and DM interface and a link between them allowing faster and more accurate interactions.</p>
 
 <p><strong>This App is still under construction and contains a number of defects that can prevent practical use. In addition, the front end is largely un-styled and is a bit of an eye-sore. Don't judge, gotta get it working first :)</strong> </p>
 
 <h3>
-<a name="design" class="anchor" href="#design"><span class="octicon octicon-link"></span></a>Design</h3>
+<a id="design" class="anchor" href="#design" aria-hidden="true"><span class="octicon octicon-link"></span></a>Design</h3>
 
 <p>The server-side code was designed using the 4-layer and MVC design patterns, and leverages a large number of Spring annotations for Dependency injection. There is very little XML configuration.<br>
 The client-side character sheet functions as a 1-page webapp relying primarily on AJAX requests to handle client-server interactions. The JavaScript further extends the MVC pattern by using JS(marionette) models and views. Views detect user interaction and update the models which then sync with the Spring controllers which stores the change as well as any other related changes. The model is returned to the client and the view updated.<br>
 A large amount of data is required to be pre-loaded into the database prior to use. This was accomplished using <a href="http://flywaydb.org/">Flyway</a>, a large number of sql files, and endless hours of tedious data-entry (There are 362 spells in the Player's Handbook...trust me). </p>
 
 <h3>
-<a name="languages-frameworks-and-libraries" class="anchor" href="#languages-frameworks-and-libraries"><span class="octicon octicon-link"></span></a>Languages, Frameworks and Libraries</h3>
+<a id="languages-frameworks-and-libraries" class="anchor" href="#languages-frameworks-and-libraries" aria-hidden="true"><span class="octicon octicon-link"></span></a>Languages, Frameworks and Libraries</h3>
 
 <p>This project brings together a wide variety of technologies including:<br>
 Server-side: Java, Spring MVC, Java Persistence API (JPA), Hibernate, Flyway, and MySQL<br>
 Client-side: JSP, JavaScript, JQuery, require.js, Backbone/Marionette, Epoxy, AJAX<br></p>
 
 <h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h3>
+
+<p>To run this application, you will need a MySQL database set up. Connection string and login info can be set in src\main\resources\jpaContext.xml. All other dependencies and plugins are pulled in via Maven; while it is not required (strictly-speaking), attempting to run the app without Maven will be much more difficult and most likely result in numerous errors.</p>
+
+<h3>
+<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
 <p>Peter Varner-Howland (<a href="mailto:pvarnerhowland@gmail.com">pvarnerhowland@gmail.com</a>)<br> 
 Andrew West</p>
