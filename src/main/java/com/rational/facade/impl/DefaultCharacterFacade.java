@@ -171,7 +171,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
             report.setLevelThreeSpellSlotsGained(newLevel.getThirdLevelSpellSlots());
         }
         if(newLevel.getFourthLevelSpellSlots()>0){
-            slots.setPerDayFour(slots.getPerDayFour() + newLevel.getThirdLevelSpellSlots());
+            slots.setPerDayFour(slots.getPerDayFour() + newLevel.getFourthLevelSpellSlots());
             report.setLevelFourSpellSlotsGained(newLevel.getFourthLevelSpellSlots());
         }
         if(newLevel.getFifthLevelSpellSlots()>0){

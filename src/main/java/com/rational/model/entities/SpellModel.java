@@ -5,6 +5,7 @@ import com.rational.model.Dice;
 import com.rational.utils.Formatter;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -41,9 +42,7 @@ VALUES ('', #id
 @Entity
 public class SpellModel implements Comparable<SpellModel>{
 
-    @Id
-    @GeneratedValue
-    private Long id;
+    @Id @GeneratedValue private Long id;
 
     private String name;
     private String description;
@@ -54,11 +53,8 @@ public class SpellModel implements Comparable<SpellModel>{
     private int numAttacks = 0;
 
 
-    @ManyToOne
-    @JsonManagedReference
-    private Dice damageDice;
-    @ManyToOne
-    private DamageType damageType;
+    @ManyToOne @JsonManagedReference private Dice damageDice;
+    @ManyToOne private DamageType damageType;
     private String savingThrow;
     private String condition;
     private Boolean requiresVerbalComponent;
@@ -70,6 +66,10 @@ public class SpellModel implements Comparable<SpellModel>{
     private Boolean ritual;
     private Boolean concentration;
     private String school;
+    private String areaOfEffectType;
+    private Integer areaOfEffectRange = 0;
+
+    @JsonIgnore @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name="linkedSpell_id")private SpellModel linkedSpell;
 
     @JoinTable(name="spellmodel_classmodel", joinColumns = @JoinColumn(name="spellmodel_id"), inverseJoinColumns = @JoinColumn(name="classmodel_id"))
     @JsonBackReference @ManyToMany private List<ClassModel> classes = new ArrayList<ClassModel>();
@@ -342,5 +342,29 @@ public class SpellModel implements Comparable<SpellModel>{
 
     public void setNumAttacks(int numAttacks) {
         this.numAttacks = numAttacks;
+    }
+
+    public SpellModel getLinkedSpell() {
+        return linkedSpell;
+    }
+
+    public void setLinkedSpell(SpellModel linkedSpell) {
+        this.linkedSpell = linkedSpell;
+    }
+
+    public String getAreaOfEffectType() {
+        return areaOfEffectType;
+    }
+
+    public void setAreaOfEffectType(String areaOfEffectType) {
+        this.areaOfEffectType = areaOfEffectType;
+    }
+
+    public int getAreaOfEffectRange() {
+        return 0;
+    }
+
+    public void setAreaOfEffectRange(int areaOfEffectRange) {
+        this.areaOfEffectRange = areaOfEffectRange;
     }
 }
