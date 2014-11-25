@@ -38,7 +38,7 @@ public class SpellController {
         return mav;
     }
 
-    @RequestMapping(value="/character-sheet/spell/{spellId}", method =  RequestMethod.GET)
+    @RequestMapping(value="/spell/{spellId}", method =  RequestMethod.GET)
     public SpellModel getSpellText(@PathVariable String spellId){
         return spellFacade.findSpell(spellId);
     }
@@ -95,7 +95,7 @@ public class SpellController {
     }
 
     @ResponseBody
-    @RequestMapping(value="/character-sheet/classSpells/{classId}/{sortingType}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value="/classSpells/{classId}/{sortingType}", method = RequestMethod.GET, produces = "application/json")
     public ResponseData<Map<String, String>> getClassSpells(@PathVariable String classId, @PathVariable String sortingType){
         ResponseData<Map<String, String>> spells = new ResponseData<Map<String, String>>();
         if(sortingType.equalsIgnoreCase("school")){

@@ -21,20 +21,32 @@
         <input type="hidden" id="name" name="name" value=""/>
         <form:form commandName="character" id="characterForm">
             <table>
-                <c:forEach items="${characters}" var="character">
-                    <tr id="row-${character.id}">
-                        <td><a href="character-sheet/${character.id}"  class='characterLink' />
-                                ${character.characterDescription.name} - ${raceMap[character.race].raceName} ${classMap[character.clazz].name}
-                            <a href="#" class="delete-char link-small" id="${character.id}-delete" class="link-small">Delete</a>
-                        </td>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Race</th>
+                        <th>Class</th>
                     </tr>
-                </c:forEach>
-                <tr>
-                    <td>
-                        <a href="character-sheet" >Create new character</a>
-                    </td>
-                </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${characters}" var="character">
+                        <tr id="row-${character.id}">
+                            <td>${character.characterDescription.name}</td>
+                            <td>${character.race.raceName}</td>
+                            <td> ${character.clazz.name}</td>
+                            <td>
+                                <a href="character-sheet/${character.id}" class='characterLink delete-char link-small' /> Edit
+                                <a href="javascript:void(0);" class="delete-char link-small" id="${character.id}-delete" class="link-small">Delete</a>
+                            </td>
+                            <td></td>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
             </table>
+            <br/>
+            <div class="clear"></div>
+            <input id="new-character-btn" type="button" value="New"></a>
         </form:form>
     </div>
 </body>

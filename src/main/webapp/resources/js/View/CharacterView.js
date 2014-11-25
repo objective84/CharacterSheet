@@ -10,8 +10,9 @@
 
 
 define("CharacterView",
-    ["jquery", "underscore", "marionette", "CharacterModel", 'jqueryUi', 'epoxy', 'AbilitiesView', 'CoinPurseView', 'RaceView', 'SubraceView', 'ClassView', 'CharacterDescriptionView'],
-    function($, _, marionette, CharacterModel, jqueryUi, epoxy, AbilitiesView, CoinPurseView, RaceView, SubraceView, ClassView, CharacterDescriptionView){
+    ["jquery", "underscore", "marionette", "CharacterModel", 'jqueryUi', 'epoxy', 'AbilitiesView', 'CoinPurseView',
+        'RaceView', 'SubraceView', 'ClassView', 'CharacterDescriptionView', 'SpellView'],
+    function($, _, marionette, CharacterModel, jqueryUi, epoxy, AbilitiesView, CoinPurseView, RaceView, SubraceView, ClassView, CharacterDescriptionView, SpellView){
         var view = marionette.ItemView.extend({
             el: '#character-sheet',
             model: null,
@@ -25,6 +26,7 @@ define("CharacterView",
             subraceView: null,
             classView: null,
             descriptionView: null,
+            spellView: null,
             pathContext: $('#pathContext').val(),
 
             ui:{
@@ -58,8 +60,8 @@ define("CharacterView",
                 encumberedLabel: '#encumbered-label',
                 speed: '#speed',
                 testSpell: "#test-spell",
-                addSpellsLink: "#add-spells",
-                allSpells: "#all-spells",
+//                addSpellsLink: "#add-spells",
+//                allSpells: "#all-spells",
                 abilityConfirm: '#ability-confirm',
                 levelCharacter: "#level-character",
                 newSpellsNotifier: "#new-spells-notifier",
@@ -144,10 +146,10 @@ define("CharacterView",
                     this.listenTo(this.abilitiesView, 'updateAbilities', _.bind(this.abilitiesView.fetchAbilities, this.abilitiesView));
 
 
-//                    this.descriptionView = new CharacterDescriptionView();
-//                    this.model.set('description', this.descriptionView.model);
-//                    this.descriptionView.setCharacterId(this.model.get('id'));
-//                    this.descriptionView.render();
+                    this.descriptionView = new CharacterDescriptionView();
+                    this.model.set('description', this.descriptionView.model);
+                    this.descriptionView.setCharacterId(this.model.get('id'));
+                    this.descriptionView.render();
 
                     this.coinPurseView = new CoinPurseView();
                     this.model.set('coinPurse', this.coinPurseView);
@@ -183,6 +185,9 @@ define("CharacterView",
                         this.model.clazz = this.classView.model;
                     },this));
                     this.listenTo(this.classView, 'classUpdated', _.bind(this.onClassUpdated, this));
+
+                    this.spellView = new SpellView();
+
 
                     this.displaySpellsKnown();
                     $(document).tooltip();

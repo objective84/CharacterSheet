@@ -4,6 +4,7 @@
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 
 <div class="modal" id="spell-book-modal">
+    <input type="hidden" id="pathContext" value="${pageContext.request.contextPath}">
     <input type="hidden" id="choose-before-close" value="false">
     <span>Sort By: </span><select id="sort-by">
     <option id="by-Level">Level</option>

@@ -8,13 +8,13 @@ define("CharacterListView",
             el: "#character-list",
 
             ui:{
-                newCharacterLink: "#new-character",
+                newCharacterBtn: "#new-character-btn",
                 deleteChar: '#delete-char'
             },
 
             events:{
                 'click .characterLink': 'submitCharacter',
-                'click @ui.newCharacterLink': 'newCharacter',
+                'click @ui.newCharacterBtn': 'newCharacter',
                 'click .delete-char': 'onDeleteCharacterClick'
             },
 

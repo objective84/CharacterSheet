@@ -5,14 +5,18 @@
 define("SpellView",
     ["jquery", "underscore", "marionette", 'jqueryUi' ],
     function($, _, marionette, jqueryUi){
-       return marionette.ItemView.extend({
+        return marionette.ItemView.extend({
             el: '#spell-book-modal',
-            ui:{
+            pathContext: $('#pathContext').val(),
+            characterSheet: null,
+        ui:{
                 sortBy: '#sort-by',
                 classes: '#spell-class-select',
                 textSearch: '#spell-search',
                 levelTabs: '#spell-level-tabs',
-                schoolTabs: '#spell-school-tabs'
+                schoolTabs: '#spell-school-tabs',
+                addSpellsLink: "#add-spells",
+                allSpells: "#all-spells"
             },
 
             events:{
@@ -22,31 +26,54 @@ define("SpellView",
                 'keyup @ui.textSearch': 'onSearchFieldChange'
             },
 
-            onRender: function(){
-                this.addSpellsToModal("allSpells/"+ this.ui.sortBy.val() + ".json");
+            initialize: function(){
+                this.characterSheet = $('#character-shet')[0] !== undefined;
+                $('#add-spells').on('click', _.bind(this.onLearnSpellsLinkClick, this));
+                $('#all-spells').on('click', _.bind(this.onAllSpellsLinkClick, this));
             },
 
-//            onLearnSpellsLinkClick:function(){
-//                $('.spell-table').remove();
-//                this.addSpellsToModal("availableSpells/"+this.model.get('id')+".json", _.bind(function(){
-//                    $('.spell-line').on('dblclick', _.bind(this.onSpellLineDblClick, this));
-//                }, this));
-//            },
-//
-//            onAllSpellsLinkClick: function(){
-//                $('.spell-table').remove();
-//                this.addSpellsToModal("allSpells/"+ this.ui.sortBy.val() + ".json", _.bind(function(){
-//                    this.ui.sortBy.on('change', _.bind(this.onSelectSortMethodChange, this));
-//                    this.ui.classes.on('change', _.bind(this.onSelectSpellClassChange, this));
-//                    $('.spell-line').off('dblclick', _.bind(this.onSpellLineDblClick, this));
-//                }, this));
-//            },
+            onRender: function(){
+                if(!this.characterSheet){
+                    $('#spell-book-modal').show();
+                    this.addSpellsToModal("allSpells/"+ this.ui.sortBy.val() + ".json");
+                }
+            },
 
-            addSpellsToModal: function(url){
+            onLearnSpellsLinkClick:function(){
                 $('.spell-table').remove();
-                $.getJSON(url, null, _.bind(function(data){
-                    if(this.ui.sortBy.val() === "Level")this.sortByLevel(data.data);
-                    if(this.ui.sortBy.val() === "School")this.sortBySchool(data.data);
+                $('#selected-spells-table tr').remove();
+                this.addSpellsToModal("availableSpells/"+this.model.get('id')+"/" + $('#sort-by').val() + ".json", _.bind(function(){
+                    $('.spell-line').on('dblclick', _.bind(this.onSpellLineDblClick, this));
+                }, this));
+                $('#spell-level-tabs').css('width', '40.5%');
+                $('.selected-spells-container').show();
+                $('#learn-spells').on('click', _.bind(this.onLearnSpellLinkClick,this));
+            },
+
+            onAllSpellsLinkClick: function(){
+                $('.spell-table').remove();
+                this.addSpellsToModal("allSpells/"+ $('#sort-by').val() + ".json", _.bind(function(){
+                    $('#sort-by').on('change', _.bind(this.onSelectSortMethodChange, this));
+                    $('#spell-class-select').on('change', _.bind(this.onSelectSpellClassChange, this));
+                    $('.spell-line').off('dblclick', _.bind(this.onSpellLineDblClick, this));
+                }, this));
+                $('#spell-level-tabs').css('width', '60%');
+                $('.selected-spells-container').hide();
+            },
+
+            addSpellsToModal: function(url, callback){
+                $('.spell-table').remove();
+                $('#spell-search').off('keyup', _.bind(this.onSearchFieldChange, this));
+                $('#spell-search').on('keyup', _.bind(this.onSearchFieldChange, this));
+                $.getJSON(this.pathContext + "/" +url, null, _.bind(function(data){
+                    if($('#sort-by').val() === "Level")this.sortByLevel(data.data);
+                    if($('#sort-by').val() === "School")this.sortBySchool(data.data);
+                    $('.spell-line').on('click', _.bind(this.onSpellLineClick, this));
+                    if(callback)callback();
+                    if(this.characterSheet){
+                        modalOpen('spell-book-modal', 'spell-book-modal');
+                    }
+                    this.hideTabsWithNoSpells();
                 },this));
             },
 
@@ -65,11 +92,24 @@ define("SpellView",
                 this.hideTabsWithNoSpells();
             },
 
+            addSpellsToChooseToModal: function(){
+                $('.spell-table').remove();
+                $('#spell-search').off('keyup', _.bind(this.onSearchFieldChange, this));
+                $('#spell-search').on('keyup', _.bind(this.onSearchFieldChange, this));
+                this.sortByLevel(this.model.get('spellsToChoose'));
+                $('.spell-line').on('click', _.bind(this.onSpellLineClick, this));
+                if(this.characterSheet){
+                    modalOpen('spell-book-modal', 'spell-book-modal');
+                }
+                $('#choose-before-close').val("true");
+                this.hideTabsWithNoSpells();
+            },
+
             hideTabsWithNoSpells:function(text){
                 var index = null;
-                var $tabs = this.ui.sortBy.val() === 'Level' ? this.ui.levelTabs : this.ui.schoolTabs;
-                $tabs.tabs();
-                $('#' + $tabs.attr('id') + ' .spell-tab').each(_.bind(function(key, value){
+                var $tabs = $('#sort-by').val() === 'Level' ? $('#levels') : $('#schools');
+                $tabs.tabs({'active': 5});
+                $('.spell-tab').each(function(key, value){
                     var $tab = $('#' + $(value).data('tab'));
                     if($('#' + $(value).prop('id') + ' .spell-line.visible').size() === 0){
                         $tab.hide();
@@ -77,16 +117,16 @@ define("SpellView",
                         $tab.show();
                         if(index === null) {
                             index = $tab.parent().index();
-                            $tabs.tabs("option", "active", index);
+                            $('#spell-level-tabs').tabs('option', 'select', 5);
                         }
                     }
-                },this));
+                });
             },
 
             sortBySchool: function(data){
-                this.ui.schoolTabs.show();
-                this.ui.levelTabs.hide();
-                this.ui.schoolTabs.tabs();
+                $('#spell-school-tabs').show();
+                $('#spell-level-tabs').hide();
+                $('#spell-school-tabs').tabs();
                 if(data.abjuration){
                     $('#abjuration').append(data.abjuration);
                     $('#tab-abjuration').show();
@@ -120,10 +160,11 @@ define("SpellView",
                     $('#tab-transmutation').show();
                 }
             },
+
             sortByLevel: function(data){
-                this.ui.schoolTabs.hide();
-                this.ui.levelTabs.show();
-                this.ui.levelTabs.tabs();
+                $('#spell-school-tabs').hide();
+                $('#spell-level-tabs').show();
+                $('#spell-level-tabs').tabs();
                 if(data.cantrip)$('#level-cantrip').append(data.cantrip);
                 $('#level-one').append(data.one);
                 $('#level-two').append(data.two);
@@ -137,14 +178,14 @@ define("SpellView",
             },
 
             onSelectSortMethodChange:function(){
-                this.addSpellsToModal("allSpells/" + this.ui.sortBy.val() +".json");
+                this.addSpellsToModal("allSpells/" + $('#sort-by').val() +".json");
             },
 
             onSelectSpellClassChange: function(){
-                if(this.ui.classes.val() === '0'){
-                    this.addSpellsToModal("allSpells/" + this.ui.sortBy.val() +".json")
+                if($('#spell-class-select').val() === '0'){
+                    this.addSpellsToModal("allSpells/" + $('#sort-by').val() +".json")
                 }else{
-                    this.addSpellsToModal("classSpells/"+ this.ui.classes.val() + "/" + this.ui.sortBy.val() +".json");
+                    this.addSpellsToModal("classSpells/"+ $('#spell-class-select').val() + "/" + $('#sort-by').val() +".json");
                 }
             },
 
@@ -157,14 +198,64 @@ define("SpellView",
                     $('#spell-preview').append(data.spellModel.displayText);
                 }, this));},
 
-            onSpellLineDblClick: function(){
-                $(event.currentTarget).addClass('selected');
+            onSpellLineDblClick: function(event){
                 var id = $(event.currentTarget).children('.spell-select').attr('id');
-                var text = $(event.currentTarget).children('.spell-select').text();
-                if($(".selected-spell-line#"+id) !== undefined) {
-                    $('#selected-spells').append("<tr><td><span class='selected-spell-line' id='" + id + "'></span>" + text + "</td>" +
-                        "<td><a href='#' class='link-small' data-spellid='" + id + "'>Delete</a></td></tr>");
+
+                var spellClass = "selected-";
+                if($('#spell-level-tabs').tabs("option", "active") === 0){
+                    if(this.model.get('numCantripsAllowed') - $('.selected-cantrip').size() <= 0){
+                        alert("You cannot learn any more cantrips");
+                        return;
+                    }
+                    spellClass += "cantrip"
+                }else{
+                    if(this.model.get('numSpellsAllowed') - $('.selected-spell').size() <= 0){
+                        alert("You cannot learn any more spells.");
+                        return;
+                    }
+                    spellClass += "spell";
                 }
+                if($('#spell-delete-'+id).prop('id') !== undefined){
+                    return;
+                }
+                if($('#known-spell-'+id).prop('id') !== undefined){
+                    alert('You already know this spell');
+                    return;
+                }
+                $(event.currentTarget).addClass('selected');
+
+                var text = $(event.currentTarget).children('.spell-select').text();
+                var linkId = "spell-delete-" + id;
+                if($(".selected-spell-line#"+id) !== undefined) {
+                    $('#selected-spells-table').append("<tr id='selected-" + id + "'><td><span class='" + spellClass + "' data-spellid='"
+                        + id + "'>" + text + "</span></td>" + "<td><a href='javascript:void(0);' id= '"+ linkId +
+                        "' class='link-small' data-spellid='" + id + "'>Delete</a></td></tr>");
+                }
+                $("#"+linkId).on('click', _.bind(this.onSpellDeleteLinkClick, this));
+            },
+
+            onSpellDeleteLinkClick: function(event){
+                var id = $(event.currentTarget).data('spellid');
+                $("#selected-" + id).remove();
+            },
+
+            onLearnSpellLinkClick: function(event){
+                var spells = [];
+                $('.selected-spell, .selected-cantrip').each(_.bind(function(key, value){
+                    spells.push($(value).data('spellid'));
+                },this));
+
+                var success = function(data){
+                    this.fetchModel(_.bind(this.displaySpellsKnown,this));
+                    modalClose('spell-book-modal', 'spell-book-modal');
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/CharacterSheet/learn-spells/"+ this.model.get('id') + ".json",
+                    data: "spellIds=" + spells,
+                    success: _.bind(success, this)
+                })
             }
         });
     });

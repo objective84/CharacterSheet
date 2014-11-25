@@ -22,8 +22,44 @@ h3 {
     margin-bottom: 5px;
 }
 
-table th {
-    margin-top: 10px;
+#character-list table thead {
+    background: linear-gradient(to bottom, #fff 0%, #e1e1e1 100%);
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    border-top: 1px solid lightgray;
+}
+
+#character-list table thead tr th {
+    border-bottom: 1px solid #c8c8c8;
+    font-size: 14px;
+    font-weight: bold;
+    height: 22px;
+    padding: 6px 6px 0 6px;
+}
+
+#character-list table tbody tr td {
+    height: 25px;
+    padding: 10px 10px 4px 10px;
+    vertical-align: baseline
+}
+
+#character-list tr.table-headers {
+    padding: 10px 0 10px 0;
+    text-align: left;
+}
+
+#character-list table tbody tr {
+    border-bottom: 1px solid lightgray;
+    background: #fff;
+    color: #222;
+    font-size: 12px;
+    line-height: 16px;
+    min-height: 415px;
+    height: auto;
+    margin: 10px auto 0 auto;
+    overflow: hidden;
+    padding: 0;
+    width: 960px;
 }
 
 .side-by-side.ability-row{
