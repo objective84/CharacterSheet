@@ -68,7 +68,8 @@ define("CharacterView",
                 shortRestBtn: "#short-rest-btn",
                 longRestBtn: "#long-rest-btn",
                 hitDiceTable: "#hit-dice-table",
-                buyFeatBtn: "#buy-feat-btn"
+                buyFeatBtn: "#buy-feat-btn",
+                addSpells: '#add-spells'
             },
 
             bindings:{
@@ -92,7 +93,8 @@ define("CharacterView",
                 'click @ui.shortRestBtn': 'onShortRestBtnClick',
                 'click @ui.longRestBtn' : 'onLongRestBtnClick',
                 'blur @ui.currentHealth': 'onCurrentHealthChange',
-                'click @ui.buyFeatBtn': 'onBuyFeatBtnClick'
+                'click @ui.buyFeatBtn': 'onBuyFeatBtnClick',
+                'click @ui.addSpells': 'onLearnSpellsLinkClick'
             },
 
             onRender: function(){
@@ -186,6 +188,7 @@ define("CharacterView",
 
                     this.spellView = new SpellView();
                     this.spellView.render();
+                    this.spellView.characterId = this.model.get('id');
 
                     this.displaySpellsKnown();
                     $(document).tooltip();
@@ -361,6 +364,7 @@ define("CharacterView",
                 });
                 $('#spells-prepared tr').remove();
                 $(this.model.get('spellsKnown')).each(_.bind(function(key, spell){
+                    $('#level-' + spell.level + '-spells').show();
                     var $table = $('#level-' + spell.level +'-spells');
                     var spellLink = '<tr><td><a class="known-spell" id="known-spell-'+ spell.id + '" href="javascript:void(0);" data-spellid="' +
                         spell.id + '">' + spell.name + '</a></td></tr>';
@@ -827,7 +831,7 @@ define("CharacterView",
             },
 
             onSpellClick: function(event){
-                $.getJSON('spell/' + $(event.currentTarget).data('spellid') + '.json', _.bind(function(data) {
+                $.getJSON(this.pathContext + '/spell/' + $(event.currentTarget).data('spellid') + '.json', _.bind(function(data) {
                     $('#spell-text-div').remove();
                     $('#spell-text').append(data.spellModel.displayText);
                     modalOpen('spell-modal', 'spell-modal');
@@ -892,7 +896,7 @@ define("CharacterView",
             },
 
             onSpellCastButtonClick: function(event){
-                var url = "/CharacterSheet/spell/cast/" + this.model.get('id') + "/" + $('#spell-id').val() + ".json";
+                var url = this.pathContext + "/spell/cast/" + this.model.get('id') + "/" + $('#spell-id').val() + ".json";
                 console.log(url);
                 var success = function(data){
                     if(data.code === 0){
@@ -1010,6 +1014,53 @@ define("CharacterView",
                 return data;
             },
 
+            onLearnSpellsLinkClick:function(){
+                $('.spell-table').remove();
+                $('#selected-spells-table tr').remove();
+                this.spellView.addSpellsToModal("availableSpells/"+this.model.get('id')+"/" + $('#sort-by').val() + ".json", _.bind(function(){
+                    $('.spell-line').on('dblclick', _.bind(this.onSpellLineDblClick, this));
+                }, this));
+                $('#spell-level-tabs').css('width', '40.5%');
+                $('.selected-spells-container').show();
+                $('#learn-spells').on('click', _.bind(this.onLearnSpellLinkClick,this));
+            },
+
+            onSpellLineDblClick: function(event){
+                var id = $(event.currentTarget).children('.spell-select').attr('id');
+
+                var spellClass = "selected-";
+                if($('#spell-level-tabs').tabs("option", "active") === 0){
+                    if(this.model.get('numCantripsAllowed') - $('.selected-cantrip').size() <= 0){
+                        alert("You cannot learn any more cantrips");
+                        return;
+                    }
+                    spellClass += "cantrip"
+                }else{
+                    if(this.model.get('numSpellsAllowed') - $('.selected-spell').size() <= 0){
+                        alert("You cannot learn any more spells.");
+                        return;
+                    }
+                    spellClass += "spell";
+                }
+                if($('#spell-delete-'+id).prop('id') !== undefined){
+                    return;
+                }
+                if($('#known-spell-'+id).prop('id') !== undefined){
+                    alert('You already know this spell');
+                    return;
+                }
+                $(event.currentTarget).addClass('selected');
+
+                var text = $(event.currentTarget).children('.spell-select').text();
+                var linkId = "spell-delete-" + id;
+                if($(".selected-spell-line#"+id) !== undefined) {
+                    $('#selected-spells-table').append("<tr id='selected-" + id + "'><td><span class='" + spellClass + "' data-spellid='"
+                        + id + "'>" + text + "</span></td>" + "<td><a href='javascript:void(0);' id= '"+ linkId +
+                        "' class='link-small' data-spellid='" + id + "'>Delete</a></td></tr>");
+                }
+                $("#"+linkId).on('click', _.bind(this.onSpellDeleteLinkClick, this));
+            },
+
             onCurrentHealthChange: function(){
                 this.model.set('currentHealth', this.ui.currentHealth.val());
                 $.ajax({
@@ -1019,6 +1070,25 @@ define("CharacterView",
                         this.fetchModel();
                     }, this)
                 });
+            },
+
+            onLearnSpellLinkClick: function(event){
+                var spells = [];
+                $('.selected-spell, .selected-cantrip').each(_.bind(function(key, value){
+                    spells.push($(value).data('spellid'));
+                },this));
+
+                var success = function(data){
+                    this.fetchModel(_.bind(this.displaySpellsKnown,this));
+                    modalClose('spell-book-modal', 'spell-book-modal');
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/CharacterSheet/learn-spells/"+ this.model.get('id') + ".json",
+                    data: "spellIds=" + spells,
+                    success: _.bind(success, this)
+                })
             }
 
 

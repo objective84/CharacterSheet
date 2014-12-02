@@ -47,7 +47,6 @@ define("SpellView",
 
             initialize: function(){
                 this.characterSheet = $('#character-sheet')[0] !== undefined;
-                $('#add-spells').on('click', _.bind(this.onLearnSpellsLinkClick, this));
                 $('#all-spells').on('click', _.bind(this.onAllSpellsLinkClick, this));
             },
 
@@ -56,17 +55,6 @@ define("SpellView",
                     $('#spell-book-modal').show();
                     this.addSpellsToModal("allSpells/"+ this.ui.sortBy.val() + ".json");
                 }
-            },
-
-            onLearnSpellsLinkClick:function(){
-                $('.spell-table').remove();
-                $('#selected-spells-table tr').remove();
-                this.addSpellsToModal("availableSpells/"+this.model.get('id')+"/" + $('#sort-by').val() + ".json", _.bind(function(){
-                    $('.spell-line').on('dblclick', _.bind(this.onSpellLineDblClick, this));
-                }, this));
-                $('#spell-level-tabs').css('width', '40.5%');
-                $('.selected-spells-container').show();
-                $('#learn-spells').on('click', _.bind(this.onLearnSpellLinkClick,this));
             },
 
             onAllSpellsLinkClick: function(){
@@ -100,18 +88,6 @@ define("SpellView",
                 var searchText = this.ui.textSearch.val().toLowerCase();
                 var data = {"text": searchText};
                 this.addSpellsToModal("spell/textSearch/" + $('#sort-by').val(), null, data, true);
-
-//                $('.spell-line').each(function(key, value){
-//                    if($(value).data('name').indexOf(searchText) < 0){
-//                        $(value).hide();
-//                        $(value).removeClass("visible");
-//                    }else{
-//                        $(value).addClass("visible");
-//                        $(value).show();
-//                    }
-//                });
-//
-//                this.hideTabsWithNoSpells();
             },
 
             addSpellsToChooseToModal: function(){
@@ -220,42 +196,6 @@ define("SpellView",
                     $('#spell-preview').append(data.spellModel.displayText);
                 }, this));},
 
-            onSpellLineDblClick: function(event){
-                var id = $(event.currentTarget).children('.spell-select').attr('id');
-
-                var spellClass = "selected-";
-                if($('#spell-level-tabs').tabs("option", "active") === 0){
-                    if(this.model.get('numCantripsAllowed') - $('.selected-cantrip').size() <= 0){
-                        alert("You cannot learn any more cantrips");
-                        return;
-                    }
-                    spellClass += "cantrip"
-                }else{
-                    if(this.model.get('numSpellsAllowed') - $('.selected-spell').size() <= 0){
-                        alert("You cannot learn any more spells.");
-                        return;
-                    }
-                    spellClass += "spell";
-                }
-                if($('#spell-delete-'+id).prop('id') !== undefined){
-                    return;
-                }
-                if($('#known-spell-'+id).prop('id') !== undefined){
-                    alert('You already know this spell');
-                    return;
-                }
-                $(event.currentTarget).addClass('selected');
-
-                var text = $(event.currentTarget).children('.spell-select').text();
-                var linkId = "spell-delete-" + id;
-                if($(".selected-spell-line#"+id) !== undefined) {
-                    $('#selected-spells-table').append("<tr id='selected-" + id + "'><td><span class='" + spellClass + "' data-spellid='"
-                        + id + "'>" + text + "</span></td>" + "<td><a href='javascript:void(0);' id= '"+ linkId +
-                        "' class='link-small' data-spellid='" + id + "'>Delete</a></td></tr>");
-                }
-                $("#"+linkId).on('click', _.bind(this.onSpellDeleteLinkClick, this));
-            },
-
             onSpellDeleteLinkClick: function(event){
                 var id = $(event.currentTarget).data('spellid');
                 $("#selected-" + id).remove();
@@ -306,25 +246,6 @@ define("SpellView",
 
                 this.addSpellsToModal("spell/advSearch/" + $('#sort-by').val(), null, params, true);
                 this.ui.advSearchPanel.slideToggle();
-            },
-
-            onLearnSpellLinkClick: function(event){
-                var spells = [];
-                $('.selected-spell, .selected-cantrip').each(_.bind(function(key, value){
-                    spells.push($(value).data('spellid'));
-                },this));
-
-                var success = function(data){
-                    this.fetchModel(_.bind(this.displaySpellsKnown,this));
-                    modalClose('spell-book-modal', 'spell-book-modal');
-                };
-
-                $.ajax({
-                    type: "POST",
-                    url: "/CharacterSheet/learn-spells/"+ this.model.get('id') + ".json",
-                    data: "spellIds=" + spells,
-                    success: _.bind(success, this)
-                })
             }
 
         });

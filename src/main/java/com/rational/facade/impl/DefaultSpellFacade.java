@@ -260,7 +260,7 @@ public class DefaultSpellFacade implements SpellFacade {
         if(null != spell.getDamageType()){
             data.setDamageType(spell.getDamageType().getName());
         }
-        character.getSpellSlots().setSpellSlotExpended(spell.getLevel(), character.getSpellSlots().getSpellSlotExpended(spell.getLevel())+1);
+        character.getSpellSlots().setSpellSlotExpended(spell.getLevel(), character.getSpellSlots().getSpellSlotExpended(spell.getLevel()) + 1);
         characterService.save(character);
         return data;
     }
@@ -304,7 +304,13 @@ public class DefaultSpellFacade implements SpellFacade {
                 paramsMap.put(SpellSearchParam.CONCENTRATION, Arrays.asList("true"));
             }
         }
-        return spellService.customSearch(paramsMap);
+        Set<SpellModel> results;
+        try{
+            results = spellService.customSearch(paramsMap);
+        }catch(NullPointerException e){
+            results = textSearch("");
+        }
+        return results;
     }
 
     private String splitTable(String table, String type){

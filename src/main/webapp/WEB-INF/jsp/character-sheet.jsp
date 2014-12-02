@@ -359,34 +359,34 @@
                         <h4>Spells Known</h4>
                         <span id="new-spells-notifier" class="link-small hide">**You can learn ${character.numSpellsAllowed} more spells!**</span>
                         <div id="spells-known" class="table-container">
-                            <table id="level-0-spells" class="side-by-side spells-known-table">
+                            <table id="level-0-spells" class="side-by-side spells-known-table hide">
                                 <tr><th>Cantrips</th></tr>
                             </table>
-                            <table id="level-1-spells" class="side-by-side spells-known-table">
+                            <table id="level-1-spells" class="side-by-side spells-known-table hide">
                                 <tr><th>Level One</th></tr>
                             </table>
-                            <table id="level-2-spells" class="side-by-side spells-known-table">
+                            <table id="level-2-spells" class="side-by-side spells-known-table hide">
                                 <tr><th>Level Two</th></tr>
                             </table>
-                            <table id="level-3-spells" class="side-by-side spells-known-table">
+                            <table id="level-3-spells" class="side-by-side spells-known-table hide">
                                 <tr><th>Level Three</th></tr>
                             </table>
-                            <table id="level-4-spells" class="side-by-side spells-known-table">
+                            <table id="level-4-spells" class="side-by-side spells-known-table hide">
                                 <tr><th>Level Four</th></tr>
                             </table>
-                            <table id="level-5-spells" class="side-by-side spells-known-table">
+                            <table id="level-5-spells" class="side-by-side spells-known-table hide">
                                 <tr><th>Level Five</th></tr>
                             </table>
-                            <table id="level-6-spells" class="side-by-side spells-known-table">
+                            <table id="level-6-spells" class="side-by-side spells-known-table hide">
                                 <tr><th>Level Six</th></tr>
                             </table>
-                            <table id="level-7-spells" class="side-by-side spells-known-table">
+                            <table id="level-7-spells" class="side-by-side spells-known-table hide">
                                 <tr><th>Level Seven</th></tr>
                             </table>
-                            <table id="level-8-spells" class="side-by-side spells-known-table">
+                            <table id="level-8-spells" class="side-by-side spells-known-table hide">
                                 <tr><th>Level Eight</th></tr>
                             </table>
-                            <table id="level-9-spells" class="side-by-side spells-known-table">
+                            <table id="level-9-spells" class="side-by-side spells-known-table hide">
                                 <tr><th>Level Nine</th></tr>
                             </table>
                         </div>

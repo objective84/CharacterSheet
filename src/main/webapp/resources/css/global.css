@@ -339,7 +339,7 @@ div#spell-preview,
 }
 
 .spell-tab{
-    height: 92%;
+    height: 87%;
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -393,7 +393,6 @@ div#spell-preview,
 #search-by-school option{
     text-indent: 5px;
 }
-
 
 /***********End Spells****************/
 

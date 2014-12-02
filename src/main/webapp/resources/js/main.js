@@ -51,7 +51,7 @@ function modalOpen (type, key) {
             break;
         case 'spell-modal':
             modal_width = '450';
-            modal_height = 'auto';
+            modal_height = 600;
             break;
         case 'spell-book-modal':
             modal_width = 1200;
