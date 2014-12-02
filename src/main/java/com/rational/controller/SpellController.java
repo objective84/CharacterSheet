@@ -6,14 +6,14 @@ import com.rational.facade.SpellFacade;
 import com.rational.forms.ResponseData;
 import com.rational.forms.SpellCastData;
 import com.rational.model.entities.SpellModel;
+import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.exceptions.SpellCastException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import java.util.Map;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by Andy on 8/25/2014.
@@ -35,6 +35,9 @@ public class SpellController {
     public ModelAndView spells(final ModelAndView mav){
         mav.setViewName("spells");
         mav.addObject("spellcasters", classFacade.findAllSpellcasters());
+        mav.addObject("spellSchools", Arrays.asList("Abjuration", "Conjuration", "Divination",
+                "Enchantment", "Evocation", "Illusion", "Necromancy", "Transmutation"));
+        mav.addObject("abilityTypes", AbilityTypeEnum.getValues());
         return mav;
     }
 
@@ -47,10 +50,11 @@ public class SpellController {
     @RequestMapping(value="/availableSpells/{characterId}/{sortingType}", method = RequestMethod.GET, produces = "application/json")
     public ResponseData<Map<String, String>> getSpellsForClassLevel(@PathVariable String characterId, @PathVariable String sortingType){
         ResponseData<Map<String, String>> spells = new ResponseData<Map<String, String>>();
+        Set spellSet = new TreeSet<SpellModel>(spellFacade.findSpells(characterId));
         if(sortingType.equalsIgnoreCase("school")){
-            spells.setData(spellFacade.sortBySchool(new TreeSet<SpellModel>(spellFacade.findSpells(characterId))));
+            spells.setData(spellFacade.sortBySchool(spellSet));
         }else if(sortingType.equalsIgnoreCase("level")){
-            spells.setData(spellFacade.sortByLevel(new TreeSet<SpellModel>(spellFacade.findSpells(characterId))));
+            spells.setData(spellFacade.sortByLevel(spellSet));
         }
         return spells;
     }
@@ -120,5 +124,38 @@ public class SpellController {
         }
 
         return responseData;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/spell/textSearch/{sortingType}", method=RequestMethod.GET, produces = "application/json")
+    public ResponseData<Map<String, String>> textSearch(@RequestParam(value="text") String text, @PathVariable String sortingType){
+        ResponseData<Map<String, String>> spells = new ResponseData<Map<String, String>>();
+
+        Set<SpellModel> spellSet = spellFacade.textSearch(text);
+
+        spells.setData(sortSpells(spellSet, sortingType));
+
+        return spells;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/spell/advSearch/{sortingType}", method=RequestMethod.GET, produces = "application/json")
+    public ResponseData<Map<String, String>> advancedSearch(@RequestParam Map<String, String> params, @PathVariable String sortingType){
+        ResponseData<Map<String, String>> spells = new ResponseData<Map<String, String>>();
+
+        Set<SpellModel> spellSet = spellFacade.advancedSearch(params);
+
+        spells.setData(sortSpells(spellSet, sortingType));
+
+        return spells;
+    }
+
+    private Map<String, String> sortSpells(Set<SpellModel> spells, String sortingType){
+        if(sortingType.equalsIgnoreCase("school")){
+            return spellFacade.sortBySchool(spells);
+        }else if(sortingType.equalsIgnoreCase("level")){
+            return spellFacade.sortByLevel(spells);
+        }
+        return new HashMap<String, String>();
     }
 }

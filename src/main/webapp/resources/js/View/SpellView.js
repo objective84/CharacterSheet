@@ -9,25 +9,44 @@ define("SpellView",
             el: '#spell-book-modal',
             pathContext: $('#pathContext').val(),
             characterSheet: null,
-        ui:{
+            ui:{
                 sortBy: '#sort-by',
                 classes: '#spell-class-select',
                 textSearch: '#spell-search',
                 levelTabs: '#spell-level-tabs',
                 schoolTabs: '#spell-school-tabs',
                 addSpellsLink: "#add-spells",
-                allSpells: "#all-spells"
+                allSpells: "#all-spells",
+                searchBtn: "#search-btn",
+                advSearchLink: "#advanced-search-link",
+                advSearchPanel: "#advanced-search",
+                advSearchBtn: "#advanced-search-btn",
+                name: '#search-by-name',
+                description: '#search-by-description',
+                levelMin: '#search-by-level-min',
+                levelMax: '#search-by-level-max',
+                school: '#search-by-school',
+                class: '#search-by-class',
+                savingThrow: '#search-by-save',
+                componentsVerbal: '#search-by-component-verbal',
+                componentsSomatic: '#search-by-component-somatic',
+                componentsMaterial: '#search-by-component-material',
+                attack: '#search-by-combat',
+                ritual: '#search-by-ritual',
+                concentration: '#search-by-concentration'
             },
 
             events:{
                 "change @ui.sortBy": 'onSelectSortMethodChange',
                 'change @ui.classes': 'onSelectSpellClassChange',
                 'click .spell-line': 'onSpellLineClick',
-                'keyup @ui.textSearch': 'onSearchFieldChange'
+                'click @ui.searchBtn': 'onSearchFieldChange',
+                'click @ui.advSearchLink': 'onAdvancedSearchLinkClick',
+                'click @ui.advSearchBtn': 'onAdvancedSearchBtnClick'
             },
 
             initialize: function(){
-                this.characterSheet = $('#character-shet')[0] !== undefined;
+                this.characterSheet = $('#character-sheet')[0] !== undefined;
                 $('#add-spells').on('click', _.bind(this.onLearnSpellsLinkClick, this));
                 $('#all-spells').on('click', _.bind(this.onAllSpellsLinkClick, this));
             },
@@ -61,16 +80,16 @@ define("SpellView",
                 $('.selected-spells-container').hide();
             },
 
-            addSpellsToModal: function(url, callback){
+            addSpellsToModal: function(url, callback, data, modalOpen){
                 $('.spell-table').remove();
-                $('#spell-search').off('keyup', _.bind(this.onSearchFieldChange, this));
-                $('#spell-search').on('keyup', _.bind(this.onSearchFieldChange, this));
-                $.getJSON(this.pathContext + "/" +url, null, _.bind(function(data){
+//                $('#spell-search').off('keyup', _.bind(this.onSearchFieldChange, this));
+//                $('#spell-search').on('keyup', _.bind(this.onSearchFieldChange, this));
+                $.getJSON(this.pathContext + "/" +url, data, _.bind(function(data){
                     if($('#sort-by').val() === "Level")this.sortByLevel(data.data);
                     if($('#sort-by').val() === "School")this.sortBySchool(data.data);
                     $('.spell-line').on('click', _.bind(this.onSpellLineClick, this));
                     if(callback)callback();
-                    if(this.characterSheet){
+                    if(this.characterSheet && !modalOpen){
                         modalOpen('spell-book-modal', 'spell-book-modal');
                     }
                     this.hideTabsWithNoSpells();
@@ -79,23 +98,26 @@ define("SpellView",
 
             onSearchFieldChange: function(){
                 var searchText = this.ui.textSearch.val().toLowerCase();
-                $('.spell-line').each(function(key, value){
-                    if($(value).data('name').indexOf(searchText) < 0){
-                        $(value).hide();
-                        $(value).removeClass("visible");
-                    }else{
-                        $(value).addClass("visible");
-                        $(value).show();
-                    }
-                });
+                var data = {"text": searchText};
+                this.addSpellsToModal("spell/textSearch/" + $('#sort-by').val(), null, data, true);
 
-                this.hideTabsWithNoSpells();
+//                $('.spell-line').each(function(key, value){
+//                    if($(value).data('name').indexOf(searchText) < 0){
+//                        $(value).hide();
+//                        $(value).removeClass("visible");
+//                    }else{
+//                        $(value).addClass("visible");
+//                        $(value).show();
+//                    }
+//                });
+//
+//                this.hideTabsWithNoSpells();
             },
 
             addSpellsToChooseToModal: function(){
                 $('.spell-table').remove();
-                $('#spell-search').off('keyup', _.bind(this.onSearchFieldChange, this));
-                $('#spell-search').on('keyup', _.bind(this.onSearchFieldChange, this));
+//                $('#spell-search').off('keyup', _.bind(this.onSearchFieldChange, this));
+//                $('#spell-search').on('keyup', _.bind(this.onSearchFieldChange, this));
                 this.sortByLevel(this.model.get('spellsToChoose'));
                 $('.spell-line').on('click', _.bind(this.onSpellLineClick, this));
                 if(this.characterSheet){
@@ -239,6 +261,52 @@ define("SpellView",
                 $("#selected-" + id).remove();
             },
 
+            onAdvancedSearchLinkClick: function(){
+                this.ui.advSearchPanel.slideToggle();
+            },
+
+            onAdvancedSearchBtnClick: function(){
+                var params = {};
+                if(this.ui.name.val()){
+                    params.name=this.ui.name.val();
+                }
+                if(this.ui.description.val()){
+                    params.description = this.ui.description.val();
+                }
+                if(this.ui.levelMin.val() || this.ui.levelMax.val()){
+                    params.level = (this.ui.levelMin.val() ? this.ui.levelMin.val() : 0)  + "," + (this.ui.levelMax.val() ? this.ui.levelMax.val() : 9);
+                }
+                if(this.ui.school.val() !== "-1"){
+                    params.school = this.ui.school.val();
+                }
+                if(this.ui.class.val() !== "-1"){
+                    params.class = this.ui.class.val();
+                }
+                if(this.ui.savingThrow.val() !== "-1"){
+                    params.save = this.ui.savingThrow.val();
+                }
+                if(this.ui.componentsVerbal.prop('checked') == true){
+                    params.verbal = "true";
+                }
+                if(this.ui.componentsSomatic.prop('checked') == true){
+                    params.somatic += "true";
+                }
+                if(this.ui.componentsMaterial.prop('checked') == true){
+                    params.material += "true";
+                }
+                if(this.ui.attack.prop('checked') == true){
+                    params.attack = "true";
+                }
+                if(this.ui.ritual.prop('checked') == true){
+                    params.ritual = "true";
+                }
+                if(this.ui.concentration.prop('checked') == true){
+                    params.concentration = "true";
+                }
+
+                this.addSpellsToModal("spell/advSearch/" + $('#sort-by').val(), null, params, true);
+            },
+
             onLearnSpellLinkClick: function(event){
                 var spells = [];
                 $('.selected-spell, .selected-cantrip').each(_.bind(function(key, value){
@@ -257,6 +325,7 @@ define("SpellView",
                     success: _.bind(success, this)
                 })
             }
+
         });
     });
 

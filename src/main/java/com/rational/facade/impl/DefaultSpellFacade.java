@@ -9,6 +9,7 @@ import com.rational.model.entities.SpellModel;
 import com.rational.model.entities.SpellSlots;
 import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.enums.DieTypeEnum;
+import com.rational.model.enums.SpellSearchParam;
 import com.rational.model.exceptions.SpellCastException;
 import com.rational.service.CharacterService;
 import com.rational.service.ClassService;
@@ -127,16 +128,16 @@ public class DefaultSpellFacade implements SpellFacade {
             }
         }
 
-        cantrip = splitTable(cantrip);
-        one = splitTable(one);
-        two = splitTable(two);
-        three = splitTable(three);
-        four = splitTable(four);
-        five = splitTable(five);
-        six = splitTable(six);
-        seven = splitTable(seven);
-        eight = splitTable(eight);
-        nine = splitTable(nine);
+        cantrip = splitTable(cantrip, "School");
+        one = splitTable(one, "School");
+        two = splitTable(two, "School");
+        three = splitTable(three, "School");
+        four = splitTable(four, "School");
+        five = splitTable(five, "School");
+        six = splitTable(six, "School");
+        seven = splitTable(seven, "School");
+        eight = splitTable(eight, "School");
+        nine = splitTable(nine, "School");
 
         if(cantrip.contains("spell-line"))spellList.put("cantrip", cantrip);
         if(one.contains("spell-line"))spellList.put("one", one);
@@ -177,14 +178,14 @@ public class DefaultSpellFacade implements SpellFacade {
             else if(spell.getSchool().equalsIgnoreCase("necromancy"))necromancy += spellString;
             else if(spell.getSchool().equalsIgnoreCase("transmutation"))transmutation += spellString;
         }
-        abjuration = splitTable(abjuration);
-        conjuration = splitTable(conjuration);
-        divination = splitTable(divination);
-        enchantment = splitTable(enchantment);
-        evocation = splitTable(evocation);
-        illusion = splitTable(illusion);
-        necromancy = splitTable(necromancy);
-        transmutation = splitTable(transmutation);
+        abjuration = splitTable(abjuration, "Level");
+        conjuration = splitTable(conjuration, "Level");
+        divination = splitTable(divination, "Level");
+        enchantment = splitTable(enchantment, "Level");
+        evocation = splitTable(evocation, "Level");
+        illusion = splitTable(illusion, "Level");
+        necromancy = splitTable(necromancy, "Level");
+        transmutation = splitTable(transmutation, "Level");
 
         Map<String, String> spellList = new HashMap<String, String>();
         if(abjuration.contains("spell-line"))spellList.put("abjuration", abjuration);
@@ -264,8 +265,50 @@ public class DefaultSpellFacade implements SpellFacade {
         return data;
     }
 
-    private String splitTable(String table){
-        String tableStart = "<table class='spell-table side-by-side'><tr><th>Level</th><th>Spell</th></tr>";
+    @Override
+    public Set<SpellModel> textSearch(String text) {
+        List<String> textSearchParams = Arrays.asList(text.split(","));
+
+        Map<SpellSearchParam, List<String>> params = new HashMap<SpellSearchParam, List<String>>();
+        params.put(SpellSearchParam.DESCRIPTION, textSearchParams);
+        params.put(SpellSearchParam.NAME, textSearchParams);
+
+        return spellService.customSearch(params);
+    }
+
+    @Override
+    public Set<SpellModel> advancedSearch(Map<String, String> params) {
+        Map<SpellSearchParam, List<String>> paramsMap = new HashMap<SpellSearchParam, List<String>>();
+        for(String param : params.keySet()){
+            if(param.equalsIgnoreCase("name")){
+                paramsMap.put(SpellSearchParam.NAME, Arrays.asList(params.get(param).split(",")));
+            }else if(param.equals("description")){
+                paramsMap.put(SpellSearchParam.DESCRIPTION, Arrays.asList(params.get(param).split(",")));
+            }else if(param.equals("level")){
+                paramsMap.put(SpellSearchParam.LEVEL, Arrays.asList(params.get(param).split(",")));
+            }else if(param.equals("class")){
+
+            }else if(param.equals("savingThrow")){
+                paramsMap.put(SpellSearchParam.SAVE, Arrays.asList(params.get(param)));
+            }else if(param.equals("verbal")){
+                paramsMap.put(SpellSearchParam.VERBAL_COMPONENTS, Arrays.asList("true"));
+            }else if(param.equals("somatic")){
+                paramsMap.put(SpellSearchParam.SOMATIC_COMPONENTS, Arrays.asList("true"));
+            }else if(param.equals("material")){
+                paramsMap.put(SpellSearchParam.MATERIAL_COMPONENTS, Arrays.asList("true"));
+            }else if(param.equals("attack")){
+                paramsMap.put(SpellSearchParam.ATTACK, Arrays.asList("true"));
+            }else if(param.equals("ritual")){
+                paramsMap.put(SpellSearchParam.RITUAL, Arrays.asList("true"));
+            }else if(param.equals("concentration")){
+                paramsMap.put(SpellSearchParam.CONCENTRATION, Arrays.asList("true"));
+            }
+        }
+        return spellService.customSearch(paramsMap);
+    }
+
+    private String splitTable(String table, String type){
+        String tableStart = "<table class='spell-table side-by-side'><tr><th>" + type + "</th><th>Spell</th></tr>";
         String tableEnd = "</table>";
         String newTable = tableStart;
         String[] rows = table.split("</span></td></tr>");

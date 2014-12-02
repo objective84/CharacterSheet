@@ -26,4 +26,8 @@ public interface SpellFacade {
     SpellModel unPrepareSpell(String characterId, String spellId);
 
     com.rational.forms.SpellCastData castSpell(String characterId, String spellId) throws SpellCastException;
+
+    Set<SpellModel> textSearch(String text);
+
+    Set<SpellModel> advancedSearch(Map<String, String> params);
 }
