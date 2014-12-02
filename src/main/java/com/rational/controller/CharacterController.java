@@ -19,6 +19,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -114,6 +115,8 @@ public class CharacterController {
         mav.addObject("weaponFilters", EquipmentFilterEnum.getWeaponFilters());
         mav.addObject("armorFilters", EquipmentFilterEnum.getArmorFilters());
         mav.addObject("filterByProficiency", EquipmentFilterEnum.BY_PROFICIENCY.toString());
+        mav.addObject("spellSchools", Arrays.asList("Abjuration", "Conjuration", "Divination",
+                "Enchantment", "Evocation", "Illusion", "Necromancy", "Transmutation"));
         return mav;
     }
 

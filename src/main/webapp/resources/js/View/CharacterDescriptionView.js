@@ -40,6 +40,7 @@ define("CharacterDescriptionView",
             },
 
             saveDescription:function(){
+                console.log(1);
                 this.model.save();
             },
 

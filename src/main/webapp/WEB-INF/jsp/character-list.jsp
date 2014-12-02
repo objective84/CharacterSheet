@@ -11,18 +11,19 @@
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 
 <html>
-<head>
-    <title>Characters</title>
-    <template:javascript/>
 </head>
 <body>
     <div id="character-list">
         <input type="hidden" id="id" name="id" value="0"/>
+        <head>
+            <title>Characters</title>
+            <template:javascript/>
         <input type="hidden" id="name" name="name" value=""/>
         <form:form commandName="character" id="characterForm">
             <table>
                 <c:forEach items="${characters}" var="character">
                     <tr id="row-${character.id}">
+                        <td>${character}</td>
                         <td><a href="#no" onclick="submitCharacter(${character.id})" class='characterLink' id="${character.id}" />
                                 ${character.name} - ${raceMap[character.race].raceName} ${classMap[character.clazz].name}
                             <a href="#" class="delete-char link-small" id="${character.id}-delete" class="link-small">Delete</a>
@@ -35,7 +36,7 @@
                     </td>
                 </tr>
             </table>
-        </form:form>
+            </form:form>
     </div>
 </body>
 </html>

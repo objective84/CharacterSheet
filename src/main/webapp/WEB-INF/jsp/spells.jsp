@@ -18,7 +18,9 @@
     <template:javascript/>
 </head>
 <body>
-   <modals:spell-book-modal/>
+    <div class="container">
+        <modals:spell-book-modal/>
+    </div>
 
 </body>
 </html>

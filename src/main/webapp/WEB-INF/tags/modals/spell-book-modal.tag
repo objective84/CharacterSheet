@@ -4,6 +4,7 @@
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags/template" %>
 
 <div class="modal" id="spell-book-modal">
+    <input type="hidden" id="pathContext" value="${pageContext.request.contextPath}">
     <input type="hidden" id="choose-before-close" value="false">
     <span>Sort By: </span><select id="sort-by">
     <option id="by-Level">Level</option>
@@ -16,6 +17,65 @@
         </c:forEach>
     </select>
     <input id="spell-search">
+    <input id="search-btn" type="button" value="Search">
+    <a href="javascript:void(0);" id="advanced-search-link" class="link-small">Advanced Search</a>
+    <div id="advanced-search" class="hide">
+        <table>
+            <tr>
+                <th colspan="2">Search By:</th>
+            </tr>
+            <tr>
+                <td> Name:</td><td><input id="search-by-name"></td>
+                <td>Description: </td>
+                <td><input id="search-by-description"></td>
+                <td colspan="3">
+                    Level:
+                    Min <input id="search-by-level-min" class="input-box-small"> Max <input id="search-by-level-max" class="input-box-small">
+                </td>
+            </tr>
+            <tr>
+                <td>School: </td>
+                <td>
+                    <select id="search-by-school">
+                        <option value="-1">All Schools</option>
+                        <c:forEach items="${spellSchools}" var="school">
+                            <option value="${spellSchools}">${school}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+                <td>Class:</td>
+                <td>
+                    <select id="search-by-class">
+                        <option value="-1">All Classes</option>
+                        <c:forEach items="${spellcasters}" var="clazz">
+                            <option value="${clazz.id}">${clazz.name}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+                <td>Saving Throw:</td>
+                <td>
+                    <select id="search-by-save">
+                        <option value="-1">All Saves</option>
+                        <c:forEach items="${abilityTypes}" var="save">
+                            <option value="${save}">${save}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Components: </td>
+                <td colspan="2">
+                    Verbal <input id="search-by-component-verbal" type="checkbox">
+                    Somatic <input id="search-by-component-somatic" type="checkbox">
+                    Material <input id="search-by-component-material" type="checkbox">
+                </td>
+            <tr><td>Attack: </td><td><input type="checkbox" id="search-by-combat"></td></tr>
+            <tr><td>Ritual: </td><td><input type="checkbox" id="search-by-ritual"></td></tr>
+            <tr><td>Concentration: </td><td><input type="checkbox" id="search-by-concentration"></td></tr>
+            </tr>
+        </table>
+        <input type="button" id="advanced-search-btn" value="Search">
+    </div>
     <div class="table-container">
         <div class = "side-by-side hide selection-layout" id="spell-school-tabs">
             <ul id="schools">

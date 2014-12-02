@@ -7,19 +7,17 @@ import com.rational.model.enums.CoinTypeEnum;
 import com.rational.model.exceptions.CurrencyConversionException;
 import com.rational.service.CurrencyService;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 
 public class DefaultCurrencyServiceTest {
 
     private CurrencyService currencyService;
 
-    @Before
     public void setup(){
         currencyService = new DefaultCurrencyService();
     }
@@ -28,7 +26,6 @@ public class DefaultCurrencyServiceTest {
     public void tearDown(){
 
     }
-
 
     @Test
     public void testConvertCurrency_Copper_Silver_EvenExchange_pass() throws Exception {

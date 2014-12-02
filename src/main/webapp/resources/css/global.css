@@ -1,5 +1,54 @@
 #character-sheet{
     font-family: "Century Schoolbook";
+    height: 96%;
+    width: 101%;
+    overflow:auto;
+    position: fixed;
+}
+
+#character-sheet table{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+table th{
+    text-align: left;
+}
+
+
+#character-sheet div#page-one-container,
+#character-sheet div#page-two-container{
+    width: 48%;
+    height: 96%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#character-sheet div#page-two-container{
+    margin-right: 0;
+}
+
+#character-sheet div#page-one,
+#character-sheet div#page-two {
+    width: 103%;
+    height: 95%;
+}
+
+table#abilities-row{
+    width: 100%;
+    text-align: left;
+}
+
+table#abilities-row td{
+    vertical-align: top;
+}
+#character-sheet table td{
+    vertical-align: top;
+}
+table div.image-wide-large{
+    width: 399px !important;
+    height:223px !important;
+    margin-left: 10px;
 }
 
 .text-bold{
@@ -18,18 +67,94 @@ table{
     clear: both;
 }
 
+div.side-by-side,
+table.side-by-side{
+    margin-right: 15px;
+    float: left;
+    width: auto;
+}
+
 h3 {
     margin-bottom: 5px;
 }
 
-table th {
-    margin-top: 10px;
+table#index-links{
+    margin: 100px auto auto auto;
 }
 
-.side-by-side.ability-row{
-    border: 1px solid black;
+table.character-list{
+    width: 100%;
+}
+
+table.character-list thead{
     margin-bottom: 10px;
-    margin-right: 50px;
+}
+
+table.character-list tr{
+    border: 1px solid black;
+}
+
+table#index-links input{
+    display: block;
+    margin: 19px auto auto auto;
+}
+div#character-list{
+    margin: 25 auto auto auto;
+}
+
+
+
+/*#character-list table thead {*/
+    /*background: linear-gradient(to bottom, #fff 0%, #e1e1e1 100%);*/
+    /*border-left: 1px solid lightgray;*/
+    /*border-right: 1px solid lightgray;*/
+    /*border-top: 1px solid lightgray;*/
+/*}*/
+
+/*#character-list table thead tr th {*/
+    /*border-bottom: 1px solid #c8c8c8;*/
+    /*font-size: 14px;*/
+    /*font-weight: bold;*/
+    /*height: 22px;*/
+    /*padding: 6px 6px 0 6px;*/
+/*}*/
+
+/*#character-list table tbody tr td {*/
+    /*height: 25px;*/
+    /*padding: 10px 10px 4px 10px;*/
+    /*vertical-align: baseline*/
+/*}*/
+
+/*#character-list tr.table-headers {*/
+    /*padding: 10px 0 10px 0;*/
+    /*text-align: left;*/
+/*}*/
+
+/*#character-list table tbody tr {*/
+    /*border-bottom: 1px solid lightgray;*/
+    /*background: #fff;*/
+    /*color: #222;*/
+    /*font-size: 12px;*/
+    /*line-height: 16px;*/
+    /*min-height: 415px;*/
+    /*height: auto;*/
+    /*margin: 10px auto 0 auto;*/
+    /*overflow: hidden;*/
+    /*padding: 0;*/
+    /*width: 960px;*/
+/*}*/
+
+
+#character-sheet table#abilities {
+    border: 1px solid black;
+}
+
+#character-sheet table#abilities td{
+    padding-right: 20px;
+}
+
+#character-sheet table#abilities tr{
+    margin-bottom: 10px;
 }
 
 .abilities a{
@@ -37,25 +162,13 @@ table th {
 }
 
 .input-box-small {
-    width: 30px;
+    width: 20px;
     text-align: center;
-    margin-right: 5px;
+    margin-right: 2px;
 }
 
 .table-container {
 
-}
-
-.side-by-side.currencyheader{
-    margin-right: 68px !important;
-    margin-left: 22px;
-}
-
-div.side-by-side,
-table.side-by-side{
-    margin-right: 15px;
-    float: left;
-    width: auto;
 }
 
 table.side-by-side.proficiencies th{
@@ -226,7 +339,7 @@ div#spell-preview,
 }
 
 .spell-tab{
-    height: 80%;
+    height: 92%;
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -277,7 +390,9 @@ div#spell-preview,
     color: red;
 }
 
-
+#search-by-school option{
+    text-indent: 5px;
+}
 
 
 /***********End Spells****************/

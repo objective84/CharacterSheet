@@ -8,6 +8,7 @@ import org.codehaus.jackson.annotate.JsonBackReference;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Andy on 7/23/2014.
@@ -40,6 +41,26 @@ public class Dice {
         this.minRoll = dice.getMinRoll();
         this.maxRoll = dice.getMaxRoll();
         this.averageRoll = dice.getAverageRoll();
+    }
+
+    public Dice(String name, int min, int max, int average){
+        this.name = name;
+        this.minRoll = min;
+        this.maxRoll = max;
+        this.averageRoll = average;
+    }
+
+    public int roll(Integer amt) {
+        Random rand = new Random();
+        Integer totalRoll = 0;
+        for(int i=0; i<amt; i++) {
+            totalRoll += rand.nextInt(this.getMaxRoll()) + this.getMinRoll();
+        }
+        return totalRoll;
+    }
+
+    public static Dice getD6(){
+        return new Dice("d6", 1, 6, 4);
     }
 
     @Id @GeneratedValue
