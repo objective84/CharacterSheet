@@ -117,6 +117,8 @@ public class CharacterController {
         mav.addObject("filterByProficiency", EquipmentFilterEnum.BY_PROFICIENCY.toString());
         mav.addObject("spellSchools", Arrays.asList("Abjuration", "Conjuration", "Divination",
                 "Enchantment", "Evocation", "Illusion", "Necromancy", "Transmutation"));
+        mav.addObject("abilityTypes", Arrays.asList("Strength", "Dexterity", "Constitution",
+                "Intelligence", "Wisdom", "Charisma"));
         return mav;
     }
 

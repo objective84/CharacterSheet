@@ -61,7 +61,7 @@ public class DefaultSpellSearchRepository implements SpellSearchRepository{
                 case SAVE:
                     stringPath = spell.get("savingThrow");
                     for(String pa : searchParams.get(p)){
-                        predicates.add(cb.equal(stringPath, "%" + pa + "%"));
+                        predicates.add(cb.equal(stringPath, pa));
                     }
                     break;
                 case SCHOOL:

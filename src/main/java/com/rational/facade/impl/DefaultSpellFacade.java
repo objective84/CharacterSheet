@@ -288,7 +288,7 @@ public class DefaultSpellFacade implements SpellFacade {
                 paramsMap.put(SpellSearchParam.LEVEL, Arrays.asList(params.get(param).split(",")));
             }else if(param.equals("class")){
 
-            }else if(param.equals("savingThrow")){
+            }else if(param.equals("save")){
                 paramsMap.put(SpellSearchParam.SAVE, Arrays.asList(params.get(param)));
             }else if(param.equals("verbal")){
                 paramsMap.put(SpellSearchParam.VERBAL_COMPONENTS, Arrays.asList("true"));

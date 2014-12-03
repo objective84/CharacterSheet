@@ -6,7 +6,6 @@ import com.rational.facade.SpellFacade;
 import com.rational.forms.ResponseData;
 import com.rational.forms.SpellCastData;
 import com.rational.model.entities.SpellModel;
-import com.rational.model.enums.AbilityTypeEnum;
 import com.rational.model.exceptions.SpellCastException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +36,8 @@ public class SpellController {
         mav.addObject("spellcasters", classFacade.findAllSpellcasters());
         mav.addObject("spellSchools", Arrays.asList("Abjuration", "Conjuration", "Divination",
                 "Enchantment", "Evocation", "Illusion", "Necromancy", "Transmutation"));
-        mav.addObject("abilityTypes", AbilityTypeEnum.getValues());
-        return mav;
+        mav.addObject("abilityTypes", Arrays.asList("Strength", "Dexterity", "Constitution",
+                "Intelligence", "Wisdom", "Charisma"));        return mav;
     }
 
     @RequestMapping(value="/spell/{spellId}", method =  RequestMethod.GET)
