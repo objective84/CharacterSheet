@@ -8,9 +8,12 @@ CREATE TABLE `background` (
   KEY `background_coin_purse_id_fk_idx` (`coin_purse_id`),
   CONSTRAINT `background_coin_purse_id_fk`
   FOREIGN KEY (`coin_purse_id`)
-  REFERENCES `coinpurse` (`id`)
+  ADD INDEX `background_coin_purse_id_fk_idx` (`coin_purse_id` ASC);
+  ADD CONSTRAINT `background_coin_purse_id_fk`
+  FOREIGN KEY (`coin_purse_id`)
+  REFERENCES `charactersheet`.`coinpurse` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION
+    ON UPDATE NO ACTION;
 );
 
 
@@ -29,16 +32,6 @@ CREATE TABLE `charactersheet`.`background_proficiency` (
     REFERENCES `charactersheet`.`proficiency` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
-ALTER TABLE `charactersheet`.`background`
-ADD COLUMN `coin_purse_id` BIGINT(20) NULL DEFAULT NULL AFTER `feature`,
-ADD INDEX `background_coin_purse_id_fk_idx` (`coin_purse_id` ASC);
-ALTER TABLE `charactersheet`.`background`
-ADD CONSTRAINT `background_coin_purse_id_fk`
-FOREIGN KEY (`coin_purse_id`)
-REFERENCES `charactersheet`.`coinpurse` (`id`)
-  ON DELETE NO ACTION
-  ON UPDATE NO ACTION;
 
 
 CREATE TABLE `charactersheet`.`background_language` (
