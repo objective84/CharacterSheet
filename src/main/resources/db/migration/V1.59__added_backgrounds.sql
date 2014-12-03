@@ -75,7 +75,7 @@ CREATE TABLE `charactersheet`.`character_model_used_traits` (
   `character_id` BIGINT(20) NULL,
   `trait_id` BIGINT(20) NULL,
   INDEX `character_used_traits_character_id_fk_idx` (`character_id` ASC),
-  INDEX `character_used_traits_trait_id_fk_idx` (` trait_id` ASC),
+  INDEX `character_used_traits_trait_id_fk_idx` (`trait_id` ASC),
   CONSTRAINT `character_used_traits_character_id_fk`
   FOREIGN KEY (`character_id`)
   REFERENCES `charactersheet`.`charactermodel` (`id`)
@@ -159,6 +159,13 @@ CREATE TABLE `charactersheet`.`feat_prerequisite` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`));
 
+CREATE TABLE `charactersheet`.`feat` (
+    `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) NULL,
+    `description` varchar(5000) NULL,
+    `prerequisite_id` BIGINT(20) NULL,
+    PRIMARY KEY (`id`));
+
 ALTER TABLE `charactersheet`.`feat`
 ADD INDEX `feat_prerequisite_id_fk_idx` (`prerequisite_id` ASC);
 ALTER TABLE `charactersheet`.`feat`
@@ -240,18 +247,3 @@ ADD COLUMN `chaCanIncrease` TINYINT(1) NULL DEFAULT 0 AFTER `wisCanIncrease`;
 UPDATE `charactersheet`.`spellmodel` SET `requiresAttackRoll`='1' WHERE `id`='205';
 UPDATE `charactersheet`.`spellmodel` SET `requiresAttackRoll`='0' WHERE `id`='244';
 
-
-INSERT INTO `charactersheet`.`feat_prerequisite` (`id`) VALUES ('1');
-INSERT INTO `charactersheet`.`can_cast_spell_req` (`id`) VALUES ('1');
-
-INSERT INTO `charactersheet`.`feat` (`id`, `name`, `description`, `prerequisite_id`) VALUES ('1', 'Spell Sniper', 'Prerequisite: The ability to cast at least one spell /n/nYou have learned techniques to enhance your attacks with certain kinds of spells, gaining the following benefits: /bullets• When you cast a spell that requires you to make an attack roll, the spell’s range is doubled. /bt• Your ranged spell attacks ignore half cover AND three-quarters cover. /bt• You learn one cantrip that requires an attack roll./bullets /nChoose the cantrip from the bard, cleric, druid, sorcerer, warlock, or wizard spell list. Your spellcasting ability for this cantrip depends on the spell list you chose from: Charisma for bard, sorcerer, or warlock; Wisdom for cleric or druid; or Intelligence for wizard.', '1');
-
-INSERT INTO `charactersheet`.`traitmodel` (`id`, `description`, `name`, `refreshOnShortRest`) VALUES ('24', 'You learn one cantrip that requires an attack roll. Choose the cantrip from the bard, cleric, druid, sorcerer, warlock, or wizard spell list. Your spellcasting ability for this cantrip depends on the spell list you chose from: Charisma for bard, sorcerer, or warlock; Wisdom for cleric or druid; or Intelligence for wizard.', 'Gain offensive cantrip', '0');
-INSERT INTO `charactersheet`.`add_spell_trait` (`id`) VALUES ('24', '1');
-
-INSERT INTO `charactersheet`.`add_spell_trait_spell` (`trait_id`, `spell_id`) VALUES ('24', '46');
-INSERT INTO `charactersheet`.`add_spell_trait_spell` (`trait_id`, `spell_id`) VALUES ('24', '113');
-INSERT INTO `charactersheet`.`add_spell_trait_spell` (`trait_id`, `spell_id`) VALUES ('24', '137');
-INSERT INTO `charactersheet`.`add_spell_trait_spell` (`trait_id`, `spell_id`) VALUES ('24', '205');
-INSERT INTO `charactersheet`.`add_spell_trait_spell` (`trait_id`, `spell_id`) VALUES ('24', '239');
-INSERT INTO `charactersheet`.`add_spell_trait_spell` (`trait_id`, `spell_id`) VALUES ('24', '257');
