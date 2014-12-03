@@ -8,12 +8,9 @@ CREATE TABLE `background` (
   KEY `background_coin_purse_id_fk_idx` (`coin_purse_id`),
   CONSTRAINT `background_coin_purse_id_fk`
   FOREIGN KEY (`coin_purse_id`)
-  ADD INDEX `background_coin_purse_id_fk_idx` (`coin_purse_id` ASC);
-  ADD CONSTRAINT `background_coin_purse_id_fk`
-  FOREIGN KEY (`coin_purse_id`)
-  REFERENCES `charactersheet`.`coinpurse` (`id`)
+  REFERENCES `coinpurse` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION;
+    ON UPDATE NO ACTION
 );
 
 
@@ -85,7 +82,7 @@ CREATE TABLE `charactersheet`.`character_model_used_traits` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `character_used_traits_trait_id_fk`
-  FOREIGN KEY (` trait_id`)
+  FOREIGN KEY (`trait_id`)
   REFERENCES `charactersheet`.`traitmodel` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
