@@ -9,9 +9,11 @@ public enum DieTypeEnum {
     d20("d20"),
     d100("d100");
     private String type;
+    private Long id;
 
     private DieTypeEnum(String type){
         this.type = type;
+        this.id = id;
     }
 
     public static String[] getAllHitDieTypes(){
@@ -21,5 +23,13 @@ public enum DieTypeEnum {
 
     public static String value(DieTypeEnum dieEnum){
         return dieEnum.type;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
