@@ -2,14 +2,10 @@ package com.rational.model.dm.treasure;
 
 import com.rational.model.enums.DieTypeEnum;
 
-import java.util.List;
-
 /**
  * Created by awest on 2/6/15.
  */
-public class IndividualTreasureTable {
-    private int lowerBound;
-    private int upperBound;
+public class IndividualTreasureRow extends TreasureRow {
     private int lowerCR;
     private int upperCR;
     private int copperDiceNumber;
@@ -22,23 +18,6 @@ public class IndividualTreasureTable {
     private DieTypeEnum eDiceType;
     private int platinumDiceNumber;
     private DieTypeEnum platinumDiceType;
-
-
-    public int getLowerBound() {
-        return lowerBound;
-    }
-
-    public void setLowerBound(int lowerBound) {
-        this.lowerBound = lowerBound;
-    }
-
-    public int getUpperBound() {
-        return upperBound;
-    }
-
-    public void setUpperBound(int upperBound) {
-        this.upperBound = upperBound;
-    }
 
     public int getLowerCR() {
         return lowerCR;

@@ -7,10 +7,10 @@ import java.util.List;
  */
 public class TreasureGenerator {
 
-    List<IndividualTreasureTable> tableA;
-    List<IndividualTreasureTable> tableB;
-    List<IndividualTreasureTable> tableC;
-    List<IndividualTreasureTable> tableD;
-    List<IndividualTreasureTable> tableE;
-    List<IndividualTreasureTable> tableH;
+    List<IndividualTreasureRow> tableA;
+    List<IndividualTreasureRow> tableB;
+    List<IndividualTreasureRow> tableC;
+    List<IndividualTreasureRow> tableD;
+    List<IndividualTreasureRow> tableE;
+    List<IndividualTreasureRow> tableH;
 }
