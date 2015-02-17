@@ -2,6 +2,8 @@ package com.rational.model.entities;
 
 import com.rational.model.Dice;
 import com.rational.model.Proficiency;
+import com.rational.utils.Formatter;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -16,7 +18,9 @@ public class ClassModel {
 
     @Id @GeneratedValue private Long id;
     private String name;
+    private String description;
     private Integer startingWealthDieAmount;
+    @Column(name="sub_class_name")private String subclassName;
     @Column(name="skills_at_creation") private Integer skillsAtCreation;
     @Column(name="magic_ability") private String magicAbility;
 
@@ -27,15 +31,13 @@ public class ClassModel {
     @JoinTable(name="classmodel_proficiency", joinColumns = @JoinColumn(name="classes_id"), inverseJoinColumns = @JoinColumn(name="proficiencies_id"))
     private List<Proficiency> proficiencies = new ArrayList<Proficiency>();
 
-    @ManyToMany
-    @JoinTable(name="classmodel_traitmodel", joinColumns = @JoinColumn(name="traitmodel_id"), inverseJoinColumns = @JoinColumn(name="classmodel_id"))
-    private List<TraitModel> classTraits = new ArrayList<TraitModel>();
-
-    @JsonManagedReference @OneToMany(mappedBy = "baseClass", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore @OneToMany
+    @JoinTable(name="class_subclass", joinColumns = @JoinColumn(name="class_id"), inverseJoinColumns = @JoinColumn(name = "subclass_id"))
     private List<SubClassModel> subClasses = new ArrayList<SubClassModel>();
 
     @JoinTable(name="spellmodel_classmodel", joinColumns = @JoinColumn(name="classmodel_id"), inverseJoinColumns = @JoinColumn(name="spellmodel_id"))
-    @JsonManagedReference @ManyToMany private List<SpellModel> spells = new ArrayList<SpellModel>();
+    @JsonIgnore
+    @ManyToMany private List<SpellModel> spells = new ArrayList<SpellModel>();
 
     @JsonManagedReference @OneToMany(mappedBy = "clazz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Level> levels = new ArrayList<Level>();
@@ -70,14 +72,6 @@ public class ClassModel {
 
     public void setProficiencies(List<Proficiency> proficiencies) {
         this.proficiencies = proficiencies;
-    }
-
-    public List<TraitModel> getClassTraits() {
-        return classTraits;
-    }
-
-    public void setClassTraits(List<TraitModel> classTraits) {
-        this.classTraits = classTraits;
     }
 
     public List<SubClassModel> getSubClasses() {
@@ -140,5 +134,28 @@ public class ClassModel {
             if(level.getLevelNumber() == num) return level;
         }
         return null;
+    }
+    public List<Long> getSpellIds(){
+        List<Long> spellIds = new ArrayList<Long>();
+        for(SpellModel spell :spells){
+            spellIds.add(spell.getId());
+        }
+        return spellIds;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = "<table><tr><td><span>" + Formatter.formatParagraph(description) + "</span></td></tr></table>";
+    }
+
+    public String getSubclassName() {
+        return subclassName;
+    }
+
+    public void setSubclassName(String subclassName) {
+        this.subclassName = subclassName;
     }
 }

@@ -12,10 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashSet;
@@ -50,14 +47,12 @@ public class EquipmentController {
     }
 
     @ResponseBody
-    @RequestMapping(value="/equipment", method = RequestMethod.GET, produces = "application/json")
-    public ResponseData<CharacterModel> saveInventory(@RequestParam(value = "ids") String ids){
+    @RequestMapping(value="/equipment/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseData<CharacterModel> saveInventory(@PathVariable String characterId, @RequestParam(value = "ids") String ids){
         ResponseData<CharacterModel> responseData = new ResponseData<CharacterModel>();
         Set<Long> equipmentIds = new HashSet<Long>();
-        String charId = "";
         try {
             JSONObject obj = new JSONObject(ids);
-            charId = obj.getString("charId");
             JSONArray array = obj.getJSONArray("equipmentIds");
 
             for(int i=0; i< array.length(); i++){
@@ -69,7 +64,7 @@ public class EquipmentController {
         }
 
         try {
-            responseData.setData(equipmentFacade.purchaseGear(Long.decode(charId), equipmentIds));
+            responseData.setData(equipmentFacade.purchaseGear(Long.decode(characterId), equipmentIds));
             responseData.setCode(ResponseData.SUCCESS_CODE);
             responseData.setMessage(PURCHASE_SUCCESS);
         } catch (PurchaseException e) {
@@ -81,27 +76,26 @@ public class EquipmentController {
     }
 
     @ResponseBody
-    @RequestMapping(value="/main-hand", method = RequestMethod.GET, produces = "application/json")
-    public List<WeaponModel> getMainHandWeapons(@RequestParam(value = "characterId") String characterId){
+    @RequestMapping(value="/main-hand/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public List<WeaponModel> getMainHandWeapons(@PathVariable String characterId){
         return equipmentFacade.getWeaponsFromInventory(characterFacade.findCharacter(characterId));
     }
 
     @ResponseBody
-    @RequestMapping(value="/off-hand", method = RequestMethod.GET, produces = "application/json")
-    public List<EquipmentModel> getOffHand(@RequestParam(value = "characterId") String characterId){
+    @RequestMapping(value="/off-hand/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public List<EquipmentModel> getOffHand(@PathVariable String characterId){
         return equipmentFacade.getOffHandFromInventory(characterFacade.findCharacter(characterId));
     }
 
     @ResponseBody
-    @RequestMapping(value="/armor", method = RequestMethod.GET, produces = "application/json")
-    public List<ArmorModel> getArmor(@RequestParam(value = "characterId") String characterId){
+    @RequestMapping(value="/armor/{characterId}", method = RequestMethod.GET, produces = "application/json")
+    public List<ArmorModel> getArmor(@PathVariable String characterId){
         return equipmentFacade.getArmorFromInventory(characterFacade.findCharacter(characterId));
     }
 
     @ResponseBody
-    @RequestMapping(value="/equip-main-hand", method = RequestMethod.GET, produces = "application/json")
-    public CharacterModel setMainHandWeapons(@RequestParam(value = "characterId") String characterId,
-                                             @RequestParam(value = "itemId") String itemId ){
+    @RequestMapping(value="/equip-main-hand/{characterId}/{itemId}", method = RequestMethod.GET, produces = "application/json")
+    public CharacterModel setMainHandWeapons(@PathVariable String characterId, @PathVariable String itemId ){
         CharacterModel character = characterFacade.findCharacter(characterId);
         character.setEquippedMainHand(equipmentFacade.findWeaponModel(Long.decode(itemId)));
         character = characterFacade.save(character);
@@ -110,9 +104,8 @@ public class EquipmentController {
     }
 
     @ResponseBody
-    @RequestMapping(value="/equip-off-hand", method = RequestMethod.GET, produces = "application/json")
-    public CharacterModel setOffHand(@RequestParam(value = "characterId") String characterId,
-                                     @RequestParam(value = "itemId") String itemId){
+    @RequestMapping(value="/equip-off-hand/{characterId}/{itemId}", method = RequestMethod.GET, produces = "application/json")
+    public CharacterModel setOffHand(@PathVariable String characterId, @PathVariable String itemId){
         CharacterModel character = characterFacade.findCharacter(characterId);
         character.setEquippedOffHand(equipmentFacade.findEquipment(Long.decode(itemId)));
         character = characterFacade.save(character);
@@ -121,9 +114,8 @@ public class EquipmentController {
     }
 
     @ResponseBody
-    @RequestMapping(value="/equip-armor", method = RequestMethod.GET, produces = "application/json")
-    public CharacterModel setArmor(@RequestParam(value = "characterId") String characterId,
-                                   @RequestParam(value = "itemId") String itemId){
+    @RequestMapping(value="/equip-armor/{characterId}/{itemId}", method = RequestMethod.GET, produces = "application/json")
+    public CharacterModel setArmor(@PathVariable String characterId, @PathVariable String itemId){
         CharacterModel character = characterFacade.findCharacter(characterId);
         characterFacade.equipArmor(characterId, itemId);
         character.setEquippedArmor(equipmentFacade.getArmorModel(Long.decode(itemId)));

@@ -19,4 +19,6 @@ public interface ClassFacade {
     ClassModel getClassModel(Long id);
 
     List<ClassModel> findAllSpellcasters();
+
+    String getSubclassChoiceHtml(String classId);
 }

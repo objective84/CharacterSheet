@@ -2,8 +2,10 @@ package com.rational.service.impl;
 
 import com.rational.model.entities.CharacterAdvancement;
 import com.rational.model.entities.CharacterModel;
+import com.rational.model.entities.Feat;
 import com.rational.repository.AdvancementRepository;
 import com.rational.repository.CharacterRepository;
+import com.rational.repository.FeatRepository;
 import com.rational.service.CharacterService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,8 @@ public class DefaultCharacterService implements CharacterService{
     @Resource
     private AdvancementRepository advancementRepository;
 
+    @Resource
+    private FeatRepository featRepository;
 
     @Override
     @Transactional
@@ -50,5 +54,13 @@ public class DefaultCharacterService implements CharacterService{
     @Override
     public CharacterAdvancement findAdvancement(Long id) {
         return advancementRepository.findOne(id);
+    }
+
+    @Override
+    public List<Feat> findAllFeats(){return featRepository.findAll();}
+
+    @Override
+    public Feat findFeat(Long featId) {
+        return featRepository.findOne(featId);
     }
 }

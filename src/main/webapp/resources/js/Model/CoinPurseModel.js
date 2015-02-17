@@ -6,7 +6,9 @@ define("CoinPurseModel",
     ["jquery", "underscore", "backbone", "epoxy"],
     function($, _, backbone, epoxy){
         var model = backbone.Model.extend({
-                defaults:{
+            characterId: null,
+            defaults:{
+                    id: '',
                     cp: '0',
                     sp: '0',
                     ep: '0',
@@ -14,13 +16,10 @@ define("CoinPurseModel",
                     pp: '0'
                 },
 
-                setCoinPurse: function(coinPurse){
-                    this.set('cp', coinPurse.cp);
-                    this.set('sp', coinPurse.sp);
-                    this.set('ep', coinPurse.ep);
-                    this.set('gp', coinPurse.gp);
-                    this.set('pp', coinPurse.pp);
-                }
+            url: function(){
+                return $('#pathContext').val() + '/purse/' + this.characterId + '.json';
+            }
+
             });
         epoxy.Model.mixin(model.prototype);
         return model;

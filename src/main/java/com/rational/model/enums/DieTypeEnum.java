@@ -1,7 +1,6 @@
 package com.rational.model.enums;
 
 public enum DieTypeEnum {
-    d1("d1"),
     d4("d4"),
     d6("d6"),
     d8("d8"),

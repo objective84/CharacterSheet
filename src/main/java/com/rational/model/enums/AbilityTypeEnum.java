@@ -1,10 +1,13 @@
 package com.rational.model.enums;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum AbilityTypeEnum{
     Str("Str"),
     Dex("Dex"),
     Con("Con"),
-    Int("Intel"),
+    Intel("Int"),
     Wis("Wis"),
     Cha("Cha");
 
@@ -15,7 +18,7 @@ public enum AbilityTypeEnum{
     }
 
     public static AbilityTypeEnum getValueOf(String value){
-        if(value.equals("Int")) return Int;
+        if(value.equals("Int")) return Intel;
         return AbilityTypeEnum.valueOf(value);
     }
 
@@ -26,5 +29,9 @@ public enum AbilityTypeEnum{
 
     public String getType() {
         return type;
+    }
+
+    public static List<String> getValues() {
+        return Arrays.asList(Str.type, Dex.type, Con.type, Intel.type, Wis.type, Cha.type);
     }
 }

@@ -2,8 +2,10 @@ package com.rational.model.entities;
 
 
 import com.rational.model.Dice;
+import com.rational.utils.Formatter;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import javax.persistence.*;
@@ -40,9 +42,7 @@ VALUES ('', #id
 @Entity
 public class SpellModel implements Comparable<SpellModel>{
 
-    @Id
-    @GeneratedValue
-    private Long id;
+    @Id @GeneratedValue private Long id;
 
     private String name;
     private String description;
@@ -50,12 +50,11 @@ public class SpellModel implements Comparable<SpellModel>{
     private Integer damageDiceAmount;
     private String castingTime;
     private String range;
+    private int numAttacks = 0;
 
-    @ManyToOne
-    @JsonManagedReference
-    private Dice damageDice;
-    @ManyToOne
-    private DamageType damageType;
+
+    @ManyToOne @JsonManagedReference private Dice damageDice;
+    @ManyToOne private DamageType damageType;
     private String savingThrow;
     private String condition;
     private Boolean requiresVerbalComponent;
@@ -67,13 +66,16 @@ public class SpellModel implements Comparable<SpellModel>{
     private Boolean ritual;
     private Boolean concentration;
     private String school;
+    private String areaOfEffectType;
+    private Integer areaOfEffectRange = 0;
 
-    @JsonBackReference
-    @ManyToMany
-    @JoinTable(name="spellmodel_classmodel",
-            joinColumns = @JoinColumn(name="spellmodel_id"),
-            inverseJoinColumns = @JoinColumn(name="classmodel_id"))
-    private List<ClassModel> classes = new ArrayList<ClassModel>();
+    @JsonIgnore @OneToOne(cascade = CascadeType.ALL) @JoinColumn(name="linkedSpell_id")private SpellModel linkedSpell;
+
+    @JoinTable(name="spellmodel_classmodel", joinColumns = @JoinColumn(name="spellmodel_id"), inverseJoinColumns = @JoinColumn(name="classmodel_id"))
+    @JsonBackReference @ManyToMany private List<ClassModel> classes = new ArrayList<ClassModel>();
+
+    @JoinTable(name="level_spell", joinColumns = @JoinColumn(name="level_id"), inverseJoinColumns = @JoinColumn(name="spell_id"))
+    @JsonBackReference @ManyToMany private List<Level> levels = new ArrayList<Level>();
 
     public Long getId() {
         return id;
@@ -226,16 +228,6 @@ public class SpellModel implements Comparable<SpellModel>{
         this.range = range;
     }
 
-    public String parseName(){
-        String name = "";
-        String[] split = this.name.toUpperCase().split(" ");
-        for(String word : split){
-            name = name + "<span class=spell-name-head>" + word.substring(0, 1) + "</span>" +
-                    "<span class=spell-name-tail>"+ word.substring(1, word.length()) + "</span> ";
-        }
-        return name;
-    }
-
     public String getLevelSchool(){
         String levelSchool = "";
         switch(this.level){
@@ -254,7 +246,8 @@ public class SpellModel implements Comparable<SpellModel>{
                 levelSchool = level+"th";
                 break;
         }
-        levelSchool = levelSchool + ("-level " + school.toLowerCase());
+        String ritual = this.isRitual() ? "(ritual)" : "";
+        levelSchool = levelSchool + "-level " + school.toLowerCase() + " " + ritual;
         return levelSchool;
     }
 
@@ -273,66 +266,6 @@ public class SpellModel implements Comparable<SpellModel>{
         return components;
     }
 
-    public String parseDescription() {
-        String description = this.description;
-        if(description.contains("*tab")){
-            while(description.contains("*tab")){
-                int startIndex = description.indexOf("*tab")+4;
-                int endIndex = description.indexOf("*", startIndex + 1);
-                String padding = description.substring(startIndex, endIndex);
-                description = description.replace("*tab"+padding+"*", "<span style='padding: "+ padding + "px;'/>");
-            }
-        }
-        if(description.contains("/bullets")){
-            while (description.contains("/bullets")) {
-                int startIndex = description.indexOf("/bullets")+ 8;
-                int endIndex = description.indexOf("/bullets", startIndex+8);
-                endIndex = endIndex == -1 ? description.length() : endIndex;
-                String text = description.substring(startIndex, endIndex);
-                description = description.replaceFirst("/bullets", "<table class='bullet-list'>");
-                description = description.replaceFirst("/bullets", "</table>");
-                description = description.replace(text, formatBulletList(text));
-            }
-        }
-        if(description.contains("/b")) {
-            while (description.contains("/b")) {
-                int startIndex = description.indexOf("/b");
-                int endIndex = description.indexOf("/b", startIndex + 2) + 2;
-                String text = description.substring(startIndex, endIndex);
-                description = description.replaceFirst(text, boldText(text));
-            }
-        }
-        if(description.contains("/n")) {
-            while (description.contains("/n")) {
-                int startIndex = description.indexOf("/n");
-                int endIndex = description.indexOf("/n", startIndex + 2);
-                endIndex = endIndex == -1 ? description.length() : endIndex;
-                String text = description.substring(startIndex, endIndex);
-                description = description.replace(text, newLine(text));
-            }
-        }
-        return description;
-    }
-
-    private String newLine(String text){
-        text = text.replace("/n", "<span class='indent'/>");
-        return  "<tr><td><span class='spell-line'>   " + text + "</span></td></tr>";
-    }
-
-    private String formatBulletList(String list){
-        String[] bullets = list.split("/bt");
-        list = list.replace("/bt", "");
-        for(String bullet: bullets){
-            list = list.replace(bullet, "<tr><td>" + bullet + "</td></tr>");
-        }
-        return list;
-    }
-
-    private String boldText(String text){
-        text = text.replace("/b", "");
-        return "<span class='text-bold'>"+ text + "</span>";
-    }
-
     private String formatRange(){
         try{
             return Integer.decode(this.range) + " feet";
@@ -341,15 +274,25 @@ public class SpellModel implements Comparable<SpellModel>{
         }
     }
 
+    public String getClassesHTML(){
+        String classes = "";
+        for(ClassModel clazz : this.classes){
+            classes = classes.concat(clazz.getName() + ", ");
+        }
+
+        classes = classes.substring(0, classes.length()-2);
+        return classes;
+    }
+
     public String getDisplayText(){
         return "<div id='spell-text-div'><table>" +
-                "<tr><td>" + parseName() + "</td></tr>" +
+                "<tr><td>" + Formatter.parseSubtitle(this.name) + "</td></tr>" +
                 "<tr><td><span class='spell-level-school'>" + this.getLevelSchool() + "</span> </td></tr>" +
                 "<tr><td><span class='spell-header'>Casting Time: </span><span class='spell-line'>" + this.castingTime + "</span> </td></tr>" +
                 "<tr><td><span class='spell-header'>Range: </span><span class='spell-line'>" + formatRange() + "</span> </td></tr>" +
                 "<tr><td><span class='spell-header'>Components: </span><span class='spell-line'>" + this.getComponents() + "</span> </td></tr>" +
                 "<tr><td><span class='spell-header'>Duration: </span><span class='spell-line'>" + this.duration + "</span> </td></tr>   " +
-                "<tr><td>" +this.parseDescription() + "</td></tr></div>";
+                "<tr><td>" + boldSavingThrowText(Formatter.formatParagraph(this.description)) + "</td></tr></table><br/><span>Castable by: " + this.getClassesHTML() + "</span></div>";
     }
 
     public Boolean getConcentration() {
@@ -372,5 +315,56 @@ public class SpellModel implements Comparable<SpellModel>{
     public int compareTo(SpellModel o) {
         if(this.getLevel().compareTo(o.getLevel()) != 0) return this.getLevel().compareTo(o.getLevel());
         return this.getName().compareTo(o.getName());
+    }
+
+    public List<Level> getLevels() {
+        return levels;
+    }
+
+    public void setLevels(List<Level> levels) {
+        this.levels = levels;
+    }
+
+    public String boldSavingThrowText(String description){
+        description = description.replaceAll("Strength saving throw", "<span class='saving-throw-text'>Strength saving throw</span>");
+        description = description.replaceAll("Dexterity saving throw", "<span class='saving-throw-text'>Dexterity saving throw</span>");
+        description = description.replaceAll("Constitution saving throw", "<span class='saving-throw-text'>Constitution saving throw</span>");
+        description = description.replaceAll("Intelligence saving throw", "<span class='saving-throw-text'>Intelligence saving throw</span>");
+        description = description.replaceAll("Wisdom saving throw", "<span class='saving-throw-text'>Wisdom saving throw</span>");
+        description = description.replaceAll("Charisma saving throw", "<span class='saving-throw-text'>Charisma saving throw</span>");
+
+        return description;
+    }
+
+    public int getNumAttacks() {
+        return numAttacks;
+    }
+
+    public void setNumAttacks(int numAttacks) {
+        this.numAttacks = numAttacks;
+    }
+
+    public SpellModel getLinkedSpell() {
+        return linkedSpell;
+    }
+
+    public void setLinkedSpell(SpellModel linkedSpell) {
+        this.linkedSpell = linkedSpell;
+    }
+
+    public String getAreaOfEffectType() {
+        return areaOfEffectType;
+    }
+
+    public void setAreaOfEffectType(String areaOfEffectType) {
+        this.areaOfEffectType = areaOfEffectType;
+    }
+
+    public int getAreaOfEffectRange() {
+        return 0;
+    }
+
+    public void setAreaOfEffectRange(int areaOfEffectRange) {
+        this.areaOfEffectRange = areaOfEffectRange;
     }
 }

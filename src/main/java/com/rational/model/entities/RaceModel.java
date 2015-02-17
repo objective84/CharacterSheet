@@ -79,7 +79,7 @@ public class RaceModel {
     }
 
     public int getSpeed() {
-        return speed;
+        return null == speed ? 0 : speed ;
     }
 
     public void setSpeed(int speed) {

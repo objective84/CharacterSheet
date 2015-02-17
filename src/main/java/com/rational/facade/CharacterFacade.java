@@ -1,5 +1,6 @@
 package com.rational.facade;
 
+import com.rational.forms.LevelUpReportData;
 import com.rational.model.entities.*;
 
 import java.util.List;
@@ -12,9 +13,11 @@ public interface CharacterFacade {
 
     void deleteCharacter(String id);
 
-    CharacterModel levelUp(CharacterModel character);
-
     CharacterModel findCharacter(String idString);
+
+    com.rational.forms.LevelUpReportData levelUp(String characterId, String classId);
+
+    LevelUpReportData levelUp(CharacterModel character, ClassModel clazz);
 
     ClassModel setCharacterClass(String characterId, String classId);
 
@@ -34,6 +37,23 @@ public interface CharacterFacade {
 
     void setAC(CharacterModel character);
 
+//    LanguageModel removeLanguage(String characterId, String languageId);
+
+    CharacterModel shortRest(String characterId, String[] hitDice);
+
+    Feat findFeat(String featId);
+
+    CharacterModel longRest(String characterId);
+
     CharacterModel assembleCharacter(CharacterModel character);
 
+    void addSkill(String characterId, String skillId);
+
+    void removeSkill(String characterId, String skillId);
+
+    SubClassModel setCharacterSubClass(String characterId, String subclassId);
+
+    String getAllAvailableFeats(String characterId);
+
+//    LanguageModel addLanguage(String characterId, String languageId);
 }

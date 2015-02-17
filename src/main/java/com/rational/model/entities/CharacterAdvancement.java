@@ -1,8 +1,11 @@
 package com.rational.model.entities;
 
+import com.rational.model.Dice;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Andy on 8/19/2014.
@@ -39,8 +42,14 @@ public class CharacterAdvancement {
         this.id = id;
     }
 
-    public int getTotalLevel() {
-        return levels.size();
+    public int getCombinedLevel() {
+        int size = 0;
+        for(Level level : this.levels){
+            if(null != level.getClazz()){
+                size++;
+            }
+        }
+        return size;
     }
 
     public int getProficiencyBonus() {
@@ -70,8 +79,10 @@ public class CharacterAdvancement {
     public int getLevelsOfClass(ClassModel clazz) {
         int total = 0;
         for(Level level : this.levels){
-            if(level.getClazz().getId() == clazz.getId()){
-                total++;
+            if(null != level.getClazz()){
+                if(level.getClazz().getId() == clazz.getId()){
+                    total++;
+                }
             }
         }
         return total;
@@ -80,8 +91,22 @@ public class CharacterAdvancement {
     public int getNumSpellsAllowed(){
         int amt = 0;
         for(Level level: levels){
-            amt += level.getSpellsKnown();
+            if(null != level.getSpellsKnown()){
+                amt += level.getSpellsKnown();
+            }
         }
+        return amt;
+    }
+
+    public int getNumCantripsAllowed(){
+        int amt=0;
+
+        for(Level level : levels){
+            if(null != level.getCantripsKnown()){
+                amt += level.getCantripsKnown();
+            }
+        }
+
         return amt;
     }
 }

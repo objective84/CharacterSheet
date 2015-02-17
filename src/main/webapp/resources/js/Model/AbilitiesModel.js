@@ -18,16 +18,6 @@ define("AbilitiesModel",
                 cha: '0'
             },
 
-            setAbilities: function(abilities){
-                this.set('id', abilities.id);
-                this.set('str', abilities.str);
-                this.set('dex', abilities.dex);
-                this.set('con', abilities.con);
-                this.set('intel', abilities.intel);
-                this.set('wis', abilities.wis);
-                this.set('cha', abilities.cha);
-            },
-
             fetchAbilities: function(options){
                 options = options || {};
                 options.url = $('#pathContext').val() + '/abilities/' + this.characterId + '.json';

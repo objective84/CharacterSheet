@@ -42,8 +42,8 @@ INSERT INTO `charactersheet`.`racemodel_traitmodel`(`racemodel_id`, `traitmodel_
 INSERT INTO `charactersheet`.`racemodel_traitmodel`(`racemodel_id`, `traitmodel_id`) VALUES ('10', '12');
 INSERT INTO `charactersheet`.`racemodel_traitmodel`(`racemodel_id`, `traitmodel_id`) VALUES ('10', '4');
 
-INSERT INTO `charactersheet`.`subraces_traitmodel`(`subraces_id`, `traitmodel_id`) VALUES ('1', '4');
-INSERT INTO `charactersheet`.`subraces_traitmodel`(`subraces_id`, `traitmodel_id`) VALUES ('2', '5');
+INSERT INTO `charactersheet`.`subraces_traitmodel`(`subraces_id`, `traitmodel_id`) VALUES ('1', '5');
+INSERT INTO `charactersheet`.`subraces_traitmodel`(`subraces_id`, `traitmodel_id`) VALUES ('2', '4');
 INSERT INTO `charactersheet`.`subraces_traitmodel`(`subraces_id`, `traitmodel_id`) VALUES ('3', '6');
 INSERT INTO `charactersheet`.`subraces_traitmodel`(`subraces_id`, `traitmodel_id`) VALUES ('4', '5');
 INSERT INTO `charactersheet`.`subraces_traitmodel`(`subraces_id`, `traitmodel_id`) VALUES ('5', '7');
