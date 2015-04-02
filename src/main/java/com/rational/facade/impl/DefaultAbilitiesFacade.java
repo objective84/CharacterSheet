@@ -13,7 +13,6 @@ public class DefaultAbilitiesFacade implements AbilitiesFacade {
     @Resource(name="defaultAbilitiesService")
     private AbilitiesService abilitiesService;
 
-    @Override
     public Abilities saveAbilities(Abilities abilities) {
         return abilitiesService.saveAbilities(abilities);
     }
