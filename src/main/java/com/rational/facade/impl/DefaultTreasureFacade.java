@@ -4,6 +4,7 @@ import com.rational.facade.TreasureFacade;
 import com.rational.model.dm.treasure.MagicItem;
 import com.rational.model.entities.CoinPurse;
 import com.rational.repository.MagicItemRepository;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Created by awest on 2/16/15.
  */
+@Component("defaultTreasureFacade")
 public class DefaultTreasureFacade implements TreasureFacade{
 
     @Resource
