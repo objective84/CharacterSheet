@@ -12,9 +12,10 @@ define('Router',
         'CharacterListView',
         'WeaponEntryView',
         'SpellView',
-        'LightPuzzleView'
+        'LightPuzzleView',
+        'InitiativeView'
     ],
-    function ($, marionette, PageControllerMap, CharacterView, DefaultDBEntryView, LanguageView, CharacterListView, WeaponEntryView, SpellView, LightPuzzleView) {
+    function ($, marionette, PageControllerMap, CharacterView, DefaultDBEntryView, LanguageView, CharacterListView, WeaponEntryView, SpellView, LightPuzzleView, InitiativeView) {
         return marionette.Controller.extend({
                 mappedPageControllers: [
                     PageControllerMap.createMappedPageController('character-sheet', CharacterView),
@@ -23,7 +24,8 @@ define('Router',
                     PageControllerMap.createMappedPageController('languages', LanguageView),
                     PageControllerMap.createMappedPageController('weapons', WeaponEntryView),
                     PageControllerMap.createMappedPageController('spells', SpellView),
-                    PageControllerMap.createMappedPageController('light-puzzle', LightPuzzleView)
+                    PageControllerMap.createMappedPageController('light-puzzle', LightPuzzleView),
+                    PageControllerMap.createMappedPageController('initiative', InitiativeView)
                 ],
 
                 initialize: function () {

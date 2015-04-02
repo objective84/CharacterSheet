@@ -19,6 +19,7 @@ require.config({
         SpellView: 'View/SpellView',
         CharacterDescriptionView: 'View/CharacterDescriptionView',
         LightPuzzleView: 'View/LightPuzzleView',
+        InitiativeView: 'View/InitiativeView',
         // Behaviors
         // Other
         main: 'main',
