@@ -124,7 +124,7 @@
             <configuration>
                 <url>jdbc:mysql://localhost:3306/CharacterSheet?autoReconnect=true</url>
                 <user>root</user>
-                <password></password>
+                <password>root</password>
             </configuration>
         </plugin>
     </plugins>

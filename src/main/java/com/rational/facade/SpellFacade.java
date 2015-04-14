@@ -30,4 +30,6 @@ public interface SpellFacade {
     Set<SpellModel> textSearch(String text);
 
     Set<SpellModel> advancedSearch(Map<String, String> params);
+
+    Set<SpellModel> findSpellsByLevel(String level);
 }
