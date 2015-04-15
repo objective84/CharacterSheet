@@ -26,16 +26,25 @@ public class InitiativeController {
     @ResponseBody
     @RequestMapping(value="/submit-initiative/{name}/{initiative}/{dex}/{size}/{action}", method = RequestMethod.POST)
     public Map<String, Map<String, String>> submitInitiative(@PathVariable String name, @PathVariable String initiative, @PathVariable String dex, @PathVariable String size, @PathVariable String action){
+        if(initiativeRolls.containsKey(name) && (initiativeRolls.get(name).get("reroll") == "no")){
+            return null;
+        }
         Map<String, String> details = new HashMap<String, String>();
         details.put("initiative", initiative);
         details.put("dex", dex);
         details.put("size", size);
         details.put("action", action);
+        details.put("reroll", "no");
         initiativeRolls.put(name, details);
         ValueComparator bvc = new ValueComparator(initiativeRolls);
         TreeMap<String, Map<String, String>> sorted_map = new TreeMap<String, Map<String, String>>(bvc);
         sorted_map.putAll(initiativeRolls);
         return sorted_map;
+    }
+
+    @RequestMapping(value="/reroll/{name}", method = RequestMethod.GET)
+    public void releaseForReRoll(@PathVariable String name){
+        initiativeRolls.get(name).put("reroll", "yes");
     }
 
     @ResponseBody

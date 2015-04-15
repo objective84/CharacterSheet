@@ -7,6 +7,7 @@ define("InitiativeView",
         return marionette.ItemView.extend({
             el: "#initiative",
             password: 'pw',
+            reroll: "",
 
             ui:{
                 dmViewToggle: '#dm-view-toggle',
@@ -30,8 +31,9 @@ define("InitiativeView",
                 var action;
                 var actionText;
                 if($('input[name=action]:checked').prop('id') === "spellcasting"){
-                    action = 0 - parseInt($('#spell-level').val());
+                    action = parseInt($('#spell-level').val());
                     actionText = "Level " + action + " spell";
+                    action = 0-action;
                 }else {
                     action = parseInt($('input[name=action]:checked').val());
                     var actionText = $('input[name=action]:checked').data('text');
@@ -40,16 +42,19 @@ define("InitiativeView",
                 var mod = size + action + dex;
                 var roll = Math.floor(Math.random() * (20 - 1) + 1);
 
-                $('#initiative-roll').text(roll);
-                $('#initiative-modifier').text((mod<0 ? "":"+") + mod);
-                $('#initiative-total').text(roll + mod);
                 var url = 'submit-initiative/'+$('#character-name').val() + '/' + (roll+mod) + '/' + $('#character-dex').val() + '/' + sizeText + '/' + actionText;
 
                 $.ajax({
                     type: "post",
                     url: url,
                     success: _.bind(function(data){
-                        //this.printInitiatives(data);
+                        if("" === data){
+                            $('#no-reroll').removeClass('hide');
+                        }else{
+                            $('#initiative-roll').text(roll);
+                            $('#initiative-modifier').text((mod<0 ? "":"+") + mod);
+                            $('#initiative-total').text(roll + mod);
+                        }
                     }, this)
                 })
             },
@@ -57,17 +62,25 @@ define("InitiativeView",
             printInitiatives: function(initiatives){
                 $('#results tbody tr').remove();
                 $.each(initiatives, function(key, value){
-                    $('#results').append("<tr><td>"+ key +"</td><td>" + value.initiative + "</td><td>"+value.size+"</td><td>"+value.action+"</td><td>"+value.dex+"</td></tr>")
+                    var reroll = (value.reroll === "yes" ?
+                        "<td class='initiative-reroll'><div class='reroll-placeholder'></div></td>" :
+                        "<td class='initiative-reroll'><input type='button' value='Re-Roll' class='release-for-reroll' id='release-"+key +"' data-name='" + key + "'></td></tr>");
+                    $('#results').append("<tr><td>"+ key +"</td><td>" + value.initiative + "</td><td>"+value.size+"</td><td>"+value.action+"</td><td>"+value.dex+"</td>" + reroll);
                 })
+                $('.release-for-reroll').on('click', _.bind(this.releaseForReRoll, this));
             },
 
             onDmViewClick: function(){
-                this.ui.dmpw.toggle();
+                if(this.ui.dmpw.hasClass('hide')) {
+                    this.ui.dmpw.removeClass('hide');
+                }else{
+                    this.ui.dmpw.addClass('hide');
+                }
             },
 
             onDMPWChange: function(){
                 if(this.ui.dmpw.val() !== this.password) return;
-                $('#dm-view').toggle();
+                $('#dm-view').removeClass('hide');
                 if($($('dm-view-toggle').is(":checked"))){
                     this.startInitiativeFetch();
                 }else{
@@ -105,10 +118,16 @@ define("InitiativeView",
             clearValidation: function(){
                 $('#character-name').removeClass('error');
                 $('#name-error').addClass('hide');
+                $('#no-reroll').addClass('hide');
+                $('#no-reroll').addClass('hide');
             },
 
             onClearClick: function(){
                 $.getJSON('clear-initiative');
+            },
+
+            releaseForReRoll: function(e){
+                $.getJSON('reroll/'+ $(e.currentTarget).data('name'));
             }
         });
     }
