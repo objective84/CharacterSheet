@@ -197,7 +197,7 @@ th.spell{
 
 .link-small {
     margin-left: 5px;
-    font-size: 12;
+    font-size: 12px;
 }
 
 .float-right{
@@ -436,4 +436,26 @@ div#spell-preview,
     border: 1px solid black;
     width: 53%;
     height: 92%;
+}
+
+.table-border{
+    border: 1px solid black;
+}
+.dm-view table{
+    border: 1px solid black;
+    width: 500px;
+}
+
+.initiative table td,
+.initiative table th {
+    padding-right: 5px;
+}
+
+span.error {
+    font-weight: bold;
+    color: red;
+}
+
+input.error {
+    border: 1px solid red;
 }

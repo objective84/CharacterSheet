@@ -16,7 +16,7 @@ import java.util.TreeMap;
 @Controller
 public class InitiativeController {
 
-    private Map<String, Integer> initiativeRolls = new HashMap<String, Integer>();
+    private Map<String, Map<String, String>> initiativeRolls = new HashMap<String, Map<String, String>>();
 
     @RequestMapping(value="/initiative", method= RequestMethod.GET)
     public ModelAndView initiativeCalc(final Model model){
@@ -24,22 +24,32 @@ public class InitiativeController {
     }
 
     @ResponseBody
-    @RequestMapping(value="/submit-initiative/{name}/{initiative}", method = RequestMethod.POST)
-    public Map<String, Integer> submitInitiative(@PathVariable String name, @PathVariable String initiative){
-        initiativeRolls.put(name, Integer.decode(initiative));
+    @RequestMapping(value="/submit-initiative/{name}/{initiative}/{dex}/{size}/{action}", method = RequestMethod.POST)
+    public Map<String, Map<String, String>> submitInitiative(@PathVariable String name, @PathVariable String initiative, @PathVariable String dex, @PathVariable String size, @PathVariable String action){
+        Map<String, String> details = new HashMap<String, String>();
+        details.put("initiative", initiative);
+        details.put("dex", dex);
+        details.put("size", size);
+        details.put("action", action);
+        initiativeRolls.put(name, details);
         ValueComparator bvc = new ValueComparator(initiativeRolls);
-        TreeMap<String, Integer> sorted_map = new TreeMap<String, Integer>(bvc);
+        TreeMap<String, Map<String, String>> sorted_map = new TreeMap<String, Map<String, String>>(bvc);
         sorted_map.putAll(initiativeRolls);
         return sorted_map;
     }
 
     @ResponseBody
     @RequestMapping(value="/get-initiative", method = RequestMethod.POST)
-    public Map<String, Integer> getInitiativeRolls(){
+    public Map<String, Map<String, String>> getInitiativeRolls(){
         ValueComparator bvc = new ValueComparator(initiativeRolls);
-        Map<String, Integer> sorted_map = new TreeMap<String, Integer>(bvc);
+        Map<String, Map<String, String>> sorted_map = new TreeMap<String, Map<String, String>>(bvc);
         sorted_map.putAll(initiativeRolls);
         return sorted_map;
+    }
+
+    @RequestMapping(value="/clear-initiative", method = RequestMethod.GET)
+    public void clearInitiative(){
+        initiativeRolls.clear();
     }
 
     public class SortInitiative implements Comparator<Map.Entry<String, Integer>> {
@@ -51,14 +61,20 @@ public class InitiativeController {
 
     class ValueComparator implements Comparator<String> {
 
-        Map<String, Integer> base;
-        public ValueComparator(Map<String, Integer> base) {
+        Map<String, Map<String, String>>base;
+        public ValueComparator(Map<String, Map<String, String>> base) {
             this.base = base;
         }
 
         // Note: this comparator imposes orderings that are inconsistent with equals.
         public int compare(String a, String b) {
-            if (base.get(a) >= base.get(b)) {
+            if (Integer.decode(base.get(a).get("initiative")) == (Integer.decode(base.get(b).get("initiative")))) {
+                if (Integer.decode(base.get(a).get("dex")) >= (Integer.decode(base.get(b).get("dex")))) {
+                    return -1;
+                }else{
+                    return 1;
+                }
+            } else if (Integer.decode(base.get(a).get("initiative")) > (Integer.decode(base.get(b).get("initiative")))) {
                 return -1;
             } else {
                 return 1;

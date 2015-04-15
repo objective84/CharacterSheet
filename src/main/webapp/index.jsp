@@ -11,6 +11,7 @@
     <spring:url value="/characterlist.html" var="characterlist"/>
     <spring:url value="/spells.html" var="spells"/>
     <spring:url value="/light-puzzle.html" var="puzzle"/>
+    <spring:url value="/initiative.html" var="initiative"/>
     <div class="container">
         <div class="starter-template">
             <table id="index-links">
@@ -21,6 +22,9 @@
                 <tr>
                     <td><input type="button" onclick="document.location.href='${characterlist}'" value="Character List"></td>
                     <td><input type="button" onclick="document.location.href='${spells}'" value="Spell Book"></td>
+                </tr>
+                <tr>
+                    <td><input type="button" onclick="document.location.href='${initiative}'" value="Initiative Calculator"></td>
                 </tr>
             </table>
 
