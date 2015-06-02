@@ -18,40 +18,32 @@ public class DefaultRaceService implements RaceService {
     private RaceRepository raceRepository;
 
     @Resource
-    private SubraceRepository subRaceRepository;
+    private SubraceRepository subraceRepository;
 
 
     /* Races */
-
-    @Override
     @Transactional
     public RaceModel saveRace(RaceModel language) {return raceRepository.save(language);}
 
-    @Override
     public RaceModel findRace(Long id) {
         return raceRepository.findOne(id);
     }
 
-    @Override
     public List<RaceModel> findAllRaces() {return raceRepository.findAll();}
 
 
     /* Sub-Races */
-
-    @Override
     @Transactional
     public SubRaceModel saveSubrace(SubRaceModel subRace) {
-        return subRaceRepository.save(subRace);
+        return subraceRepository.save(subRace);
     }
 
-    @Override
     public SubRaceModel findSubrace(Long id) {
-        return subRaceRepository.findOne(id);
+        return subraceRepository.findOne(id);
     }
 
-    @Override
     public List<SubRaceModel> findAllSubraces() {
-        return subRaceRepository.findAll();
+        return subraceRepository.findAll();
     }
 
 }

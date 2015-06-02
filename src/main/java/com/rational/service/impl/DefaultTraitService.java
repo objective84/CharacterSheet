@@ -16,19 +16,15 @@ public class DefaultTraitService implements TraitService {
     @Resource
     private TraitRepository traitRepository;
 
-    @Override
     @Transactional
     public TraitModel saveTrait(TraitModel trait) {
         return traitRepository.save(trait);
     }
 
-    @Override
     public TraitModel findTrait(Long id) {return traitRepository.findOne(id);}
 
-    @Override
     public List<TraitModel> findAllTraits() {return traitRepository.findAll();}
 
-    @Override
     public List<TraitModel> findTraits(List<Long> traits){return Lists.newArrayList(traitRepository.findAll(traits));}
 
 }

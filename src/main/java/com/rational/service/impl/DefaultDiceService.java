@@ -18,17 +18,14 @@ public class DefaultDiceService implements DiceService {
     @Resource
     private DiceRepository diceRepository;
 
-    @Override
     public Dice findDice(Long id) {
         return diceRepository.findOne(id);
     }
 
-    @Override
     public List<Dice> findAllDice() {
         return diceRepository.findAll();
     }
 
-    @Override
     public Integer rollDice(Dice die, Integer amt) {
         Random rand = new Random();
         Integer totalRoll = 0;
@@ -38,7 +35,6 @@ public class DefaultDiceService implements DiceService {
         return totalRoll;
     }
 
-    @Override
     public Map<String, Dice> getAllDice(){
         Map<String, Dice> diceMap = new HashMap<String, Dice>();
         List<Dice> diceList = findAllDice();
@@ -49,7 +45,6 @@ public class DefaultDiceService implements DiceService {
         return diceMap;
     }
 
-    @Override
     public int[] rollSeparateDice(Dice die, Integer amt) {
         Random rand = new Random();
         int[] rolls = new int[amt];

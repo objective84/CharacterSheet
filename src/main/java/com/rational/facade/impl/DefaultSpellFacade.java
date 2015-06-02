@@ -36,12 +36,10 @@ public class DefaultSpellFacade implements SpellFacade {
     @Resource(name = "defaultDiceService")
     private DiceService diceService;
 
-    @Override
     public SpellModel findSpell(String spellId) {
         return spellService.findSpell(Long.decode(spellId));
     }
 
-    @Override
     public List<SpellModel> findSpells(String characterId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
 
@@ -58,11 +56,9 @@ public class DefaultSpellFacade implements SpellFacade {
         return spells;
     }
 
-    @Override
     public List<SpellModel> findAllSpells() {
         return spellService.findAllSpells();
     }
-
 
     private Integer getHighestSpellSlot(SpellSlots spellSlots){
         if(spellSlots.getPerDayNine() > 0){
@@ -95,8 +91,6 @@ public class DefaultSpellFacade implements SpellFacade {
         return 0;
     }
 
-
-    @Override
     public Map<String, String> sortByLevel(Set<SpellModel> spells){
         Map<String, String> spellList = new HashMap<String, String>();
         String tableStart = "<table class='spell-table side-by-side'><tr><th>School</th><th>Spell</th></tr>";
@@ -153,8 +147,6 @@ public class DefaultSpellFacade implements SpellFacade {
         return spellList;
     }
 
-
-    @Override
     public Map<String, String> sortBySchool(Set<SpellModel> spells){
         String spellString = "";
         String abjuration = "";
@@ -199,7 +191,6 @@ public class DefaultSpellFacade implements SpellFacade {
         return spellList;
     }
 
-    @Override
     public void learnSpells(String characterId, String[] spellIds) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         for(String spell : spellIds){
@@ -208,7 +199,6 @@ public class DefaultSpellFacade implements SpellFacade {
         characterService.save(character);
     }
 
-    @Override
     public SpellModel prepareSpell(String characterId, String spellId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         SpellModel spell = spellService.findSpell(Long.decode(spellId));
@@ -217,7 +207,6 @@ public class DefaultSpellFacade implements SpellFacade {
         return spell;
     }
 
-    @Override
     public SpellModel unPrepareSpell(String characterId, String spellId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         SpellModel spell = spellService.findSpell(Long.decode(spellId));
@@ -225,7 +214,6 @@ public class DefaultSpellFacade implements SpellFacade {
         characterService.save(character);
         return spell;    }
 
-    @Override
     public SpellCastData castSpell(String characterId, String spellId) throws SpellCastException {
         SpellCastData data = new SpellCastData();
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
@@ -265,7 +253,6 @@ public class DefaultSpellFacade implements SpellFacade {
         return data;
     }
 
-    @Override
     public Set<SpellModel> textSearch(String text) {
         List<String> textSearchParams = Arrays.asList(text.split(","));
 
@@ -276,7 +263,6 @@ public class DefaultSpellFacade implements SpellFacade {
         return spellService.customSearch(params);
     }
 
-    @Override
     public Set<SpellModel> advancedSearch(Map<String, String> params) {
         Map<SpellSearchParam, List<String>> paramsMap = new HashMap<SpellSearchParam, List<String>>();
         for(String param : params.keySet()){

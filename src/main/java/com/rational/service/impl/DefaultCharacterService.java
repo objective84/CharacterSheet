@@ -25,41 +25,33 @@ public class DefaultCharacterService implements CharacterService{
     @Resource
     private FeatRepository featRepository;
 
-    @Override
     @Transactional
     public CharacterModel save(CharacterModel character) {
         return characterRepository.saveAndFlush(character);
     }
 
-    @Override
     public List<CharacterModel> findAllCharacters() {
         return characterRepository.findAll();
     }
 
-    @Override
     public CharacterModel findCharacter(Long id) {
         return characterRepository.findOne(id);
     }
 
-    @Override
     public void deleteCharacter(Long id) {
         characterRepository.delete(id);
     }
 
-    @Override
     public CharacterAdvancement saveAdvancement(CharacterAdvancement advancement) {
         return advancementRepository.save(advancement);
     }
 
-    @Override
     public CharacterAdvancement findAdvancement(Long id) {
         return advancementRepository.findOne(id);
     }
 
-    @Override
     public List<Feat> findAllFeats(){return featRepository.findAll();}
 
-    @Override
     public Feat findFeat(Long featId) {
         return featRepository.findOne(featId);
     }

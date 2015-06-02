@@ -1,6 +1,6 @@
 package com.rational.repository;
 
-import com.rational.model.dm.treasure.MagicItem;
+import com.rational.model.dm.MagicItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

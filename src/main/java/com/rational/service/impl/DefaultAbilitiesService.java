@@ -13,12 +13,10 @@ public class DefaultAbilitiesService implements AbilitiesService {
     @Resource
     private AbilitiesRepository abilitiesRepository;
 
-    @Override
     public Abilities saveAbilities(Abilities abilities) {
         return abilitiesRepository.save(abilities);
     }
 
-    @Override
     public Abilities findAbilities(Long id) {
         return abilitiesRepository.findOne(id);
     }

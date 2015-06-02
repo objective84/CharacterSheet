@@ -19,18 +19,15 @@ public class DefaultAdminFacade implements AdminFacade {
     @Resource
     private CharacterService characterService;
 
-    @Override
     @Transactional
     public Dice saveDice(Dice dice) {
         return adminService.saveDice(dice);
     }
 
-    @Override
     public Dice findDice(Long id) {
         return adminService.findDice(id);
     }
 
-    @Override
     public List<Dice> findAllDice() {
         return adminService.findAllDice();
     }

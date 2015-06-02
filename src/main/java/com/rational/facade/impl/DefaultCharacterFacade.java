@@ -53,7 +53,6 @@ public class DefaultCharacterFacade implements CharacterFacade {
     @Resource(name = "defaultDiceService")
     private DiceService diceService;
 
-    @Override
     public CharacterModel save(CharacterModel character) {
         CharacterModel characterModel = new CharacterModel();
         if(character.getId() == null){
@@ -66,12 +65,10 @@ public class DefaultCharacterFacade implements CharacterFacade {
         return assembleCharacter(characterModel);
     }
 
-    @Override
     public List<CharacterModel> findAllCharacters() {
         return characterService.findAllCharacters();
     }
 
-    @Override
     public CharacterModel findCharacter(String idString) {
         Long id = Long.decode(idString);
         CharacterModel characterModel = new CharacterModel();
@@ -83,20 +80,16 @@ public class DefaultCharacterFacade implements CharacterFacade {
         return assembleCharacter(characterModel);
     }
 
-    @Override
     public void deleteCharacter(String id) {
         characterService.deleteCharacter(Long.decode(id));
     }
-
-
-    @Override
+    
     public LevelUpReportData levelUp(String characterId, String classId){
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         ClassModel clazz = classService.findClass(Long.decode(classId));
         return levelUp(character, clazz);
     }
 
-    @Override
     public LevelUpReportData levelUp(CharacterModel character, ClassModel clazz)
     {
         LevelUpReportData report = new LevelUpReportData();
@@ -217,7 +210,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
     }
 
 
-    @Override
+
     public ClassModel setCharacterClass(String characterId, String classId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         if(null != character.getCoinPurse()) character.getCoinPurse().clear();
@@ -249,7 +242,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         return classModel;
     }
 
-    @Override
+
     public RaceModel setCharacterRace(String characterId, String raceId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         character.setSubrace(null);
@@ -267,7 +260,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         return race;
     }
 
-    @Override
+
     public SubRaceModel setCharacterSubrace(String characterId, String subraceId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         if(subraceId.equals("0")){
@@ -281,7 +274,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         return character.getSubrace();
     }
 
-    @Override
+
     public void setCharacterLanguages(CharacterModel character){
         Set<LanguageModel> languages =  new HashSet<LanguageModel>();
         if(null != character.getRace()) {
@@ -290,7 +283,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setLanguages(languages);
     }
 
-    @Override
+
     public void setCharacterProficiencies(CharacterModel character){
         Set<Proficiency> proficiencies =  character.getProficiencies();
         character.getProficiencies().clear();
@@ -308,7 +301,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setProficiencies(proficiencies);
     }
 
-    @Override
+
     public void setCharacterTraits(CharacterModel character){
         Set<TraitModel> traitModels =  new HashSet<TraitModel>();
         character.getTraits().clear();
@@ -333,7 +326,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         }
     }
 
-    @Override
+
     public void equipArmor(String characterId, String itemId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         if(itemId.equals("0")){
@@ -344,7 +337,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         characterService.save(character);
     }
 
-    @Override
+
     public SpellModel addSpell(String characterId, String spellId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         SpellModel spell = spellService.findSpell(Long.decode(spellId));
@@ -353,7 +346,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         return spell;
     }
 
-    @Override
+
     public void setAC(CharacterModel character){
         Integer ac = 0;
         if(null != character.getAbilities()) {
@@ -372,21 +365,21 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setArmorClass(ac);
     }
 
-    @Override
+
     public void addSkill(String characterId, String skillId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         character.getProficiencies().add(proficiencyFacade.findProficiency(Long.decode(skillId)));
         save(character);
     }
 
-    @Override
+
     public void removeSkill(String characterId, String skillId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         character.getProficiencies().remove(proficiencyFacade.findProficiency(Long.decode(skillId)));
         save(character);
     }
 
-    @Override
+
     public SubClassModel setCharacterSubClass(String characterId, String subclassId) {
         SubClassModel subClass = classService.findSubClass(Long.decode(subclassId));
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
@@ -399,7 +392,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         return subClass;
     }
 
-    @Override
+
     public String getAllAvailableFeats(String characterId) {
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         List<Feat> allFeats = characterService.findAllFeats();
@@ -412,7 +405,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         return writeFeatTables(availableFeats);
     }
 
-//    @Override
+//
 //    public LanguageModel addLanguage(String characterId, String languageId) {
 //        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
 //        LanguageModel language = languageService.findLanguage(Long.decode(languageId));
@@ -421,7 +414,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
 //        return language;
 //    }
 //
-//    @Override
+//
 //    public LanguageModel removeLanguage(String characterId, String languageId) {
 //        CharacterModel character = characterService.findCharacter(Long.decode(characterId));
 //        LanguageModel language = languageService.findLanguage(Long.decode(languageId));
@@ -457,7 +450,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setSpeed(speed);
     }
 
-    @Override
+
     public CharacterModel shortRest(String characterId, String[] hitDice){
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         rollHitDice(character, hitDice);
@@ -516,12 +509,12 @@ public class DefaultCharacterFacade implements CharacterFacade {
         character.setCurrentHealth(currentHealth);
     }
 
-    @Override
+
     public Feat findFeat(String featId){
        return characterService.findFeat(Long.decode(featId));
     }
 
-    @Override
+
     public CharacterModel longRest(String characterId){
         CharacterModel character = characterService.findCharacter(Long.decode(characterId));
         character.setCurrentHealth(character.getMaxHealth());
@@ -531,7 +524,7 @@ public class DefaultCharacterFacade implements CharacterFacade {
         return assembleCharacter(character);
     }
 
-    @Override
+
     public CharacterModel assembleCharacter(CharacterModel character){
         setCharacterTraits(character);
         setCharacterLanguages(character);

@@ -1,7 +1,6 @@
 package com.rational.facade;
 
-import com.rational.model.dm.treasure.MagicItem;
-import org.springframework.stereotype.Component;
+import com.rational.model.dm.MagicItem;
 
 import java.util.List;
 

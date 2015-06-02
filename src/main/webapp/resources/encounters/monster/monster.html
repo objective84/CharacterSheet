@@ -1,0 +1,18 @@
+<div ng-controller="monsterController">
+    <div class="row">
+        <div class="col-md-4">{{monster.name}}</div>
+        <div class="col-md-4">
+            <progressbar class="progress-striped active" max="monster.maxHitPoints" value="monster.currentHitPoints" type="danger">
+                <i>{{monster.currentHitPoints}} / {{monster.maxHitPoints}}</i>
+            </progressbar>
+        </div>
+        <div class="col-md-4">
+            <input ng-model="monster.currentHitPoints" type="number">
+        </div>
+    </div>
+    <i class="fa fa-shield"></i>{{monster.armorClass}}
+    <i class="fa fa-heartbeat"></i><span class="text-danger">{{monster.currentHitPoints}}</span>
+    <i class="fa fa-heart"></i>{{monster.hitPoints}} CR {{monster.challengeRating}}
+    <traits-and-abilities></traits-and-abilities>
+    <actions></actions>
+</div>

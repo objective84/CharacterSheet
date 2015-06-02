@@ -41,18 +41,18 @@ public class DefaultEquipmentFacade implements EquipmentFacade {
 
      /* Weapons */
 
-    @Override
+
     @Transactional
     public WeaponModel saveWeapon(WeaponModel weapon) {
         return equipmentService.saveWeapon(weapon);
     }
 
-    @Override
+
     public WeaponModel findWeapon(Long id) {
         return equipmentService.findWeapon(id);
     }
 
-    @Override
+
     public List<WeaponModel> findAllWeapons() {
         return equipmentService.findAllWeapons();
     }
@@ -60,56 +60,56 @@ public class DefaultEquipmentFacade implements EquipmentFacade {
 
     /* Armor */
 
-    @Override
+
     @Transactional
     public void saveArmor(ArmorModel armor) {
         equipmentService.saveArmor(armor);
     }
 
-    @Override
+
     public ArmorModel findArmor(Long id) {
         return equipmentService.findArmor(id);
     }
 
-    @Override
+
     public List<ArmorModel> findAllArmor() {
         return equipmentService.findAllArmor();
     }
 
-    @Override
+
     public ArmorModel getArmorModel(Long id){
         return equipmentService.findArmor(id);
     }
 
-    @Override
+
     public ArmorGroup findArmorGroup(Long id) {
         return equipmentService.findArmorGroup(id);
     }
 
-    @Override
+
     public List<ArmorGroup> findArmorGroups() {
         return equipmentService.findAllArmorGroups();
     }
 
-    @Override
+
     public WeaponGroup findWeaponGroup(Long id) {
         return equipmentService.findWeaponGroup(id);
     }
 
-    @Override
+
     public List<WeaponGroup> findWeaponGroups() {
         return equipmentService.findAllWeaponGroups();
     }
 
-    @Override
+
     public List<Coin> findAllCoins() {
         return equipmentService.findAllCoins();
     }
 
-    @Override
+
     public Coin findCoinByName(String name){return equipmentService.findCoinByName(name);}
 
-    @Override
+
     public List<EquipmentModel> getOffHandFromInventory(CharacterModel character) {
         CharacterModel characterModel = characterService.findCharacter(character.getId());
         List<EquipmentModel> offHandItems = new ArrayList<EquipmentModel>();
@@ -125,7 +125,7 @@ public class DefaultEquipmentFacade implements EquipmentFacade {
         return offHandItems;
     }
 
-    @Override
+
     public List<WeaponModel> getWeaponsFromInventory(CharacterModel character) {
         CharacterModel characterModel = characterService.findCharacter(character.getId());
         List<WeaponModel> weapons = new ArrayList<WeaponModel>();
@@ -138,7 +138,7 @@ public class DefaultEquipmentFacade implements EquipmentFacade {
     }
 
 
-    @Override
+
     public List<ArmorModel> getArmorFromInventory(CharacterModel character) {
         CharacterModel characterModel = characterService.findCharacter(character.getId());
         List<ArmorModel> armor = new ArrayList<ArmorModel>();
@@ -150,29 +150,29 @@ public class DefaultEquipmentFacade implements EquipmentFacade {
         return armor;
     }
 
-    @Override
+
     public List<EquipmentModel> findEquipment(List<Long> equipmentIds) {
         return equipmentService.findEquipment(new HashSet<Long>(equipmentIds));
     }
 
-    @Override
+
     public WeaponModel findWeaponModel(Long id) {
         return equipmentService.findWeapon(id);
     }
 
-    @Override
+
     public EquipmentModel findEquipment(Long id) {
         return equipmentService.findEquipment(id);
     }
 
-    @Override
+
     public List<EquipmentModel> getAllEquipmentModels(){
         return equipmentService.findAllEquipment();
     }
 
 
 
-    @Override
+
     public List<EquipmentModel> filterEquipmentList(List<String> filters, String characterId){
         List<EquipmentModel> equipmentModels = new ArrayList<EquipmentModel>();
         List<EquipmentFilterEnum> filterEnums = EquipmentFilterEnum.getEnumValues(filters);
@@ -196,7 +196,7 @@ public class DefaultEquipmentFacade implements EquipmentFacade {
         return equipmentModels;
     }
 
-    @Override
+
     public CharacterModel purchaseGear(Long charId, Set<Long> equipmentIds) throws PurchaseException {
         CharacterModel characterModel = characterService.findCharacter(charId);
         if(null == characterModel.getCoinPurse()){
@@ -227,7 +227,7 @@ public class DefaultEquipmentFacade implements EquipmentFacade {
         return characterFacade.assembleCharacter(characterModel);
     }
 
-    @Override
+
     public List<EquipmentModel> filterByProficiency(String characterId){
         List<EquipmentModel> equipmentModels = equipmentService.findAllEquipment();
         List<EquipmentModel> temp = new ArrayList<EquipmentModel>(equipmentModels);

@@ -17,15 +17,15 @@ public class DefaultClassFacade implements ClassFacade {
     @Resource(name = "defaultClassService")
     private ClassService classService;
 
-    @Override
+
     public void saveClass(ClassModel clazz) {
         classService.saveClass(clazz);
     }
 
-    @Override
+
     public ClassModel findClass(Long id) {return classService.findClass(id);}
 
-    @Override
+
     public Map<Long, ClassModel> getClassMap() {
         Map<Long, ClassModel> classMap = new HashMap<Long, ClassModel>();
         List<ClassModel> classList = findAllClasses();
@@ -36,22 +36,22 @@ public class DefaultClassFacade implements ClassFacade {
         return classMap;
     }
 
-    @Override
+
     public List<ClassModel> findAllClasses(){
         return classService.findAllClasses();
     }
 
-    @Override
+
     public List<ClassModel> findAllClassModels(){
         return classService.findAllClasses();
     }
 
-    @Override
+
     public ClassModel getClassModel(Long id) {
         return classService.findClass(id);
     }
 
-    @Override
+
     public List<ClassModel> findAllSpellcasters() {
         List<ClassModel> classes = classService.findAllClasses();
         for(int i=0; i<classes.size(); i++){
@@ -60,7 +60,7 @@ public class DefaultClassFacade implements ClassFacade {
         return classes;
     }
 
-    @Override
+
     public String getSubclassChoiceHtml(String classId) {
         ClassModel clazz = classService.findClass(Long.decode(classId));
         String html = "<table><tr><th colspan='2'>Choose one of the following " + clazz.getSubclassName() + "</th></tr><tr>";

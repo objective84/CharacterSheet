@@ -21,22 +21,18 @@ public class DefaultSpellService implements SpellService {
     @Resource(name="spellSearchRepository")
     private SpellSearchRepository spellSearchRepository;
 
-    @Override
     public SpellModel saveSpell(SpellModel spell){
         return spellRepository.save(spell);
     }
 
-    @Override
     public SpellModel findSpell(Long id){
         return spellRepository.findOne(id);
     }
 
-    @Override
     public List<SpellModel> findAllSpells(){
         return spellRepository.findAll();
     }
 
-    @Override
     public Set<SpellModel> customSearch(Map<SpellSearchParam, List<String>> params) {
         return new HashSet<SpellModel>(spellSearchRepository.search(params));
     }

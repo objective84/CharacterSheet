@@ -1,0 +1,22 @@
+<div class="panel panel-default" ng-show="monster.actions">
+    <div class="panel-heading">
+            <i class="fa fa-bolt fa-2x"></i> Actions
+    </div>
+    <div class="panel-body">
+        <dev ng-repeat="action in monster.actions">
+            <label>{{action.name}}</label>. <em>{{action.type}}</em>: +{{action.modifier}} to hit,
+            range {{action.range}} ft., {{action.target}}. <em>Hit:</em> {{action.damage.diceNumber}}{{action.damage.diceType}}. {{action.description}}
+        </dev>
+    </div>
+</div>
+
+<div class="panel panel-default" ng-show="monster.legendaryActions">
+    <div class="panel-heading" role="tab" id="collapse-legendary-actions-{{monster.name}}-header">
+        Legendary Actions
+    </div>
+    <div id="collapse-legendary-actions-{{monster.name}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body">
+            <div></div>
+        </div>
+    </div>
+</div>

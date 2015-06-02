@@ -43,69 +43,54 @@ public class DefaultEquipmentService implements EquipmentService {
     private CoinPurseRepository coinPurseRepository;
 
     /* Weapons */
-
-    @Override
     @Transactional
     public WeaponModel saveWeapon(WeaponModel weapon) {
         return weaponRepository.save(weapon);
     }
 
-    @Override
     public WeaponModel findWeapon(Long id) {
         return weaponRepository.findOne(id);
     }
 
-    @Override
     public List<WeaponModel> findAllWeapons() {
         return weaponRepository.findAll();
     }
 
 
     /* Armor */
-
-    @Override
     @Transactional
     public ArmorModel saveArmor(ArmorModel armor) {
         return armorRepository.save(armor);
     }
 
-    @Override
     public ArmorModel findArmor(Long id) {
         return armorRepository.findOne(id);
     }
 
-    @Override
     public List<ArmorModel> findAllArmor() {
         return armorRepository.findAll();
     }
 
-    @Override
     public ArmorGroup findArmorGroup(Long id) {
         return armorGroupRepository.findOne(id);
     }
 
-    @Override
     public List<ArmorGroup> findAllArmorGroups() {
         return armorGroupRepository.findAll();
     }
 
-
-    @Override
     public WeaponGroup findWeaponGroup(Long id) {
         return weaponGroupRepository.findOne(id);
     }
 
-    @Override
     public List<WeaponGroup> findAllWeaponGroups() {
         return weaponGroupRepository.findAll();
     }
 
-    @Override
     public Coin findCoin(Long id) {
         return coinRepository.findOne(id);
     }
 
-    @Override
     public Coin findCoinByType(CoinTypeEnum type){
         List<Coin> allCoins = coinRepository.findAll();
 
@@ -117,30 +102,24 @@ public class DefaultEquipmentService implements EquipmentService {
         return null;
     }
 
-    @Override
     public List<Coin> findAllCoins() {
         return coinRepository.findAll();
     }
 
-    @Override
     public Coin findCoinByName(String name){return coinRepository.findCoinByName(name);}
 
-    @Override
     public List<EquipmentModel> findEquipment(Set<Long> ids) {
         return Lists.newArrayList(equipmentRepository.findAll(ids));
     }
 
-    @Override
     public EquipmentModel findEquipment(Long id) {
         return equipmentRepository.findOne(id);
     }
 
-    @Override
     public CoinPurse saveCoinPurse(CoinPurse purse){
         return coinPurseRepository.save(purse);
     }
 
-    @Override
     public List<EquipmentModel> findEquipmentOfType(Type type) {
         List<EquipmentModel> equipmentModels = equipmentRepository.findAll();
         List<EquipmentModel> temp = new ArrayList<EquipmentModel>(equipmentModels);
@@ -152,7 +131,6 @@ public class DefaultEquipmentService implements EquipmentService {
         return equipmentModels;
     }
 
-    @Override
     public List<EquipmentModel> findAllEquipment(){
         return equipmentRepository.findAll();
     }

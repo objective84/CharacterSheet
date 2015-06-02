@@ -28,33 +28,23 @@ public class DefaultAdminService implements AdminService {
 
 
     /* Dice */
-
-    @Override
     @Transactional
     public Dice saveDice(Dice dice) {
         return diceRepository.save(dice);
     }
 
-    @Override
     public Dice findDice(Long id) {
         return diceRepository.findOne(id);
     }
 
-    @Override
     public List<Dice> findAllDice() {
         return diceRepository.findAll();
     }
 
-
-
-
-
-    @Override
     public CharacterAdvancement saveAdvancement(CharacterAdvancement advancement) {
         return advancementRepository.save(advancement);
     }
 
-    @Override
     public CharacterAdvancement findAdvancement(Long id) {
         return advancementRepository.findOne(id);
     }

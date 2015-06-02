@@ -20,7 +20,6 @@ public class DefaultSpellSearchRepository implements SpellSearchRepository{
     @PersistenceContext
     private EntityManager em;
 
-    @Override
     public List<SpellModel> search(Map<SpellSearchParam, List<String>> params) {
         CriteriaQuery<SpellModel> cq = createQuery(params);
         TypedQuery<SpellModel> query = em.createQuery(cq);

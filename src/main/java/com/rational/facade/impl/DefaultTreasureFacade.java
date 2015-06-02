@@ -1,7 +1,7 @@
 package com.rational.facade.impl;
 
 import com.rational.facade.TreasureFacade;
-import com.rational.model.dm.treasure.MagicItem;
+import com.rational.model.dm.MagicItem;
 import com.rational.model.entities.CoinPurse;
 import com.rational.repository.MagicItemRepository;
 import org.springframework.stereotype.Component;

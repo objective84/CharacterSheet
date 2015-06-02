@@ -13,12 +13,10 @@ public class DefaultDescriptionService implements DescriptionService {
     @Resource
     DescriptionRepository descriptionRepository;
 
-    @Override
     public CharacterDescription save(CharacterDescription description) {
         return descriptionRepository.save(description);
     }
 
-    @Override
     public CharacterDescription find(Long id) {
         return descriptionRepository.findOne(id);
     }

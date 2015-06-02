@@ -311,7 +311,6 @@ public class SpellModel implements Comparable<SpellModel>{
         this.school = school;
     }
 
-    @Override
     public int compareTo(SpellModel o) {
         if(this.getLevel().compareTo(o.getLevel()) != 0) return this.getLevel().compareTo(o.getLevel());
         return this.getName().compareTo(o.getName());

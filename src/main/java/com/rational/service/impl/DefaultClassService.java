@@ -21,8 +21,6 @@ public class DefaultClassService implements ClassService {
     @Resource
     private SubClassRepository subClassRepository;
 
-
-    @Override
     public Level findLevel(Long classId, int totalLevel) {
         ClassModel clazz = classRepository.findOne(classId);
         for(Level level : clazz.getLevels()){
@@ -34,38 +32,30 @@ public class DefaultClassService implements ClassService {
     }
 
     /* Classes */
-
-    @Override
     @Transactional
     public ClassModel saveClass(ClassModel clazz) {
         return classRepository.save(clazz);
     }
 
-    @Override
     public ClassModel findClass(Long id) {
         return classRepository.findOne(id);
     }
 
-    @Override
     public List<ClassModel> findAllClasses() {
         return classRepository.findAll();
     }
 
 
     /* Sub-Classes */
-
-    @Override
     @Transactional
     public SubClassModel saveSubClass(SubClassModel subClass) {
         return subClassRepository.save(subClass);
     }
 
-    @Override
     public SubClassModel findSubClass(Long id) {
         return subClassRepository.findOne(id);
     }
 
-    @Override
     public List<SubClassModel> findAllSubClasses() {
         return subClassRepository.findAll();
     }

@@ -26,7 +26,6 @@ public class DefaultCurrencyService implements CurrencyService {
     @Resource
     private EquipmentService equipmentService;
 
-    @Override
     public CoinPurse convertCurrency(Coin from, Coin to, Long amt) throws CurrencyConversionException{
         CoinPurse purse = new CoinPurse();
         BigDecimal amount = BigDecimal.valueOf(amt);
@@ -43,7 +42,6 @@ public class DefaultCurrencyService implements CurrencyService {
         return purse;
     }
 
-    @Override
     public CoinPurse convertTotal(BigDecimal total){
         CoinPurse purse = new CoinPurse();
         Coin coin = new Coin(CoinTypeEnum.PLATINUM); //For unit testing
@@ -156,7 +154,6 @@ public class DefaultCurrencyService implements CurrencyService {
         return null;
     }
 
-    @Override
     public BigDecimal getTotalPurseValueInPlatinum(CoinPurse purse) {
         BigDecimal total = BigDecimal.ZERO;
 
@@ -169,7 +166,6 @@ public class DefaultCurrencyService implements CurrencyService {
         return total;
     }
 
-    @Override
     public CoinPurse getStartingWealth(Dice die, Integer amt){
         CoinPurse purse = new CoinPurse();
         purse.setPP(diceService.rollDice(die, amt));
