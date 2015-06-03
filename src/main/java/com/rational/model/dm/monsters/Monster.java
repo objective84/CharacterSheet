@@ -1,6 +1,7 @@
 package com.rational.model.dm.monsters;
 
 import com.rational.model.entities.DamageType;
+import com.rational.model.entities.LanguageModel;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -63,7 +64,15 @@ public class Monster {
 //    private List<DamageType> damageImmunities;
 //    private List<String> conditionImmunities;
 //    private List<String> senses;
-//    private List<String> languages;
+//    @ManyToMany
+//    @JoinTable(
+//            name="monster_language",
+//            joinColumns = {
+//                    @JoinColumn(name = "monster_id", referencedColumnName = "id"),
+//                    @JoinColumn(name = "language_id", referencedColumnName = "id")
+//            }
+//    )
+//    private List<LanguageModel> languages;
     @Column(name="challenge_rating")
     private int challengeRating;
     private int xp;
@@ -191,35 +200,35 @@ public class Monster {
         this.cha = cha;
     }
 
-//    public List<SavingThrow> getSavingThrows() {
-//        return savingThrows;
-//    }
-//
-//    public void setSavingThrows(List<SavingThrow> savingThrows) {
-//        this.savingThrows = savingThrows;
-//    }
+    public List<SavingThrow> getSavingThrows() {
+        return savingThrows;
+    }
 
-//    public void addSavingThrow(SavingThrow savingThrow){
-//        if(getSavingThrows() == null){
-//            setSavingThrows(new ArrayList<SavingThrow>());
-//        }
-//        getSavingThrows().add(savingThrow);
-//    }
+    public void setSavingThrows(List<SavingThrow> savingThrows) {
+        this.savingThrows = savingThrows;
+    }
 
-//    public List<Skill> getSkills() {
-//        return skills;
-//    }
-//
-//    public void setSkills(List<Skill> skills) {
-//        this.skills = skills;
-//    }
-//
-//    public void addSkill(Skill skill){
-//        if(getSkills() == null){
-//            setSkills(new ArrayList<Skill>());
-//        }
-//        getSkills().add(skill);
-//    }
+    public void addSavingThrow(SavingThrow savingThrow){
+        if(getSavingThrows() == null){
+            setSavingThrows(new ArrayList<SavingThrow>());
+        }
+        getSavingThrows().add(savingThrow);
+    }
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
+    }
+
+    public void addSkill(Skill skill){
+        if(getSkills() == null){
+            setSkills(new ArrayList<Skill>());
+        }
+        getSkills().add(skill);
+    }
 
 //    public List<DamageType> getResistances() {
 //        return resistances;
@@ -252,14 +261,24 @@ public class Monster {
 //    public void setSenses(List<String> senses) {
 //        this.senses = senses;
 //    }
-//
-//    public List<String> getLanguages() {
+
+//    public List<LanguageModel> getLanguages() {
 //        return languages;
 //    }
 //
-//    public void setLanguages(List<String> languages) {
+//    public void setLanguages(List<LanguageModel> languages) {
 //        this.languages = languages;
 //    }
+//
+//    public void addLanguage(LanguageModel languageModel){
+//        if(languages == null){
+//            languages = new ArrayList<LanguageModel>();
+//        }
+//        if(languageModel != null){
+//            languages.add(languageModel);
+//        }
+//    }
+
 
     public int getChallengeRating() {
         return challengeRating;

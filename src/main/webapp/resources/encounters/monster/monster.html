@@ -1,6 +1,6 @@
 <div ng-controller="monsterController">
     <div class="row">
-        <div class="col-md-4">{{monster.name}}</div>
+        <div class="col-md-4">{{monster.name}} <i class="fa fa-shield"></i>{{monster.armorClass}}</div>
         <div class="col-md-4">
             <progressbar class="progress-striped active" max="monster.maxHitPoints" value="monster.currentHitPoints" type="danger">
                 <i>{{monster.currentHitPoints}} / {{monster.maxHitPoints}}</i>
@@ -10,9 +10,8 @@
             <input ng-model="monster.currentHitPoints" type="number">
         </div>
     </div>
-    <i class="fa fa-shield"></i>{{monster.armorClass}}
-    <i class="fa fa-heartbeat"></i><span class="text-danger">{{monster.currentHitPoints}}</span>
-    <i class="fa fa-heart"></i>{{monster.hitPoints}} CR {{monster.challengeRating}}
+    <div ng-show="monster.skills">Skills: <span ng-repeat="skill in monster.skills">{{skill.name}} +{{skill.modifier}} </span></div>
+    <div ng-show="monster.savingThrows">Saving Throws: <span ng-repeat="savingThrow in monster.savingThrows">{{savingThrow.ability}} +{{savingThrow.modifier}} </span></div>
     <traits-and-abilities></traits-and-abilities>
     <actions></actions>
 </div>

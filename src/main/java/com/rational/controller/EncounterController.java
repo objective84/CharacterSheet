@@ -25,15 +25,6 @@ public class EncounterController {
     @RequestMapping(value = "monsters", method = RequestMethod.GET, produces = "application/json")
     public List<Monster> getMonsters(){
         List<Monster> monsters = monsterFacade.findAllMonsters();
-        Monster lich = new Monster();
-
-        lich.setName("Lich");
-        lich.setArmorClass(17);
-        Trait rejuvenation = new Trait();
-        rejuvenation.setName("Rejuvenation");
-        rejuvenation.setDescription("If it has a phylactery, a destroyed lich gains a new body in 1d10 days, regaining all its hit points and becoming active again. The new body appears within 5 feet of the phylactery.");
-        lich.addTrait(rejuvenation);
-        monsters.add(lich);
         return monsters;
     }
 
