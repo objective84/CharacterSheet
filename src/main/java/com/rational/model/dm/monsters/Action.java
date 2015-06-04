@@ -1,9 +1,6 @@
 package com.rational.model.dm.monsters;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -15,11 +12,12 @@ public class Action {
     @GeneratedValue
     private int id;
     private String name;
-    private int toHitBonus;
+    private Integer toHitBonus;
     private String target;
     private String range;
     private String type;
     @OneToMany
+    @JoinColumn(name="monster_actions_id")
     private List<Damage> damages;
     private String description;
 

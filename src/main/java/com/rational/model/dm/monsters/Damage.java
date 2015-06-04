@@ -1,24 +1,26 @@
 package com.rational.model.dm.monsters;
 
 import com.rational.model.Dice;
+import com.rational.model.entities.DamageType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by Andy on 5/5/2015.
  */
-@Entity
+@Entity(name = "monster_damage")
 public class Damage {
     @Id
     @GeneratedValue
     private int id;
     @Column(name="dice_amount")
     private int diceAmount;
-    private String type;
-    private String dice;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "damage_type_id")
+    private DamageType type;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "dice_id")
+    private Dice dice;
     @Column(name="damage_modifier")
     private int damageModifier;
 
@@ -30,19 +32,19 @@ public class Damage {
         this.diceAmount = diceAmount;
     }
 
-    public String getType() {
+    public DamageType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(DamageType type) {
         this.type = type;
     }
 
-    public String getDice() {
+    public Dice getDice() {
         return dice;
     }
 
-    public void setDice(String dice) {
+    public void setDice(Dice dice) {
         this.dice = dice;
     }
 

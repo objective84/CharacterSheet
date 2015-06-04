@@ -24,24 +24,29 @@
                             <label>Wis</label> {{monster.wis}} (+{{getAbilityModifier(monster.wis)}})<br />
                             <label>Cha</label> {{monster.cha}} (+{{getAbilityModifier(monster.cha)}})<br />
                         </accordion-group>
-                        <accordion-group heading="Saving Throws" is-open="true">
+                        <accordion-group heading="Saving Throws">
                             <div ng-repeat="savingThrow in monster.savingThrows">{{savingThrow.ability}} +{{savingThrow.modifier}} </div>
                         </accordion-group>
-                        <accordion-group heading="Skills" is-open="true">
+                        <accordion-group heading="Skills">
                             <div ng-repeat="skill in monster.skills">{{skill.name}} +{{skill.modifier}} </div>
                         </accordion-group>
                     </accordion>
                 </div>
                 <div class="col-md-10">
                     <accordion>
-                        <accordion-group heading="Traits" is-open>
+                        <accordion-group heading="Traits" is-open="true">
                             <div ng-repeat="trait in monster.traits">
                                 <label>{{trait.name}}.</label><br />{{trait.description}}
                             </div>
                         </accordion-group>
+                        <accordion-group heading="Actions">
+                            <div ng-repeat="action in monster.actions">
+                                
+                                <label>{{action.name}}.</label><br />{{action.description}}
+                            </div>
+                        </accordion-group>
                     </accordion>
                 </div>
-                <actions></actions>
             </div>
         </div>
     </div>

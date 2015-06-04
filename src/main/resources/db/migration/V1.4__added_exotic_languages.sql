@@ -6,4 +6,4 @@ INSERT INTO `charactersheet`.`languagemodel` (`id`, `name`) VALUES ('13', 'Infer
 INSERT INTO `charactersheet`.`languagemodel` (`id`, `name`) VALUES ('14', 'Primordial');
 INSERT INTO `charactersheet`.`languagemodel` (`id`, `name`) VALUES ('15', 'Sylvan');
 INSERT INTO `charactersheet`.`languagemodel` (`id`, `name`) VALUES ('16', 'Undercommon');
-INSERT INTO `charactersheet`.`languagemodel` (`id`, `name`) VALUES ('17', 'Kenderspeak');
+INSERT INTO `charactersheet`.`languagemodel` (`id`, `name`) VALUES ('17', 'Kenderspeak'), ('18', 'telepathy 120ft');

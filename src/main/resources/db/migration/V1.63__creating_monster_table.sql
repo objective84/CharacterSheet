@@ -135,18 +135,37 @@ CREATE TABLE `charactersheet`.`monster_actions` (
   `range` VARCHAR(45) NULL,
   `type` VARCHAR(45) NULL,
   `description` VARCHAR(5000) NULL,
-  PRIMARY KEY (`id`));
+  `monster_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `monster_actions_fk_idx` (`monster_id` ASC),
+  CONSTRAINT `monster_actions_fk`
+  FOREIGN KEY (`monster_id`)
+  REFERENCES `charactersheet`.`monster` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
 CREATE TABLE `charactersheet`.`monster_damage` (
   `id` BIGINT NOT NULL,
   `dice_amount` INT NULL,
-  `type` VARCHAR(45) NULL,
-  `dice` VARCHAR(45) NULL,
-  `damage_modifier` VARCHAR(45) NULL,
-  `monster_id` BIGINT NOT NULL,
+  `damage_type_id` BIGINT NULL,
+  `dice_id` BIGINT NULL,
+  `damage_modifier` INT NULL,
+  `monster_actions_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `monster_damage_fk_idx` (`monster_id` ASC),
+  INDEX `monster_damage_fk_idx` (`monster_actions_id` ASC),
   CONSTRAINT `monster_damage_fk`
-  FOREIGN KEY (`monster_id`)
-  REFERENCES `charactersheet`.`monster` (`id`)
-  ON DELETE NO ACTION
-  ON UPDATE NO ACTION);
+  FOREIGN KEY (`monster_actions_id`)
+  REFERENCES `charactersheet`.`monster_actions` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  INDEX `monster_damage_type_fk_idx` (`damage_type_id` ASC),
+  CONSTRAINT `monster_damage_type_fk`
+  FOREIGN KEY (`damage_type_id`)
+  REFERENCES `charactersheet`.`damagetype` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  INDEX `monster_damage_dice_fk_idx` (`dice_id` ASC),
+  CONSTRAINT `monster_damage_dice_fk`
+  FOREIGN KEY (`dice_id`)
+  REFERENCES `charactersheet`.`dice` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);

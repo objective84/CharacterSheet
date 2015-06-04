@@ -44,6 +44,9 @@ public class Monster {
     @OneToMany
     @JoinColumn(name = "monster_id")
     private List<Skill> skills;
+    @OneToMany
+    @JoinColumn(name="monster_id")
+    private List<Action> actions;
 //    @ManyToMany
 //    @JoinTable(
 //            name="monster_resistance",
@@ -325,5 +328,22 @@ public class Monster {
 
     public int getMaxHitPoints() {
         return maxHitPoints;
+    }
+
+    public List<Action> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<Action> actions) {
+        this.actions = actions;
+    }
+
+    public void addAction(Action action){
+        if(actions == null){
+            actions = new ArrayList<Action>();
+        }
+        if(action != null){
+            actions.add(action);
+        }
     }
 }
