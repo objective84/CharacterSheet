@@ -2,6 +2,7 @@ package com.rational.model.dm.monsters;
 
 import com.rational.model.Dice;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,12 +14,13 @@ import javax.persistence.Id;
 public class Damage {
     @Id
     @GeneratedValue
-    private int damageId;
+    private int id;
+    @Column(name="dice_amount")
     private int diceAmount;
     private String type;
     private String dice;
+    @Column(name="damage_modifier")
     private int damageModifier;
-
 
     public int getDiceAmount() {
         return diceAmount;

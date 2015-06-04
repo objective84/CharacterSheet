@@ -127,3 +127,26 @@ CREATE TABLE `charactersheet`.`monster_language` (
   REFERENCES `charactersheet`.`languagemodel` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+CREATE TABLE `charactersheet`.`monster_actions` (
+  `id` BIGINT NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `toHitBonus` INT NULL,
+  `target` VARCHAR(45) NULL,
+  `range` VARCHAR(45) NULL,
+  `type` VARCHAR(45) NULL,
+  `description` VARCHAR(5000) NULL,
+  PRIMARY KEY (`id`));
+CREATE TABLE `charactersheet`.`monster_damage` (
+  `id` BIGINT NOT NULL,
+  `dice_amount` INT NULL,
+  `type` VARCHAR(45) NULL,
+  `dice` VARCHAR(45) NULL,
+  `damage_modifier` VARCHAR(45) NULL,
+  `monster_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `monster_damage_fk_idx` (`monster_id` ASC),
+  CONSTRAINT `monster_damage_fk`
+  FOREIGN KEY (`monster_id`)
+  REFERENCES `charactersheet`.`monster` (`id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION);

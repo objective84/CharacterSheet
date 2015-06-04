@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Andy on 5/5/2015.
  */
-@Entity
+@Entity(name="monster_actions")
 public class Action {
     @Id
     @GeneratedValue

@@ -1,17 +1,48 @@
 <div ng-controller="monsterController">
-    <div class="row">
-        <div class="col-md-4">{{monster.name}} <i class="fa fa-shield"></i>{{monster.armorClass}}</div>
-        <div class="col-md-4">
-            <progressbar class="progress-striped active" max="monster.maxHitPoints" value="monster.currentHitPoints" type="danger">
-                <i>{{monster.currentHitPoints}} / {{monster.maxHitPoints}}</i>
-            </progressbar>
-        </div>
-        <div class="col-md-4">
-            <input ng-model="monster.currentHitPoints" type="number">
+    <div class="panel panel-default">
+        <div class="panel-heading">{{monster.name}}</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2"> <i class="fa fa-shield"></i>{{monster.armorClass}}</div>
+                <div class="col-md-6">
+                    <progressbar class="progress-striped active" max="monster.maxHitPoints" value="monster.currentHitPoints" type="danger">
+                        <i>{{monster.currentHitPoints}} / {{monster.maxHitPoints}}</i>
+                    </progressbar>
+                </div>
+                <div class="col-md-4">
+                    <input ng-model="monster.currentHitPoints" type="number">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <accordion>
+                        <accordion-group heading="Abilities" is-open="true">
+                            <label>Str</label> {{monster.str}} (+{{getAbilityModifier(monster.str)}})<br />
+                            <label>Dex</label> {{monster.dex}} (+{{getAbilityModifier(monster.dex)}})<br />
+                            <label>Con</label> {{monster.con}} (+{{getAbilityModifier(monster.con)}})<br />
+                            <label>Int</label> {{monster.intel}} (+{{getAbilityModifier(monster.intel)}})<br />
+                            <label>Wis</label> {{monster.wis}} (+{{getAbilityModifier(monster.wis)}})<br />
+                            <label>Cha</label> {{monster.cha}} (+{{getAbilityModifier(monster.cha)}})<br />
+                        </accordion-group>
+                        <accordion-group heading="Saving Throws" is-open="true">
+                            <div ng-repeat="savingThrow in monster.savingThrows">{{savingThrow.ability}} +{{savingThrow.modifier}} </div>
+                        </accordion-group>
+                        <accordion-group heading="Skills" is-open="true">
+                            <div ng-repeat="skill in monster.skills">{{skill.name}} +{{skill.modifier}} </div>
+                        </accordion-group>
+                    </accordion>
+                </div>
+                <div class="col-md-10">
+                    <accordion>
+                        <accordion-group heading="Traits" is-open>
+                            <div ng-repeat="trait in monster.traits">
+                                <label>{{trait.name}}.</label><br />{{trait.description}}
+                            </div>
+                        </accordion-group>
+                    </accordion>
+                </div>
+                <actions></actions>
+            </div>
         </div>
     </div>
-    <div ng-show="monster.skills">Skills: <span ng-repeat="skill in monster.skills">{{skill.name}} +{{skill.modifier}} </span></div>
-    <div ng-show="monster.savingThrows">Saving Throws: <span ng-repeat="savingThrow in monster.savingThrows">{{savingThrow.ability}} +{{savingThrow.modifier}} </span></div>
-    <traits-and-abilities></traits-and-abilities>
-    <actions></actions>
 </div>
