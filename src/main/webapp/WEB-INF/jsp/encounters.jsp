@@ -29,6 +29,8 @@
     <script src="<%=request.getContextPath()%>/resources/encounters/monster/traits-and-abilities.js"></script>
     <script src="<%=request.getContextPath()%>/resources/encounters/monster/actions-directive.js"></script>
     <script src="<%=request.getContextPath()%>/resources/encounters/monster/monster-controller.js"></script>
+    <script src="<%=request.getContextPath()%>/resources/encounters/monster/attack-controller.js"></script>
+    <script src="<%=request.getContextPath()%>/resources/encounters/monster/edit-action-controller.js"></script>
 
     <script>var ctx = "<%=request.getContextPath()%>"</script>
 </head>

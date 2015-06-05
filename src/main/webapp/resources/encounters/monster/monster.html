@@ -5,12 +5,12 @@
             <div class="row">
                 <div class="col-md-2"> <i class="fa fa-shield"></i>{{monster.armorClass}}</div>
                 <div class="col-md-6">
-                    <progressbar class="progress-striped active" max="monster.maxHitPoints" value="monster.currentHitPoints" type="danger">
+                    <progressbar class="progress-striped active" max="monster.maxHitPoints" value="monster.currentHitPoints" type="{{hpType}}">
                         <i>{{monster.currentHitPoints}} / {{monster.maxHitPoints}}</i>
                     </progressbar>
                 </div>
                 <div class="col-md-4">
-                    <input ng-model="monster.currentHitPoints" type="number">
+                    <input ng-model="monster.currentHitPoints" type="number" ng-change="updateHPBarColor(monster)">
                 </div>
             </div>
             <div class="row">
@@ -41,8 +41,15 @@
                         </accordion-group>
                         <accordion-group heading="Actions">
                             <div ng-repeat="action in monster.actions">
-                                
-                                <label>{{action.name}}.</label><br />{{action.description}}
+                                <accordion>
+                                    <accordion-group heading="{{action.name}}">
+                                        <span ng-hide="action.toHitBonus === 0"><i>{{action.type}}</i> +{{action.toHitBonus}} to hit, {{action.target}}</span>
+                                        <div ng-hide="action.toHitBonus === 0">Hit: <span ng-repeat="damage in action.damages">{{damage.diceAmount}}{{damage.dice.name}} + {{damage.damageModifier}} <i>{{damage.type.name}}</i></span></div>
+                                        {{action.description}}
+                                        <button class="btn btn-danger" ng-click="open(action)">Attack</button>
+                                        <button class="btn btn-danger" ng-click="openEditPopup(action)">Edit</button>
+                                    </accordion-group>
+                                </accordion>
                             </div>
                         </accordion-group>
                     </accordion>

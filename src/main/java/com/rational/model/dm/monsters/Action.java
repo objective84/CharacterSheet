@@ -20,6 +20,10 @@ public class Action {
     @JoinColumn(name="monster_actions_id")
     private List<Damage> damages;
     private String description;
+    @Column(name="max_per_day_ability")
+    private Integer maxPerDayAbility;
+    @Column(name="current_per_day_ability")
+    private Integer currentPerDayAbility;
 
     public int getId() {
         return id;
@@ -83,5 +87,25 @@ public class Action {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setToHitBonus(Integer toHitBonus) {
+        this.toHitBonus = toHitBonus;
+    }
+
+    public Integer getMaxPerDayAbility() {
+        return maxPerDayAbility;
+    }
+
+    public void setMaxPerDayAbility(Integer maxPerDayAbility) {
+        this.maxPerDayAbility = maxPerDayAbility;
+    }
+
+    public Integer getCurrentPerDayAbility() {
+        return currentPerDayAbility;
+    }
+
+    public void setCurrentPerDayAbility(Integer currentPerDayAbility) {
+        this.currentPerDayAbility = currentPerDayAbility;
     }
 }

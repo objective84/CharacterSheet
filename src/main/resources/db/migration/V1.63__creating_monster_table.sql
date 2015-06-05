@@ -135,6 +135,8 @@ CREATE TABLE `charactersheet`.`monster_actions` (
   `range` VARCHAR(45) NULL,
   `type` VARCHAR(45) NULL,
   `description` VARCHAR(5000) NULL,
+  `max_per_day_ability` INT NULL,
+  `current_per_day_ability` INT NULL,
   `monster_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `monster_actions_fk_idx` (`monster_id` ASC),
